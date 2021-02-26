@@ -53,9 +53,12 @@ bool cInterfaceAGL::Create(void *window_handle, bool core)
 		return false;
 	}
 
-	[window makeFirstResponder:cocoaWin];
-	[cocoaCtx setView: cocoaWin];
-	[window makeKeyAndOrderFront: nil];
+        // the following calls can crash if not called from the main thread on macOS 10.15 and up
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [window makeFirstResponder:cocoaWin];
+            [cocoaCtx setView: cocoaWin];
+            [window makeKeyAndOrderFront: nil];
+        });
 
 	return true;
 }
@@ -96,7 +99,10 @@ void cInterfaceAGL::Update()
 	s_backbuffer_width = size.width;
 	s_backbuffer_height = size.height;
 
-	[cocoaCtx update];
+        // the following call can crash if not called from the main thread on macOS 10.15 and up
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [cocoaCtx update];
+        });
 }
 
 void cInterfaceAGL::SwapInterval(int interval)
