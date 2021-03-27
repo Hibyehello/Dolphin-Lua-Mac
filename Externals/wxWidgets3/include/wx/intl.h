@@ -12,9 +12,9 @@
 #ifndef _WX_INTL_H_
 #define _WX_INTL_H_
 
-#include "wx/defs.h"
-#include "wx/string.h"
-#include "wx/translation.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/translation.h"
 
 // Make wxLayoutDirection enum available without need for wxUSE_INTL so wxWindow, wxApp
 // and other classes are not distrubed by wxUSE_INTL
@@ -28,8 +28,8 @@ enum wxLayoutDirection
 
 #if wxUSE_INTL
 
-#include "wx/fontenc.h"
-#include "wx/language.h"
+#include "wxWidgets3/include/wx/fontenc.h"
+#include "wxWidgets3/include/wx/language.h"
 
 // ============================================================================
 // global decls

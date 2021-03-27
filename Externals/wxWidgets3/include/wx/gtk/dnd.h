@@ -9,7 +9,7 @@
 #ifndef _WX_GTK_DND_H_
 #define _WX_GTK_DND_H_
 
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/icon.h"
 
 // ----------------------------------------------------------------------------
 // macros

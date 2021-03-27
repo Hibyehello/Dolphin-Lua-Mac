@@ -15,13 +15,13 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SPINBTN
 
-#include "wx/control.h"
-#include "wx/event.h"
-#include "wx/range.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/event.h"
+#include "wxWidgets3/include/wx/range.h"
 
 #define wxSPIN_BUTTON_NAME wxT("wxSpinButton")
 
@@ -75,19 +75,19 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/spinbutt.h"
+    #include "wxWidgets3/include/wx/univ/spinbutt.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/spinbutt.h"
+    #include "wxWidgets3/include/wx/msw/spinbutt.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/spinbutt.h"
+    #include "wxWidgets3/include/wx/motif/spinbutt.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/spinbutt.h"
+    #include "wxWidgets3/include/wx/gtk/spinbutt.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/spinbutt.h"
+    #include "wxWidgets3/include/wx/gtk1/spinbutt.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/spinbutt.h"
+    #include "wxWidgets3/include/wx/osx/spinbutt.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/spinbutt.h"
+    #include "wxWidgets3/include/wx/qt/spinbutt.h"
 #endif
 
 // ----------------------------------------------------------------------------

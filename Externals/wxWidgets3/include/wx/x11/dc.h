@@ -11,11 +11,11 @@
 #ifndef _WX_DC_H_
 #define _WX_DC_H_
 
-#include "wx/pen.h"
-#include "wx/brush.h"
-#include "wx/icon.h"
-#include "wx/font.h"
-#include "wx/gdicmn.h"
+#include "wxWidgets3/include/wx/pen.h"
+#include "wxWidgets3/include/wx/brush.h"
+#include "wxWidgets3/include/wx/icon.h"
+#include "wxWidgets3/include/wx/font.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
 
 //-----------------------------------------------------------------------------
 // wxDC

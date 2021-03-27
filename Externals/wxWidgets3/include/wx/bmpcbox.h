@@ -12,12 +12,12 @@
 #define _WX_BMPCBOX_H_BASE_
 
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_BITMAPCOMBOBOX
 
-#include "wx/bitmap.h"
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 class WXDLLIMPEXP_FWD_CORE wxItemContainer;
@@ -111,13 +111,13 @@ private:
 
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/generic/bmpcbox.h"
+    #include "wxWidgets3/include/wx/generic/bmpcbox.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/bmpcbox.h"
+    #include "wxWidgets3/include/wx/msw/bmpcbox.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/bmpcbox.h"
+    #include "wxWidgets3/include/wx/gtk/bmpcbox.h"
 #else
-    #include "wx/generic/bmpcbox.h"
+    #include "wxWidgets3/include/wx/generic/bmpcbox.h"
 #endif
 
 #endif // wxUSE_BITMAPCOMBOBOX

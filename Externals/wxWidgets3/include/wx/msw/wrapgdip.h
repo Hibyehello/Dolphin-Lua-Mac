@@ -10,7 +10,7 @@
 #ifndef _WX_MSW_WRAPGDIP_H_
 #define _WX_MSW_WRAPGDIP_H_
 
-#include "wx/msw/wrapwin.h"
+#include "wxWidgets3/include/wx/msw/wrapwin.h"
 
 // these macros must be defined before gdiplus.h is included but we explicitly
 // prevent windows.h from defining them in wx/msw/wrapwin.h as they conflict

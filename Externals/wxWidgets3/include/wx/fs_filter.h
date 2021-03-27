@@ -9,11 +9,11 @@
 #ifndef _WX_FS_FILTER_H_
 #define _WX_FS_FILTER_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FILESYSTEM
 
-#include "wx/filesys.h"
+#include "wxWidgets3/include/wx/filesys.h"
 
 //---------------------------------------------------------------------------
 // wxFilterFSHandler

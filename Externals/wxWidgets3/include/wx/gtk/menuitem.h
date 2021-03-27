@@ -9,7 +9,7 @@
 #ifndef _WX_GTKMENUITEM_H_
 #define _WX_GTKMENUITEM_H_
 
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/bitmap.h"
 
 //-----------------------------------------------------------------------------
 // wxMenuItem

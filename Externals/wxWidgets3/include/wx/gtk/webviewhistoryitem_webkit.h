@@ -9,7 +9,7 @@
 #ifndef _WX_GTK_WEBVIEWHISTORYITEM_H_
 #define _WX_GTK_WEBVIEWHISTORYITEM_H_
 
-#include "wx/setup.h"
+#include "wxWidgets3/include/wx/setup.h"
 
 #if wxUSE_WEBVIEW && wxUSE_WEBVIEW_WEBKIT && defined(__WXGTK__)
 

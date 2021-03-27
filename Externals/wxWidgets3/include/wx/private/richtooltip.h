@@ -10,7 +10,7 @@
 #ifndef _WX_PRIVATE_RICHTOOLTIP_H_
 #define _WX_PRIVATE_RICHTOOLTIP_H_
 
-#include "wx/richtooltip.h"
+#include "wxWidgets3/include/wx/richtooltip.h"
 
 // ----------------------------------------------------------------------------
 // wxRichToolTipImpl: defines wxRichToolTip implementation.

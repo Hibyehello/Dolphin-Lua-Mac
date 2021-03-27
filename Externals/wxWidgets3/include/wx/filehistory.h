@@ -10,15 +10,15 @@
 #ifndef _WX_FILEHISTORY_H_
 #define _WX_FILEHISTORY_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FILE_HISTORY
 
-#include "wx/windowid.h"
-#include "wx/object.h"
-#include "wx/list.h"
-#include "wx/string.h"
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/windowid.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxMenu;
 class WXDLLIMPEXP_FWD_BASE wxConfigBase;
@@ -85,7 +85,7 @@ private:
 };
 
 #if defined(__WXGTK20__)
-    #include "wx/gtk/filehistory.h"
+    #include "wxWidgets3/include/wx/gtk/filehistory.h"
 #else
     // no platform-specific implementation of wxFileHistory yet
     class WXDLLIMPEXP_CORE wxFileHistory : public wxFileHistoryBase

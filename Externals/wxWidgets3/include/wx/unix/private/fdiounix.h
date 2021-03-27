@@ -10,7 +10,7 @@
 #ifndef _UNIX_PRIVATE_FDIOUNIX_H_
 #define _UNIX_PRIVATE_FDIOUNIX_H_
 
-#include "wx/private/fdiomanager.h"
+#include "wxWidgets3/include/wx/private/fdiomanager.h"
 
 // ----------------------------------------------------------------------------
 // wxFDIOManagerUnix: implement wxFDIOManager interface using wxFDIODispatcher

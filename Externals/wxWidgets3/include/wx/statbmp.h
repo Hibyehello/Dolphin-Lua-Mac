@@ -11,13 +11,13 @@
 #ifndef _WX_STATBMP_H_BASE_
 #define _WX_STATBMP_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_STATBMP
 
-#include "wx/control.h"
-#include "wx/bitmap.h"
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/icon.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticBitmapNameStr[];
 
@@ -63,19 +63,19 @@ protected:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/statbmp.h"
+    #include "wxWidgets3/include/wx/univ/statbmp.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/statbmp.h"
+    #include "wxWidgets3/include/wx/msw/statbmp.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/statbmp.h"
+    #include "wxWidgets3/include/wx/motif/statbmp.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/statbmp.h"
+    #include "wxWidgets3/include/wx/gtk/statbmp.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/statbmp.h"
+    #include "wxWidgets3/include/wx/gtk1/statbmp.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/statbmp.h"
+    #include "wxWidgets3/include/wx/osx/statbmp.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/statbmp.h"
+    #include "wxWidgets3/include/wx/qt/statbmp.h"
 #endif
 
 #endif // wxUSE_STATBMP

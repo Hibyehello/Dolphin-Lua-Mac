@@ -11,13 +11,13 @@
 #ifndef   _DYNARRAY_H
 #define   _DYNARRAY_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_STD_CONTAINERS
-    #include "wx/beforestd.h"
+    #include "wxWidgets3/include/wx/beforestd.h"
     #include <vector>
     #include <algorithm>
-    #include "wx/afterstd.h"
+    #include "wxWidgets3/include/wx/afterstd.h"
 #endif
 
 /*

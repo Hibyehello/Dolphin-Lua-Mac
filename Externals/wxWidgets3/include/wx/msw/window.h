@@ -12,7 +12,7 @@
 #ifndef _WX_WINDOW_H_
 #define _WX_WINDOW_H_
 
-#include "wx/settings.h"        // solely for wxSystemColour
+#include "wxWidgets3/include/wx/settings.h"        // solely for wxSystemColour
 
 class WXDLLIMPEXP_FWD_CORE wxButton;
 

@@ -10,7 +10,7 @@
 #ifndef _WX_SYSTHEMECTRL_H
 #define _WX_SYSTHEMECTRL_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 

@@ -15,13 +15,13 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TOOLBAR
 
-#include "wx/bitmap.h"
-#include "wx/list.h"
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/control.h"
 
 class WXDLLIMPEXP_FWD_CORE wxToolBarBase;
 class WXDLLIMPEXP_FWD_CORE wxToolBarToolBase;

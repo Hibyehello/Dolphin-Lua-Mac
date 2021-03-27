@@ -17,9 +17,9 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/nonownedwnd.h"
-#include "wx/iconbndl.h"
-#include "wx/weakref.h"
+#include "wxWidgets3/include/wx/nonownedwnd.h"
+#include "wxWidgets3/include/wx/iconbndl.h"
+#include "wxWidgets3/include/wx/weakref.h"
 
 // the default names for various classes
 extern WXDLLIMPEXP_DATA_CORE(const char) wxFrameNameStr[];
@@ -325,33 +325,33 @@ protected:
 
 // include the real class declaration
 #if defined(__WXMSW__)
-    #include "wx/msw/toplevel.h"
+    #include "wxWidgets3/include/wx/msw/toplevel.h"
     #define wxTopLevelWindowNative wxTopLevelWindowMSW
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/toplevel.h"
+    #include "wxWidgets3/include/wx/gtk/toplevel.h"
     #define wxTopLevelWindowNative wxTopLevelWindowGTK
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/toplevel.h"
+    #include "wxWidgets3/include/wx/gtk1/toplevel.h"
     #define wxTopLevelWindowNative wxTopLevelWindowGTK
 #elif defined(__WXX11__)
-    #include "wx/x11/toplevel.h"
+    #include "wxWidgets3/include/wx/x11/toplevel.h"
     #define wxTopLevelWindowNative wxTopLevelWindowX11
 #elif defined(__WXDFB__)
-    #include "wx/dfb/toplevel.h"
+    #include "wxWidgets3/include/wx/dfb/toplevel.h"
     #define wxTopLevelWindowNative wxTopLevelWindowDFB
 #elif defined(__WXMAC__)
-    #include "wx/osx/toplevel.h"
+    #include "wxWidgets3/include/wx/osx/toplevel.h"
     #define wxTopLevelWindowNative wxTopLevelWindowMac
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/toplevel.h"
+    #include "wxWidgets3/include/wx/motif/toplevel.h"
     #define wxTopLevelWindowNative wxTopLevelWindowMotif
 #elif defined(__WXQT__)
-    #include "wx/qt/toplevel.h"
+    #include "wxWidgets3/include/wx/qt/toplevel.h"
 #define wxTopLevelWindowNative wxTopLevelWindowQt
 #endif
 
 #ifdef __WXUNIVERSAL__
-    #include "wx/univ/toplevel.h"
+    #include "wxWidgets3/include/wx/univ/toplevel.h"
 #else // !__WXUNIVERSAL__
     class WXDLLIMPEXP_CORE wxTopLevelWindow : public wxTopLevelWindowNative
     {

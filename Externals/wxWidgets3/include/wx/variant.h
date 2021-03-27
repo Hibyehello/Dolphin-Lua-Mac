@@ -11,22 +11,22 @@
 #ifndef _WX_VARIANT_H_
 #define _WX_VARIANT_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_VARIANT
 
-#include "wx/object.h"
-#include "wx/string.h"
-#include "wx/arrstr.h"
-#include "wx/list.h"
-#include "wx/cpp.h"
-#include "wx/longlong.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/arrstr.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/cpp.h"
+#include "wxWidgets3/include/wx/longlong.h"
 
 #if wxUSE_DATETIME
-    #include "wx/datetime.h"
+    #include "wxWidgets3/include/wx/datetime.h"
 #endif // wxUSE_DATETIME
 
-#include "wx/iosfwrap.h"
+#include "wxWidgets3/include/wx/iosfwrap.h"
 
 class wxAny;
 
@@ -398,7 +398,7 @@ private:
 //
 #if wxUSE_ANY
 
-#include "wx/any.h"
+#include "wxWidgets3/include/wx/any.h"
 
 // In order to convert wxAny to wxVariant, we need to be able to associate
 // wxAnyValueType with a wxVariantData factory function.

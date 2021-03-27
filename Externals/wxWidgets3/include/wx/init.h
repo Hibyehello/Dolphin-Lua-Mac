@@ -11,8 +11,8 @@
 #ifndef _WX_INIT_H_
 #define _WX_INIT_H_
 
-#include "wx/defs.h"
-#include "wx/chartype.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/chartype.h"
 
 // ----------------------------------------------------------------------------
 // wxEntry helper functions which allow to have more fine grained control
@@ -55,7 +55,7 @@ extern int WXDLLIMPEXP_BASE wxEntry(int& argc, char **argv);
 // Under Windows we define additional wxEntry() overloads with signature
 // compatible with WinMain() and not the traditional main().
 #if wxUSE_GUI && defined(__WINDOWS__)
-    #include "wx/msw/init.h"
+    #include "wxWidgets3/include/wx/msw/init.h"
 #endif
 
 // ----------------------------------------------------------------------------

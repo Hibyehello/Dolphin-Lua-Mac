@@ -10,11 +10,11 @@
 #ifndef __SCK_STREAM_H__
 #define __SCK_STREAM_H__
 
-#include "wx/stream.h"
+#include "wxWidgets3/include/wx/stream.h"
 
 #if wxUSE_SOCKETS && wxUSE_STREAMS
 
-#include "wx/socket.h"
+#include "wxWidgets3/include/wx/socket.h"
 
 class WXDLLIMPEXP_NET wxSocketOutputStream : public wxOutputStream
 {

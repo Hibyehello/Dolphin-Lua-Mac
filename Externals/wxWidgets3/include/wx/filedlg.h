@@ -11,12 +11,12 @@
 #ifndef _WX_FILEDLG_H_BASE_
 #define _WX_FILEDLG_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FILEDLG
 
-#include "wx/dialog.h"
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/dialog.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 // this symbol is defined for the platforms which support multiple
 // ('|'-separated) filters in the file dialog
@@ -215,19 +215,19 @@ wxSaveFileSelector(const wxString& what,
 
 #if defined (__WXUNIVERSAL__)
     #define wxHAS_GENERIC_FILEDIALOG
-    #include "wx/generic/filedlgg.h"
+    #include "wxWidgets3/include/wx/generic/filedlgg.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/filedlg.h"
+    #include "wxWidgets3/include/wx/msw/filedlg.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/filedlg.h"
+    #include "wxWidgets3/include/wx/motif/filedlg.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/filedlg.h"     // GTK+ > 2.4 has native version
+    #include "wxWidgets3/include/wx/gtk/filedlg.h"     // GTK+ > 2.4 has native version
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/filedlg.h"
+    #include "wxWidgets3/include/wx/gtk1/filedlg.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/filedlg.h"
+    #include "wxWidgets3/include/wx/osx/filedlg.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/filedlg.h"
+    #include "wxWidgets3/include/wx/qt/filedlg.h"
 #endif
 
 #endif // wxUSE_FILEDLG

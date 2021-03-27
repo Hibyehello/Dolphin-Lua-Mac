@@ -10,8 +10,8 @@
 #ifndef _WX_PRIVATE_FDIODISPATCHER_H_
 #define _WX_PRIVATE_FDIODISPATCHER_H_
 
-#include "wx/hashmap.h"
-#include "wx/private/fdiohandler.h"
+#include "wxWidgets3/include/wx/hashmap.h"
+#include "wxWidgets3/include/wx/private/fdiohandler.h"
 
 // those flags describes sets where descriptor should be added
 enum wxFDIODispatcherEntryFlags

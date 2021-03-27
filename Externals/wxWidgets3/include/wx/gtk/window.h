@@ -9,7 +9,7 @@
 #ifndef _WX_GTK_WINDOW_H_
 #define _WX_GTK_WINDOW_H_
 
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 #ifdef __WXGTK3__
     typedef struct _cairo cairo_t;

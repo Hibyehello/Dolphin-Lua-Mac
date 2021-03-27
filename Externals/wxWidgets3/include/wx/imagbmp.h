@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGBMP_H_
 #define _WX_IMAGBMP_H_
 
-#include "wx/image.h"
+#include "wxWidgets3/include/wx/image.h"
 
 // defines for saving the BMP file in different formats, Bits Per Pixel
 // USE: wximage.SetOption( wxIMAGE_OPTION_BMP_FORMAT, wxBMP_xBPP );

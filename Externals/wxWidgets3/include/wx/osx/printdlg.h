@@ -13,10 +13,10 @@
 #ifndef _WX_PRINTDLG_H_
 #define _WX_PRINTDLG_H_
 
-#include "wx/dialog.h"
-#include "wx/cmndata.h"
-#include "wx/printdlg.h"
-#include "wx/prntbase.h"
+#include "wxWidgets3/include/wx/dialog.h"
+#include "wxWidgets3/include/wx/cmndata.h"
+#include "wxWidgets3/include/wx/printdlg.h"
+#include "wxWidgets3/include/wx/prntbase.h"
 
 /*
  * wxMacPrintDialog

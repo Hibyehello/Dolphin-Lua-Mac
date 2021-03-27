@@ -1,65 +1,122 @@
-set(SRCS	ControllerEmu.cpp
-			InputConfig.cpp
-			ControllerInterface/ControllerInterface.cpp
-			ControllerInterface/Device.cpp
-			ControllerInterface/ExpressionParser.cpp)
-set(LIBS	common)
+add_library(inputcommon
+  InputConfig.cpp
+  ControllerEmu/ControllerEmu.cpp
+  ControllerEmu/Control/Control.cpp
+  ControllerEmu/Control/Input.cpp
+  ControllerEmu/Control/Output.cpp
+  ControllerEmu/ControlGroup/AnalogStick.cpp
+  ControllerEmu/ControlGroup/Buttons.cpp
+  ControllerEmu/ControlGroup/ControlGroup.cpp
+  ControllerEmu/ControlGroup/Cursor.cpp
+  ControllerEmu/ControlGroup/Extension.cpp
+  ControllerEmu/ControlGroup/Force.cpp
+  ControllerEmu/ControlGroup/MixedTriggers.cpp
+  ControllerEmu/ControlGroup/ModifySettingsButton.cpp
+  ControllerEmu/ControlGroup/Slider.cpp
+  ControllerEmu/ControlGroup/Tilt.cpp
+  ControllerEmu/ControlGroup/Triggers.cpp
+  ControllerEmu/Setting/BooleanSetting.cpp
+  ControllerEmu/Setting/NumericSetting.cpp
+  ControllerInterface/ControllerInterface.cpp
+  ControllerInterface/Device.cpp
+  ControlReference/ControlReference.cpp
+  ControlReference/ExpressionParser.cpp
+)
+
+target_link_libraries(inputcommon PUBLIC
+  common
+)
 
 if(WIN32)
-	set(SRCS	${SRCS}
-				ControllerInterface/DInput/DInput.cpp
-				ControllerInterface/DInput/DInputJoystick.cpp
-				ControllerInterface/DInput/DInputKeyboardMouse.cpp
-				ControllerInterface/XInput/XInput.cpp
-				ControllerInterface/ForceFeedback/ForceFeedbackDevice.cpp)
+  target_sources(inputcommon PRIVATE
+    ControllerInterface/DInput/DInput.cpp
+    ControllerInterface/DInput/DInputJoystick.cpp
+    ControllerInterface/DInput/DInputKeyboardMouse.cpp
+    ControllerInterface/DInput/XInputFilter.cpp
+    ControllerInterface/XInput/XInput.cpp
+    ControllerInterface/ForceFeedback/ForceFeedbackDevice.cpp
+  )
 elseif(APPLE)
-	find_library(COREFOUNDATION_LIBRARY CoreFoundation)
-	find_library(CARBON_LIBRARY Carbon)
-	find_library(COCOA_LIBRARY Cocoa)
-	set(SRCS	${SRCS}
-				ControllerInterface/OSX/OSX.mm
-				ControllerInterface/OSX/OSXKeyboard.mm
-				ControllerInterface/OSX/OSXJoystick.mm
-				ControllerInterface/ForceFeedback/ForceFeedbackDevice.cpp)
-	set(LIBS ${LIBS} ${COREFOUNDATION_LIBRARY} ${CARBON_LIBRARY} ${COCOA_LIBRARY})
+  target_sources(inputcommon PRIVATE
+    ControllerInterface/OSX/OSX.mm
+    ControllerInterface/OSX/OSXJoystick.mm
+    ControllerInterface/Quartz/Quartz.mm
+    ControllerInterface/Quartz/QuartzKeyboardAndMouse.mm
+    ControllerInterface/ForceFeedback/ForceFeedbackDevice.cpp
+  )
+  target_link_libraries(inputcommon PRIVATE
+    ${COREFOUNDATION_LIBRARY}
+    ${CARBON_LIBRARY}
+    ${COCOA_LIBRARY}
+    ${FORCEFEEDBACK_LIBRARY}
+    ${IOK_LIBRARY}
+  )
 elseif(X11_FOUND)
-	set(SRCS	${SRCS}
-				ControllerInterface/Xlib/Xlib.cpp)
-	if(XINPUT2_FOUND)
-		set(SRCS	${SRCS}
-					ControllerInterface/Xlib/XInput2.cpp)
-	endif()
-	set(LIBS ${LIBS} ${X11_LIBRARIES} ${XINPUT2_LIBRARIES})
+  target_sources(inputcommon PRIVATE
+    ControllerInterface/Xlib/XInput2.cpp
+  )
+  target_link_libraries(inputcommon PUBLIC
+    ${X11_LIBRARIES}
+    ${X11_INPUT_LIBRARIES}
+  )
 elseif(ANDROID)
-	add_definitions(-DCIFACE_USE_ANDROID)
-	set(SRCS ${SRCS}
-	         ControllerInterface/Android/Android.cpp)
+  target_compile_definitions(inputcommon PRIVATE -DCIFACE_USE_ANDROID)
+  target_sources(inputcommon PRIVATE
+    ControllerInterface/Android/Android.cpp
+  )
 endif()
 
-if(LIBUSB_FOUND)
-	set(SRCS	${SRCS}	GCAdapter.cpp)
-elseif(ANDROID)
-	set(SRCS	${SRCS}	GCAdapter_Android.cpp)
+if(ANDROID)
+  target_sources(inputcommon PRIVATE GCAdapter_Android.cpp)
 else()
-	set(SRCS	${SRCS}	GCAdapter_Null.cpp)
-endif(LIBUSB_FOUND)
+  target_sources(inputcommon PRIVATE GCAdapter.cpp)
+  target_link_libraries(inputcommon PUBLIC ${LIBUSB_LIBRARIES})
+endif()
 
 if(LIBEVDEV_FOUND AND LIBUDEV_FOUND)
-	set(SRCS ${SRCS} ControllerInterface/evdev/evdev.cpp)
-	set(LIBS ${LIBS} ${LIBEVDEV_LIBRARY} ${LIBUDEV_LIBRARY})
+  target_sources(inputcommon
+  PRIVATE
+    ControllerInterface/evdev/evdev.cpp
+  )
+  target_include_directories(inputcommon
+  PRIVATE
+    ${LIBEVDEV_INCLUDE_DIR}
+    ${LIBUDEV_INCLUDE_DIR}
+  )
+  target_link_libraries(inputcommon
+  PRIVATE
+    ${LIBEVDEV_LIBRARY}
+    ${LIBUDEV_LIBRARY}
+  )
 endif()
 
 if(UNIX)
-	set(SRCS ${SRCS} ControllerInterface/Pipes/Pipes.cpp)
+  target_sources(inputcommon PRIVATE
+    ControllerInterface/Pipes/Pipes.cpp
+  )
 endif()
 
-if(SDL_FOUND OR SDL2_FOUND)
-	set(SRCS ${SRCS} ControllerInterface/SDL/SDL.cpp)
-	if (SDL2_FOUND)
-		set(LIBS ${LIBS} ${SDL2_LIBRARY})
-	elseif(SDL_FOUND)
-		set(LIBS ${LIBS} ${SDL_LIBRARY})
-	endif()
+if(ENABLE_SDL)
+  find_package(SDL2)
+  if(SDL2_FOUND)
+    message(STATUS "Using shared SDL2")
+    set(SDL_TARGET SDL2::SDL2)
+  else()
+    # SDL2 not found, try SDL
+    find_package(SDL)
+    if(SDL_FOUND)
+      message(STATUS "Using shared SDL")
+      add_library(System_SDL INTERFACE)
+      target_include_directories(System_SDL INTERFACE ${SDL_INCLUDE_DIR})
+      target_link_libraries(System_SDL INTERFACE ${SDL_LIBRARY})
+      set(SDL_TARGET System_SDL)
+    endif()
+  endif()
+  if(SDL_TARGET AND TARGET ${SDL_TARGET})
+    target_sources(inputcommon PRIVATE ControllerInterface/SDL/SDL.cpp)
+    target_link_libraries(inputcommon PUBLIC ${SDL_TARGET})
+    target_compile_definitions(inputcommon PRIVATE -DHAVE_SDL=1)
+  else()
+    message(STATUS "SDL NOT found, disabling SDL input")
+  endif()
 endif()
-
-add_dolphin_library(inputcommon "${SRCS}" "${LIBS}")

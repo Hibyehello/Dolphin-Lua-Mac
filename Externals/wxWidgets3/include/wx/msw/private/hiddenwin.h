@@ -10,7 +10,7 @@
 #ifndef _WX_MSW_PRIVATE_HIDDENWIN_H_
 #define _WX_MSW_PRIVATE_HIDDENWIN_H_
 
-#include "wx/msw/private.h"
+#include "wxWidgets3/include/wx/msw/private.h"
 
 /*
   Creates a hidden window with supplied window proc registering the class for

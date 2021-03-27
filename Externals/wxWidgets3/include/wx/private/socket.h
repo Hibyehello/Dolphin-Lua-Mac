@@ -36,12 +36,12 @@
 #ifndef _WX_PRIVATE_SOCKET_H_
 #define _WX_PRIVATE_SOCKET_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SOCKETS
 
-#include "wx/socket.h"
-#include "wx/private/sckaddr.h"
+#include "wxWidgets3/include/wx/socket.h"
+#include "wxWidgets3/include/wx/private/sckaddr.h"
 
 #include <stddef.h>
 
@@ -57,7 +57,7 @@
 // include the header defining timeval: under Windows this struct is used only
 // with sockets so we need to include winsock.h which we do via windows.h
 #ifdef __WINDOWS__
-    #include "wx/msw/wrapwin.h"
+    #include "wxWidgets3/include/wx/msw/wrapwin.h"
 #else
     #include <sys/time.h>   // for timeval
 #endif
@@ -362,9 +362,9 @@ private:
 };
 
 #if defined(__WINDOWS__)
-    #include "wx/msw/private/sockmsw.h"
+    #include "wxWidgets3/include/wx/msw/private/sockmsw.h"
 #else
-    #include "wx/unix/private/sockunix.h"
+    #include "wxWidgets3/include/wx/unix/private/sockunix.h"
 #endif
 
 #endif /* wxUSE_SOCKETS */

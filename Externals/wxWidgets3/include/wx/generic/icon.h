@@ -11,7 +11,7 @@
 #ifndef _WX_GENERIC_ICON_H_
 #define _WX_GENERIC_ICON_H_
 
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/bitmap.h"
 
 //-----------------------------------------------------------------------------
 // wxIcon

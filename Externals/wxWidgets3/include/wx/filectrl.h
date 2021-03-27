@@ -12,12 +12,12 @@
 #ifndef _WX_FILECTRL_H_BASE_
 #define _WX_FILECTRL_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FILECTRL
 
-#include "wx/string.h"
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/event.h"
 
 enum
 {
@@ -69,10 +69,10 @@ void GenerateFileActivatedEvent( wxFileCtrlBase *fileCtrl, wxWindow *wnd, const 
 
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
     #define wxFileCtrl wxGtkFileCtrl
-    #include "wx/gtk/filectrl.h"
+    #include "wxWidgets3/include/wx/gtk/filectrl.h"
 #else
     #define wxFileCtrl wxGenericFileCtrl
-    #include "wx/generic/filectrlg.h"
+    #include "wxWidgets3/include/wx/generic/filectrlg.h"
 #endif
 
 // Some documentation

@@ -16,12 +16,12 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_AUI
 
-#include "wx/aui/tabart.h"
-#include "wx/gdicmn.h"
+#include "wxWidgets3/include/wx/aui/tabart.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
 
 class wxWindow;
 class wxDC;

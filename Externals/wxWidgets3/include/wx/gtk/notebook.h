@@ -16,7 +16,7 @@
 
 class WXDLLIMPEXP_FWD_CORE wxGtkNotebookPage;
 
-#include "wx/list.h"
+#include "wxWidgets3/include/wx/list.h"
 WX_DECLARE_LIST(wxGtkNotebookPage, wxGtkNotebookPagesList);
 
 //-----------------------------------------------------------------------------

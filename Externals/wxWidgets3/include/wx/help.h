@@ -11,23 +11,23 @@
 #ifndef _WX_HELP_H_BASE_
 #define _WX_HELP_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_HELP
 
-#include "wx/helpbase.h"
+#include "wxWidgets3/include/wx/helpbase.h"
 
 #if defined(__WXMSW__)
-    #include "wx/msw/helpchm.h"
+    #include "wxWidgets3/include/wx/msw/helpchm.h"
 
     #define wxHelpController wxCHMHelpController
 #else // !MSW
 
 #if wxUSE_WXHTML_HELP
-    #include "wx/html/helpctrl.h"
+    #include "wxWidgets3/include/wx/html/helpctrl.h"
     #define wxHelpController wxHtmlHelpController
 #else
-    #include "wx/generic/helpext.h"
+    #include "wxWidgets3/include/wx/generic/helpext.h"
     #define wxHelpController wxExtHelpController
 #endif
 

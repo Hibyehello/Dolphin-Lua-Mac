@@ -11,12 +11,12 @@
 #ifndef _WX_PALETTE_H_BASE_
 #define _WX_PALETTE_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PALETTE
 
-#include "wx/object.h"
-#include "wx/gdiobj.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
 
 // wxPaletteBase
 class WXDLLIMPEXP_CORE wxPaletteBase: public wxGDIObject
@@ -28,15 +28,15 @@ public:
 };
 
 #if defined(__WXMSW__)
-    #include "wx/msw/palette.h"
+    #include "wxWidgets3/include/wx/msw/palette.h"
 #elif defined(__WXX11__) || defined(__WXMOTIF__)
-    #include "wx/x11/palette.h"
+    #include "wxWidgets3/include/wx/x11/palette.h"
 #elif defined(__WXGTK__)
-    #include "wx/generic/paletteg.h"
+    #include "wxWidgets3/include/wx/generic/paletteg.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/palette.h"
+    #include "wxWidgets3/include/wx/osx/palette.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/palette.h"
+    #include "wxWidgets3/include/wx/qt/palette.h"
 #endif
 
 #endif // wxUSE_PALETTE

@@ -10,7 +10,7 @@
 #ifndef _WX_MSW_APPPROG_H_
 #define _WX_MSW_APPPROG_H_
 
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 class WXDLLIMPEXP_FWD_CORE wxTaskBarButton;
 

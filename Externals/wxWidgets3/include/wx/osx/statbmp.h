@@ -1,2 +1,2 @@
 #define wxGenericStaticBitmap wxStaticBitmap
-#include "wx/generic/statbmpg.h"
+#include "wxWidgets3/include/wx/generic/statbmpg.h"

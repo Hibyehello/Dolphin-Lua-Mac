@@ -11,7 +11,7 @@
 #ifndef _WX_NONOWNEDWND_H_
 #define _WX_NONOWNEDWND_H_
 
-#include "wx/window.h"
+#include "wxWidgets3/include/wx/window.h"
 
 // Styles that can be used with any wxNonOwnedWindow:
 #define wxFRAME_SHAPED          0x0010  // Create a window that is able to be shaped
@@ -95,13 +95,13 @@ protected:
 };
 
 #if defined(__WXDFB__)
-    #include "wx/dfb/nonownedwnd.h"
+    #include "wxWidgets3/include/wx/dfb/nonownedwnd.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/nonownedwnd.h"
+    #include "wxWidgets3/include/wx/gtk/nonownedwnd.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/nonownedwnd.h"
+    #include "wxWidgets3/include/wx/osx/nonownedwnd.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/nonownedwnd.h"
+    #include "wxWidgets3/include/wx/msw/nonownedwnd.h"
 #else
     // No special class needed in other ports, they can derive both wxTLW and
     // wxPopupWindow directly from wxWindow and don't implement SetShape().

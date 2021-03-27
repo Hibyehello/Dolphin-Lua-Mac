@@ -10,9 +10,9 @@
 #ifndef _WX_UNICHAR_H_
 #define _WX_UNICHAR_H_
 
-#include "wx/defs.h"
-#include "wx/chartype.h"
-#include "wx/stringimpl.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/chartype.h"
+#include "wxWidgets3/include/wx/stringimpl.h"
 
 #include <algorithm>        // only for std::swap specialization below
 

@@ -28,17 +28,17 @@
 // headers
 // -----------------------------------------------------------------------------
 
-#include "wx/defs.h"
-#include "wx/object.h"
-#include "wx/string.h"
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 #if wxUSE_STD_CONTAINERS
-    #include "wx/beforestd.h"
+    #include "wxWidgets3/include/wx/beforestd.h"
     #include <algorithm>
     #include <iterator>
     #include <list>
-    #include "wx/afterstd.h"
+    #include "wxWidgets3/include/wx/afterstd.h"
 #endif
 
 // ----------------------------------------------------------------------------
@@ -300,7 +300,7 @@ private:
     WX_DECLARE_USER_EXPORTED_LIST(elementtype, listname, usergoo)
 
 // this macro must be inserted in your program after
-//      #include "wx/listimpl.cpp"
+//      #include "wxWidgets3/include/wx/listimpl.cpp"
 #define WX_DEFINE_LIST(name)    "don't forget to include listimpl.cpp!"
 
 #define WX_DEFINE_EXPORTED_LIST(name)      WX_DEFINE_LIST(name)
@@ -1102,7 +1102,7 @@ private:
     WX_DECLARE_LIST_PTR_2(elementtype, listname, wx##listname##Node, class usergoo)
 
 // this macro must be inserted in your program after
-//      #include "wx/listimpl.cpp"
+//      #include "wxWidgets3/include/wx/listimpl.cpp"
 #define WX_DEFINE_LIST(name)    "don't forget to include listimpl.cpp!"
 
 #define WX_DEFINE_EXPORTED_LIST(name)      WX_DEFINE_LIST(name)

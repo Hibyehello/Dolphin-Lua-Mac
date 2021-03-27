@@ -11,9 +11,9 @@
 #ifndef _WX_IMAGLIST_H_
 #define _WX_IMAGLIST_H_
 
-#include "wx/defs.h"
-#include "wx/list.h"
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/icon.h"
 
 class WXDLLIMPEXP_FWD_CORE wxDC;
 class WXDLLIMPEXP_FWD_CORE wxBitmap;

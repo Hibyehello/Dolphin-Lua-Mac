@@ -1,21 +1,27 @@
-set(SRCS Clipper.cpp
-	   DebugUtil.cpp
-	   EfbCopy.cpp
-	   EfbInterface.cpp
-	   Rasterizer.cpp
-	   SWOGLWindow.cpp
-	   SWRenderer.cpp
-	   SWVertexLoader.cpp
-	   SWmain.cpp
-	   SetupUnit.cpp
-	   Tev.cpp
-	   TextureEncoder.cpp
-	   TextureSampler.cpp
-	   TransformUnit.cpp)
+add_library(videosoftware
+  Clipper.cpp
+  DebugUtil.cpp
+  EfbCopy.cpp
+  EfbInterface.cpp
+  Rasterizer.cpp
+  SWOGLWindow.cpp
+  SWRenderer.cpp
+  SWTexture.cpp
+  SWVertexLoader.cpp
+  SWmain.cpp
+  SetupUnit.cpp
+  Tev.cpp
+  TextureEncoder.cpp
+  TextureSampler.cpp
+  TransformUnit.cpp
+)
 
-set(LIBS videocommon
-         SOIL
-         common
-         ${X11_LIBRARIES})
+target_link_libraries(videosoftware
+PUBLIC
+  common
+  videocommon
 
-add_dolphin_library(videosoftware "${SRCS}" "${LIBS}")
+PRIVATE
+  SOIL
+  ${X11_LIBRARIES}
+)

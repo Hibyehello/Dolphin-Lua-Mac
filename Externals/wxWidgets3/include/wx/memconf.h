@@ -23,7 +23,7 @@
 
 #if wxUSE_CONFIG
 
-#include "wx/fileconf.h"   // the base class
+#include "wxWidgets3/include/wx/fileconf.h"   // the base class
 
 // ----------------------------------------------------------------------------
 // wxMemoryConfig: a config class which stores settings in non-persistent way

@@ -11,30 +11,30 @@
 #ifndef _WX_EVENT_H_
 #define _WX_EVENT_H_
 
-#include "wx/defs.h"
-#include "wx/cpp.h"
-#include "wx/object.h"
-#include "wx/clntdata.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/cpp.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/clntdata.h"
 
 #if wxUSE_GUI
-    #include "wx/gdicmn.h"
-    #include "wx/cursor.h"
-    #include "wx/mousestate.h"
+    #include "wxWidgets3/include/wx/gdicmn.h"
+    #include "wxWidgets3/include/wx/cursor.h"
+    #include "wxWidgets3/include/wx/mousestate.h"
 #endif
 
-#include "wx/dynarray.h"
-#include "wx/thread.h"
-#include "wx/tracker.h"
-#include "wx/typeinfo.h"
-#include "wx/any.h"
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/dynarray.h"
+#include "wxWidgets3/include/wx/thread.h"
+#include "wxWidgets3/include/wx/tracker.h"
+#include "wxWidgets3/include/wx/typeinfo.h"
+#include "wxWidgets3/include/wx/any.h"
+#include "wxWidgets3/include/wx/vector.h"
 
-#include "wx/meta/convertible.h"
+#include "wxWidgets3/include/wx/meta/convertible.h"
 
 // Currently VC7 is known to not be able to compile CallAfter() code, so
 // disable it for it (FIXME-VC7).
 #if !defined(__VISUALC__) || wxCHECK_VISUALC_VERSION(8)
-    #include "wx/meta/removeref.h"
+    #include "wxWidgets3/include/wx/meta/removeref.h"
 
     #define wxHAS_CALL_AFTER
 #endif

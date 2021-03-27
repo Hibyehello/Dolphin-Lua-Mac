@@ -10,9 +10,9 @@
 #ifndef _WX_PERSIST_H_
 #define _WX_PERSIST_H_
 
-#include "wx/string.h"
-#include "wx/hashmap.h"
-#include "wx/confbase.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/hashmap.h"
+#include "wxWidgets3/include/wx/confbase.h"
 
 class wxPersistentObject;
 

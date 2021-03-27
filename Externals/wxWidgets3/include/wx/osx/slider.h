@@ -11,8 +11,8 @@
 #ifndef _WX_SLIDER_H_
 #define _WX_SLIDER_H_
 
-#include "wx/compositewin.h"
-#include "wx/stattext.h"
+#include "wxWidgets3/include/wx/compositewin.h"
+#include "wxWidgets3/include/wx/stattext.h"
 
 // Slider
 class WXDLLIMPEXP_CORE wxSlider: public wxCompositeWindow<wxSliderBase>

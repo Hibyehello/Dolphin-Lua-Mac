@@ -11,11 +11,11 @@
 #ifndef _WX_SCROLBAR_H_BASE_
 #define _WX_SCROLBAR_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SCROLLBAR
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxScrollBarNameStr[];
 
@@ -63,19 +63,19 @@ private:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/scrolbar.h"
+    #include "wxWidgets3/include/wx/univ/scrolbar.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/scrolbar.h"
+    #include "wxWidgets3/include/wx/msw/scrolbar.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/scrolbar.h"
+    #include "wxWidgets3/include/wx/motif/scrolbar.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/scrolbar.h"
+    #include "wxWidgets3/include/wx/gtk/scrolbar.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/scrolbar.h"
+    #include "wxWidgets3/include/wx/gtk1/scrolbar.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/scrolbar.h"
+    #include "wxWidgets3/include/wx/osx/scrolbar.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/scrolbar.h"
+    #include "wxWidgets3/include/wx/qt/scrolbar.h"
 #endif
 
 #endif // wxUSE_SCROLLBAR

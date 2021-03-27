@@ -15,8 +15,8 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/gdicmn.h"
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wxWidgets3/include/wx/event.h"
 
 // ----------------------------------------------------------------------------
 // forward declarations

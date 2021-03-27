@@ -11,8 +11,8 @@
 #ifndef _WX_VLBOX_H_
 #define _WX_VLBOX_H_
 
-#include "wx/vscroll.h"         // base class
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/vscroll.h"         // base class
+#include "wxWidgets3/include/wx/bitmap.h"
 
 class WXDLLIMPEXP_FWD_CORE wxSelectionStore;
 extern WXDLLIMPEXP_DATA_CORE(const char) wxVListBoxNameStr[];

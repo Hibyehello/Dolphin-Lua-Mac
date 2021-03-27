@@ -11,15 +11,15 @@
 #ifndef _WX_ANY_H_
 #define _WX_ANY_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_ANY
 
 #include <new> // for placement new
-#include "wx/string.h"
-#include "wx/meta/if.h"
-#include "wx/typeinfo.h"
-#include "wx/list.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/meta/if.h"
+#include "wxWidgets3/include/wx/typeinfo.h"
+#include "wxWidgets3/include/wx/list.h"
 
 // Size of the wxAny value buffer.
 enum
@@ -581,14 +581,14 @@ public: \
 // really test it properly in unit tests since a separate DLL would
 // be needed).
 #if wxUSE_DATETIME
-    #include "wx/datetime.h"
+    #include "wxWidgets3/include/wx/datetime.h"
     wxDECLARE_ANY_TYPE(wxDateTime, WXDLLIMPEXP_BASE)
 #endif
 
-//#include "wx/object.h"
+//#include "wxWidgets3/include/wx/object.h"
 //wxDECLARE_ANY_TYPE(wxObject*, WXDLLIMPEXP_BASE)
 
-//#include "wx/arrstr.h"
+//#include "wxWidgets3/include/wx/arrstr.h"
 //wxDECLARE_ANY_TYPE(wxArrayString, WXDLLIMPEXP_BASE)
 
 
@@ -597,7 +597,7 @@ public: \
 class WXDLLIMPEXP_FWD_BASE wxAnyToVariantRegistration;
 
 // Because of header inter-dependencies, cannot include this earlier
-#include "wx/variant.h"
+#include "wxWidgets3/include/wx/variant.h"
 
 //
 // wxVariantData* data type implementation. For cases when appropriate

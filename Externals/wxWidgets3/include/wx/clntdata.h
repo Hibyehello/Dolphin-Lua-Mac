@@ -11,9 +11,9 @@
 #ifndef _WX_CLNTDATAH__
 #define _WX_CLNTDATAH__
 
-#include "wx/defs.h"
-#include "wx/string.h"
-#include "wx/hashmap.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/hashmap.h"
 
 typedef int (*wxShadowObjectMethod)(void*, void*);
 WX_DECLARE_STRING_HASH_MAP_WITH_DECL(

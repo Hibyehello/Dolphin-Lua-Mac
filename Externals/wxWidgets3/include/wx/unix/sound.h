@@ -11,11 +11,11 @@
 #ifndef _WX_SOUND_H_
 #define _WX_SOUND_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SOUND
 
-#include "wx/object.h"
+#include "wxWidgets3/include/wx/object.h"
 
 // ----------------------------------------------------------------------------
 // wxSound: simple audio playback class

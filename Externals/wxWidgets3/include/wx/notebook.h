@@ -15,11 +15,11 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_NOTEBOOK
 
-#include "wx/bookctrl.h"
+#include "wxWidgets3/include/wx/bookctrl.h"
 
 // ----------------------------------------------------------------------------
 // constants
@@ -182,19 +182,19 @@ wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_NOTEBOOK_PAGE_CHANGING, wxBook
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/notebook.h"
+    #include "wxWidgets3/include/wx/univ/notebook.h"
 #elif defined(__WXMSW__)
-    #include  "wx/msw/notebook.h"
+    #include  "wxWidgets3/include/wx/msw/notebook.h"
 #elif defined(__WXMOTIF__)
-    #include  "wx/generic/notebook.h"
+    #include  "wxWidgets3/include/wx/generic/notebook.h"
 #elif defined(__WXGTK20__)
-    #include  "wx/gtk/notebook.h"
+    #include  "wxWidgets3/include/wx/gtk/notebook.h"
 #elif defined(__WXGTK__)
-    #include  "wx/gtk1/notebook.h"
+    #include  "wxWidgets3/include/wx/gtk1/notebook.h"
 #elif defined(__WXMAC__)
-    #include  "wx/osx/notebook.h"
+    #include  "wxWidgets3/include/wx/osx/notebook.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/notebook.h"
+    #include "wxWidgets3/include/wx/qt/notebook.h"
 #endif
 
 // old wxEVT_COMMAND_* constants

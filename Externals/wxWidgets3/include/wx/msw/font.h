@@ -11,7 +11,7 @@
 #ifndef _WX_FONT_H_
 #define _WX_FONT_H_
 
-#include "wx/gdicmn.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
 
 // ----------------------------------------------------------------------------
 // wxFont

@@ -15,29 +15,29 @@
 // headers which we must include here
 // ----------------------------------------------------------------------------
 
-#include "wx/event.h"           // the base class
+#include "wxWidgets3/include/wx/event.h"           // the base class
 
-#include "wx/list.h"            // defines wxWindowList
+#include "wxWidgets3/include/wx/list.h"            // defines wxWindowList
 
-#include "wx/cursor.h"          // we have member variables of these classes
-#include "wx/font.h"            // so we can't do without them
-#include "wx/colour.h"
-#include "wx/region.h"
-#include "wx/utils.h"
-#include "wx/intl.h"
+#include "wxWidgets3/include/wx/cursor.h"          // we have member variables of these classes
+#include "wxWidgets3/include/wx/font.h"            // so we can't do without them
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/region.h"
+#include "wxWidgets3/include/wx/utils.h"
+#include "wxWidgets3/include/wx/intl.h"
 
-#include "wx/validate.h"        // for wxDefaultValidator (always include it)
+#include "wxWidgets3/include/wx/validate.h"        // for wxDefaultValidator (always include it)
 
 #if wxUSE_PALETTE
-    #include "wx/palette.h"
+    #include "wxWidgets3/include/wx/palette.h"
 #endif // wxUSE_PALETTE
 
 #if wxUSE_ACCEL
-    #include "wx/accel.h"
+    #include "wxWidgets3/include/wx/accel.h"
 #endif // wxUSE_ACCEL
 
 #if wxUSE_ACCESSIBILITY
-#include "wx/access.h"
+#include "wxWidgets3/include/wx/access.h"
 #endif
 
 // when building wxUniv/Foo we don't want the code for native menu use to be
@@ -1931,16 +1931,16 @@ inline void wxWindowBase::SetInitialBestSize(const wxSize& size)
     #else // !wxUniv
         #define wxWindowMSW wxWindow
     #endif // wxUniv/!wxUniv
-    #include "wx/msw/window.h"
+    #include "wxWidgets3/include/wx/msw/window.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/window.h"
+    #include "wxWidgets3/include/wx/motif/window.h"
 #elif defined(__WXGTK20__)
     #ifdef __WXUNIVERSAL__
         #define wxWindowNative wxWindowGTK
     #else // !wxUniv
         #define wxWindowGTK wxWindow
     #endif // wxUniv
-    #include "wx/gtk/window.h"
+    #include "wxWidgets3/include/wx/gtk/window.h"
     #ifdef __WXGTK3__
         #define wxHAVE_DPI_INDEPENDENT_PIXELS
     #endif
@@ -1950,24 +1950,24 @@ inline void wxWindowBase::SetInitialBestSize(const wxSize& size)
     #else // !wxUniv
         #define wxWindowGTK wxWindow
     #endif // wxUniv
-    #include "wx/gtk1/window.h"
+    #include "wxWidgets3/include/wx/gtk1/window.h"
 #elif defined(__WXX11__)
     #ifdef __WXUNIVERSAL__
         #define wxWindowNative wxWindowX11
     #else // !wxUniv
         #define wxWindowX11 wxWindow
     #endif // wxUniv
-    #include "wx/x11/window.h"
+    #include "wxWidgets3/include/wx/x11/window.h"
 #elif defined(__WXDFB__)
     #define wxWindowNative wxWindowDFB
-    #include "wx/dfb/window.h"
+    #include "wxWidgets3/include/wx/dfb/window.h"
 #elif defined(__WXMAC__)
     #ifdef __WXUNIVERSAL__
         #define wxWindowNative wxWindowMac
     #else // !wxUniv
         #define wxWindowMac wxWindow
     #endif // wxUniv
-    #include "wx/osx/window.h"
+    #include "wxWidgets3/include/wx/osx/window.h"
     #define wxHAVE_DPI_INDEPENDENT_PIXELS
 #elif defined(__WXQT__)
     #ifdef __WXUNIVERSAL__
@@ -1975,7 +1975,7 @@ inline void wxWindowBase::SetInitialBestSize(const wxSize& size)
     #else // !wxUniv
         #define wxWindowQt wxWindow
     #endif // wxUniv
-    #include "wx/qt/window.h"
+    #include "wxWidgets3/include/wx/qt/window.h"
 #endif
 
 // for wxUniversal, we now derive the real wxWindow from wxWindow<platform>,
@@ -1985,7 +1985,7 @@ inline void wxWindowBase::SetInitialBestSize(const wxSize& size)
         #error "wxWindowNative must be defined above!"
     #endif
 
-    #include "wx/univ/window.h"
+    #include "wxWidgets3/include/wx/univ/window.h"
 #endif // wxUniv
 
 // ----------------------------------------------------------------------------

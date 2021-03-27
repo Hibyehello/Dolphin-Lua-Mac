@@ -15,7 +15,7 @@
 class WXDLLIMPEXP_FWD_CORE wxCollapsibleHeaderCtrl;
 class WXDLLIMPEXP_FWD_CORE wxStaticLine;
 
-#include "wx/containr.h"
+#include "wxWidgets3/include/wx/containr.h"
 
 // ----------------------------------------------------------------------------
 // wxGenericCollapsiblePane

@@ -11,11 +11,11 @@
 #ifndef _WX_BUTTON_H_BASE_
 #define _WX_BUTTON_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_BUTTON
 
-#include "wx/anybutton.h"
+#include "wxWidgets3/include/wx/anybutton.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxButtonNameStr[];
 
@@ -47,19 +47,19 @@ protected:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/button.h"
+    #include "wxWidgets3/include/wx/univ/button.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/button.h"
+    #include "wxWidgets3/include/wx/msw/button.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/button.h"
+    #include "wxWidgets3/include/wx/motif/button.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/button.h"
+    #include "wxWidgets3/include/wx/gtk/button.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/button.h"
+    #include "wxWidgets3/include/wx/gtk1/button.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/button.h"
+    #include "wxWidgets3/include/wx/osx/button.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/button.h"
+    #include "wxWidgets3/include/wx/qt/button.h"
 #endif
 
 #endif // wxUSE_BUTTON

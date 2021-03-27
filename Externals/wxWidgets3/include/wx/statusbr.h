@@ -11,13 +11,13 @@
 #ifndef _WX_STATUSBR_H_BASE_
 #define _WX_STATUSBR_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_STATUSBAR
 
-#include "wx/control.h"
-#include "wx/list.h"
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxStatusBarNameStr[];
 
@@ -230,18 +230,18 @@ protected:
 
 #if defined(__WXUNIVERSAL__)
     #define wxStatusBarUniv wxStatusBar
-    #include "wx/univ/statusbr.h"
+    #include "wxWidgets3/include/wx/univ/statusbr.h"
 #elif defined(__WXMSW__) && wxUSE_NATIVE_STATUSBAR
-    #include "wx/msw/statusbar.h"
+    #include "wxWidgets3/include/wx/msw/statusbar.h"
 #elif defined(__WXMAC__)
     #define wxStatusBarMac wxStatusBar
-    #include "wx/generic/statusbr.h"
-    #include "wx/osx/statusbr.h"
+    #include "wxWidgets3/include/wx/generic/statusbr.h"
+    #include "wxWidgets3/include/wx/osx/statusbr.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/statusbar.h"
+    #include "wxWidgets3/include/wx/qt/statusbar.h"
 #else
     #define wxStatusBarGeneric wxStatusBar
-    #include "wx/generic/statusbr.h"
+    #include "wxWidgets3/include/wx/generic/statusbr.h"
 #endif
 
 #endif // wxUSE_STATUSBAR

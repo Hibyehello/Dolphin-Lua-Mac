@@ -14,14 +14,14 @@
 // ----------------------------------------------------------------------------
 // headers
 // ----------------------------------------------------------------------------
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DATAOBJ
 
-#include "wx/string.h"
-#include "wx/bitmap.h"
-#include "wx/list.h"
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 // ============================================================================
 /*
@@ -72,19 +72,19 @@ public:
 */
 
 #if defined(__WXMSW__)
-    #include "wx/msw/ole/dataform.h"
+    #include "wxWidgets3/include/wx/msw/ole/dataform.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/dataform.h"
+    #include "wxWidgets3/include/wx/motif/dataform.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/dataform.h"
+    #include "wxWidgets3/include/wx/gtk/dataform.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/dataform.h"
+    #include "wxWidgets3/include/wx/gtk1/dataform.h"
 #elif defined(__WXX11__)
-    #include "wx/x11/dataform.h"
+    #include "wxWidgets3/include/wx/x11/dataform.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/dataform.h"
+    #include "wxWidgets3/include/wx/osx/dataform.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/dataform.h"
+    #include "wxWidgets3/include/wx/qt/dataform.h"
 #endif
 
 // the value for default argument to some functions (corresponds to
@@ -158,19 +158,19 @@ public:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wx/msw/ole/dataobj.h"
+    #include "wxWidgets3/include/wx/msw/ole/dataobj.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/dataobj.h"
+    #include "wxWidgets3/include/wx/motif/dataobj.h"
 #elif defined(__WXX11__)
-    #include "wx/x11/dataobj.h"
+    #include "wxWidgets3/include/wx/x11/dataobj.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/dataobj.h"
+    #include "wxWidgets3/include/wx/gtk/dataobj.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/dataobj.h"
+    #include "wxWidgets3/include/wx/gtk1/dataobj.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/dataobj.h"
+    #include "wxWidgets3/include/wx/osx/dataobj.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/dataobj.h"
+    #include "wxWidgets3/include/wx/qt/dataobj.h"
 #endif
 
 // ----------------------------------------------------------------------------
@@ -545,23 +545,23 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wx/msw/ole/dataobj2.h"
+    #include "wxWidgets3/include/wx/msw/ole/dataobj2.h"
     // wxURLDataObject defined in msw/ole/dataobj2.h
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/dataobj2.h"
+    #include "wxWidgets3/include/wx/gtk/dataobj2.h"
     // wxURLDataObject defined in msw/ole/dataobj2.h
 
 #else
     #if defined(__WXGTK__)
-        #include "wx/gtk1/dataobj2.h"
+        #include "wxWidgets3/include/wx/gtk1/dataobj2.h"
     #elif defined(__WXX11__)
-        #include "wx/x11/dataobj2.h"
+        #include "wxWidgets3/include/wx/x11/dataobj2.h"
     #elif defined(__WXMOTIF__)
-        #include "wx/motif/dataobj2.h"
+        #include "wxWidgets3/include/wx/motif/dataobj2.h"
     #elif defined(__WXMAC__)
-        #include "wx/osx/dataobj2.h"
+        #include "wxWidgets3/include/wx/osx/dataobj2.h"
     #elif defined(__WXQT__)
-        #include "wx/qt/dataobj2.h"
+        #include "wxWidgets3/include/wx/qt/dataobj2.h"
     #endif
 
     // wxURLDataObject is simply wxTextDataObject with a different name

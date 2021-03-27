@@ -11,7 +11,7 @@
 #ifndef _WX_WINDOW_H_
 #define _WX_WINDOW_H_
 
-#include "wx/region.h"
+#include "wxWidgets3/include/wx/region.h"
 
 // ----------------------------------------------------------------------------
 // wxWindow class for Motif - see also wxWindowBase

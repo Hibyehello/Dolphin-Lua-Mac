@@ -11,11 +11,11 @@
 #ifndef _WX_METAFIILE_H_
 #define _WX_METAFIILE_H_
 
-#include "wx/dc.h"
-#include "wx/gdiobj.h"
+#include "wxWidgets3/include/wx/dc.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
 
 #if wxUSE_DRAG_AND_DROP
-    #include "wx/dataobj.h"
+    #include "wxWidgets3/include/wx/dataobj.h"
 #endif
 
 // ----------------------------------------------------------------------------

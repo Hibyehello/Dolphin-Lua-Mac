@@ -10,7 +10,7 @@
 #ifndef _WX_GTK_INFOBAR_H_
 #define _WX_GTK_INFOBAR_H_
 
-#include "wx/generic/infobar.h"
+#include "wxWidgets3/include/wx/generic/infobar.h"
 
 // ----------------------------------------------------------------------------
 // wxInfoBar for GTK+

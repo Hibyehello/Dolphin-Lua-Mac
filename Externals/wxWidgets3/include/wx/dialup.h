@@ -13,7 +13,7 @@
 
 #if wxUSE_DIALUP_MANAGER
 
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/event.h"
 
 // ----------------------------------------------------------------------------
 // misc

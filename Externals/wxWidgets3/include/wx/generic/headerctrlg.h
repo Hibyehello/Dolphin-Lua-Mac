@@ -10,9 +10,9 @@
 #ifndef _WX_GENERIC_HEADERCTRLG_H_
 #define _WX_GENERIC_HEADERCTRLG_H_
 
-#include "wx/event.h"
-#include "wx/vector.h"
-#include "wx/overlay.h"
+#include "wxWidgets3/include/wx/event.h"
+#include "wxWidgets3/include/wx/vector.h"
+#include "wxWidgets3/include/wx/overlay.h"
 
 // ----------------------------------------------------------------------------
 // wxHeaderCtrl

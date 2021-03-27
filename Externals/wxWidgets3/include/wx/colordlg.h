@@ -11,22 +11,22 @@
 #ifndef _WX_COLORDLG_H_BASE_
 #define _WX_COLORDLG_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_COLOURDLG
 
-#include "wx/colourdata.h"
+#include "wxWidgets3/include/wx/colourdata.h"
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wx/msw/colordlg.h"
+    #include "wxWidgets3/include/wx/msw/colordlg.h"
 #elif defined(__WXMAC__) && !defined(__WXUNIVERSAL__)
-    #include "wx/osx/colordlg.h"
+    #include "wxWidgets3/include/wx/osx/colordlg.h"
 #elif defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
-    #include "wx/gtk/colordlg.h"
+    #include "wxWidgets3/include/wx/gtk/colordlg.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/colordlg.h"
+    #include "wxWidgets3/include/wx/qt/colordlg.h"
 #else
-    #include "wx/generic/colrdlgg.h"
+    #include "wxWidgets3/include/wx/generic/colrdlgg.h"
 
     #define wxColourDialog wxGenericColourDialog
 #endif

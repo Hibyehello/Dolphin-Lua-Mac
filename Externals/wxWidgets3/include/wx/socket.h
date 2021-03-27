@@ -11,7 +11,7 @@
 #ifndef _WX_SOCKET_H_
 #define _WX_SOCKET_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SOCKETS
 
@@ -19,9 +19,9 @@
 // wxSocket headers
 // ---------------------------------------------------------------------------
 
-#include "wx/event.h"
-#include "wx/sckaddr.h"
-#include "wx/list.h"
+#include "wxWidgets3/include/wx/event.h"
+#include "wxWidgets3/include/wx/sckaddr.h"
+#include "wxWidgets3/include/wx/list.h"
 
 class wxSocketImpl;
 

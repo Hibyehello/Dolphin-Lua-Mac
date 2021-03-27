@@ -11,7 +11,7 @@
 #ifndef _WX_PALETTE_H_
 #define _WX_PALETTE_H_
 
-#include "wx/gdiobj.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
 
 #define M_PALETTEDATA ((wxPaletteRefData *)m_refData)
 

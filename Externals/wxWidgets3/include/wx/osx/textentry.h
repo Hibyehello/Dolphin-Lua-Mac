@@ -22,7 +22,7 @@
     #define wxMAC_TEXTCONTROL_USE_SPELL_CHECKER wxT("mac.textcontrol-use-spell-checker")
 #endif
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 // forward decl for wxListWidgetImpl implementation type.
 class WXDLLIMPEXP_FWD_CORE wxTextWidgetImpl;

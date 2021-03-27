@@ -11,15 +11,15 @@
 #ifndef _WX_URL_H
 #define _WX_URL_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_URL
 
-#include "wx/uri.h"
-#include "wx/protocol/protocol.h"
+#include "wxWidgets3/include/wx/uri.h"
+#include "wxWidgets3/include/wx/protocol/protocol.h"
 
 #if wxUSE_PROTOCOL_HTTP
-  #include "wx/protocol/http.h"
+  #include "wxWidgets3/include/wx/protocol/http.h"
 #endif
 
 enum wxURLError {

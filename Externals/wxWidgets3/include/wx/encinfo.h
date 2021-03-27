@@ -11,7 +11,7 @@
 #ifndef _WX_ENCINFO_H_
 #define _WX_ENCINFO_H_
 
-#include "wx/string.h"
+#include "wxWidgets3/include/wx/string.h"
 
 // ----------------------------------------------------------------------------
 // wxNativeEncodingInfo contains all encoding parameters for this platform

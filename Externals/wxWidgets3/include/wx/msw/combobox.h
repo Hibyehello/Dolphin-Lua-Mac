@@ -11,8 +11,8 @@
 #ifndef _WX_COMBOBOX_H_
 #define _WX_COMBOBOX_H_
 
-#include "wx/choice.h"
-#include "wx/textentry.h"
+#include "wxWidgets3/include/wx/choice.h"
+#include "wxWidgets3/include/wx/textentry.h"
 
 #if wxUSE_COMBOBOX
 

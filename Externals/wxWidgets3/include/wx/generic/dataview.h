@@ -10,13 +10,13 @@
 #ifndef __GENERICDATAVIEWCTRLH__
 #define __GENERICDATAVIEWCTRLH__
 
-#include "wx/defs.h"
-#include "wx/object.h"
-#include "wx/list.h"
-#include "wx/control.h"
-#include "wx/scrolwin.h"
-#include "wx/icon.h"
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/scrolwin.h"
+#include "wxWidgets3/include/wx/icon.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 class WXDLLIMPEXP_FWD_ADV wxDataViewMainWindow;
 class WXDLLIMPEXP_FWD_ADV wxDataViewHeaderWindow;

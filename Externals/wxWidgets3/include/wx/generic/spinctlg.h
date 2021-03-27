@@ -21,7 +21,7 @@
 
 #if wxUSE_SPINBTN
 
-#include "wx/compositewin.h"
+#include "wxWidgets3/include/wx/compositewin.h"
 
 class WXDLLIMPEXP_FWD_CORE wxSpinButton;
 class WXDLLIMPEXP_FWD_CORE wxTextCtrl;
@@ -178,7 +178,7 @@ private:
 // wxSpinCtrl is just a text control
 // ----------------------------------------------------------------------------
 
-#include "wx/textctrl.h"
+#include "wxWidgets3/include/wx/textctrl.h"
 
 class WXDLLIMPEXP_CORE wxSpinCtrlGenericBase : public wxTextCtrl
 {

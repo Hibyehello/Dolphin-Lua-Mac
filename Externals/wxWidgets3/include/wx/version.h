@@ -13,7 +13,7 @@
 #ifndef _WX_VERSION_H_
 #define _WX_VERSION_H_
 
-#include "wx/cpp.h"    /* for wxSTRINGIZE */
+#include "wxWidgets3/include/wx/cpp.h"    /* for wxSTRINGIZE */
 
 /*  the constants below must be changed with each new version */
 /*  ---------------------------------------------------------------------------- */

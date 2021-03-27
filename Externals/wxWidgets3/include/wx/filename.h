@@ -11,12 +11,12 @@
 #ifndef   _WX_FILENAME_H_
 #define   _WX_FILENAME_H_
 
-#include "wx/arrstr.h"
-#include "wx/filefn.h"
-#include "wx/datetime.h"
-#include "wx/intl.h"
-#include "wx/longlong.h"
-#include "wx/file.h"
+#include "wxWidgets3/include/wx/arrstr.h"
+#include "wxWidgets3/include/wx/filefn.h"
+#include "wxWidgets3/include/wx/datetime.h"
+#include "wxWidgets3/include/wx/intl.h"
+#include "wxWidgets3/include/wx/longlong.h"
+#include "wxWidgets3/include/wx/file.h"
 
 #if wxUSE_FILE
 class WXDLLIMPEXP_FWD_BASE wxFile;

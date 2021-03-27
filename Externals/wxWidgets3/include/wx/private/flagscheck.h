@@ -10,12 +10,12 @@
 #ifndef _WX_PRIVATE_FLAGSCHECK_H_
 #define _WX_PRIVATE_FLAGSCHECK_H_
 
-#include "wx/debug.h"
+#include "wxWidgets3/include/wx/debug.h"
 
 // IBM xlC 8 can't parse the template syntax
 #if !defined(__IBMCPP__)
 
-#include "wx/meta/if.h"
+#include "wxWidgets3/include/wx/meta/if.h"
 
 namespace wxPrivate
 {

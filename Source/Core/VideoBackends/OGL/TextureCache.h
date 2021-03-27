@@ -5,63 +5,98 @@
 #pragma once
 
 #include <map>
+#include <utility>
 
+#include "Common/CommonTypes.h"
 #include "Common/GL/GLUtil.h"
+#include "VideoBackends/OGL/ProgramShaderCache.h"
 
-#include "VideoCommon/BPStructs.h"
 #include "VideoCommon/TextureCacheBase.h"
+#include "VideoCommon/TextureConversionShader.h"
+#include "VideoCommon/TextureConverterShaderGen.h"
 #include "VideoCommon/VideoCommon.h"
+
+class AbstractTexture;
+class StreamBuffer;
+struct TextureConfig;
 
 namespace OGL
 {
-
 class TextureCache : public TextureCacheBase
 {
 public:
-	TextureCache();
-	~TextureCache();
+  TextureCache();
+  ~TextureCache();
 
-	static void DisableStage(unsigned int stage);
-	static void SetStage();
+  static TextureCache* GetInstance();
+
+  bool SupportsGPUTextureDecode(TextureFormat format, TLUTFormat palette_format) override;
+  void DecodeTextureOnGPU(TCacheEntry* entry, u32 dst_level, const u8* data, size_t data_size,
+                          TextureFormat format, u32 width, u32 height, u32 aligned_width,
+                          u32 aligned_height, u32 row_stride, const u8* palette,
+                          TLUTFormat palette_format) override;
+
+  const SHADER& GetColorCopyProgram() const;
+  GLuint GetColorCopyPositionUniform() const;
 
 private:
-	struct TCacheEntry : TCacheEntryBase
-	{
-		GLuint texture;
-		GLuint framebuffer;
+  struct PaletteShader
+  {
+    SHADER shader;
+    GLuint buffer_offset_uniform;
+    GLuint multiplier_uniform;
+    GLuint copy_position_uniform;
+  };
 
-		//TexMode0 mode; // current filter and clamp modes that texture is set to
-		//TexMode1 mode1; // current filter and clamp modes that texture is set to
+  struct TextureDecodingProgramInfo
+  {
+    const TextureConversionShaderTiled::DecodingShaderInfo* base_info = nullptr;
+    SHADER program;
+    GLint uniform_dst_size = -1;
+    GLint uniform_src_size = -1;
+    GLint uniform_src_row_stride = -1;
+    GLint uniform_src_offset = -1;
+    GLint uniform_palette_offset = -1;
+    bool valid = false;
+  };
 
-		TCacheEntry(const TCacheEntryConfig& config);
-		~TCacheEntry();
+  void ConvertTexture(TCacheEntry* destination, TCacheEntry* source, const void* palette,
+                      TLUTFormat format) override;
 
-		void CopyRectangleFromTexture(
-			const TCacheEntryBase* source,
-			const MathUtil::Rectangle<int> &srcrect,
-			const MathUtil::Rectangle<int> &dstrect) override;
+  void CopyEFB(u8* dst, const EFBCopyParams& params, u32 native_width, u32 bytes_per_row,
+               u32 num_blocks_y, u32 memory_stride, const EFBRectangle& src_rect,
+               bool scale_by_half) override;
 
-		void Load(unsigned int width, unsigned int height,
-			unsigned int expanded_width, unsigned int level) override;
+  void CopyEFBToCacheEntry(TCacheEntry* entry, bool is_depth_copy, const EFBRectangle& src_rect,
+                           bool scale_by_half, EFBCopyFormat dst_format,
+                           bool is_intensity) override;
 
-		void FromRenderTarget(u8 *dst, PEControl::PixelFormat srcFormat, const EFBRectangle& srcRect,
-			bool scaleByHalf, unsigned int cbufid, const float *colmat) override;
+  bool CompileShaders() override;
+  void DeleteShaders() override;
 
-		void Bind(unsigned int stage) override;
-		bool Save(const std::string& filename, unsigned int level) override;
-	};
+  bool CompilePaletteShader(TLUTFormat tlutfmt, const std::string& vcode, const std::string& pcode,
+                            const std::string& gcode);
 
-	TCacheEntryBase* CreateTexture(const TCacheEntryConfig& config) override;
-	void ConvertTexture(TCacheEntryBase* entry, TCacheEntryBase* unconverted, void* palette, TlutFormat format) override;
+  void CreateTextureDecodingResources();
+  void DestroyTextureDecodingResources();
 
-	void CopyEFB(u8* dst, u32 format, u32 native_width, u32 bytes_per_row, u32 num_blocks_y, u32 memory_stride,
-		PEControl::PixelFormat srcFormat, const EFBRectangle& srcRect,
-		bool isIntensity, bool scaleByHalf) override;
+  struct EFBCopyShader
+  {
+    SHADER shader;
+    GLuint position_uniform;
+  };
 
-	void CompileShaders() override;
-	void DeleteShaders() override;
+  std::map<TextureConversionShaderGen::TCShaderUid, EFBCopyShader> m_efb_copy_programs;
+
+  SHADER m_colorCopyProgram;
+  GLuint m_colorCopyPositionUniform;
+
+  std::array<PaletteShader, 3> m_palette_shaders;
+  std::unique_ptr<StreamBuffer> m_palette_stream_buffer;
+  GLuint m_palette_resolv_texture = 0;
+
+  std::map<std::pair<u32, u32>, TextureDecodingProgramInfo> m_texture_decoding_program_info;
+  std::array<GLuint, TextureConversionShaderTiled::BUFFER_FORMAT_COUNT>
+      m_texture_decoding_buffer_views;
 };
-
-bool SaveTexture(const std::string& filename, u32 textarget, u32 tex, int virtual_width, int virtual_height, unsigned int level);
-
 }

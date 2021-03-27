@@ -27,11 +27,11 @@
 class WXDLLIMPEXP_FWD_CORE wxDC;
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 
-#include "wx/gdicmn.h" // for wxPoint, wxSize
-#include "wx/colour.h"
-#include "wx/font.h"
-#include "wx/bitmap.h"
-#include "wx/string.h"
+#include "wxWidgets3/include/wx/gdicmn.h" // for wxPoint, wxSize
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/font.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/string.h"
 
 // some platforms have their own renderers, others use the generic one
 #if defined(__WXMSW__) || ( defined(__WXMAC__) && wxOSX_USE_COCOA_OR_CARBON ) || defined(__WXGTK__)

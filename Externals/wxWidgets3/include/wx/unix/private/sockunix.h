@@ -21,7 +21,7 @@
     #include <sys/filio.h>
 #endif
 
-#include "wx/private/fdiomanager.h"
+#include "wxWidgets3/include/wx/private/fdiomanager.h"
 
 class wxSocketImplUnix : public wxSocketImpl,
                          public wxFDIOHandler

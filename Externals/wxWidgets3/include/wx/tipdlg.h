@@ -15,11 +15,11 @@
 // headers which we must include here
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_STARTUP_TIPS
 
-#include "wx/textfile.h"
+#include "wxWidgets3/include/wx/textfile.h"
 
 // ----------------------------------------------------------------------------
 // wxTipProvider - a class which is used by wxTipDialog to get the text of the

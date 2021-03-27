@@ -15,11 +15,11 @@
 #define wxUSE_UNIV_TEXTCTRL 1
 
 #if wxUSE_UNIV_TEXTCTRL
-#include "wx/univ/textctrl.h"
+#include "wxWidgets3/include/wx/univ/textctrl.h"
 #else
 
-#include "wx/scrolwin.h"
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/scrolwin.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 //-----------------------------------------------------------------------------
 // classes

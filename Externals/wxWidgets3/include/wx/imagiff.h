@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGE_IFF_H_
 #define _WX_IMAGE_IFF_H_
 
-#include "wx/image.h"
+#include "wxWidgets3/include/wx/image.h"
 
 //-----------------------------------------------------------------------------
 // wxIFFHandler

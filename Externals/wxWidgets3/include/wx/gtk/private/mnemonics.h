@@ -12,7 +12,7 @@
 
 #if wxUSE_CONTROLS || wxUSE_MENUS
 
-#include "wx/string.h"
+#include "wxWidgets3/include/wx/string.h"
 
 // ----------------------------------------------------------------------------
 // functions to convert between wxWidgets and GTK+ string containing mnemonics

@@ -11,17 +11,17 @@
 #ifndef _WX_GRAPHICS_H_
 #define _WX_GRAPHICS_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_GRAPHICS_CONTEXT
 
-#include "wx/affinematrix2d.h"
-#include "wx/geometry.h"
-#include "wx/colour.h"
-#include "wx/dynarray.h"
-#include "wx/font.h"
-#include "wx/image.h"
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/affinematrix2d.h"
+#include "wxWidgets3/include/wx/geometry.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/dynarray.h"
+#include "wxWidgets3/include/wx/font.h"
+#include "wxWidgets3/include/wx/image.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 enum wxAntialiasMode
 {

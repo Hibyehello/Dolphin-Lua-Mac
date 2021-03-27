@@ -9,7 +9,7 @@
 #ifndef __GTKSTATICBITMAPH__
 #define __GTKSTATICBITMAPH__
 
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/icon.h"
 
 //-----------------------------------------------------------------------------
 // wxStaticBitmap

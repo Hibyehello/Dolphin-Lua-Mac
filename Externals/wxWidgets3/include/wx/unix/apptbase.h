@@ -11,8 +11,8 @@
 #ifndef _WX_UNIX_APPTBASE_H_
 #define _WX_UNIX_APPTBASE_H_
 
-#include "wx/evtloop.h"
-#include "wx/evtloopsrc.h"
+#include "wxWidgets3/include/wx/evtloop.h"
+#include "wxWidgets3/include/wx/evtloopsrc.h"
 
 class wxExecuteData;
 class wxFDIOManager;

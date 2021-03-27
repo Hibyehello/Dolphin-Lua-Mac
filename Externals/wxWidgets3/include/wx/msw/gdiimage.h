@@ -15,9 +15,9 @@
 #ifndef _WX_MSW_GDIIMAGE_H_
 #define _WX_MSW_GDIIMAGE_H_
 
-#include "wx/gdiobj.h"          // base class
-#include "wx/gdicmn.h"          // wxBITMAP_TYPE_INVALID
-#include "wx/list.h"
+#include "wxWidgets3/include/wx/gdiobj.h"          // base class
+#include "wxWidgets3/include/wx/gdicmn.h"          // wxBITMAP_TYPE_INVALID
+#include "wxWidgets3/include/wx/list.h"
 
 class WXDLLIMPEXP_FWD_CORE wxGDIImageRefData;
 class WXDLLIMPEXP_FWD_CORE wxGDIImageHandler;

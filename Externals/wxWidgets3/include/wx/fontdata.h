@@ -8,9 +8,9 @@
 #ifndef _WX_FONTDATA_H_
 #define _WX_FONTDATA_H_
 
-#include "wx/font.h"
-#include "wx/colour.h"
-#include "wx/encinfo.h"
+#include "wxWidgets3/include/wx/font.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/encinfo.h"
 
 class WXDLLIMPEXP_CORE wxFontData : public wxObject
 {

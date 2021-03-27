@@ -11,7 +11,7 @@
 #ifndef _WX_SPLITTER_H_BASE_
 #define _WX_SPLITTER_H_BASE_
 
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/event.h"
 
 // ----------------------------------------------------------------------------
 // wxSplitterWindow flags
@@ -35,6 +35,6 @@ wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_SPLITTER_SASH_POS_CHANGING, wx
 wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_SPLITTER_DOUBLECLICKED, wxSplitterEvent );
 wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_SPLITTER_UNSPLIT, wxSplitterEvent );
 
-#include "wx/generic/splitter.h"
+#include "wxWidgets3/include/wx/generic/splitter.h"
 
 #endif // _WX_SPLITTER_H_BASE_

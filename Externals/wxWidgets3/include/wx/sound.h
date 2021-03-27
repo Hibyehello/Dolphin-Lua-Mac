@@ -11,11 +11,11 @@
 #ifndef _WX_SOUND_H_BASE_
 #define _WX_SOUND_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SOUND
 
-#include "wx/object.h"
+#include "wxWidgets3/include/wx/object.h"
 
 // ----------------------------------------------------------------------------
 // wxSoundBase: common wxSound code and interface
@@ -55,11 +55,11 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WINDOWS__)
-    #include "wx/msw/sound.h"
+    #include "wxWidgets3/include/wx/msw/sound.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/sound.h"
+    #include "wxWidgets3/include/wx/osx/sound.h"
 #elif defined(__UNIX__)
-    #include "wx/unix/sound.h"
+    #include "wxWidgets3/include/wx/unix/sound.h"
 #endif
 
 // ----------------------------------------------------------------------------

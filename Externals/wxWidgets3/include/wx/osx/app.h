@@ -11,10 +11,10 @@
 #ifndef _WX_APP_H_
 #define _WX_APP_H_
 
-#include "wx/defs.h"
-#include "wx/object.h"
-#include "wx/gdicmn.h"
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wxWidgets3/include/wx/event.h"
 
 class WXDLLIMPEXP_FWD_CORE wxFrame;
 class WXDLLIMPEXP_FWD_CORE wxWindowMac;

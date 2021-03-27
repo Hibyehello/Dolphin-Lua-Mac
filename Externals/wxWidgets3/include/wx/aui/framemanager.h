@@ -15,16 +15,16 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_AUI
 
-#include "wx/dynarray.h"
-#include "wx/gdicmn.h"
-#include "wx/window.h"
-#include "wx/timer.h"
-#include "wx/sizer.h"
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/dynarray.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wxWidgets3/include/wx/window.h"
+#include "wxWidgets3/include/wx/timer.h"
+#include "wxWidgets3/include/wx/sizer.h"
+#include "wxWidgets3/include/wx/bitmap.h"
 
 enum wxAuiManagerDock
 {

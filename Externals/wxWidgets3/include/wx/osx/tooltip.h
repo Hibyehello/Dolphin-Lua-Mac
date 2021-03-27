@@ -11,8 +11,8 @@
 #ifndef _WX_MAC_TOOLTIP_H_
 #define _WX_MAC_TOOLTIP_H_
 
-#include "wx/string.h"
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/event.h"
 
 class WXDLLIMPEXP_CORE wxToolTip : public wxObject
 {

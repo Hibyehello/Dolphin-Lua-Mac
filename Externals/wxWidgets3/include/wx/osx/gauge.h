@@ -11,7 +11,7 @@
 #ifndef _WX_GAUGE_H_
 #define _WX_GAUGE_H_
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 // Group box
 class WXDLLIMPEXP_CORE wxGauge: public wxGaugeBase

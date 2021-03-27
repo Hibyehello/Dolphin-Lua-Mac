@@ -13,7 +13,7 @@
  */
 
 #if defined(__WINDOWS__)
-    #include "wx/msw/winundef.h"
+    #include "wxWidgets3/include/wx/msw/winundef.h"
 #endif
 
 // undo what we did in wx/beforestd.h

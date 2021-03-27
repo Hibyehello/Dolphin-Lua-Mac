@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -12,12 +12,12 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A4C423AA-F57C-46C7-A172-D1A777017D29}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
@@ -45,6 +45,7 @@
     <ClCompile Include="SWmain.cpp" />
     <ClCompile Include="SWOGLWindow.cpp" />
     <ClCompile Include="SWRenderer.cpp" />
+    <ClCompile Include="SWTexture.cpp" />
     <ClCompile Include="SWVertexLoader.cpp" />
     <ClCompile Include="Tev.cpp" />
     <ClCompile Include="TextureEncoder.cpp" />
@@ -53,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clipper.h" />
+    <ClInclude Include="CopyRegion.h" />
     <ClInclude Include="DebugUtil.h" />
     <ClInclude Include="EfbCopy.h" />
     <ClInclude Include="EfbInterface.h" />
@@ -61,8 +63,10 @@
     <ClInclude Include="SetupUnit.h" />
     <ClInclude Include="SWOGLWindow.h" />
     <ClInclude Include="SWRenderer.h" />
+    <ClInclude Include="SWTexture.h" />
     <ClInclude Include="SWVertexLoader.h" />
     <ClInclude Include="Tev.h" />
+    <ClInclude Include="TextureCache.h" />
     <ClInclude Include="TextureEncoder.h" />
     <ClInclude Include="TextureSampler.h" />
     <ClInclude Include="TransformUnit.h" />

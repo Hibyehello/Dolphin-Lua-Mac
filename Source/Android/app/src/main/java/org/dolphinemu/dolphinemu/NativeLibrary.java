@@ -6,12 +6,19 @@
 
 package org.dolphinemu.dolphinemu;
 
-
+import android.app.AlertDialog;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.content.res.AssetManager;
 import android.view.Surface;
 import android.widget.Toast;
 
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.utils.Log;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Class which contains methods that interact
@@ -19,7 +26,7 @@ import org.dolphinemu.dolphinemu.utils.Log;
  */
 public final class NativeLibrary
 {
-	public static EmulationActivity sEmulationActivity;
+	public static WeakReference<EmulationActivity> sEmulationActivity = new WeakReference<>(null);
 
 	/**
 	 * Button type for use in onTouchEvent
@@ -57,7 +64,7 @@ public final class NativeLibrary
 		public static final int WIIMOTE_BUTTON_2             = 106;
 		public static final int WIIMOTE_UP                   = 107;
 		public static final int WIIMOTE_DOWN                 = 108;
-		public static final int WIIMOTE_LEFT                 = 119;
+		public static final int WIIMOTE_LEFT                 = 109;
 		public static final int WIIMOTE_RIGHT                = 110;
 		public static final int WIIMOTE_IR                   = 111;
 		public static final int WIIMOTE_IR_UP                = 112;
@@ -118,7 +125,7 @@ public final class NativeLibrary
 		public static final int CLASSIC_DPAD_UP              = 309;
 		public static final int CLASSIC_DPAD_DOWN            = 310;
 		public static final int CLASSIC_DPAD_LEFT            = 311;
-		public static final int CLASSIC_DPADON_RIGHT         = 312;
+		public static final int CLASSIC_DPAD_RIGHT           = 312;
 		public static final int CLASSIC_STICK_LEFT           = 313;
 		public static final int CLASSIC_STICK_LEFT_UP        = 314;
 		public static final int CLASSIC_STICK_LEFT_DOWN      = 315;
@@ -207,7 +214,7 @@ public final class NativeLibrary
 
 	/**
 	 * Handles button press events for a gamepad.
-	 * 
+	 *
 	 * @param Device The input descriptor of the gamepad.
 	 * @param Button Key code identifying which button was pressed.
 	 * @param Action Mask identifying which action is happening (button pressed down, or button released).
@@ -218,28 +225,34 @@ public final class NativeLibrary
 
 	/**
 	 * Handles gamepad movement events.
-	 * 
+	 *
 	 * @param Device The device ID of the gamepad.
 	 * @param Axis   The axis ID
 	 * @param Value  The value of the axis represented by the given ID.
 	 */
 	public static native void onGamePadMoveEvent(String Device, int Axis, float Value);
 
+	public static native String GetUserSetting(String gameID, String Section, String Key);
+
+	public static native void SetUserSetting(String gameID, String Section, String Key, String Value);
+
+	public static native void InitGameIni(String gameID);
+
 	/**
 	 * Gets a value from a key in the given ini-based config file.
-	 * 
+	 *
 	 * @param configFile The ini-based config file to get the value from.
 	 * @param Section    The section key that the actual key is in.
 	 * @param Key        The key to get the value from.
 	 * @param Default    The value to return in the event the given key doesn't exist.
-	 * 
+	 *
 	 * @return the value stored at the key, or a default value if it doesn't exist.
 	 */
 	public static native String GetConfig(String configFile, String Section, String Key, String Default);
 
 	/**
 	 * Sets a value to a key in the given ini config file.
-	 * 
+	 *
 	 * @param configFile The ini-based config file to add the value to.
 	 * @param Section    The section key for the ini key
 	 * @param Key        The actual ini key to set.
@@ -248,26 +261,19 @@ public final class NativeLibrary
 	public static native void SetConfig(String configFile, String Section, String Key, String Value);
 
 	/**
-	 * Sets the filename to be run during emulation.
-	 * 
-	 * @param filename The filename to be run during emulation.
-	 */
-	public static native void SetFilename(String filename);
-
-	/**
 	 * Gets the embedded banner within the given ISO/ROM.
-	 * 
+	 *
 	 * @param filename the file path to the ISO/ROM.
-	 * 
+	 *
 	 * @return an integer array containing the color data for the banner.
 	 */
 	public static native int[] GetBanner(String filename);
 
 	/**
 	 * Gets the embedded title of the given ISO/ROM.
-	 * 
+	 *
 	 * @param filename The file path to the ISO/ROM.
-	 * 
+	 *
 	 * @return the embedded title of the ISO/ROM.
 	 */
 	public static native String GetTitle(String filename);
@@ -284,21 +290,15 @@ public final class NativeLibrary
 
 	/**
 	 * Gets the Dolphin version string.
-	 * 
+	 *
 	 * @return the Dolphin version string.
 	 */
 	public static native String GetVersionString();
 
-	/**
-	 * Returns if the phone supports NEON or not
-	 *
-	 * @return true if it supports NEON, false otherwise.
-	 */
-	public static native boolean SupportsNEON();
+	public static native String GetGitRevision();
 
 	/**
 	 * Saves a screen capture of the game
-	 *
 	 */
 	public static native void SaveScreenShot();
 
@@ -306,8 +306,19 @@ public final class NativeLibrary
 	 * Saves a game state to the slot number.
 	 *
 	 * @param slot  The slot location to save state to.
+	 * @param wait  If false, returns as early as possible.
+	 *              If true, returns once the savestate has been written to disk.
 	 */
-	public static native void SaveState(int slot);
+	public static native void SaveState(int slot, boolean wait);
+
+	/**
+	 * Saves a game state to the specified path.
+	 *
+	 * @param path  The path to save state to.
+	 * @param wait  If false, returns as early as possible.
+	 *              If true, returns once the savestate has been written to disk.
+	 */
+	public static native void SaveStateAs(String path, boolean wait);
 
 	/**
 	 * Loads a game state from the slot number.
@@ -317,9 +328,11 @@ public final class NativeLibrary
 	public static native void LoadState(int slot);
 
 	/**
-	 * Creates the initial folder structure in /sdcard/dolphin-emu/
+	 * Loads a game state from the specified path.
+	 *
+	 * @param path  The path to load state from.
 	 */
-	public static native void CreateUserFolders();
+	public static native void LoadStateAs(String path);
 
 	/**
 	 * Sets the current working user directory
@@ -332,10 +345,19 @@ public final class NativeLibrary
 	 */
 	public static native String GetUserDirectory();
 
+	public static native int DefaultCPUCore();
+
 	/**
 	 * Begins emulation.
 	 */
-	public static native void Run();
+	public static native void Run(String path);
+
+	/**
+	 * Begins emulation from the specified savestate.
+	 */
+	public static native void Run(String path, String savestatePath, boolean deleteSavestate);
+
+	public static native void ChangeDisc(String path);
 
 	// Surface Handling
 	public static native void SurfaceChanged(Surface surf);
@@ -350,6 +372,9 @@ public final class NativeLibrary
 	/** Stops emulation. */
 	public static native void StopEmulation();
 
+	/** Returns true if emulation is running (or is paused). */
+	public static native boolean IsRunning();
+
 	/**
 	 * Enables or disables CPU block profiling
 	 * @param enable
@@ -360,21 +385,6 @@ public final class NativeLibrary
 	 * Writes out the block profile results
 	 */
 	public static native void WriteProfileResults();
-
-	/**
-	 * @return If we have an alert
-	 */
-	public static native boolean HasAlertMsg();
-
-	/**
-	 * @return The alert string
-	 */
-	public static native String GetAlertMsg();
-
-	/**
-	 * Clears event in the JNI so we can continue onward
-	 */
-	public static native void ClearAlertMsg();
 
 	/** Native EGL functions not exposed by Java bindings **/
 	public static native void eglBindAPI(int api);
@@ -405,28 +415,93 @@ public final class NativeLibrary
 		CacheClassesAndMethods();
 	}
 
-	public static void displayAlertMsg(final String alert)
+	private static boolean alertResult = false;
+	public static boolean displayAlertMsg(final String caption, final String text, final boolean yesNo)
 	{
-		Log.error("[NativeLibrary] Alert: " + alert);
-		sEmulationActivity.runOnUiThread(new Runnable()
+		Log.error("[NativeLibrary] Alert: " + text);
+		final EmulationActivity emulationActivity = sEmulationActivity.get();
+		boolean result = false;
+		if (emulationActivity == null)
 		{
-			@Override
-			public void run()
-			{
-				Toast.makeText(sEmulationActivity, "Panic Alert: " + alert, Toast.LENGTH_LONG).show();
-			}
-		});
-	}
+			Log.warning("[NativeLibrary] EmulationActivity is null, can't do panic alert.");
+		}
+		else
+		{
+			// Create object used for waiting.
+			final Object lock = new Object();
+			AlertDialog.Builder builder = new AlertDialog.Builder(emulationActivity)
+				.setTitle(caption)
+				.setMessage(text);
 
-	public static void endEmulationActivity()
-	{
-		Log.verbose("[NativeLibrary]Ending EmulationActivity.");
-		sEmulationActivity.exitWithAnimation();
+			// If not yes/no dialog just have one button that dismisses modal,
+			// otherwise have a yes and no button that sets alertResult accordingly.
+			if (!yesNo)
+			{
+				builder
+					.setCancelable(false)
+					.setPositiveButton("OK", (dialog, whichButton) ->
+					{
+						dialog.dismiss();
+						synchronized (lock)
+						{
+							lock.notify();
+						}
+					});
+			}
+			else
+			{
+				alertResult = false;
+
+				builder
+					.setPositiveButton("Yes", (dialog, whichButton) ->
+					{
+						alertResult = true;
+						dialog.dismiss();
+						synchronized (lock)
+						{
+							lock.notify();
+						}
+					})
+					.setNegativeButton("No", (dialog, whichButton) ->
+					{
+						alertResult = false;
+						dialog.dismiss();
+						synchronized (lock)
+						{
+							lock.notify();
+						}
+					});
+			}
+
+			// Show the AlertDialog on the main thread.
+			emulationActivity.runOnUiThread(() -> builder.show());
+
+			// Wait for the lock to notify that it is complete.
+			synchronized (lock)
+			{
+				try
+				{
+					lock.wait();
+				}
+				catch (Exception e) { }
+			}
+
+			if (yesNo)
+				result = alertResult;
+		}
+		return result;
 	}
 
 	public static void setEmulationActivity(EmulationActivity emulationActivity)
 	{
-		Log.verbose("[NativeLibrary]Registering EmulationActivity.");
-		sEmulationActivity = emulationActivity;
+		Log.verbose("[NativeLibrary] Registering EmulationActivity.");
+		sEmulationActivity = new WeakReference<>(emulationActivity);
+	}
+
+	public static void clearEmulationActivity()
+	{
+		Log.verbose("[NativeLibrary] Unregistering EmulationActivity.");
+
+		sEmulationActivity.clear();
 	}
 }

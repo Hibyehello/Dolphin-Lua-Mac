@@ -13,12 +13,12 @@
 #ifndef _WX_PRIVATE_H_
 #define _WX_PRIVATE_H_
 
-#include "wx/msw/wrapwin.h"
+#include "wxWidgets3/include/wx/msw/wrapwin.h"
 
-#include "wx/log.h"
+#include "wxWidgets3/include/wx/log.h"
 
 #if wxUSE_GUI
-    #include "wx/window.h"
+    #include "wxWidgets3/include/wx/window.h"
 #endif // wxUSE_GUI
 
 class WXDLLIMPEXP_FWD_CORE wxFont;
@@ -223,8 +223,8 @@ struct WinStruct : public T
 
 #if wxUSE_GUI
 
-#include "wx/gdicmn.h"
-#include "wx/colour.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wxWidgets3/include/wx/colour.h"
 
 // make conversion from wxColour and COLORREF a bit less painful
 inline COLORREF wxColourToRGB(const wxColour& c)

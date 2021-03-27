@@ -9,8 +9,8 @@
 #ifndef _WX_GTK_MINIFRAME_H_
 #define _WX_GTK_MINIFRAME_H_
 
-#include "wx/bitmap.h"
-#include "wx/frame.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/frame.h"
 
 //-----------------------------------------------------------------------------
 // wxMiniFrame

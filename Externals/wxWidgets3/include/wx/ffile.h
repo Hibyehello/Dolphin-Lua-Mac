@@ -11,13 +11,13 @@
 #ifndef   _WX_FFILE_H_
 #define   _WX_FFILE_H_
 
-#include "wx/defs.h"        // for wxUSE_FFILE
+#include "wxWidgets3/include/wx/defs.h"        // for wxUSE_FFILE
 
 #if wxUSE_FFILE
 
-#include  "wx/string.h"
-#include  "wx/filefn.h"
-#include  "wx/convauto.h"
+#include  "wxWidgets3/include/wx/string.h"
+#include  "wxWidgets3/include/wx/filefn.h"
+#include  "wxWidgets3/include/wx/convauto.h"
 
 #include <stdio.h>
 

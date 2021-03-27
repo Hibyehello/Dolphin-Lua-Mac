@@ -10,11 +10,11 @@
 #ifndef _WX_TIMECTRL_H_
 #define _WX_TIMECTRL_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TIMEPICKCTRL
 
-#include "wx/datetimectrl.h"
+#include "wxWidgets3/include/wx/datetimectrl.h"
 
 #define wxTimePickerCtrlNameStr wxS("timectrl")
 
@@ -88,15 +88,15 @@ public:
 };
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wx/msw/timectrl.h"
+    #include "wxWidgets3/include/wx/msw/timectrl.h"
 
     #define wxHAS_NATIVE_TIMEPICKERCTRL
 #elif defined(__WXOSX_COCOA__) && !defined(__WXUNIVERSAL__)
-    #include "wx/osx/timectrl.h"
+    #include "wxWidgets3/include/wx/osx/timectrl.h"
 
     #define wxHAS_NATIVE_TIMEPICKERCTRL
 #else
-    #include "wx/generic/timectrl.h"
+    #include "wxWidgets3/include/wx/generic/timectrl.h"
 
     class WXDLLIMPEXP_ADV wxTimePickerCtrl : public wxTimePickerCtrlGeneric
     {

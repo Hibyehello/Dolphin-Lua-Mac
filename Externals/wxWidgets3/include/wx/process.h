@@ -11,13 +11,13 @@
 #ifndef _WX_PROCESSH__
 #define _WX_PROCESSH__
 
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/event.h"
 
 #if wxUSE_STREAMS
-    #include "wx/stream.h"
+    #include "wxWidgets3/include/wx/stream.h"
 #endif
 
-#include "wx/utils.h"       // for wxSignal
+#include "wxWidgets3/include/wx/utils.h"       // for wxSignal
 
 // the wxProcess creation flags
 enum

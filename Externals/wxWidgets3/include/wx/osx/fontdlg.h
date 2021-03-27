@@ -11,7 +11,7 @@
 #ifndef _WX_FONTDLG_H_
 #define _WX_FONTDLG_H_
 
-#include "wx/dialog.h"
+#include "wxWidgets3/include/wx/dialog.h"
 
 /*
  * Font dialog

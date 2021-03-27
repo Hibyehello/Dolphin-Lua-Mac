@@ -11,13 +11,13 @@
 #ifndef _WX_AUIBAR_H_
 #define _WX_AUIBAR_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_AUI
 
-#include "wx/control.h"
-#include "wx/sizer.h"
-#include "wx/pen.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/sizer.h"
+#include "wxWidgets3/include/wx/pen.h"
 
 class WXDLLIMPEXP_FWD_CORE wxClientDC;
 class WXDLLIMPEXP_FWD_AUI wxAuiPaneInfo;
@@ -752,7 +752,7 @@ typedef void (wxEvtHandler::*wxAuiToolBarEventFunction)(wxAuiToolBarEvent&);
 
 #ifdef __WXMSW__
     #define wxHAS_NATIVE_TOOLBAR_ART
-    #include "wx/aui/barartmsw.h"
+    #include "wxWidgets3/include/wx/aui/barartmsw.h"
     #define wxAuiDefaultToolBarArt wxAuiMSWToolBarArt
 #endif
 

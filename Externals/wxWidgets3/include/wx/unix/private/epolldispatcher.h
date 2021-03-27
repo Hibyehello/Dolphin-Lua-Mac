@@ -10,11 +10,11 @@
 #ifndef _WX_PRIVATE_EPOLLDISPATCHER_H_
 #define _WX_PRIVATE_EPOLLDISPATCHER_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #ifdef wxUSE_EPOLL_DISPATCHER
 
-#include "wx/private/fdiodispatcher.h"
+#include "wxWidgets3/include/wx/private/fdiodispatcher.h"
 
 struct epoll_event;
 

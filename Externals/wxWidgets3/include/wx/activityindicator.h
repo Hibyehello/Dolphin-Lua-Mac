@@ -10,11 +10,11 @@
 #ifndef _WX_ACTIVITYINDICATOR_H_
 #define _WX_ACTIVITYINDICATOR_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_ACTIVITYINDICATOR
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 #define wxActivityIndicatorNameStr wxS("activityindicator")
 
@@ -44,15 +44,15 @@ protected:
 #ifndef __WXUNIVERSAL__
 #if defined(__WXGTK220__)
     #define wxHAS_NATIVE_ACTIVITYINDICATOR
-    #include "wx/gtk/activityindicator.h"
+    #include "wxWidgets3/include/wx/gtk/activityindicator.h"
 #elif defined(__WXOSX_COCOA__)
     #define wxHAS_NATIVE_ACTIVITYINDICATOR
-    #include "wx/osx/activityindicator.h"
+    #include "wxWidgets3/include/wx/osx/activityindicator.h"
 #endif
 #endif // !__WXUNIVERSAL__
 
 #ifndef wxHAS_NATIVE_ACTIVITYINDICATOR
-    #include "wx/generic/activityindicator.h"
+    #include "wxWidgets3/include/wx/generic/activityindicator.h"
 #endif
 
 #endif // wxUSE_ACTIVITYINDICATOR

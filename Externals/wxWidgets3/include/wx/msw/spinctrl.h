@@ -11,11 +11,11 @@
 #ifndef _WX_MSW_SPINCTRL_H_
 #define _WX_MSW_SPINCTRL_H_
 
-#include "wx/spinbutt.h"    // the base class
+#include "wxWidgets3/include/wx/spinbutt.h"    // the base class
 
 #if wxUSE_SPINCTRL
 
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 class WXDLLIMPEXP_FWD_CORE wxSpinCtrl;
 WX_DEFINE_EXPORTED_ARRAY_PTR(wxSpinCtrl *, wxArraySpins);

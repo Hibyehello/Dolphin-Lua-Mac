@@ -10,13 +10,13 @@
 #ifndef _WX_UNIX_EXECUTE_H
 #define _WX_UNIX_EXECUTE_H
 
-#include "wx/app.h"
-#include "wx/hashmap.h"
-#include "wx/process.h"
+#include "wxWidgets3/include/wx/app.h"
+#include "wxWidgets3/include/wx/hashmap.h"
+#include "wxWidgets3/include/wx/process.h"
 
 #if wxUSE_STREAMS
-    #include "wx/unix/pipe.h"
-    #include "wx/private/streamtempinput.h"
+    #include "wxWidgets3/include/wx/unix/pipe.h"
+    #include "wxWidgets3/include/wx/private/streamtempinput.h"
 #endif
 
 class wxEventLoopBase;

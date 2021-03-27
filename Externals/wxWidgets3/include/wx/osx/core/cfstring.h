@@ -14,9 +14,9 @@
 
 #include <CoreFoundation/CFString.h>
 
-#include "wx/dlimpexp.h"
-#include "wx/fontenc.h"
-#include "wx/osx/core/cfref.h"
+#include "wxWidgets3/include/wx/dlimpexp.h"
+#include "wxWidgets3/include/wx/fontenc.h"
+#include "wxWidgets3/include/wx/osx/core/cfref.h"
 
 #ifdef WORDS_BIGENDIAN
     #define kCFStringEncodingUTF32Native kCFStringEncodingUTF32BE

@@ -11,7 +11,7 @@
 #ifndef _WX_STACK_H_
 #define _WX_STACK_H_
 
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 #if wxUSE_STD_CONTAINERS
 

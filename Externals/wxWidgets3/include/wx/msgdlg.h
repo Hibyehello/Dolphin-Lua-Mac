@@ -11,12 +11,12 @@
 #ifndef _WX_MSGDLG_H_BASE_
 #define _WX_MSGDLG_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_MSGDLG
 
-#include "wx/dialog.h"
-#include "wx/stockitem.h"
+#include "wxWidgets3/include/wx/dialog.h"
+#include "wxWidgets3/include/wx/stockitem.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxMessageBoxCaptionStr[];
 
@@ -290,7 +290,7 @@ private:
     wxDECLARE_NO_COPY_CLASS(wxMessageDialogBase);
 };
 
-#include "wx/generic/msgdlgg.h"
+#include "wxWidgets3/include/wx/generic/msgdlgg.h"
 
 #if defined(__WX_COMPILING_MSGDLGG_CPP__) || \
     defined(__WXUNIVERSAL__) || defined(__WXGPE__) || \
@@ -298,15 +298,15 @@ private:
 
     #define wxMessageDialog wxGenericMessageDialog
 #elif defined(__WXMSW__)
-    #include "wx/msw/msgdlg.h"
+    #include "wxWidgets3/include/wx/msw/msgdlg.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/msgdlg.h"
+    #include "wxWidgets3/include/wx/motif/msgdlg.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/msgdlg.h"
+    #include "wxWidgets3/include/wx/gtk/msgdlg.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/msgdlg.h"
+    #include "wxWidgets3/include/wx/osx/msgdlg.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/msgdlg.h"
+    #include "wxWidgets3/include/wx/qt/msgdlg.h"
 #endif
 
 // ----------------------------------------------------------------------------

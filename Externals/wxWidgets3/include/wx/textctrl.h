@@ -15,17 +15,17 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TEXTCTRL
 
-#include "wx/control.h"         // the base class
-#include "wx/textentry.h"       // single-line text entry interface
-#include "wx/dynarray.h"        // wxArrayInt
-#include "wx/gdicmn.h"          // wxPoint
+#include "wxWidgets3/include/wx/control.h"         // the base class
+#include "wxWidgets3/include/wx/textentry.h"       // single-line text entry interface
+#include "wxWidgets3/include/wx/dynarray.h"        // wxArrayInt
+#include "wxWidgets3/include/wx/gdicmn.h"          // wxPoint
 
 #if wxUSE_STD_IOSTREAM
-    #include "wx/ioswrap.h"
+    #include "wxWidgets3/include/wx/ioswrap.h"
     #define wxHAS_TEXT_WINDOW_STREAM 1
 #else
     #define wxHAS_TEXT_WINDOW_STREAM 0
@@ -771,21 +771,21 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXX11__)
-    #include "wx/x11/textctrl.h"
+    #include "wxWidgets3/include/wx/x11/textctrl.h"
 #elif defined(__WXUNIVERSAL__)
-    #include "wx/univ/textctrl.h"
+    #include "wxWidgets3/include/wx/univ/textctrl.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/textctrl.h"
+    #include "wxWidgets3/include/wx/msw/textctrl.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/textctrl.h"
+    #include "wxWidgets3/include/wx/motif/textctrl.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/textctrl.h"
+    #include "wxWidgets3/include/wx/gtk/textctrl.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/textctrl.h"
+    #include "wxWidgets3/include/wx/gtk1/textctrl.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/textctrl.h"
+    #include "wxWidgets3/include/wx/osx/textctrl.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/textctrl.h"
+    #include "wxWidgets3/include/wx/qt/textctrl.h"
 #endif
 
 // ----------------------------------------------------------------------------

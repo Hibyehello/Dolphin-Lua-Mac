@@ -15,10 +15,10 @@
 // NB: User code should include wx/crt.h instead of including this
 //     header directly.
 
-#include "wx/wxcrt.h"
-#include "wx/strvararg.h"
+#include "wxWidgets3/include/wx/wxcrt.h"
+#include "wxWidgets3/include/wx/strvararg.h"
 
-#include "wx/string.h"
+#include "wxWidgets3/include/wx/string.h"
 
 // ----------------------------------------------------------------------------
 // CRT functions aliases

@@ -11,12 +11,12 @@
 #ifndef _WX_DOCMDI_H_
 #define _WX_DOCMDI_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_MDI_ARCHITECTURE
 
-#include "wx/docview.h"
-#include "wx/mdi.h"
+#include "wxWidgets3/include/wx/docview.h"
+#include "wxWidgets3/include/wx/mdi.h"
 
 // Define MDI versions of the doc-view frame classes. Note that we need to
 // define them as classes for wxRTTI, otherwise we could simply define them as

@@ -11,9 +11,9 @@
 #ifndef _WX_FILEDIRPICKER_H_
 #define _WX_FILEDIRPICKER_H_
 
-#include "wx/button.h"
-#include "wx/filedlg.h"
-#include "wx/dirdlg.h"
+#include "wxWidgets3/include/wx/button.h"
+#include "wxWidgets3/include/wx/filedlg.h"
+#include "wxWidgets3/include/wx/dirdlg.h"
 
 
 wxDECLARE_EXPORTED_EVENT( WXDLLIMPEXP_CORE, wxEVT_DIRPICKER_CHANGED, wxFileDirPickerEvent );

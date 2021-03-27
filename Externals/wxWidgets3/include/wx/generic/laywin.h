@@ -15,10 +15,10 @@
 #define _WX_LAYWIN_H_G_
 
 #if wxUSE_SASH
-    #include "wx/sashwin.h"
+    #include "wxWidgets3/include/wx/sashwin.h"
 #endif // wxUSE_SASH
 
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/event.h"
 
 class WXDLLIMPEXP_FWD_ADV wxQueryLayoutInfoEvent;
 class WXDLLIMPEXP_FWD_ADV wxCalculateLayoutEvent;

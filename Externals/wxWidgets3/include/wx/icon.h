@@ -11,7 +11,7 @@
 #ifndef _WX_ICON_H_BASE_
 #define _WX_ICON_H_BASE_
 
-#include "wx/iconloc.h"
+#include "wxWidgets3/include/wx/iconloc.h"
 
 
 // a more readable way to tell
@@ -24,37 +24,37 @@
 
 #if defined(__WXMSW__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICO_RESOURCE
-  #include "wx/msw/icon.h"
+  #include "wxWidgets3/include/wx/msw/icon.h"
 #elif defined(__WXMOTIF__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-  #include "wx/motif/icon.h"
+  #include "wxWidgets3/include/wx/motif/icon.h"
 #elif defined(__WXGTK20__)
   #ifdef __WINDOWS__
     #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICO_RESOURCE
   #else
     #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
   #endif
-  #include "wx/generic/icon.h"
+  #include "wxWidgets3/include/wx/generic/icon.h"
 #elif defined(__WXGTK__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-  #include "wx/generic/icon.h"
+  #include "wxWidgets3/include/wx/generic/icon.h"
 #elif defined(__WXX11__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-  #include "wx/generic/icon.h"
+  #include "wxWidgets3/include/wx/generic/icon.h"
 #elif defined(__WXDFB__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-  #include "wx/generic/icon.h"
+  #include "wxWidgets3/include/wx/generic/icon.h"
 #elif defined(__WXMAC__)
 #if wxOSX_USE_COCOA_OR_CARBON
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICON_RESOURCE
-  #include "wx/osx/icon.h"
+  #include "wxWidgets3/include/wx/osx/icon.h"
 #else
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_PNG_RESOURCE
-  #include "wx/generic/icon.h"
+  #include "wxWidgets3/include/wx/generic/icon.h"
 #endif
 #elif defined(__WXQT__)
   #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-  #include "wx/generic/icon.h"
+  #include "wxWidgets3/include/wx/generic/icon.h"
 #endif
 
 //-----------------------------------------------------------------------------
@@ -62,7 +62,7 @@
 //-----------------------------------------------------------------------------
 
 #if wxUSE_VARIANT
-#include "wx/variant.h"
+#include "wxWidgets3/include/wx/variant.h"
 DECLARE_VARIANT_OBJECT_EXPORTED(wxIcon,WXDLLIMPEXP_CORE)
 #endif
 

@@ -11,12 +11,12 @@
 #ifndef _WX_GENERIC_STATUSBR_H_
 #define _WX_GENERIC_STATUSBR_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_STATUSBAR
 
-#include "wx/pen.h"
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/pen.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 
 // ----------------------------------------------------------------------------

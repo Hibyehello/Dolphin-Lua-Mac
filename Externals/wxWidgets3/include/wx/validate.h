@@ -11,11 +11,11 @@
 #ifndef _WX_VALIDATE_H_
 #define _WX_VALIDATE_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_VALIDATORS
 
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/event.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 class WXDLLIMPEXP_FWD_CORE wxWindowBase;

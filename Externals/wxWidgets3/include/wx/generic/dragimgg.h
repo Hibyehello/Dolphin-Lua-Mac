@@ -12,13 +12,13 @@
 #ifndef _WX_DRAGIMGG_H_
 #define _WX_DRAGIMGG_H_
 
-#include "wx/bitmap.h"
-#include "wx/icon.h"
-#include "wx/cursor.h"
-#include "wx/treectrl.h"
-#include "wx/listctrl.h"
-#include "wx/log.h"
-#include "wx/overlay.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/icon.h"
+#include "wxWidgets3/include/wx/cursor.h"
+#include "wxWidgets3/include/wx/treectrl.h"
+#include "wxWidgets3/include/wx/listctrl.h"
+#include "wxWidgets3/include/wx/log.h"
+#include "wxWidgets3/include/wx/overlay.h"
 
 /*
   To use this class, create a wxDragImage when you start dragging, for example:

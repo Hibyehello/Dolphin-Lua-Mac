@@ -11,7 +11,7 @@
 #ifndef _WX_GTK_FONTPICKER_H_
 #define _WX_GTK_FONTPICKER_H_
 
-#include "wx/button.h"
+#include "wxWidgets3/include/wx/button.h"
 
 //-----------------------------------------------------------------------------
 // wxFontButton

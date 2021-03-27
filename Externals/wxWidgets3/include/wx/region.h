@@ -11,8 +11,8 @@
 #ifndef _WX_REGION_H_BASE_
 #define _WX_REGION_H_BASE_
 
-#include "wx/gdiobj.h"
-#include "wx/gdicmn.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBitmap;
 class WXDLLIMPEXP_FWD_CORE wxColour;
@@ -211,19 +211,19 @@ protected:
 #endif // ports with wxRegion::Combine()
 
 #if defined(__WXMSW__)
-    #include "wx/msw/region.h"
+    #include "wxWidgets3/include/wx/msw/region.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/region.h"
+    #include "wxWidgets3/include/wx/gtk/region.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/region.h"
+    #include "wxWidgets3/include/wx/gtk1/region.h"
 #elif defined(__WXMOTIF__) || defined(__WXX11__)
-    #include "wx/x11/region.h"
+    #include "wxWidgets3/include/wx/x11/region.h"
 #elif defined(__WXDFB__)
-    #include "wx/dfb/region.h"
+    #include "wxWidgets3/include/wx/dfb/region.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/region.h"
+    #include "wxWidgets3/include/wx/osx/region.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/region.h"
+    #include "wxWidgets3/include/wx/qt/region.h"
 #endif
 
 // ----------------------------------------------------------------------------

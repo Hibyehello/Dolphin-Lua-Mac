@@ -37,15 +37,15 @@
  */
 
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_COMBOCTRL
 
-#include "wx/control.h"
-#include "wx/renderer.h" // this is needed for wxCONTROL_XXX flags
-#include "wx/bitmap.h" // wxBitmap used by-value
-#include "wx/textentry.h"
-#include "wx/time.h" // needed for wxMilliClock_t
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/renderer.h" // this is needed for wxCONTROL_XXX flags
+#include "wxWidgets3/include/wx/bitmap.h" // wxBitmap used by-value
+#include "wxWidgets3/include/wx/textentry.h"
+#include "wxWidgets3/include/wx/time.h" // needed for wxMilliClock_t
 
 class WXDLLIMPEXP_FWD_CORE wxTextCtrl;
 class WXDLLIMPEXP_FWD_CORE wxComboPopup;
@@ -871,11 +871,11 @@ private:
 #if defined(__WXUNIVERSAL__)
     // No native universal (but it must still be first in the list)
 #elif defined(__WXMSW__)
-    #include "wx/msw/combo.h"
+    #include "wxWidgets3/include/wx/msw/combo.h"
 #endif
 
 // Any ports may need generic as an alternative
-#include "wx/generic/combo.h"
+#include "wxWidgets3/include/wx/generic/combo.h"
 
 #endif // wxUSE_COMBOCTRL
 

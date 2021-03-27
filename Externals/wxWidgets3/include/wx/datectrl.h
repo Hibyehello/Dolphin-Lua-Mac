@@ -11,11 +11,11 @@
 #ifndef _WX_DATECTRL_H_
 #define _WX_DATECTRL_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DATEPICKCTRL
 
-#include "wx/datetimectrl.h"    // the base class
+#include "wxWidgets3/include/wx/datetimectrl.h"    // the base class
 
 #define wxDatePickerCtrlNameStr wxT("datectrl")
 
@@ -76,15 +76,15 @@ public:
 };
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wx/msw/datectrl.h"
+    #include "wxWidgets3/include/wx/msw/datectrl.h"
 
     #define wxHAS_NATIVE_DATEPICKCTRL
 #elif defined(__WXOSX_COCOA__) && !defined(__WXUNIVERSAL__)
-    #include "wx/osx/datectrl.h"
+    #include "wxWidgets3/include/wx/osx/datectrl.h"
 
     #define wxHAS_NATIVE_DATEPICKCTRL
 #else
-    #include "wx/generic/datectrl.h"
+    #include "wxWidgets3/include/wx/generic/datectrl.h"
 
     class WXDLLIMPEXP_ADV wxDatePickerCtrl : public wxDatePickerCtrlGeneric
     {

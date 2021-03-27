@@ -11,8 +11,8 @@
 #ifndef _WX_DCSVG_H_
 #define _WX_DCSVG_H_
 
-#include "wx/string.h"
-#include "wx/dc.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/dc.h"
 
 #if wxUSE_SVG
 

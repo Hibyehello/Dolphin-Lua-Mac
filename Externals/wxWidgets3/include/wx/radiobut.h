@@ -11,7 +11,7 @@
 #ifndef _WX_RADIOBUT_H_BASE_
 #define _WX_RADIOBUT_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_RADIOBTN
 
@@ -30,24 +30,24 @@
    };
  */
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxRadioButtonNameStr[];
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/radiobut.h"
+    #include "wxWidgets3/include/wx/univ/radiobut.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/radiobut.h"
+    #include "wxWidgets3/include/wx/msw/radiobut.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/radiobut.h"
+    #include "wxWidgets3/include/wx/motif/radiobut.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/radiobut.h"
+    #include "wxWidgets3/include/wx/gtk/radiobut.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/radiobut.h"
+    #include "wxWidgets3/include/wx/gtk1/radiobut.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/radiobut.h"
+    #include "wxWidgets3/include/wx/osx/radiobut.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/radiobut.h"
+    #include "wxWidgets3/include/wx/qt/radiobut.h"
 #endif
 
 #endif // wxUSE_RADIOBTN

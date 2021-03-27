@@ -16,16 +16,16 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_AUI
 
-#include "wx/colour.h"
-#include "wx/gdicmn.h"
-#include "wx/font.h"
-#include "wx/pen.h"
-#include "wx/brush.h"
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wxWidgets3/include/wx/font.h"
+#include "wxWidgets3/include/wx/pen.h"
+#include "wxWidgets3/include/wx/brush.h"
+#include "wxWidgets3/include/wx/bitmap.h"
 
 
 class wxAuiNotebookPage;
@@ -312,11 +312,11 @@ protected:
 #ifndef __WXUNIVERSAL__
     #if defined(__WXGTK20__) && !defined(__WXGTK3__)
         #define wxHAS_NATIVE_TABART
-        #include "wx/aui/tabartgtk.h"
+        #include "wxWidgets3/include/wx/aui/tabartgtk.h"
         #define wxAuiDefaultTabArt wxAuiGtkTabArt
     #elif defined(__WXMSW__)
         #define wxHAS_NATIVE_TABART
-        #include "wx/aui/tabartmsw.h"
+        #include "wxWidgets3/include/wx/aui/tabartmsw.h"
         #define wxAuiDefaultTabArt wxAuiMSWTabArt
     #endif
 #endif // !__WXUNIVERSAL__

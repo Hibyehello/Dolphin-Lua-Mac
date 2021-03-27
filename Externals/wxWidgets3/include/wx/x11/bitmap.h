@@ -11,11 +11,11 @@
 #ifndef _WX_BITMAP_H_
 #define _WX_BITMAP_H_
 
-#include "wx/defs.h"
-#include "wx/object.h"
-#include "wx/string.h"
-#include "wx/palette.h"
-#include "wx/gdiobj.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/palette.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
 
 //-----------------------------------------------------------------------------
 // classes

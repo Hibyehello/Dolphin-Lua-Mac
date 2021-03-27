@@ -10,7 +10,7 @@
 #ifndef _WX_NATIVEWIN_H_
 #define _WX_NATIVEWIN_H_
 
-#include "wx/toplevel.h"
+#include "wxWidgets3/include/wx/toplevel.h"
 
 // These symbols can be tested in the user code to see if the current wx port
 // has support for creating wxNativeContainerWindow and wxNativeWindow from
@@ -32,7 +32,7 @@
 //
 //  - wxNativeWindowHandle for child windows, i.e. HWND/GtkWidget*/NSControl
 #if defined(__WXMSW__)
-    #include "wx/msw/wrapwin.h"
+    #include "wxWidgets3/include/wx/msw/wrapwin.h"
 
     typedef HWND wxNativeContainerWindowId;
     typedef HWND wxNativeContainerWindowHandle;

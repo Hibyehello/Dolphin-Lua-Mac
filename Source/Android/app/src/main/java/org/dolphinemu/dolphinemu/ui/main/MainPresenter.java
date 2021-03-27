@@ -1,16 +1,15 @@
 package org.dolphinemu.dolphinemu.ui.main;
 
 
-import android.database.Cursor;
-
+import org.dolphinemu.dolphinemu.BuildConfig;
 import org.dolphinemu.dolphinemu.DolphinApplication;
-import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.model.GameDatabase;
+import org.dolphinemu.dolphinemu.ui.platform.Platform;
+import org.dolphinemu.dolphinemu.utils.AddDirectoryHelper;
 import org.dolphinemu.dolphinemu.utils.SettingsFile;
 
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public final class MainPresenter
@@ -19,6 +18,7 @@ public final class MainPresenter
 	public static final int REQUEST_EMULATE_GAME = 2;
 
 	private final MainView mView;
+	private String mDirToAdd;
 
 	public MainPresenter(MainView view)
 	{
@@ -27,9 +27,7 @@ public final class MainPresenter
 
 	public void onCreate()
 	{
-		// TODO Rather than calling into native code, this should use the commented line below.
-		// String versionName = BuildConfig.VERSION_NAME;
-		String versionName = NativeLibrary.GetVersionString();
+		String versionName = BuildConfig.VERSION_NAME;
 		mView.setVersionString(versionName);
 	}
 
@@ -72,39 +70,34 @@ public final class MainPresenter
 		return false;
 	}
 
-	public void handleActivityResult(int requestCode, int resultCode)
+	public void addDirIfNeeded(AddDirectoryHelper helper)
 	{
-		switch (requestCode)
+		if (mDirToAdd != null)
 		{
-			case REQUEST_ADD_DIRECTORY:
-				// If the user picked a file, as opposed to just backing out.
-				if (resultCode == MainActivity.RESULT_OK)
-				{
-					mView.refresh();
-				}
-				break;
+			helper.addDirectory(mDirToAdd, mView::refresh);
 
-			case REQUEST_EMULATE_GAME:
-				mView.refreshFragmentScreenshot(resultCode);
-				break;
+			mDirToAdd = null;
 		}
 	}
 
-	public void loadGames(final int platformIndex)
+	public void onDirectorySelected(String dir)
+	{
+		mDirToAdd = dir;
+	}
+
+	public void refreshFragmentScreenshot(int resultCode)
+	{
+		mView.refreshFragmentScreenshot(resultCode);
+	}
+
+
+	public void loadGames(final Platform platform)
 	{
 		GameDatabase databaseHelper = DolphinApplication.databaseHelper;
 
-		databaseHelper.getGamesForPlatform(platformIndex)
+		databaseHelper.getGamesForPlatform(platform)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Action1<Cursor>()
-						   {
-							   @Override
-							   public void call(Cursor games)
-							   {
-								   mView.showGames(platformIndex, games);
-							   }
-						   }
-				);
+				.subscribe(games -> mView.showGames(platform, games));
 	}
 }

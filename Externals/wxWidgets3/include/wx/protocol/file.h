@@ -11,11 +11,11 @@
 #ifndef __WX_PROTO_FILE_H__
 #define __WX_PROTO_FILE_H__
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PROTOCOL_FILE
 
-#include "wx/protocol/protocol.h"
+#include "wxWidgets3/include/wx/protocol/protocol.h"
 
 class WXDLLIMPEXP_NET wxFileProto: public wxProtocol
 {

@@ -34,13 +34,15 @@
 
 #include "DiscIO/FileSystemGCWii.h"
 #include "DiscIO/Volume.h"
-#include "DiscIO/VolumeCreator.h"
+//#include "DiscIO/VolumeCreator.h"
 #include "Core/ConfigManager.h"
 #include "Core/Movie.h"
 #include "Core/LUA/Lua.h"
 
-#include "DolphinWX/ISOFile.h"
-#include "DolphinWX/ISOProperties.h"
+//#include "DolphinWX/ISOFile.h"
+#include "DolphinWX/ISOProperties/FilesystemPanel.h"
+#include "DolphinWX/ISOProperties/InfoPanel.h"
+#include "DolphinWX/ISOProperties/ISOProperties.h"
 #include "DolphinWX/WxUtils.h"
 
 //Dragonbane
@@ -152,7 +154,7 @@ void LuaWindow::Shown()
 	m_choice_script->Clear();
 
 	//Find all Lua files
-	std::vector<std::string> rFilenames = DoFileSearch({".lua"}, {File::GetUserPath(D_USER_IDX) +  "/Scripts" });
+	std::vector<std::string> rFilenames = Common::DoFileSearch({".lua"}, {File::GetUserPath(D_USER_IDX) +  "/Scripts" });
 
 	if (rFilenames.size() > 0)
 	{

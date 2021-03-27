@@ -10,11 +10,11 @@
 #ifndef _WX_AFFINEMATRIX2D_H_
 #define _WX_AFFINEMATRIX2D_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_GEOMETRY
 
-#include "wx/affinematrix2dbase.h"
+#include "wxWidgets3/include/wx/affinematrix2dbase.h"
 
 // A simple implementation of wxAffineMatrix2DBase interface done entirely in
 // wxWidgets.

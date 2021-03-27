@@ -11,7 +11,7 @@
 #ifndef _WX_SELSTORE_H_
 #define _WX_SELSTORE_H_
 
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 // ----------------------------------------------------------------------------
 // wxSelectedIndices is just a sorted array of indices

@@ -14,8 +14,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "wx/log.h"
-#include "wx/intl.h"
+#include "wxWidgets3/include/wx/log.h"
+#include "wxWidgets3/include/wx/intl.h"
 
 // ----------------------------------------------------------------------------
 // wxPipe: this class encapsulates pipe() system call

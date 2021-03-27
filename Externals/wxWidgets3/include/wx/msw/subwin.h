@@ -11,7 +11,7 @@
 #ifndef _WX_MSW_SUBWIN_H_
 #define _WX_MSW_SUBWIN_H_
 
-#include "wx/msw/private.h"
+#include "wxWidgets3/include/wx/msw/private.h"
 
 // ----------------------------------------------------------------------------
 // wxSubwindows contains all HWNDs making part of a single wx control

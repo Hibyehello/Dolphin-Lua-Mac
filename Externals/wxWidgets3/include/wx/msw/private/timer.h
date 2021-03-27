@@ -12,8 +12,8 @@
 
 #if wxUSE_TIMER
 
-#include "wx/private/timer.h"
-#include "wx/msw/wrapwin.h"     // for WPARAM
+#include "wxWidgets3/include/wx/private/timer.h"
+#include "wxWidgets3/include/wx/msw/wrapwin.h"     // for WPARAM
 
 class WXDLLIMPEXP_BASE wxMSWTimerImpl : public wxTimerImpl
 {

@@ -10,8 +10,8 @@
 #ifndef WX_UNIX_PRIVATE_FSWATCHER_INOTIFY_H_
 #define WX_UNIX_PRIVATE_FSWATCHER_INOTIFY_H_
 
-#include "wx/filename.h"
-#include "wx/evtloopsrc.h"
+#include "wxWidgets3/include/wx/filename.h"
+#include "wxWidgets3/include/wx/evtloopsrc.h"
 
 // ============================================================================
 // wxFSWatcherEntry implementation & helper declarations

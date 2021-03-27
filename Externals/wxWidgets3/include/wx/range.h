@@ -11,7 +11,7 @@
 #ifndef _WX_RANGE_H_
 #define _WX_RANGE_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 class wxRange
 {

@@ -11,7 +11,7 @@
 #ifndef _WX_GENERIC_GRIDCTRL_H_
 #define _WX_GENERIC_GRIDCTRL_H_
 
-#include "wx/grid.h"
+#include "wxWidgets3/include/wx/grid.h"
 
 #if wxUSE_GRID
 
@@ -151,7 +151,7 @@ private:
 
 #if wxUSE_DATETIME
 
-#include "wx/datetime.h"
+#include "wxWidgets3/include/wx/datetime.h"
 
 // the default renderer for the cells containing times and dates
 class WXDLLIMPEXP_ADV wxGridCellDateTimeRenderer : public wxGridCellStringRenderer

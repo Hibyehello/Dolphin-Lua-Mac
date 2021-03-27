@@ -11,8 +11,8 @@
 #ifndef _WX_DCSCREEN_H_
 #define _WX_DCSCREEN_H_
 
-#include "wx/dcclient.h"
-#include "wx/osx/dcclient.h"
+#include "wxWidgets3/include/wx/dcclient.h"
+#include "wxWidgets3/include/wx/osx/dcclient.h"
 
 class WXDLLIMPEXP_CORE wxScreenDCImpl: public wxWindowDCImpl
 {

@@ -1241,22 +1241,22 @@
  */
 
 #if defined(__WINDOWS__)
-#  include "wx/msw/chkconf.h"
+#  include "wxWidgets3/include/wx/msw/chkconf.h"
 #  if defined(__WXGTK__)
-#      include "wx/gtk/chkconf.h"
+#      include "wxWidgets3/include/wx/gtk/chkconf.h"
 #  endif
 #elif defined(__WXGTK__)
-#  include "wx/gtk/chkconf.h"
+#  include "wxWidgets3/include/wx/gtk/chkconf.h"
 #elif defined(__WXMAC__)
-#  include "wx/osx/chkconf.h"
+#  include "wxWidgets3/include/wx/osx/chkconf.h"
 #elif defined(__WXDFB__)
-#  include "wx/dfb/chkconf.h"
+#  include "wxWidgets3/include/wx/dfb/chkconf.h"
 #elif defined(__WXMOTIF__)
-#  include "wx/motif/chkconf.h"
+#  include "wxWidgets3/include/wx/motif/chkconf.h"
 #elif defined(__WXX11__)
-#  include "wx/x11/chkconf.h"
+#  include "wxWidgets3/include/wx/x11/chkconf.h"
 #elif defined(__WXANDROID__)
-#  include "wx/android/chkconf.h"
+#  include "wxWidgets3/include/wx/android/chkconf.h"
 #endif
 
 /*
@@ -1264,11 +1264,11 @@
     there if we're building Windows ports.
  */
 #if defined(__UNIX__) && !defined(__WINDOWS__)
-#   include "wx/unix/chkconf.h"
+#   include "wxWidgets3/include/wx/unix/chkconf.h"
 #endif
 
 #ifdef __WXUNIVERSAL__
-#   include "wx/univ/chkconf.h"
+#   include "wxWidgets3/include/wx/univ/chkconf.h"
 #endif
 
 /*

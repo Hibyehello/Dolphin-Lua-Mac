@@ -10,7 +10,7 @@
 #ifndef _WX_GENERIC_PRIVATE_NOTIFMSG_H_
 #define _WX_GENERIC_PRIVATE_NOTIFMSG_H_
 
-#include "wx/private/notifmsg.h"
+#include "wxWidgets3/include/wx/private/notifmsg.h"
 
 class wxGenericNotificationMessageImpl : public wxNotificationMessageImpl
 {

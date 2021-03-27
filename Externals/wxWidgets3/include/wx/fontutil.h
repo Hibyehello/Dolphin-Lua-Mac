@@ -19,10 +19,10 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/font.h"        // for wxFont and wxFontEncoding
+#include "wxWidgets3/include/wx/font.h"        // for wxFont and wxFontEncoding
 
 #if defined(__WXMSW__)
-    #include "wx/msw/wrapwin.h"
+    #include "wxWidgets3/include/wx/msw/wrapwin.h"
 #endif
 
 #if defined(__WXQT__)
@@ -316,7 +316,7 @@ WXDLLIMPEXP_CORE bool wxTestFontEncoding(const wxNativeEncodingInfo& info);
 // ----------------------------------------------------------------------------
 
 #ifdef _WX_X_FONTLIKE
-    #include "wx/unix/fontutil.h"
+    #include "wxWidgets3/include/wx/unix/fontutil.h"
 #endif // X || GDK
 
 #endif // _WX_FONTUTIL_H_

@@ -19,7 +19,7 @@
 #include <OpenGL/gl.h>
 #endif
 
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 // low level calls
 

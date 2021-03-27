@@ -10,12 +10,12 @@
 #ifndef _WX_PREFERENCES_H_
 #define _WX_PREFERENCES_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PREFERENCES_EDITOR
 
-#include "wx/bitmap.h"
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 

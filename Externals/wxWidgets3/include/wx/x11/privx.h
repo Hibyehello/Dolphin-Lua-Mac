@@ -11,9 +11,9 @@
 #ifndef _WX_PRIVX_H_
 #define _WX_PRIVX_H_
 
-#include "wx/defs.h"
-#include "wx/utils.h"
-#include "wx/colour.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/utils.h"
+#include "wxWidgets3/include/wx/colour.h"
 
 #if defined( __cplusplus ) && defined( __VMS )
 #pragma message disable nosimpint

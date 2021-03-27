@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Base">
       <UniqueIdentifier>{23908fac-d3fd-4fa5-a9b4-87b3bafc7bd9}</UniqueIdentifier>
@@ -35,13 +35,13 @@
     <ClCompile Include="FramebufferManagerBase.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="MainBase.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="PerfQueryBase.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="RenderBase.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderState.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="TextureCacheBase.cpp">
@@ -78,6 +78,9 @@
       <Filter>Shader Generators</Filter>
     </ClCompile>
     <ClCompile Include="TextureConversionShader.cpp">
+      <Filter>Shader Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureConverterShaderGen.cpp">
       <Filter>Shader Generators</Filter>
     </ClCompile>
     <ClCompile Include="VertexShaderGen.cpp">
@@ -158,6 +161,42 @@
     <ClCompile Include="GeometryShaderManager.cpp">
       <Filter>Shader Managers</Filter>
     </ClCompile>
+    <ClCompile Include="LightingShaderGen.cpp">
+      <Filter>Shader Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="HiresTextures_DDSLoader.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureConfig.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractTexture.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderGenCommon.cpp">
+      <Filter>Shader Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncShaderCompiler.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="UberShaderPixel.cpp">
+      <Filter>Shader Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="UberShaderCommon.cpp">
+      <Filter>Shader Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="UberShaderVertex.cpp">
+      <Filter>Shader Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractStagingTexture.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractFramebuffer.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderCache.cpp">
+      <Filter>Shader Generators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandProcessor.h" />
@@ -177,6 +216,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="RenderBase.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderState.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="TextureCacheBase.h">
@@ -304,6 +346,43 @@
     </ClInclude>
     <ClInclude Include="SamplerCommon.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureConfig.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractTexture.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncShaderCompiler.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UberShaderPixel.h">
+      <Filter>Shader Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="UberShaderCommon.h">
+      <Filter>Shader Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="UberShaderVertex.h">
+      <Filter>Shader Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractStagingTexture.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractShader.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractPipeline.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureConverterShaderGen.h" />
+    <ClInclude Include="AbstractFramebuffer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GXPipelineTypes.h">
+      <Filter>Shader Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderCache.h">
+      <Filter>Shader Generators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

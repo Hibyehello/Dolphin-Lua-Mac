@@ -15,8 +15,8 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/toplevel.h"      // the base class
-#include "wx/statusbr.h"
+#include "wxWidgets3/include/wx/toplevel.h"      // the base class
+#include "wxWidgets3/include/wx/statusbr.h"
 
 // the default names for various classs
 extern WXDLLIMPEXP_DATA_CORE(const char) wxStatusLineNameStr[];
@@ -252,20 +252,20 @@ protected:
 
 // include the real class declaration
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/frame.h"
+    #include "wxWidgets3/include/wx/univ/frame.h"
 #else // !__WXUNIVERSAL__
     #if defined(__WXMSW__)
-        #include "wx/msw/frame.h"
+        #include "wxWidgets3/include/wx/msw/frame.h"
     #elif defined(__WXGTK20__)
-        #include "wx/gtk/frame.h"
+        #include "wxWidgets3/include/wx/gtk/frame.h"
     #elif defined(__WXGTK__)
-        #include "wx/gtk1/frame.h"
+        #include "wxWidgets3/include/wx/gtk1/frame.h"
     #elif defined(__WXMOTIF__)
-        #include "wx/motif/frame.h"
+        #include "wxWidgets3/include/wx/motif/frame.h"
     #elif defined(__WXMAC__)
-        #include "wx/osx/frame.h"
+        #include "wxWidgets3/include/wx/osx/frame.h"
     #elif defined(__WXQT__)
-        #include "wx/qt/frame.h"
+        #include "wxWidgets3/include/wx/qt/frame.h"
     #endif
 #endif
 

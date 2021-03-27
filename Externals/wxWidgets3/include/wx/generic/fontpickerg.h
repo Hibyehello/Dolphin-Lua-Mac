@@ -11,8 +11,8 @@
 #ifndef _WX_FONTPICKER_H_
 #define _WX_FONTPICKER_H_
 
-#include "wx/button.h"
-#include "wx/fontdata.h"
+#include "wxWidgets3/include/wx/button.h"
+#include "wxWidgets3/include/wx/fontdata.h"
 
 //-----------------------------------------------------------------------------
 // wxGenericFontButton: a button which brings up a wxFontDialog

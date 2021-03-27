@@ -11,9 +11,9 @@
 #ifndef _WX_VSCROLL_H_
 #define _WX_VSCROLL_H_
 
-#include "wx/panel.h"
-#include "wx/position.h"
-#include "wx/scrolwin.h"
+#include "wxWidgets3/include/wx/panel.h"
+#include "wxWidgets3/include/wx/position.h"
+#include "wxWidgets3/include/wx/scrolwin.h"
 
 class WXDLLIMPEXP_FWD_CORE wxVarScrollHelperEvtHandler;
 

@@ -11,10 +11,10 @@
 #ifndef _WX_STDPATHS_H_
 #define _WX_STDPATHS_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
-#include "wx/string.h"
-#include "wx/filefn.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/filefn.h"
 
 class WXDLLIMPEXP_FWD_BASE wxStandardPaths;
 
@@ -185,13 +185,13 @@ protected:
 
 #if wxUSE_STDPATHS
     #if defined(__WINDOWS__)
-        #include "wx/msw/stdpaths.h"
+        #include "wxWidgets3/include/wx/msw/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
     #elif defined(__WXOSX_COCOA__) || defined(__WXOSX_IPHONE__) || defined(__DARWIN__)
-        #include "wx/osx/cocoa/stdpaths.h"
+        #include "wxWidgets3/include/wx/osx/cocoa/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
     #elif defined(__UNIX__)
-        #include "wx/unix/stdpaths.h"
+        #include "wxWidgets3/include/wx/unix/stdpaths.h"
         #define wxHAS_NATIVE_STDPATHS
     #endif
 #endif

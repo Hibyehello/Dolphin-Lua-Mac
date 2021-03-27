@@ -26,7 +26,7 @@ extern WXDLLIMPEXP_DATA_CORE(const char) wxDirSelectorPromptStr[];
 #define wxDD_DEFAULT_STYLE      (wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
 #endif
 
-#include "wx/dialog.h"
+#include "wxWidgets3/include/wx/dialog.h"
 
 //-----------------------------------------------------------------------------
 // wxGenericDirDialog

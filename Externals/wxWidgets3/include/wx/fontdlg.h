@@ -11,12 +11,12 @@
 #ifndef _WX_FONTDLG_H_BASE_
 #define _WX_FONTDLG_H_BASE_
 
-#include "wx/defs.h"            // for wxUSE_FONTDLG
+#include "wxWidgets3/include/wx/defs.h"            // for wxUSE_FONTDLG
 
 #if wxUSE_FONTDLG
 
-#include "wx/dialog.h"          // the base class
-#include "wx/fontdata.h"
+#include "wxWidgets3/include/wx/dialog.h"          // the base class
+#include "wxWidgets3/include/wx/fontdata.h"
 
 // ----------------------------------------------------------------------------
 // wxFontDialog interface
@@ -67,18 +67,18 @@ protected:
     defined(__WXMOTIF__)     || \
     defined(__WXGPE__)
 
-    #include "wx/generic/fontdlgg.h"
+    #include "wxWidgets3/include/wx/generic/fontdlgg.h"
     #define wxFontDialog wxGenericFontDialog
 #elif defined(__WXMSW__)
-    #include "wx/msw/fontdlg.h"
+    #include "wxWidgets3/include/wx/msw/fontdlg.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/fontdlg.h"
+    #include "wxWidgets3/include/wx/gtk/fontdlg.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/fontdlg.h"
+    #include "wxWidgets3/include/wx/gtk1/fontdlg.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/fontdlg.h"
+    #include "wxWidgets3/include/wx/osx/fontdlg.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/fontdlg.h"
+    #include "wxWidgets3/include/wx/qt/fontdlg.h"
 #endif
 
 // ----------------------------------------------------------------------------

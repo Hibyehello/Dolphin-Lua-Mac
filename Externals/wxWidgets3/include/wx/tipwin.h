@@ -15,15 +15,15 @@
 #if wxUSE_TIPWINDOW
 
 #if wxUSE_POPUPWIN
-    #include "wx/popupwin.h"
+    #include "wxWidgets3/include/wx/popupwin.h"
 
     #define wxTipWindowBase wxPopupTransientWindow
 #else
-    #include "wx/frame.h"
+    #include "wxWidgets3/include/wx/frame.h"
 
     #define wxTipWindowBase wxFrame
 #endif
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxTipWindowView;
 

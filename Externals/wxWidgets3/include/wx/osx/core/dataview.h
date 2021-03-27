@@ -10,7 +10,7 @@
 #ifndef _WX_DATAVIEWCTRL_CORE_H_
 #define _WX_DATAVIEWCTRL_CORE_H_
 
-#include "wx/dataview.h"
+#include "wxWidgets3/include/wx/dataview.h"
 
 typedef wxWidgetImpl wxWidgetImplType;
 
