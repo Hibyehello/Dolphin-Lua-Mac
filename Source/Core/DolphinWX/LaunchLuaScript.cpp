@@ -152,7 +152,7 @@ void LuaWindow::Shown()
 	m_choice_script->Clear();
 
 	//Find all Lua files
-	std::vector<std::string> rFilenames = DoFileSearch({".lua"}, {File::GetUserPath(D_USER_IDX) +  "/Scripts" });
+	std::vector<std::string> rFilenames = DoFileSearch({".lua"}, {File::GetUserPath(D_USER_IDX) +  "/Scripts", true});
 
 	if (rFilenames.size() > 0)
 	{
