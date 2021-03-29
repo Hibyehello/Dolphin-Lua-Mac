@@ -37,9 +37,11 @@ static bool AttachContextToView(NSOpenGLContext* context, NSView* view, u32* wid
 
   (void)UpdateCachedDimensions(view, width, height);
 
+ dispatch_sync(dispatch_get_main_queue(), ^{
   [window makeFirstResponder:view];
   [context setView:view];
   [window makeKeyAndOrderFront:nil];
+});
 
   return true;
 }
@@ -133,7 +135,10 @@ void cInterfaceAGL::Update()
     return;
 
   if (UpdateCachedDimensions(m_view, &s_backbuffer_width, &s_backbuffer_height))
-    [m_context update];
+// the following call can crash if not called from the main thread on macOS 10.15 and up
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [m_context update];
+    });
 }
 
 void cInterfaceAGL::SwapInterval(int interval)
