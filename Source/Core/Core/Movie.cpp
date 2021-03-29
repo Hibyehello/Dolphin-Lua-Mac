@@ -1662,14 +1662,22 @@ void SaveRecording(const std::string& filename)
 		tasrfunc = func;
 	}
 
-	void SetGCInputManip(GCManipFunction func, GCManipIndex manipfunctionsindex)
-	{
-		gcmfunc[static_cast<size_t>(manipfunctionsindex)] = std::move(func);
-	}
-	void SetWiiInputManip(WiiManipFunction func, WiiManipIndex manipfunctionsindex)
-	{
-		wiimfunc[static_cast<size_t>(manipfunctionsindex)] = std::move(func);
-	}
+void SetGCInputManip(GCManipFunction func)
+{
+  s_gc_manip_func = std::move(func);
+}
+void SetWiiInputManip(WiiManipFunction func)
+{
+  s_wii_manip_func = std::move(func);
+}
+//	void SetGCInputManip(GCManipFunction func, GCManipIndex manipfunctionsindex)
+//	{
+//		gcmfunc[static_cast<size_t>(manipfunctionsindex)] = std::move(func);
+//	}
+//	void SetWiiInputManip(WiiManipFunction func, WiiManipIndex manipfunctionsindex)
+//	{
+//		wiimfunc[static_cast<size_t>(manipfunctionsindex)] = std::move(func);
+//	}
 
     // NOTE: CPU Thread
     void CallGCInputManip(GCPadStatus *PadStatus, int controllerID)
