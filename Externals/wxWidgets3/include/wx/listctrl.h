@@ -11,11 +11,11 @@
 #ifndef _WX_LISTCTRL_H_BASE_
 #define _WX_LISTCTRL_H_BASE_
 
-#include "wx/defs.h" // headers should include this before first wxUSE_XXX check
+#include "wxWidgets3/include/wx/defs.h" // headers should include this before first wxUSE_XXX check
 
 #if wxUSE_LISTCTRL
 
-#include "wx/listbase.h"
+#include "wxWidgets3/include/wx/listbase.h"
 
 // ----------------------------------------------------------------------------
 // constants
@@ -28,11 +28,11 @@ extern WXDLLIMPEXP_DATA_CORE(const char) wxListCtrlNameStr[];
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wx/msw/listctrl.h"
+    #include "wxWidgets3/include/wx/msw/listctrl.h"
 #elif defined(__WXQT__) && !defined(__WXUNIVERSAL__)
-    #include "wx/qt/listctrl.h"
+    #include "wxWidgets3/include/wx/qt/listctrl.h"
 #else
-    #include "wx/generic/listctrl.h"
+    #include "wxWidgets3/include/wx/generic/listctrl.h"
 #endif
 
 // ----------------------------------------------------------------------------

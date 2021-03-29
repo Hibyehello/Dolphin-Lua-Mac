@@ -9,8 +9,8 @@
 #ifndef _WX_GTKDCSCREEN_H_
 #define _WX_GTKDCSCREEN_H_
 
-#include "wx/dcscreen.h"
-#include "wx/gtk/dcclient.h"
+#include "wxWidgets3/include/wx/dcscreen.h"
+#include "wxWidgets3/include/wx/gtk/dcclient.h"
 
 //-----------------------------------------------------------------------------
 // wxScreenDCImpl

@@ -11,12 +11,12 @@
 #ifndef _WX_DND_H_BASE_
 #define _WX_DND_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DRAG_AND_DROP
 
-#include "wx/dataobj.h"
-#include "wx/cursor.h"
+#include "wxWidgets3/include/wx/dataobj.h"
+#include "wxWidgets3/include/wx/cursor.h"
 
 // ----------------------------------------------------------------------------
 // constants
@@ -210,20 +210,20 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wx/msw/ole/dropsrc.h"
-    #include "wx/msw/ole/droptgt.h"
+    #include "wxWidgets3/include/wx/msw/ole/dropsrc.h"
+    #include "wxWidgets3/include/wx/msw/ole/droptgt.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/dnd.h"
+    #include "wxWidgets3/include/wx/motif/dnd.h"
 #elif defined(__WXX11__)
-    #include "wx/x11/dnd.h"
+    #include "wxWidgets3/include/wx/x11/dnd.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/dnd.h"
+    #include "wxWidgets3/include/wx/gtk/dnd.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/dnd.h"
+    #include "wxWidgets3/include/wx/gtk1/dnd.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/dnd.h"
+    #include "wxWidgets3/include/wx/osx/dnd.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/dnd.h"
+    #include "wxWidgets3/include/wx/qt/dnd.h"
 #endif
 
 // ----------------------------------------------------------------------------

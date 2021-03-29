@@ -11,11 +11,11 @@
 #ifndef _WX_TASKBAR_H_BASE_
 #define _WX_TASKBAR_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TASKBARICON
 
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/event.h"
 
 class WXDLLIMPEXP_FWD_ADV wxTaskBarIconEvent;
 
@@ -76,15 +76,15 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wx/msw/taskbar.h"
+    #include "wxWidgets3/include/wx/msw/taskbar.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/taskbar.h"
+    #include "wxWidgets3/include/wx/gtk/taskbar.h"
 #elif defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__)
-    #include "wx/unix/taskbarx11.h"
+    #include "wxWidgets3/include/wx/unix/taskbarx11.h"
 #elif defined (__WXMAC__)
-    #include "wx/osx/taskbarosx.h"
+    #include "wxWidgets3/include/wx/osx/taskbarosx.h"
 #elif defined (__WXQT__)
-    #include "wx/qt/taskbar.h"
+    #include "wxWidgets3/include/wx/qt/taskbar.h"
 #endif
 
 // ----------------------------------------------------------------------------

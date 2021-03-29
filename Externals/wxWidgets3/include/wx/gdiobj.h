@@ -11,7 +11,7 @@
 #ifndef _WX_GDIOBJ_H_BASE_
 #define _WX_GDIOBJ_H_BASE_
 
-#include "wx/object.h"
+#include "wxWidgets3/include/wx/object.h"
 
 // ----------------------------------------------------------------------------
 // wxGDIRefData is the base class for wxXXXData structures which contain the

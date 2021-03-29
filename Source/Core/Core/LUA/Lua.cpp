@@ -24,16 +24,16 @@
 #include "Core/NetPlayProto.h"
 #include "Core/State.h"
 #include "Core/DSP/DSPCore.h"
-#include "Core/HW/DVDInterface.h"
-#include "Core/HW/EXI_Device.h"
+#include "Core/HW/DVD/DVDInterface.h"
+#include "Core/HW/EXI/EXI_Device.h"
 #include "Core/HW/ProcessorInterface.h"
-#include "Core/HW/SI.h"
+#include "Core/HW/SI/SI.h"
 #include "Core/HW/Wiimote.h"
 #include "Core/HW/WiimoteEmu/WiimoteEmu.h"
-#include "Core/HW/WiimoteEmu/WiimoteHid.h"
+//#include "Core/HW/WiimoteEmu/WiimoteHid.h"
 #include "Core/HW/WiimoteEmu/Attachment/Classic.h"
 #include "Core/HW/WiimoteEmu/Attachment/Nunchuk.h"
-#include "Core/IPC_HLE/WII_IPC_HLE_Device_usb.h"
+#include "Core/IOS/USB/Bluetooth/BTEmu.h"
 #include "Core/PowerPC/PowerPC.h"
 #include "InputCommon/GCPadStatus.h"
 #include "VideoCommon/Statistics.h"
@@ -55,7 +55,7 @@ int ReadValue8(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = Memory::Read_U8(address);
+		result = PowerPC::Read_U8(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;                   // number of return values
@@ -64,7 +64,7 @@ int ReadValue8(lua_State* L)
 	
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result =Memory::Read_U8(Lua::ExecuteMultilevelLoop(L));
+		result =PowerPC::Read_U8(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushinteger(L, result);
@@ -84,7 +84,7 @@ int ReadValue16(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = Memory::Read_U16(address);
+		result = PowerPC::Read_U16(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;
@@ -92,7 +92,7 @@ int ReadValue16(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = Memory::Read_U16(Lua::ExecuteMultilevelLoop(L));
+		result = PowerPC::Read_U16(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushinteger(L, result);
@@ -112,7 +112,7 @@ int ReadValue32(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = Memory::Read_U32(address);
+		result = PowerPC::Read_U32(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;
@@ -120,8 +120,8 @@ int ReadValue32(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = Memory::Read_U32(Lua::ExecuteMultilevelLoop(L));
-		// result = Memory::Read_U8(LastOffset);
+		result = PowerPC::Read_U32(Lua::ExecuteMultilevelLoop(L));
+		// result = PowerPC::Read_U8(LastOffset);
 	}
 
 	lua_pushinteger(L, result); // return value
@@ -186,7 +186,7 @@ int WriteValue8(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u8 value = lua_tointeger(L, 2);
 
-	Memory::Write_U8(value, address);
+	PowerPC::Write_U8(value, address);
 
 	return 0; // number of return values
 }
@@ -204,7 +204,7 @@ int WriteValue16(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u16 value = lua_tointeger(L, 2);
 
-	Memory::Write_U16(value, address);
+	PowerPC::Write_U16(value, address);
 
 	return 0; // number of return values
 }
@@ -222,7 +222,7 @@ int WriteValue32(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u32 value = lua_tointeger(L, 2);
 
-	Memory::Write_U32(value, address);
+	PowerPC::Write_U32(value, address);
 
 	return 0; // number of return values
 }
@@ -240,7 +240,7 @@ int WriteValueFloat(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	double value = lua_tonumber(L, 2);
 
-	PowerPC::Write_F32((float)value, address);
+	PowerPC::Write_U32((float)value, address);
 
 	return 0; // number of return values
 }
@@ -291,7 +291,7 @@ int GetPointerNormal(lua_State* L)
 
 int GetGameID(lua_State* L)
 {
-	lua_pushstring(L, SConfig::GetInstance().GetUniqueID().c_str());
+	lua_pushstring(L, SConfig::GetInstance().GetGameID().c_str());
 	return 1;
 }
 
@@ -467,7 +467,7 @@ int GetFrameCount(lua_State* L)
 {
 	int argc = lua_gettop(L);
 
-	lua_pushinteger(L, Movie::g_currentFrame); // return value
+	lua_pushinteger(L, Movie::s_currentFrame); // return value
 	return 1; // number of return values
 }
 
@@ -475,7 +475,7 @@ int GetInputFrameCount(lua_State* L)
 {
 	int argc = lua_gettop(L);
 
-	lua_pushinteger(L, Movie::g_currentInputCount + 1); // return value
+	lua_pushinteger(L, Movie::s_currentInputCount + 1); // return value
 	return 1; // number of return values
 }
 
@@ -500,7 +500,7 @@ int PauseEmulation(lua_State* L)
 {
 	int argc = lua_gettop(L);
 
-	Core::SetState(Core::CORE_PAUSE);
+	Core::SetState(Core::State::Paused);
 
 	return 0;
 }
@@ -693,7 +693,7 @@ namespace Lua
 
 	u32 readPointer(u32 startAddress, u32 offset)
 	{
-	    u32 pointer = Memory::Read_U32(startAddress) + offset;
+	    u32 pointer = PowerPC::Read_U32(startAddress) + offset;
 	    // check if pointer is not in the mem1 or mem2
 	    if (Lua::IsInMEMArea(pointer))
 	    {
@@ -878,7 +878,7 @@ namespace Lua
 		//Auto launch Scripts that start with _
 
 
-	    std::vector<std::string> rFilenames = DoFileSearch({".lua"}, {File::GetUserPath(D_USER_IDX) +  "/Scripts"});
+	    std::vector<std::string> rFilenames = Common::DoFileSearch({".lua"}, {File::GetUserPath(D_USER_IDX) +  "/Scripts"});
 
 		if (rFilenames.size() > 0)
 		{

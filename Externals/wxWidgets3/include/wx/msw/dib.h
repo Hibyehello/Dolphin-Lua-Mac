@@ -13,12 +13,12 @@
 
 class WXDLLIMPEXP_FWD_CORE wxPalette;
 
-#include "wx/msw/private.h"
+#include "wxWidgets3/include/wx/msw/private.h"
 
 #if wxUSE_WXDIB
 
 #ifdef __WXMSW__
-    #include "wx/bitmap.h"
+    #include "wxWidgets3/include/wx/bitmap.h"
 #endif // __WXMSW__
 
 // ----------------------------------------------------------------------------

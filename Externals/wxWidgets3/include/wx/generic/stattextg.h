@@ -15,7 +15,7 @@
 // below (currently this is only the case in wxUniv but it could also happen
 // with other ports)
 #define wxNO_PORT_STATTEXT_INCLUDE
-#include "wx/stattext.h"
+#include "wxWidgets3/include/wx/stattext.h"
 #undef wxNO_PORT_STATTEXT_INCLUDE
 
 class WXDLLIMPEXP_CORE wxGenericStaticText : public wxStaticTextBase

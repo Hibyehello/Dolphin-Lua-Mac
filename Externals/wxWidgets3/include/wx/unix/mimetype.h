@@ -11,7 +11,7 @@
 #ifndef _MIMETYPE_IMPL_H
 #define _MIMETYPE_IMPL_H
 
-#include "wx/mimetype.h"
+#include "wxWidgets3/include/wx/mimetype.h"
 
 #if wxUSE_MIMETYPE
 

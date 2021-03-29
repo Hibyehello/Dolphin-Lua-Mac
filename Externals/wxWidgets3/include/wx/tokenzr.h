@@ -11,9 +11,9 @@
 #ifndef _WX_TOKENZRH
 #define _WX_TOKENZRH
 
-#include "wx/object.h"
-#include "wx/string.h"
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 // ----------------------------------------------------------------------------
 // constants

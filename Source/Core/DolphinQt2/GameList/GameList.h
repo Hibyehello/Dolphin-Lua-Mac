@@ -4,57 +4,70 @@
 
 #pragma once
 
+#include <memory>
+
 #include <QLabel>
 #include <QListView>
 #include <QSortFilterProxyModel>
 #include <QStackedWidget>
 #include <QTableView>
 
-#include "DolphinQt2/GameList/GameFile.h"
 #include "DolphinQt2/GameList/GameListModel.h"
 
-class TableDelegate;
+#include "UICommon/GameFile.h"
 
 class GameList final : public QStackedWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit GameList(QWidget* parent = nullptr);
-	QString GetSelectedGame() const;
+  explicit GameList(QWidget* parent = nullptr);
+  std::shared_ptr<const UICommon::GameFile> GetSelectedGame() const;
 
-public slots:
-	void SetTableView() { SetPreferredView(true); }
-	void SetListView() { SetPreferredView(false); }
-	void SetViewColumn(int col, bool view) { m_table->setColumnHidden(col, !view); }
+  void SetListView() { SetPreferredView(true); }
+  void SetGridView() { SetPreferredView(false); }
+  void SetViewColumn(int col, bool view) { m_list->setColumnHidden(col, !view); }
+  void SetSearchTerm(const QString& term);
 
-private slots:
-	void ShowContextMenu(const QPoint&);
-	void OpenWiki();
-	void SetDefaultISO();
-
+  void OnColumnVisibilityToggled(const QString& row, bool visible);
+  void OnGameListVisibilityChanged();
 signals:
-	void GameSelected();
-	void DirectoryAdded(const QString& dir);
-	void DirectoryRemoved(const QString& dir);
+  void GameSelected();
+  void NetPlayHost(const QString& game_id);
+  void SelectionChanged(std::shared_ptr<const UICommon::GameFile> game_file);
+  void OpenGeneralSettings();
 
 private:
-	void MakeTableView();
-	void MakeListView();
-	void MakeEmptyView();
-	// We only have two views, just use a bool to distinguish.
-	void SetPreferredView(bool table);
-	void ConsiderViewChange();
+  void ShowContextMenu(const QPoint&);
+  void OpenContainingFolder();
+  void OpenProperties();
+  void OpenSaveFolder();
+  void OpenWiki();
+  void SetDefaultISO();
+  void DeleteFile();
+  void InstallWAD();
+  void UninstallWAD();
+  void ExportWiiSave();
+  void CompressISO();
+  void ChangeDisc();
+  void OnHeaderViewChanged();
 
-	GameListModel* m_model;
-	TableDelegate* m_delegate;
-	QSortFilterProxyModel* m_table_proxy;
-	QSortFilterProxyModel* m_list_proxy;
+  void MakeListView();
+  void MakeGridView();
+  void MakeEmptyView();
+  // We only have two views, just use a bool to distinguish.
+  void SetPreferredView(bool list);
+  void ConsiderViewChange();
 
-	QListView* m_list;
-	QTableView* m_table;
-	QLabel* m_empty;
-	bool m_prefer_table;
+  GameListModel* m_model;
+  QSortFilterProxyModel* m_list_proxy;
+  QSortFilterProxyModel* m_grid_proxy;
+
+  QListView* m_grid;
+  QTableView* m_list;
+  QLabel* m_empty;
+  bool m_prefer_list;
+
 protected:
-	void keyReleaseEvent(QKeyEvent* event) override;
+  void keyReleaseEvent(QKeyEvent* event) override;
 };

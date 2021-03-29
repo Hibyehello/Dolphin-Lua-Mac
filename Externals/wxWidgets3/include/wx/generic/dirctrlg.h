@@ -16,10 +16,10 @@
 
 #if wxUSE_DIRDLG
 
-#include "wx/treectrl.h"
-#include "wx/dialog.h"
-#include "wx/dirdlg.h"
-#include "wx/choice.h"
+#include "wxWidgets3/include/wx/treectrl.h"
+#include "wxWidgets3/include/wx/dialog.h"
+#include "wxWidgets3/include/wx/dirdlg.h"
+#include "wxWidgets3/include/wx/choice.h"
 
 //-----------------------------------------------------------------------------
 // classes

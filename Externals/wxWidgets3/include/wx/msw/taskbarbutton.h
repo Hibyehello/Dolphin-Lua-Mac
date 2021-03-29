@@ -10,12 +10,12 @@
 #ifndef  _WX_MSW_TASKBARBUTTON_H_
 #define  _WX_MSW_TASKBARBUTTON_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TASKBARBUTTON
 
-#include "wx/vector.h"
-#include "wx/taskbarbutton.h"
+#include "wxWidgets3/include/wx/vector.h"
+#include "wxWidgets3/include/wx/taskbarbutton.h"
 
 class WXDLLIMPEXP_FWD_CORE wxITaskbarList3;
 

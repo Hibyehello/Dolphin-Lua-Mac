@@ -17,7 +17,7 @@
 /*  compiler and OS identification */
 /*  ---------------------------------------------------------------------------- */
 
-#include "wx/platform.h"
+#include "wxWidgets3/include/wx/platform.h"
 
 #ifdef __cplusplus
 /*  Make sure the environment is set correctly */
@@ -166,7 +166,7 @@
 /*  wxWidgets version and compatibility defines */
 /*  ---------------------------------------------------------------------------- */
 
-#include "wx/version.h"
+#include "wxWidgets3/include/wx/version.h"
 
 /*  ============================================================================ */
 /*  non portable C++ features */
@@ -530,7 +530,7 @@ typedef short int WXTYPE;
 #define CMPFUNC_CONV wxCMPFUNC_CONV
 
 /*  DLL import/export declarations */
-#include "wx/dlimpexp.h"
+#include "wxWidgets3/include/wx/dlimpexp.h"
 
 /*  ---------------------------------------------------------------------------- */
 /*  Very common macros */
@@ -715,7 +715,7 @@ typedef short int WXTYPE;
 #ifdef __cplusplus
 
 // everybody gets the assert and other debug macros
-#include "wx/debug.h"
+#include "wxWidgets3/include/wx/debug.h"
 
     // delete pointer if it is not NULL and NULL it afterwards
     template <typename T>
@@ -2310,7 +2310,7 @@ enum wxStandardID
  * (as it uses them).
  */
 #if defined(__cplusplus) && wxUSE_GUI
-    #include "wx/windowid.h"
+    #include "wxWidgets3/include/wx/windowid.h"
 #endif
 
 /*  ---------------------------------------------------------------------------- */
@@ -3336,7 +3336,7 @@ typedef const void* WXWidget;
 #endif /*  DFB */
 
 #ifdef __WXQT__
-#include "wx/qt/defs.h"
+#include "wxWidgets3/include/wx/qt/defs.h"
 #endif
 
 /*  This is required because of clashing macros in windows.h, which may be */
@@ -3344,13 +3344,13 @@ typedef const void* WXWidget;
 /*  disabled here before any significant wxWidgets headers are included. */
 #ifdef __cplusplus
 #ifdef __WINDOWS__
-#include "wx/msw/winundef.h"
+#include "wxWidgets3/include/wx/msw/winundef.h"
 #endif /* __WINDOWS__ */
 #endif /* __cplusplus */
 
 
 /*  include the feature test macros */
-#include "wx/features.h"
+#include "wxWidgets3/include/wx/features.h"
 
 /*  --------------------------------------------------------------------------- */
 /*  macros to define a class without copy ctor nor assignment operator */

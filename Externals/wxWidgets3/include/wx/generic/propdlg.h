@@ -11,11 +11,11 @@
 #ifndef _WX_PROPDLG_H_
 #define _WX_PROPDLG_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_BOOKCTRL
 
-#include "wx/dialog.h"
+#include "wxWidgets3/include/wx/dialog.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBookCtrlBase;
 

@@ -2,7 +2,7 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
-#include <debugapi.h>
+#include <windows.h>
 
 #include "Common/Logging/ConsoleListener.h"
 
@@ -16,5 +16,5 @@ ConsoleListener::~ConsoleListener()
 
 void ConsoleListener::Log(LogTypes::LOG_LEVELS level, const char* text)
 {
-	::OutputDebugStringA(text);
+  ::OutputDebugStringA(text);
 }

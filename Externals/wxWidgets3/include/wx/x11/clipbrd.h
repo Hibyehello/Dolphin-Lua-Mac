@@ -12,11 +12,11 @@
 
 #if wxUSE_CLIPBOARD
 
-#include "wx/object.h"
-#include "wx/list.h"
-#include "wx/dataobj.h"
-#include "wx/control.h"
-#include "wx/module.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/dataobj.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/module.h"
 
 // ----------------------------------------------------------------------------
 // wxClipboard

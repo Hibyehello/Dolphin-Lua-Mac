@@ -11,9 +11,9 @@
 #ifndef _WX_BMPBUTTN_H_
 #define _WX_BMPBUTTN_H_
 
-#include "wx/button.h"
-#include "wx/bitmap.h"
-#include "wx/brush.h"
+#include "wxWidgets3/include/wx/button.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/brush.h"
 
 class WXDLLIMPEXP_CORE wxBitmapButton : public wxBitmapButtonBase
 {

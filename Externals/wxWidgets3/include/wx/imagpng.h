@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGPNG_H_
 #define _WX_IMAGPNG_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 //-----------------------------------------------------------------------------
 // wxPNGHandler
@@ -17,8 +17,8 @@
 
 #if wxUSE_LIBPNG
 
-#include "wx/image.h"
-#include "wx/versioninfo.h"
+#include "wxWidgets3/include/wx/image.h"
+#include "wxWidgets3/include/wx/versioninfo.h"
 
 #define wxIMAGE_OPTION_PNG_FORMAT    wxT("PngFormat")
 #define wxIMAGE_OPTION_PNG_BITDEPTH  wxT("PngBitDepth")

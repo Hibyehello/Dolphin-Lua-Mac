@@ -12,9 +12,9 @@
 #ifndef _WX_STRCONV_H_
 #define _WX_STRCONV_H_
 
-#include "wx/defs.h"
-#include "wx/chartype.h"
-#include "wx/buffer.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/chartype.h"
+#include "wxWidgets3/include/wx/buffer.h"
 
 #include <stdlib.h>
 
@@ -475,7 +475,7 @@ public:
 // wxCSConv (for conversion based on loadable char sets)
 // ----------------------------------------------------------------------------
 
-#include "wx/fontenc.h"
+#include "wxWidgets3/include/wx/fontenc.h"
 
 class WXDLLIMPEXP_BASE wxCSConv : public wxMBConv
 {

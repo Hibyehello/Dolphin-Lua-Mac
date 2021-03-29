@@ -11,7 +11,7 @@
 #ifndef _WX_IMAGLIST_H_BASE_
 #define _WX_IMAGLIST_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 /*
  * wxImageList is used for wxListCtrl, wxTreeCtrl. These controls refer to
@@ -46,11 +46,11 @@ enum
 #endif
 
 #if !defined(wxHAS_NATIVE_IMAGELIST)
-    #include "wx/generic/imaglist.h"
+    #include "wxWidgets3/include/wx/generic/imaglist.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/imaglist.h"
+    #include "wxWidgets3/include/wx/msw/imaglist.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/imaglist.h"
+    #include "wxWidgets3/include/wx/osx/imaglist.h"
 #endif
 
 #endif // _WX_IMAGLIST_H_BASE_

@@ -9,7 +9,7 @@
 #ifndef _WX_GTKFILEDLG_H_
 #define _WX_GTKFILEDLG_H_
 
-#include "wx/gtk/filectrl.h"    // for wxGtkFileChooser
+#include "wxWidgets3/include/wx/gtk/filectrl.h"    // for wxGtkFileChooser
 
 //-------------------------------------------------------------------------
 // wxFileDialog

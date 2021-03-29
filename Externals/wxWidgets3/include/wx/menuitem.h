@@ -11,7 +11,7 @@
 #ifndef _WX_MENUITEM_H_BASE_
 #define _WX_MENUITEM_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_MENUS
 
@@ -19,7 +19,7 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/object.h"  // base class
+#include "wxWidgets3/include/wx/object.h"  // base class
 
 // ----------------------------------------------------------------------------
 // forward declarations
@@ -193,19 +193,19 @@ inline void wxMenuItemBase::SetText(const wxString& text) { SetItemLabel(text); 
     #define wxMenuItem wxMenuItemBase
 #else // !wxUSE_BASE_CLASSES_ONLY
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/menuitem.h"
+    #include "wxWidgets3/include/wx/univ/menuitem.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/menuitem.h"
+    #include "wxWidgets3/include/wx/msw/menuitem.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/menuitem.h"
+    #include "wxWidgets3/include/wx/motif/menuitem.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/menuitem.h"
+    #include "wxWidgets3/include/wx/gtk/menuitem.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/menuitem.h"
+    #include "wxWidgets3/include/wx/gtk1/menuitem.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/menuitem.h"
+    #include "wxWidgets3/include/wx/osx/menuitem.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/menuitem.h"
+    #include "wxWidgets3/include/wx/qt/menuitem.h"
 #endif
 #endif // wxUSE_BASE_CLASSES_ONLY/!wxUSE_BASE_CLASSES_ONLY
 

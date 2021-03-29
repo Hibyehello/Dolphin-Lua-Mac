@@ -11,7 +11,7 @@
 #ifndef _WX_SCROLWIN_H_BASE_
 #define _WX_SCROLWIN_H_BASE_
 
-#include "wx/panel.h"
+#include "wxWidgets3/include/wx/panel.h"
 
 class WXDLLIMPEXP_FWD_CORE wxScrollHelperEvtHandler;
 class WXDLLIMPEXP_FWD_BASE wxTimer;
@@ -352,12 +352,12 @@ public:                                                                       \
 
 // include the declaration of the real wxScrollHelper
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
-    #include "wx/gtk/scrolwin.h"
+    #include "wxWidgets3/include/wx/gtk/scrolwin.h"
 #elif defined(__WXGTK__) && !defined(__WXUNIVERSAL__)
-    #include "wx/gtk1/scrolwin.h"
+    #include "wxWidgets3/include/wx/gtk1/scrolwin.h"
 #else
     #define wxHAS_GENERIC_SCROLLWIN
-    #include "wx/generic/scrolwin.h"
+    #include "wxWidgets3/include/wx/generic/scrolwin.h"
 #endif
 
 // ----------------------------------------------------------------------------

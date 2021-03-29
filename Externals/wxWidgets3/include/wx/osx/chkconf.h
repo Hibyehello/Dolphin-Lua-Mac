@@ -73,9 +73,9 @@
 #endif
 
 #if wxOSX_USE_IPHONE
-    #include "wx/osx/iphone/chkconf.h"
+    #include "wxWidgets3/include/wx/osx/iphone/chkconf.h"
 #elif wxOSX_USE_COCOA
-    #include "wx/osx/cocoa/chkconf.h"
+    #include "wxWidgets3/include/wx/osx/cocoa/chkconf.h"
 #endif
 
 #endif /* _WX_OSX_CHKCONF_H_ */

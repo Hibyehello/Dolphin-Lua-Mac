@@ -13,7 +13,7 @@
 
 #if wxUSE_MS_HTML_HELP
 
-#include "wx/helpbase.h"
+#include "wxWidgets3/include/wx/helpbase.h"
 
 class WXDLLIMPEXP_CORE wxCHMHelpController : public wxHelpControllerBase
 {

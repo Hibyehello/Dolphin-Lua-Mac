@@ -9,12 +9,12 @@
 #ifndef _WX_GENERIC_PRIVATE_WIDTHCALC_H_
 #define _WX_GENERIC_PRIVATE_WIDTHCALC_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DATAVIEWCTRL || wxUSE_LISTCTRL
 
-#include "wx/log.h"
-#include "wx/timer.h"
+#include "wxWidgets3/include/wx/log.h"
+#include "wxWidgets3/include/wx/timer.h"
 
 // ----------------------------------------------------------------------------
 // wxMaxWidthCalculatorBase: base class for calculating max column width

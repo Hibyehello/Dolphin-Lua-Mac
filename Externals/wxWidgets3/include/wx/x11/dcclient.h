@@ -11,10 +11,10 @@
 #ifndef _WX_DCCLIENT_H_
 #define _WX_DCCLIENT_H_
 
-#include "wx/dc.h"
-#include "wx/dcclient.h"
-#include "wx/x11/dc.h"
-#include "wx/region.h"
+#include "wxWidgets3/include/wx/dc.h"
+#include "wxWidgets3/include/wx/dcclient.h"
+#include "wxWidgets3/include/wx/x11/dc.h"
+#include "wxWidgets3/include/wx/region.h"
 
 // -----------------------------------------------------------------------------
 // fwd declarations

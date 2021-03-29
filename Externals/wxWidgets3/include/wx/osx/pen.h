@@ -11,9 +11,9 @@
 #ifndef _WX_PEN_H_
 #define _WX_PEN_H_
 
-#include "wx/gdiobj.h"
-#include "wx/colour.h"
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/bitmap.h"
 
 // Pen
 class WXDLLIMPEXP_CORE wxPen : public wxPenBase

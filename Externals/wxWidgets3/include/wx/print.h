@@ -11,25 +11,25 @@
 #ifndef _WX_PRINT_H_BASE_
 #define _WX_PRINT_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
 
-#include "wx/msw/printwin.h"
+#include "wxWidgets3/include/wx/msw/printwin.h"
 
 #elif defined(__WXMAC__)
 
-#include "wx/osx/printmac.h"
+#include "wxWidgets3/include/wx/osx/printmac.h"
 
 
 #elif defined(__WXQT__)
 
-#include "wx/qt/printqt.h"
+#include "wxWidgets3/include/wx/qt/printqt.h"
 #else
 
-#include "wx/generic/printps.h"
+#include "wxWidgets3/include/wx/generic/printps.h"
 
 #endif
 

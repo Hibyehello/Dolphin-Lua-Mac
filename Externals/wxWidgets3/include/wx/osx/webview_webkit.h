@@ -12,14 +12,14 @@
 #ifndef _WX_WEBKIT_H
 #define _WX_WEBKIT_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_WEBVIEW && wxUSE_WEBVIEW_WEBKIT && defined(__WXOSX__)
 
-#include "wx/control.h"
-#include "wx/webview.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/webview.h"
 
-#include "wx/osx/core/objcid.h"
+#include "wxWidgets3/include/wx/osx/core/objcid.h"
 
 // ----------------------------------------------------------------------------
 // Web Kit Control

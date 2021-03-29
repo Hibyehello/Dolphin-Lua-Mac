@@ -4,9 +4,8 @@
 
 #pragma once
 
-#include <QMutex>
 #include <QObject>
-#include <QSize>
+#include <atomic>
 
 // Singleton that talks to the Core via the interface defined in Core/Host.h.
 // Because Host_* calls might come from different threads than the MainWindow,
@@ -15,31 +14,30 @@
 // Many of the Host_* functions are ignored, and some shouldn't exist.
 class Host final : public QObject
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	static Host* GetInstance();
+  static Host* GetInstance();
 
-	void* GetRenderHandle();
-	bool GetRenderFocus();
-	bool GetRenderFullscreen();
+  void* GetRenderHandle();
+  bool GetRenderFocus();
+  bool GetRenderFullscreen();
 
-public slots:
-	void SetRenderHandle(void* handle);
-	void SetRenderFocus(bool focus);
-	void SetRenderFullscreen(bool fullscreen);
+  void SetRenderHandle(void* handle);
+  void SetRenderFocus(bool focus);
+  void SetRenderFullscreen(bool fullscreen);
+  void ResizeSurface(int new_width, int new_height);
 
 signals:
-	void RequestTitle(const QString& title);
-	void RequestStop();
-	void RequestRenderSize(int w, int h);
+  void RequestTitle(const QString& title);
+  void RequestStop();
+  void RequestRenderSize(int w, int h);
+  void UpdateProgressDialog(QString label, int position, int maximum);
 
 private:
-	Host() {}
-	static Host* m_instance;
-	QMutex m_lock;
+  Host();
 
-	void* m_render_handle;
-	bool m_render_focus;
-	bool m_render_fullscreen;
+  std::atomic<void*> m_render_handle;
+  std::atomic<bool> m_render_focus;
+  std::atomic<bool> m_render_fullscreen;
 };

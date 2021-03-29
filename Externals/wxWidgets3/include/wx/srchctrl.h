@@ -10,11 +10,11 @@
 #ifndef _WX_SEARCHCTRL_H_BASE_
 #define _WX_SEARCHCTRL_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SEARCHCTRL
 
-#include "wx/textctrl.h"
+#include "wxWidgets3/include/wx/textctrl.h"
 
 #if !defined(__WXUNIVERSAL__) && defined(__WXMAC__)
     // search control was introduced in Mac OS X 10.3 Panther
@@ -25,8 +25,8 @@
     // no native version, use the generic one
     #define wxUSE_NATIVE_SEARCH_CONTROL 0
 
-    #include "wx/compositewin.h"
-    #include "wx/containr.h"
+    #include "wxWidgets3/include/wx/compositewin.h"
+    #include "wxWidgets3/include/wx/containr.h"
 
     class WXDLLIMPEXP_CORE wxSearchCtrlBaseBaseClass
         : public wxCompositeWindow< wxNavigationEnabled<wxControl> >,
@@ -77,10 +77,10 @@ private:
 // include the platform-dependent class implementation
 #if wxUSE_NATIVE_SEARCH_CONTROL
     #if defined(__WXMAC__)
-        #include "wx/osx/srchctrl.h"
+        #include "wxWidgets3/include/wx/osx/srchctrl.h"
     #endif
 #else
-    #include "wx/generic/srchctlg.h"
+    #include "wxWidgets3/include/wx/generic/srchctlg.h"
 #endif
 
 // ----------------------------------------------------------------------------

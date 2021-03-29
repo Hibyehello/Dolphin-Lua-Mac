@@ -11,12 +11,12 @@
 #ifndef _WX_LISTBASE_H_BASE_
 #define _WX_LISTBASE_H_BASE_
 
-#include "wx/colour.h"
-#include "wx/font.h"
-#include "wx/gdicmn.h"
-#include "wx/event.h"
-#include "wx/control.h"
-#include "wx/systhemectrl.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/font.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wxWidgets3/include/wx/event.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/systhemectrl.h"
 
 class WXDLLIMPEXP_FWD_CORE wxImageList;
 

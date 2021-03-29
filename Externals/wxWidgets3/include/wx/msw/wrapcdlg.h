@@ -11,17 +11,17 @@
 #ifndef _WX_MSW_WRAPCDLG_H_
 #define _WX_MSW_WRAPCDLG_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
-#include "wx/msw/wrapwin.h"
-#include "wx/msw/private.h"
-#include "wx/msw/missing.h"
+#include "wxWidgets3/include/wx/msw/wrapwin.h"
+#include "wxWidgets3/include/wx/msw/private.h"
+#include "wxWidgets3/include/wx/msw/missing.h"
 
 #if wxUSE_COMMON_DIALOGS
     #include <commdlg.h>
 #endif
 
-#include "wx/msw/winundef.h"
+#include "wxWidgets3/include/wx/msw/winundef.h"
 
 #endif // _WX_MSW_WRAPCDLG_H_
 

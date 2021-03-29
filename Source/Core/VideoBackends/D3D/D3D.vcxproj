@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -12,12 +12,12 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{96020103-4BA5-4FD2-B4AA-5B6D24492D4E}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
@@ -43,6 +43,9 @@
     <ClCompile Include="D3DState.cpp" />
     <ClCompile Include="D3DTexture.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
+    <ClCompile Include="DXPipeline.cpp" />
+    <ClCompile Include="DXShader.cpp" />
+    <ClCompile Include="DXTexture.cpp" />
     <ClCompile Include="FramebufferManager.cpp" />
     <ClCompile Include="GeometryShaderCache.cpp" />
     <ClCompile Include="main.cpp" />
@@ -51,11 +54,9 @@
     <ClCompile Include="PixelShaderCache.cpp" />
     <ClCompile Include="PSTextureEncoder.cpp" />
     <ClCompile Include="Render.cpp" />
-    <ClCompile Include="Television.cpp" />
     <ClCompile Include="TextureCache.cpp" />
     <ClCompile Include="VertexManager.cpp" />
     <ClCompile Include="VertexShaderCache.cpp" />
-    <ClCompile Include="XFBEncoder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
@@ -65,19 +66,19 @@
     <ClInclude Include="D3DState.h" />
     <ClInclude Include="D3DTexture.h" />
     <ClInclude Include="D3DUtil.h" />
+    <ClInclude Include="DXPipeline.h" />
+    <ClInclude Include="DXShader.h" />
+    <ClInclude Include="DXTexture.h" />
     <ClInclude Include="FramebufferManager.h" />
     <ClInclude Include="GeometryShaderCache.h" />
     <ClInclude Include="PerfQuery.h" />
     <ClInclude Include="PixelShaderCache.h" />
     <ClInclude Include="PSTextureEncoder.h" />
     <ClInclude Include="Render.h" />
-    <ClInclude Include="Television.h" />
     <ClInclude Include="TextureCache.h" />
-    <ClInclude Include="TextureEncoder.h" />
     <ClInclude Include="VertexManager.h" />
     <ClInclude Include="VertexShaderCache.h" />
     <ClInclude Include="VideoBackend.h" />
-    <ClInclude Include="XFBEncoder.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(CoreDir)VideoCommon\VideoCommon.vcxproj">

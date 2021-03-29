@@ -11,8 +11,8 @@
 #ifndef _WX_DCMEMORY_H_
 #define _WX_DCMEMORY_H_
 
-#include "wx/dcmemory.h"
-#include "wx/msw/dc.h"
+#include "wxWidgets3/include/wx/dcmemory.h"
+#include "wxWidgets3/include/wx/msw/dc.h"
 
 class WXDLLIMPEXP_CORE wxMemoryDCImpl: public wxMSWDCImpl
 {

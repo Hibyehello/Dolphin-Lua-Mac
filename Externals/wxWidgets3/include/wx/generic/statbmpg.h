@@ -10,7 +10,7 @@
 #ifndef _WX_GENERIC_STATBMP_H_
 #define _WX_GENERIC_STATBMP_H_
 
-#include "wx/statbmp.h"
+#include "wxWidgets3/include/wx/statbmp.h"
 
 class WXDLLIMPEXP_CORE wxGenericStaticBitmap : public wxStaticBitmapBase
 {

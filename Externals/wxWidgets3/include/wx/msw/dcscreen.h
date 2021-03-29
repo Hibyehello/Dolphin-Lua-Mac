@@ -11,8 +11,8 @@
 #ifndef _WX_MSW_DCSCREEN_H_
 #define _WX_MSW_DCSCREEN_H_
 
-#include "wx/dcscreen.h"
-#include "wx/msw/dc.h"
+#include "wxWidgets3/include/wx/dcscreen.h"
+#include "wxWidgets3/include/wx/msw/dc.h"
 
 class WXDLLIMPEXP_CORE wxScreenDCImpl : public wxMSWDCImpl
 {

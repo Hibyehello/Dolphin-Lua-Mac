@@ -22,10 +22,10 @@
  * wxEffects: various 3D effects
  */
 
-#include "wx/object.h"
-#include "wx/colour.h"
-#include "wx/gdicmn.h"
-#include "wx/dc.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wxWidgets3/include/wx/dc.h"
 
 class WXDLLIMPEXP_CORE wxEffectsImpl: public wxObject
 {

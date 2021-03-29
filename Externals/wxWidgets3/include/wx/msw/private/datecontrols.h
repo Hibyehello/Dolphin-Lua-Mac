@@ -10,9 +10,9 @@
 #ifndef _MSW_PRIVATE_DATECONTROLS_H_
 #define _MSW_PRIVATE_DATECONTROLS_H_
 
-#include "wx/datetime.h"
+#include "wxWidgets3/include/wx/datetime.h"
 
-#include "wx/msw/wrapwin.h"
+#include "wxWidgets3/include/wx/msw/wrapwin.h"
 
 // namespace for the helper functions related to the date controls
 namespace wxMSWDateControls

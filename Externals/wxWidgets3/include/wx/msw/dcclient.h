@@ -15,9 +15,9 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/dc.h"
-#include "wx/msw/dc.h"
-#include "wx/dcclient.h"
+#include "wxWidgets3/include/wx/dc.h"
+#include "wxWidgets3/include/wx/msw/dc.h"
+#include "wxWidgets3/include/wx/dcclient.h"
 
 class wxPaintDCInfo;
 

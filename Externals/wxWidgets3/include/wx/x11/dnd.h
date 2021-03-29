@@ -9,14 +9,14 @@
 #ifndef _WX_DND_H_
 #define _WX_DND_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DRAG_AND_DROP
 
-#include "wx/object.h"
-#include "wx/string.h"
-#include "wx/dataobj.h"
-#include "wx/cursor.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/dataobj.h"
+#include "wxWidgets3/include/wx/cursor.h"
 
 //-------------------------------------------------------------------------
 // classes

@@ -11,12 +11,12 @@
 #ifndef _WX_DYNLIB_H__
 #define _WX_DYNLIB_H__
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DYNLIB_CLASS
 
-#include "wx/string.h"
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 // note that we have our own dlerror() implementation under Darwin
 #if defined(HAVE_DLERROR) || defined(__DARWIN__)

@@ -11,8 +11,8 @@
 #ifndef _WX_ARRSTR_H
 #define _WX_ARRSTR_H
 
-#include "wx/defs.h"
-#include "wx/string.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/string.h"
 
 #if wxUSE_STD_CONTAINERS_COMPATIBLY
     #include <vector>
@@ -49,7 +49,7 @@ wxDictionaryStringSortDescending(const wxString& s1, const wxString& s2)
 
 #if wxUSE_STD_CONTAINERS
 
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 typedef int (wxCMPFUNC_CONV *CMPFUNCwxString)(wxString*, wxString*);
 typedef wxString _wxArraywxBaseArrayStringBase;
@@ -125,9 +125,9 @@ private:
 
 #else // if !wxUSE_STD_CONTAINERS
 
-#include "wx/beforestd.h"
+#include "wxWidgets3/include/wx/beforestd.h"
 #include <iterator>
-#include "wx/afterstd.h"
+#include "wxWidgets3/include/wx/afterstd.h"
 
 class WXDLLIMPEXP_BASE wxArrayString
 {

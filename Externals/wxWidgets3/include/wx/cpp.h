@@ -12,7 +12,7 @@
 #ifndef _WX_CPP_H_
 #define _WX_CPP_H_
 
-#include "wx/compiler.h"    /* wxCHECK_XXX_VERSION() macros */
+#include "wxWidgets3/include/wx/compiler.h"    /* wxCHECK_XXX_VERSION() macros */
 
 /* wxCONCAT works like preprocessor ## operator but also works with macros */
 #define wxCONCAT_HELPER(text, line) text ## line

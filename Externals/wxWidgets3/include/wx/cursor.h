@@ -11,13 +11,13 @@
 #ifndef _WX_CURSOR_H_BASE_
 #define _WX_CURSOR_H_BASE_
 
-#include "wx/gdiobj.h"
-#include "wx/gdicmn.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
 
 // Under most ports, wxCursor derives directly from wxGDIObject, but in wxMSW
 // there is an intermediate wxGDIImage class.
 #ifdef __WXMSW__
-    #include "wx/msw/gdiimage.h"
+    #include "wxWidgets3/include/wx/msw/gdiimage.h"
 #else
     typedef wxGDIObject wxGDIImage;
 #endif
@@ -44,35 +44,35 @@ public:
 
 #if defined(__WXMSW__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
-    #include "wx/msw/cursor.h"
+    #include "wxWidgets3/include/wx/msw/cursor.h"
 #elif defined(__WXMOTIF__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XBM
-    #include "wx/motif/cursor.h"
+    #include "wxWidgets3/include/wx/motif/cursor.h"
 #elif defined(__WXGTK20__)
     #ifdef __WINDOWS__
         #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
     #else
         #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
     #endif
-    #include "wx/gtk/cursor.h"
+    #include "wxWidgets3/include/wx/gtk/cursor.h"
 #elif defined(__WXGTK__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-    #include "wx/gtk1/cursor.h"
+    #include "wxWidgets3/include/wx/gtk1/cursor.h"
 #elif defined(__WXX11__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
-    #include "wx/x11/cursor.h"
+    #include "wxWidgets3/include/wx/x11/cursor.h"
 #elif defined(__WXDFB__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR_RESOURCE
-    #include "wx/dfb/cursor.h"
+    #include "wxWidgets3/include/wx/dfb/cursor.h"
 #elif defined(__WXMAC__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_MACCURSOR_RESOURCE
-    #include "wx/osx/cursor.h"
+    #include "wxWidgets3/include/wx/osx/cursor.h"
 #elif defined(__WXQT__)
     #define wxCURSOR_DEFAULT_TYPE   wxBITMAP_TYPE_CUR
-    #include "wx/qt/cursor.h"
+    #include "wxWidgets3/include/wx/qt/cursor.h"
 #endif
 
-#include "wx/utils.h"
+#include "wxWidgets3/include/wx/utils.h"
 
 /* This is a small class which can be used by all ports
    to temporarily suspend the busy cursor. Useful in modal

@@ -11,9 +11,9 @@
 #ifndef _WX_DCBUFFER_H_
 #define _WX_DCBUFFER_H_
 
-#include "wx/dcmemory.h"
-#include "wx/dcclient.h"
-#include "wx/window.h"
+#include "wxWidgets3/include/wx/dcmemory.h"
+#include "wxWidgets3/include/wx/dcclient.h"
+#include "wxWidgets3/include/wx/window.h"
 
 // Split platforms into two groups - those which have well-working
 // double-buffering by default, and those which do not.

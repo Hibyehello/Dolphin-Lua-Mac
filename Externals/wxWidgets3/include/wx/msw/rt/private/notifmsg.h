@@ -9,8 +9,8 @@
 #ifndef _WX_MSW_RT_PRIVATE_NOTIFMSG_H_
 #define _WX_MSW_RT_PRIVATE_NOTIFMSG_H_
 
-#include "wx/notifmsg.h"
-#include "wx/private/notifmsg.h"
+#include "wxWidgets3/include/wx/notifmsg.h"
+#include "wxWidgets3/include/wx/private/notifmsg.h"
 
 class wxToastNotificationHelper
 {

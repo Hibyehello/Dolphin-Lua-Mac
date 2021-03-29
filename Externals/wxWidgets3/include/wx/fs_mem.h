@@ -9,19 +9,19 @@
 #ifndef _WX_FS_MEM_H_
 #define _WX_FS_MEM_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FILESYSTEM
 
-#include "wx/filesys.h"
+#include "wxWidgets3/include/wx/filesys.h"
 
-#include "wx/hashmap.h"
+#include "wxWidgets3/include/wx/hashmap.h"
 
 class wxMemoryFSFile;
 WX_DECLARE_STRING_HASH_MAP(wxMemoryFSFile *, wxMemoryFSHash);
 
 #if wxUSE_GUI
-    #include "wx/bitmap.h"
+    #include "wxWidgets3/include/wx/bitmap.h"
 #endif // wxUSE_GUI
 
 // ----------------------------------------------------------------------------

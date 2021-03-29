@@ -13,11 +13,11 @@
 
 #define WXTAB_VERSION   1.1
 
-#include "wx/hashmap.h"
-#include "wx/string.h"
-#include "wx/dialog.h"
-#include "wx/panel.h"
-#include "wx/list.h"
+#include "wxWidgets3/include/wx/hashmap.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/dialog.h"
+#include "wxWidgets3/include/wx/panel.h"
+#include "wxWidgets3/include/wx/list.h"
 
 class WXDLLIMPEXP_FWD_CORE wxTabView;
 

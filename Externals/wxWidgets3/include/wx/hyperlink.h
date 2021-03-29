@@ -11,11 +11,11 @@
 #ifndef _WX_HYPERLINK_H_
 #define _WX_HYPERLINK_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_HYPERLINKCTRL
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 // ----------------------------------------------------------------------------
 // constants
@@ -135,12 +135,12 @@ typedef void (wxEvtHandler::*wxHyperlinkEventFunction)(wxHyperlinkEvent&);
 
 
 #if defined(__WXGTK210__) && !defined(__WXUNIVERSAL__)
-    #include "wx/gtk/hyperlink.h"
+    #include "wxWidgets3/include/wx/gtk/hyperlink.h"
 // Note that the native control is only available in Unicode version under MSW.
 #elif defined(__WXMSW__) && wxUSE_UNICODE && !defined(__WXUNIVERSAL__)
-    #include "wx/msw/hyperlink.h"
+    #include "wxWidgets3/include/wx/msw/hyperlink.h"
 #else
-    #include "wx/generic/hyperlink.h"
+    #include "wxWidgets3/include/wx/generic/hyperlink.h"
 
     class WXDLLIMPEXP_ADV wxHyperlinkCtrl : public wxGenericHyperlinkCtrl
     {

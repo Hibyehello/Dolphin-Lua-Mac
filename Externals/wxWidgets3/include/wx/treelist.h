@@ -10,17 +10,17 @@
 #ifndef _WX_TREELIST_H_
 #define _WX_TREELIST_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TREELISTCTRL
 
-#include "wx/compositewin.h"
-#include "wx/containr.h"
-#include "wx/headercol.h"
-#include "wx/itemid.h"
-#include "wx/vector.h"
-#include "wx/window.h"
-#include "wx/withimages.h"
+#include "wxWidgets3/include/wx/compositewin.h"
+#include "wxWidgets3/include/wx/containr.h"
+#include "wxWidgets3/include/wx/headercol.h"
+#include "wxWidgets3/include/wx/itemid.h"
+#include "wxWidgets3/include/wx/vector.h"
+#include "wxWidgets3/include/wx/window.h"
+#include "wxWidgets3/include/wx/withimages.h"
 
 class WXDLLIMPEXP_FWD_ADV wxDataViewCtrl;
 class WXDLLIMPEXP_FWD_ADV wxDataViewEvent;

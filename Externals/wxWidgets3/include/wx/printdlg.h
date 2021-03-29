@@ -11,14 +11,14 @@
 #ifndef _WX_PRINTDLG_H_BASE_
 #define _WX_PRINTDLG_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
-#include "wx/event.h"
-#include "wx/dialog.h"
-#include "wx/intl.h"
-#include "wx/cmndata.h"
+#include "wxWidgets3/include/wx/event.h"
+#include "wxWidgets3/include/wx/dialog.h"
+#include "wxWidgets3/include/wx/intl.h"
+#include "wxWidgets3/include/wx/cmndata.h"
 
 
 // ---------------------------------------------------------------------------

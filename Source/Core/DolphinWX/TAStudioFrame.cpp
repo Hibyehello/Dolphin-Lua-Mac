@@ -152,7 +152,7 @@ TAStudioFrame::TAStudioFrame(wxWindow* parent, wxWindowID id, const wxString& ti
 
 void TAStudioFrame::GetInput(GCPadStatus* PadStatus)
 {
-	m_inputGrid->AddInputToVector(Movie::g_currentFrame, Movie::g_currentInputCount, PadStatus);
+	m_inputGrid->AddInputToVector(Movie::s_currentFrame, Movie::s_currentInputCount, PadStatus);
 }
 
 void TAStudioFrame::SetInput(GCPadStatus* PadStatus)
@@ -163,7 +163,7 @@ void TAStudioFrame::SetInput(GCPadStatus* PadStatus)
 	}
 
 	// Get input for corresponding inputCount (next in-game input)
-	int inputFrame = Movie::g_currentInputCount;
+	int inputFrame = Movie::s_currentInputCount;
 
 	if (m_inputGrid->GetTAStudioInputVectorSize() <= inputFrame)
 	{
@@ -704,12 +704,12 @@ void InputGrid::GoToCurrentFrame()
 {
 	if (m_groupByVI)
 	{
-		m_firstFrameInGrid = Movie::g_currentFrame - m_gridNumberOfRows / 2;
+		m_firstFrameInGrid = Movie::s_currentFrame - m_gridNumberOfRows / 2;
 		UpdateGridValues();
 	}
 	else
 	{
-		m_firstInputInGrid = Movie::g_currentInputCount - m_gridNumberOfRows / 2;
+		m_firstInputInGrid = Movie::s_currentInputCount - m_gridNumberOfRows / 2;
 		UpdateGridValues();
 	}
 }
@@ -1242,7 +1242,7 @@ void InputGrid::SetInputAtRow(int row, TAStudioInput tastudioInput, u64 inputCou
 	SetCellValue(row, COLUMN_INPUT_COUNT, std::to_string(inputCount));
 	SetCellValue(row, COLUMN_VI_COUNT, std::to_string(tastudioInput.FrameCount));
 
-	int diff = (m_groupByVI ? tastudioInput.FrameCount - Movie::g_currentFrame : inputCount - Movie::g_currentInputCount);
+	int diff = (m_groupByVI ? tastudioInput.FrameCount - Movie::s_currentFrame : inputCount - Movie::s_currentInputCount);
 
 	SetCellValue(row, COLUMN_ACTIVE, diff == 0 ? "*" : std::to_string(diff));
 

@@ -2,92 +2,79 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
-#include "DolphinQt2/Settings.h"
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+
 #include "DolphinQt2/Config/SettingsWindow.h"
+#include "DolphinQt2/MainWindow.h"
+#include "DolphinQt2/QtUtils/ListTabWidget.h"
+#include "DolphinQt2/Resources.h"
+#include "DolphinQt2/Settings.h"
+#include "DolphinQt2/Settings/AdvancedPane.h"
+#include "DolphinQt2/Settings/AudioPane.h"
+#include "DolphinQt2/Settings/GameCubePane.h"
+#include "DolphinQt2/Settings/GeneralPane.h"
+#include "DolphinQt2/Settings/InterfacePane.h"
+#include "DolphinQt2/Settings/PathPane.h"
+#include "DolphinQt2/Settings/WiiPane.h"
 
-SettingsWindow::SettingsWindow(QWidget* parent)
-    : QDialog(parent)
+#include "Core/Core.h"
+
+static int AddTab(ListTabWidget* tab_widget, const QString& label, QWidget* widget,
+                  const char* icon_name)
 {
-    // Set Window Properties
-    setWindowTitle(tr("Settings"));
-    resize(720, 600);
-
-    // Main Layout
-    QVBoxLayout* layout = new QVBoxLayout;
-    QHBoxLayout* content = new QHBoxLayout;
-    QVBoxLayout* content_inner = new QVBoxLayout;
-    // Content's widgets
-    {
-        // Category list
-        MakeCategoryList();
-        content->addWidget(m_categories);
-
-        // Actual Settings UI
-        SetupSettingsWidget();
-
-        MakeUnfinishedWarning();
-
-        content_inner->addWidget(m_warning_group);
-        content_inner->addWidget(m_settings_outer);
-
-        content->addLayout(content_inner);
-    }
-
-    // Add content to layout before dialog buttons.
-    layout->addLayout(content);
-
-    // Dialog box buttons
-    QDialogButtonBox* ok_box = new QDialogButtonBox(QDialogButtonBox::Ok);
-    connect(ok_box, &QDialogButtonBox::accepted, this, &SettingsWindow::accept);
-    layout->addWidget(ok_box);
-
-    setLayout(layout);
+  int index = tab_widget->addTab(widget, label);
+  auto set_icon = [=] { tab_widget->setTabIcon(index, Resources::GetScaledThemeIcon(icon_name)); };
+  QObject::connect(&Settings::Instance(), &Settings::ThemeChanged, set_icon);
+  set_icon();
+  return index;
 }
 
-void SettingsWindow::SetupSettingsWidget()
+SettingsWindow::SettingsWindow(QWidget* parent) : QDialog(parent)
 {
-    m_settings_outer = new QStackedWidget;
-    m_settings_outer->setCurrentIndex(0);
+  // Set Window Properties
+  setWindowTitle(tr("Settings"));
+  setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+  // Main Layout
+  QVBoxLayout* layout = new QVBoxLayout;
+
+  // Add content to layout before dialog buttons.
+  m_tabs = new ListTabWidget();
+  layout->addWidget(m_tabs);
+
+  m_general_pane_index = AddTab(m_tabs, tr("General"), new GeneralPane(), "config");
+  AddTab(m_tabs, tr("Interface"), new InterfacePane(), "browse");
+  m_audio_pane_index = AddTab(m_tabs, tr("Audio"), new AudioPane(), "play");
+  AddTab(m_tabs, tr("GameCube"), new GameCubePane(), "gcpad");
+  AddTab(m_tabs, tr("Paths"), new PathPane(), "browse");
+
+  auto* wii_pane = new WiiPane;
+  AddTab(m_tabs, tr("Wii"), wii_pane, "wiimote");
+
+  connect(&Settings::Instance(), &Settings::EmulationStateChanged, [wii_pane](Core::State state) {
+    wii_pane->OnEmulationStateChanged(state != Core::State::Uninitialized);
+  });
+
+  AddTab(m_tabs, tr("Advanced"), new AdvancedPane(), "config");
+
+  // Dialog box buttons
+  QDialogButtonBox* close_box = new QDialogButtonBox(QDialogButtonBox::Close);
+
+  connect(close_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
+  layout->addWidget(close_box);
+
+  setLayout(layout);
 }
 
-void SettingsWindow::MakeUnfinishedWarning()
+void SettingsWindow::SelectAudioPane()
 {
-    m_warning_group = new QGroupBox(tr("Warning"));
-    QHBoxLayout* m_warning_group_layout = new QHBoxLayout;
-    QLabel* warning_text = new QLabel(
-            tr("Some categories and settings will not work.\n"
-                "This Settings Window is under active development."));
-    m_warning_group_layout->addWidget(warning_text);
-    m_warning_group->setLayout(m_warning_group_layout);
+  m_tabs->setCurrentIndex(m_audio_pane_index);
 }
 
-void SettingsWindow::AddCategoryToList(const QString& title, const QString& icon)
+void SettingsWindow::SelectGeneralPane()
 {
-    QListWidgetItem* button = new QListWidgetItem();
-    button->setIcon(QIcon(icon));
-    button->setText(title);
-    button->setTextAlignment(Qt::AlignVCenter);
-    button->setSizeHint(QSize(28, 28));
-    button->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    m_categories->addItem(button);
-}
-
-void SettingsWindow::MakeCategoryList()
-{
-    QString dir = Settings().GetThemeDir();
-
-    m_categories = new QListWidget;
-    m_categories->setMaximumWidth(175);
-    m_categories->setIconSize(QSize(32, 32));
-    m_categories->setMovement(QListView::Static);
-    m_categories->setSpacing(0);
-
-    connect(m_categories, &QListWidget::currentItemChanged, this, &SettingsWindow::changePage);
-}
-
-void SettingsWindow::changePage(QListWidgetItem* current, QListWidgetItem* previous)
-{
-    if (!current)
-        current = previous;
-    m_settings_outer->setCurrentIndex(m_categories->row(current));
+  m_tabs->setCurrentIndex(m_general_pane_index);
 }

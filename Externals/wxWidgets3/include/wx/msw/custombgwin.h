@@ -10,8 +10,8 @@
 #ifndef _WX_MSW_CUSTOMBGWIN_H_
 #define _WX_MSW_CUSTOMBGWIN_H_
 
-#include "wx/bitmap.h"
-#include "wx/brush.h"
+#include "wxWidgets3/include/wx/bitmap.h"
+#include "wxWidgets3/include/wx/brush.h"
 
 // ----------------------------------------------------------------------------
 // wxCustomBackgroundWindow

@@ -10,11 +10,11 @@
 #ifndef _WX_SIMPLEBOOK_H_
 #define _WX_SIMPLEBOOK_H_
 
-#include "wx/bookctrl.h"
+#include "wxWidgets3/include/wx/bookctrl.h"
 
 #if wxUSE_BOOKCTRL
 
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 // ----------------------------------------------------------------------------
 // wxSimplebook: a book control without any user-actionable controller.

@@ -258,7 +258,7 @@
 #if !wxCHECK_W32API_VERSION(3,1)
 
 #include <windows.h>
-#include "wx/msw/winundef.h"
+#include "wxWidgets3/include/wx/msw/winundef.h"
 
 typedef struct
 {

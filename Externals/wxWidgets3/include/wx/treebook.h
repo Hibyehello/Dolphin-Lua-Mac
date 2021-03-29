@@ -11,13 +11,13 @@
 #ifndef _WX_TREEBOOK_H_
 #define _WX_TREEBOOK_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TREEBOOK
 
-#include "wx/bookctrl.h"
-#include "wx/containr.h"
-#include "wx/treectrl.h"        // for wxArrayTreeItemIds
+#include "wxWidgets3/include/wx/bookctrl.h"
+#include "wxWidgets3/include/wx/containr.h"
+#include "wxWidgets3/include/wx/treectrl.h"        // for wxArrayTreeItemIds
 
 typedef wxWindow wxTreebookPage;
 

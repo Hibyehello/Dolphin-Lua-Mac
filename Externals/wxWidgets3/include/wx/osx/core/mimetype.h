@@ -11,13 +11,13 @@
 #ifndef _MIMETYPE_IMPL_H
 #define _MIMETYPE_IMPL_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_MIMETYPE
 
-#include "wx/mimetype.h"
-#include "wx/hashmap.h"
-#include "wx/iconloc.h"
+#include "wxWidgets3/include/wx/mimetype.h"
+#include "wxWidgets3/include/wx/hashmap.h"
+#include "wxWidgets3/include/wx/iconloc.h"
 
 
 // This class implements mime type functionality for Mac OS X using UTIs and Launch Services

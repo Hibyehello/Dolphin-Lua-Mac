@@ -12,7 +12,7 @@
 
 #if wxUSE_TIMER
 
-#include "wx/private/timer.h"
+#include "wxWidgets3/include/wx/private/timer.h"
 
 // the type used for milliseconds is large enough for microseconds too but
 // introduce a synonym for it to avoid confusion

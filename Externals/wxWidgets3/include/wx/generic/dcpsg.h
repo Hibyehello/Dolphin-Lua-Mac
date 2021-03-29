@@ -10,16 +10,16 @@
 #ifndef _WX_DCPSG_H_
 #define _WX_DCPSG_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE && wxUSE_POSTSCRIPT
 
-#include "wx/dc.h"
-#include "wx/dcprint.h"
-#include "wx/dialog.h"
-#include "wx/module.h"
-#include "wx/cmndata.h"
-#include "wx/strvararg.h"
+#include "wxWidgets3/include/wx/dc.h"
+#include "wxWidgets3/include/wx/dcprint.h"
+#include "wxWidgets3/include/wx/dialog.h"
+#include "wxWidgets3/include/wx/module.h"
+#include "wxWidgets3/include/wx/cmndata.h"
+#include "wxWidgets3/include/wx/strvararg.h"
 
 //-----------------------------------------------------------------------------
 // wxPostScriptDC

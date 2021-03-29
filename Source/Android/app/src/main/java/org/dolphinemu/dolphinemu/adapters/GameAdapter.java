@@ -1,28 +1,33 @@
 package org.dolphinemu.dolphinemu.adapters;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.DataSetObserver;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
-import org.dolphinemu.dolphinemu.dialogs.GameDetailsDialog;
 import org.dolphinemu.dolphinemu.model.GameDatabase;
+import org.dolphinemu.dolphinemu.services.DirectoryInitializationService;
+import org.dolphinemu.dolphinemu.ui.settings.SettingsActivity;
 import org.dolphinemu.dolphinemu.utils.Log;
+import org.dolphinemu.dolphinemu.utils.PicassoUtils;
+import org.dolphinemu.dolphinemu.utils.SettingsFile;
 import org.dolphinemu.dolphinemu.viewholders.GameViewHolder;
 
+import java.io.File;
+
 /**
- * This adapter, unlike {@link FileAdapter} which is backed by an ArrayList, gets its
- * information from a database Cursor. This fact, paired with the usage of ContentProviders
- * and Loaders, allows for efficient display of a limited view into a (possibly) large dataset.
+ * This adapter gets its information from a database Cursor. This fact, paired with the usage of
+ * ContentProviders and Loaders, allows for efficient display of a limited view into a (possibly)
+ * large dataset.
  */
 public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> implements
 		View.OnClickListener,
@@ -80,17 +85,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
 			if (mCursor.moveToPosition(position))
 			{
 				String screenPath = mCursor.getString(GameDatabase.GAME_COLUMN_SCREENSHOT_PATH);
-
-				// Fill in the view contents.
-				Picasso.with(holder.imageScreenshot.getContext())
-						.load(screenPath)
-						.fit()
-						.centerCrop()
-						.noFade()
-						.noPlaceholder()
-						.config(Bitmap.Config.RGB_565)
-						.error(R.drawable.no_banner)
-						.into(holder.imageScreenshot);
+				PicassoUtils.loadGameBanner(holder.imageScreenshot, screenPath, mCursor.getString(GameDatabase.GAME_COLUMN_PATH));
 
 				holder.textGameTitle.setText(mCursor.getString(GameDatabase.GAME_COLUMN_TITLE));
 				holder.textCompany.setText(mCursor.getString(GameDatabase.GAME_COLUMN_COMPANY));
@@ -214,7 +209,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
 	{
 		GameViewHolder holder = (GameViewHolder) view.getTag();
 
-		EmulationActivity.launch((Activity) view.getContext(),
+		EmulationActivity.launch((FragmentActivity) view.getContext(),
 				holder.path,
 				holder.title,
 				holder.screenshotPath,
@@ -234,17 +229,46 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
 		GameViewHolder holder = (GameViewHolder) view.getTag();
 
 		// Get the ID of the game we want to look at.
-		// TODO This should be all we need to pass in, eventually.
-		// String gameId = (String) holder.gameId;
+		String gameId = (String) holder.gameId;
 
-		Activity activity = (Activity) view.getContext();
-		GameDetailsDialog.newInstance(holder.title,
-				holder.description,
-				holder.country,
-				holder.company,
-				holder.path,
-				holder.screenshotPath).show(activity.getFragmentManager(), "game_details");
+		FragmentActivity activity = (FragmentActivity) view.getContext();
 
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		builder.setTitle("Game Settings")
+			.setItems(R.array.gameSettingsMenus, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					switch (which) {
+						case 0:
+							SettingsActivity.launch(activity, SettingsFile.FILE_NAME_DOLPHIN, gameId);
+							break;
+						case 1:
+							SettingsActivity.launch(activity, SettingsFile.FILE_NAME_GFX, gameId);
+							break;
+						case 2:
+							String path = DirectoryInitializationService.getUserDirectory() + "/GameSettings/" + gameId + ".ini";
+							File gameSettingsFile = new File(path);
+							if (gameSettingsFile.exists())
+							{
+								if (gameSettingsFile.delete())
+								{
+									Toast.makeText(view.getContext(), "Cleared settings for " + gameId, Toast.LENGTH_SHORT).show();
+								}
+								else
+								{
+									Toast.makeText(view.getContext(), "Unable to clear settings for " + gameId, Toast.LENGTH_SHORT).show();
+								}
+							}
+							else
+							{
+								Toast.makeText(view.getContext(), "No game settings to delete", Toast.LENGTH_SHORT).show();
+							}
+							break;
+					}
+				}
+			});
+
+		builder.show();
 		return true;
 	}
 

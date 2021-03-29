@@ -12,8 +12,8 @@
 #ifndef _WX_WXCRT_H_
 #define _WX_WXCRT_H_
 
-#include "wx/wxcrtbase.h"
-#include "wx/string.h"
+#include "wxWidgets3/include/wx/wxcrtbase.h"
+#include "wxWidgets3/include/wx/string.h"
 
 #ifndef __WX_SETUP_H__
 // For non-configure builds assume vsscanf is available, if not Visual C

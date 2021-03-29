@@ -12,7 +12,7 @@
 #ifndef _WX_TASKBAR_H_
 #define _WX_TASKBAR_H_
 
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/icon.h"
 
 // private helper class:
 class WXDLLIMPEXP_FWD_ADV wxTaskBarIconWindow;

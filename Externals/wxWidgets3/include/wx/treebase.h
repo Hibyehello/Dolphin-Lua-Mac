@@ -15,14 +15,14 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TREECTRL
 
-#include "wx/window.h"  // for wxClientData
-#include "wx/event.h"
-#include "wx/dynarray.h"
-#include "wx/itemid.h"
+#include "wxWidgets3/include/wx/window.h"  // for wxClientData
+#include "wxWidgets3/include/wx/event.h"
+#include "wxWidgets3/include/wx/dynarray.h"
+#include "wxWidgets3/include/wx/itemid.h"
 
 // ----------------------------------------------------------------------------
 // wxTreeItemId identifies an element of the tree. It's opaque for the

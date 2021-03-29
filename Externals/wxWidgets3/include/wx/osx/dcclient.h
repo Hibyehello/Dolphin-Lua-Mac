@@ -11,8 +11,8 @@
 #ifndef _WX_DCCLIENT_H_
 #define _WX_DCCLIENT_H_
 
-#include "wx/dc.h"
-#include "wx/dcgraph.h"
+#include "wxWidgets3/include/wx/dc.h"
+#include "wxWidgets3/include/wx/dcgraph.h"
 
 //-----------------------------------------------------------------------------
 // classes

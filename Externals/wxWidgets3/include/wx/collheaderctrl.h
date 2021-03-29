@@ -10,11 +10,11 @@
 #ifndef _WX_COLLAPSIBLEHEADER_CTRL_H_
 #define _WX_COLLAPSIBLEHEADER_CTRL_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_COLLPANE
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 // class name
 extern WXDLLIMPEXP_DATA_CORE(const char) wxCollapsibleHeaderCtrlNameStr[];
@@ -76,7 +76,7 @@ wxDECLARE_EXPORTED_EVENT(WXDLLIMPEXP_CORE, wxEVT_COLLAPSIBLEHEADER_CHANGED, wxCo
 
 // Currently there is only the native implementation, use it for all ports.
 
-#include "wx/generic/collheaderctrl.h"
+#include "wxWidgets3/include/wx/generic/collheaderctrl.h"
 
 class WXDLLIMPEXP_CORE wxCollapsibleHeaderCtrl
     : public wxGenericCollapsibleHeaderCtrl

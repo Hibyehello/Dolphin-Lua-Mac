@@ -11,8 +11,8 @@
 #ifndef _WX_EVTLOOP_H_
 #define _WX_EVTLOOP_H_
 
-#include "wx/event.h"
-#include "wx/utils.h"
+#include "wxWidgets3/include/wx/event.h"
+#include "wxWidgets3/include/wx/utils.h"
 
 // TODO: implement wxEventLoopSource for MSW (it should wrap a HANDLE and be
 //       monitored using MsgWaitForMultipleObjects())
@@ -276,14 +276,14 @@ private:
 #if defined(__DARWIN__)
     // CoreFoundation-based event loop is currently in wxBase so include it in
     // any case too (although maybe it actually shouldn't be there at all)
-    #include "wx/osx/core/evtloop.h"
+    #include "wxWidgets3/include/wx/osx/core/evtloop.h"
 #endif
 
 // include the header defining wxConsoleEventLoop
 #if defined(__UNIX__) && !defined(__WINDOWS__)
-    #include "wx/unix/evtloop.h"
+    #include "wxWidgets3/include/wx/unix/evtloop.h"
 #elif defined(__WINDOWS__)
-    #include "wx/msw/evtloopconsole.h"
+    #include "wxWidgets3/include/wx/msw/evtloopconsole.h"
 #endif
 
 #if wxUSE_GUI
@@ -291,18 +291,18 @@ private:
 // include the appropriate header defining wxGUIEventLoop
 
 #if defined(__WXMSW__)
-    #include "wx/msw/evtloop.h"
+    #include "wxWidgets3/include/wx/msw/evtloop.h"
 #elif defined(__WXOSX__)
-    #include "wx/osx/evtloop.h"
+    #include "wxWidgets3/include/wx/osx/evtloop.h"
 #elif defined(__WXDFB__)
-    #include "wx/dfb/evtloop.h"
+    #include "wxWidgets3/include/wx/dfb/evtloop.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/evtloop.h"
+    #include "wxWidgets3/include/wx/gtk/evtloop.h"
     #elif defined(__WXQT__)
-    #include "wx/qt/evtloop.h"
+    #include "wxWidgets3/include/wx/qt/evtloop.h"
 #else // other platform
 
-#include "wx/stopwatch.h"   // for wxMilliClock_t
+#include "wxWidgets3/include/wx/stopwatch.h"   // for wxMilliClock_t
 
 class WXDLLIMPEXP_FWD_CORE wxEventLoopImpl;
 

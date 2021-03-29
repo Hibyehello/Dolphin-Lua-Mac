@@ -11,11 +11,11 @@
 #ifndef _WX_ICONBNDL_H_
 #define _WX_ICONBNDL_H_
 
-#include "wx/gdiobj.h"
-#include "wx/gdicmn.h"      // for wxSize
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wxWidgets3/include/wx/gdicmn.h"      // for wxSize
+#include "wxWidgets3/include/wx/icon.h"
 
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 class WXDLLIMPEXP_FWD_BASE wxInputStream;
 

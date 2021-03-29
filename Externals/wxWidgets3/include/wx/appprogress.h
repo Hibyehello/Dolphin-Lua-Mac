@@ -10,7 +10,7 @@
 #ifndef _WX_APPPROG_H_
 #define _WX_APPPROG_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 class WXDLLIMPEXP_CORE wxAppProgressIndicatorBase
 {
@@ -30,9 +30,9 @@ private:
 };
 
 #if defined(__WXMSW__) && wxUSE_TASKBARBUTTON
-    #include "wx/msw/appprogress.h"
+    #include "wxWidgets3/include/wx/msw/appprogress.h"
 #elif defined(__WXOSX_COCOA__)
-    #include "wx/osx/appprogress.h"
+    #include "wxWidgets3/include/wx/osx/appprogress.h"
 #else
     class wxAppProgressIndicator : public wxAppProgressIndicatorBase
     {

@@ -10,14 +10,14 @@
 #ifndef _WX_HEADERCTRL_H_
 #define _WX_HEADERCTRL_H_
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 #if wxUSE_HEADERCTRL
 
-#include "wx/dynarray.h"
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/dynarray.h"
+#include "wxWidgets3/include/wx/vector.h"
 
-#include "wx/headercol.h"
+#include "wxWidgets3/include/wx/headercol.h"
 
 // notice that the classes in this header are defined in the core library even
 // although currently they're only used by wxGrid which is in wxAdv because we
@@ -242,10 +242,10 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wx/msw/headerctrl.h"
+    #include "wxWidgets3/include/wx/msw/headerctrl.h"
 #else
     #define wxHAS_GENERIC_HEADERCTRL
-    #include "wx/generic/headerctrlg.h"
+    #include "wxWidgets3/include/wx/generic/headerctrlg.h"
 #endif // platform
 
 // ----------------------------------------------------------------------------

@@ -15,9 +15,9 @@
 
 #if wxUSE_SASH
 
-#include "wx/defs.h"
-#include "wx/window.h"
-#include "wx/string.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/window.h"
+#include "wxWidgets3/include/wx/string.h"
 
 #define wxSASH_DRAG_NONE       0
 #define wxSASH_DRAG_DRAGGING   1

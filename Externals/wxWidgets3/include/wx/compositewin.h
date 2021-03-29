@@ -10,8 +10,8 @@
 #ifndef _WX_COMPOSITEWIN_H_
 #define _WX_COMPOSITEWIN_H_
 
-#include "wx/window.h"
-#include "wx/containr.h"
+#include "wxWidgets3/include/wx/window.h"
+#include "wxWidgets3/include/wx/containr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxToolTip;
 

@@ -11,11 +11,11 @@
 #ifndef _WX_CHOICDLG_H_BASE_
 #define _WX_CHOICDLG_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_CHOICEDLG
 
-#include "wx/generic/choicdgg.h"
+#include "wxWidgets3/include/wx/generic/choicdgg.h"
 
 #endif
 

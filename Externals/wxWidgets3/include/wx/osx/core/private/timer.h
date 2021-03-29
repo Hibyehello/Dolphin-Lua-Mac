@@ -10,7 +10,7 @@
 #ifndef _WX_OSX_CORE_PRIVATE_TIMER_H_
 #define _WX_OSX_CORE_PRIVATE_TIMER_H_
 
-#include "wx/private/timer.h"
+#include "wxWidgets3/include/wx/private/timer.h"
 
 struct wxOSXTimerInfo;
 

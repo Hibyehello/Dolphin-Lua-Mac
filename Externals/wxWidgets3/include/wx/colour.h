@@ -11,8 +11,8 @@
 #ifndef _WX_COLOUR_H_BASE_
 #define _WX_COLOUR_H_BASE_
 
-#include "wx/defs.h"
-#include "wx/gdiobj.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/gdiobj.h"
 
 class WXDLLIMPEXP_FWD_CORE wxColour;
 
@@ -52,7 +52,7 @@ const unsigned char wxALPHA_OPAQUE = 0xff;
 // ----------------------------------------------------------------------------
 
 #if wxUSE_VARIANT
-#include "wx/variant.h"
+#include "wxWidgets3/include/wx/variant.h"
 DECLARE_VARIANT_OBJECT_EXPORTED(wxColour,WXDLLIMPEXP_CORE)
 #endif
 
@@ -206,21 +206,21 @@ WXDLLIMPEXP_CORE bool wxFromString(const wxString& str, wxColourBase* col);
 
 
 #if defined(__WXMSW__)
-    #include "wx/msw/colour.h"
+    #include "wxWidgets3/include/wx/msw/colour.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/colour.h"
+    #include "wxWidgets3/include/wx/motif/colour.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/colour.h"
+    #include "wxWidgets3/include/wx/gtk/colour.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/colour.h"
+    #include "wxWidgets3/include/wx/gtk1/colour.h"
 #elif defined(__WXDFB__)
-    #include "wx/generic/colour.h"
+    #include "wxWidgets3/include/wx/generic/colour.h"
 #elif defined(__WXX11__)
-    #include "wx/x11/colour.h"
+    #include "wxWidgets3/include/wx/x11/colour.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/colour.h"
+    #include "wxWidgets3/include/wx/osx/colour.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/colour.h"
+    #include "wxWidgets3/include/wx/qt/colour.h"
 #endif
 
 #define wxColor wxColour

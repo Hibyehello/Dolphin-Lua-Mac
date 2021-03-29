@@ -4,47 +4,142 @@
 
 #pragma once
 
-#include <QSettings>
+#include <memory>
 
-#include "DiscIO/Volume.h"
+#include <QFont>
+#include <QObject>
+#include <QSettings>
+#include <QVector>
+
+#include "Core/NetPlayClient.h"
+#include "Core/NetPlayServer.h"
+
+namespace Core
+{
+enum class State;
+}
+
+namespace DiscIO
+{
+enum class Language;
+}
+
+class GameListModel;
+class InputConfig;
+class QFont;
 
 // UI settings to be stored in the config directory.
-class Settings final : public QSettings
+class Settings final : public QObject
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit Settings(QObject* parent = nullptr);
+  Settings(const Settings&) = delete;
+  Settings& operator=(const Settings&) = delete;
+  Settings(Settings&&) = delete;
+  Settings& operator=(Settings&&) = delete;
 
-	// UI
-	QString GetThemeDir() const;
+  static Settings& Instance();
+  static QSettings& GetQSettings();
 
-	// GameList
-	QString GetLastGame() const;
-	void SetLastGame(const QString& path);
-	QStringList GetPaths() const;
-	void SetPaths(const QStringList& paths);
-	void RemovePath(int i);
-	QString GetDefaultGame() const;
-	void SetDefaultGame(const QString& path);
-	QString GetDVDRoot() const;
-	void SetDVDRoot(const QString& path);
-	QString GetApploader() const;
-	void SetApploader(const QString& path);
-	QString GetWiiNAND() const;
-	void SetWiiNAND(const QString& path);
-	DiscIO::IVolume::ELanguage GetWiiSystemLanguage() const;
-	DiscIO::IVolume::ELanguage GetGCSystemLanguage() const;
-	bool GetPreferredView() const;
-	void SetPreferredView(bool table);
+  // UI
+  void SetThemeName(const QString& theme_name);
 
-	// Emulation
-	bool GetConfirmStop() const;
-	int GetStateSlot() const;
-	void SetStateSlot(int);
+  bool IsInDevelopmentWarningEnabled() const;
+  bool IsLogVisible() const;
+  void SetLogVisible(bool visible);
+  bool IsLogConfigVisible() const;
+  void SetLogConfigVisible(bool visible);
+  bool IsControllerStateNeeded() const;
+  void SetControllerStateNeeded(bool needed);
 
-	// Graphics
-	bool GetRenderToMain() const;
-	bool GetFullScreen() const;
-	QSize GetRenderWindowSize() const;
+  // GameList
+  QStringList GetPaths() const;
+  void AddPath(const QString& path);
+  void RemovePath(const QString& path);
+  bool GetPreferredView() const;
+  void SetPreferredView(bool list);
+  QString GetDefaultGame() const;
+  void SetDefaultGame(QString path);
+
+  // Emulation
+  int GetStateSlot() const;
+  void SetStateSlot(int);
+
+  // Graphics
+  void SetHideCursor(bool hide_cursor);
+  bool GetHideCursor() const;
+
+  // Audio
+  int GetVolume() const;
+  void SetVolume(int volume);
+  void IncreaseVolume(int volume);
+  void DecreaseVolume(int volume);
+
+  // NetPlay
+  NetPlayClient* GetNetPlayClient();
+  void ResetNetPlayClient(NetPlayClient* client = nullptr);
+  NetPlayServer* GetNetPlayServer();
+  void ResetNetPlayServer(NetPlayServer* server = nullptr);
+
+  // Cheats
+  bool GetCheatsEnabled() const;
+  void SetCheatsEnabled(bool enabled);
+
+  // Debug
+  void SetDebugModeEnabled(bool enabled);
+  bool IsDebugModeEnabled() const;
+  void SetRegistersVisible(bool enabled);
+  bool IsRegistersVisible() const;
+  void SetWatchVisible(bool enabled);
+  bool IsWatchVisible() const;
+  void SetBreakpointsVisible(bool enabled);
+  bool IsBreakpointsVisible() const;
+  void SetCodeVisible(bool enabled);
+  bool IsCodeVisible() const;
+  void SetMemoryVisible(bool enabled);
+  bool IsMemoryVisible() const;
+  QFont GetDebugFont() const;
+  void SetDebugFont(QFont font);
+
+  // Auto-Update
+  QString GetAutoUpdateTrack() const;
+  void SetAutoUpdateTrack(const QString& mode);
+
+  // Analytics
+  bool IsAnalyticsEnabled() const;
+  void SetAnalyticsEnabled(bool enabled);
+
+  // Other
+  GameListModel* GetGameListModel() const;
+signals:
+  void ConfigChanged();
+  void EmulationStateChanged(Core::State new_state);
+  void ThemeChanged();
+  void PathAdded(const QString&);
+  void PathRemoved(const QString&);
+  void DefaultGameChanged(const QString&);
+  void HideCursorChanged();
+  void VolumeChanged(int volume);
+  void NANDRefresh();
+  void RegistersVisibilityChanged(bool visible);
+  void LogVisibilityChanged(bool visible);
+  void LogConfigVisibilityChanged(bool visible);
+  void EnableCheatsChanged(bool enabled);
+  void WatchVisibilityChanged(bool visible);
+  void BreakpointsVisibilityChanged(bool visible);
+  void CodeVisibilityChanged(bool visible);
+  void MemoryVisibilityChanged(bool visible);
+  void DebugModeToggled(bool enabled);
+  void DebugFontChanged(QFont font);
+  void AutoUpdateTrackChanged(const QString& mode);
+  void AnalyticsToggled(bool enabled);
+
+private:
+  bool m_controller_state_needed = false;
+  std::unique_ptr<NetPlayClient> m_client;
+  std::unique_ptr<NetPlayServer> m_server;
+  Settings();
 };
+
+Q_DECLARE_METATYPE(Core::State);

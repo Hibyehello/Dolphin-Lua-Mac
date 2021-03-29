@@ -11,7 +11,7 @@
 #define _WX_MSW_BMPCBOX_H_
 
 
-#include "wx/combobox.h"
+#include "wxWidgets3/include/wx/combobox.h"
 
 
 // ----------------------------------------------------------------------------

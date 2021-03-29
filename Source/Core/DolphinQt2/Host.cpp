@@ -2,105 +2,135 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
+#include "DolphinQt2/Host.h"
+
 #include <QAbstractEventDispatcher>
 #include <QApplication>
-#include <QMutexLocker>
+#include <QProgressDialog>
 
 #include "Common/Common.h"
+#include "Core/ConfigManager.h"
+#include "Core/Core.h"
+#include "Core/Debugger/PPCDebugInterface.h"
 #include "Core/Host.h"
-#include "DolphinQt2/Host.h"
-#include "DolphinQt2/MainWindow.h"
+#include "Core/PowerPC/PowerPC.h"
+#include "DolphinQt2/Settings.h"
+#include "VideoCommon/RenderBase.h"
 
-Host* Host::m_instance = nullptr;
+Host::Host() = default;
 
 Host* Host::GetInstance()
 {
-	if (m_instance == nullptr)
-		m_instance = new Host();
-	return m_instance;
+  static Host* s_instance = new Host();
+  return s_instance;
 }
 
 void* Host::GetRenderHandle()
 {
-	QMutexLocker locker(&m_lock);
-	return m_render_handle;
+  return m_render_handle;
 }
 
 void Host::SetRenderHandle(void* handle)
 {
-	QMutexLocker locker(&m_lock);
-	m_render_handle = handle;
+  m_render_handle = handle;
 }
 
 bool Host::GetRenderFocus()
 {
-	QMutexLocker locker(&m_lock);
-	return m_render_focus;
+  return m_render_focus;
 }
 
 void Host::SetRenderFocus(bool focus)
 {
-	QMutexLocker locker(&m_lock);
-	m_render_focus = focus;
+  m_render_focus = focus;
 }
 
 bool Host::GetRenderFullscreen()
 {
-	QMutexLocker locker(&m_lock);
-	return m_render_fullscreen;
+  return m_render_fullscreen;
 }
 
 void Host::SetRenderFullscreen(bool fullscreen)
 {
-	QMutexLocker locker(&m_lock);
-	m_render_fullscreen = fullscreen;
+  m_render_fullscreen = fullscreen;
+}
+
+void Host::ResizeSurface(int new_width, int new_height)
+{
+  if (g_renderer)
+    g_renderer->ResizeSurface(new_width, new_height);
 }
 
 void Host_Message(int id)
 {
-	if (id == WM_USER_STOP)
-	{
-		emit Host::GetInstance()->RequestStop();
-	}
-	else if (id == WM_USER_JOB_DISPATCH)
-	{
-		// Just poke the main thread to get it to wake up, job dispatch
-		// will happen automatically before it goes back to sleep again.
-		QAbstractEventDispatcher::instance(qApp->thread())->wakeUp();
-	}
+  if (id == WM_USER_STOP)
+  {
+    emit Host::GetInstance()->RequestStop();
+  }
+  else if (id == WM_USER_JOB_DISPATCH)
+  {
+    // Just poke the main thread to get it to wake up, job dispatch
+    // will happen automatically before it goes back to sleep again.
+    QAbstractEventDispatcher::instance(qApp->thread())->wakeUp();
+  }
 }
 
 void Host_UpdateTitle(const std::string& title)
 {
-	emit Host::GetInstance()->RequestTitle(QString::fromStdString(title));
+  emit Host::GetInstance()->RequestTitle(QString::fromStdString(title));
 }
 
 void* Host_GetRenderHandle()
 {
-	return Host::GetInstance()->GetRenderHandle();
+  return Host::GetInstance()->GetRenderHandle();
 }
 
 bool Host_RendererHasFocus()
 {
-	return Host::GetInstance()->GetRenderFocus();
+  return Host::GetInstance()->GetRenderFocus();
 }
 
-bool Host_RendererIsFullscreen() {
-	return Host::GetInstance()->GetRenderFullscreen();
+bool Host_RendererIsFullscreen()
+{
+  return Host::GetInstance()->GetRenderFullscreen();
+}
+
+void Host_YieldToUI()
+{
+  qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
+}
+
+void Host_UpdateDisasmDialog()
+{
+}
+
+void Host_UpdateProgressDialog(const char* caption, int position, int total)
+{
+  emit Host::GetInstance()->UpdateProgressDialog(QString::fromUtf8(caption), position, total);
 }
 
 // We ignore these, and their purpose should be questioned individually.
 // In particular, RequestRenderWindowSize, RequestFullscreen, and
 // UpdateMainFrame should almost certainly be removed.
-void Host_UpdateMainFrame() {}
-void Host_RequestFullscreen(bool enable) {}
-void Host_RequestRenderWindowSize(int w, int h) {}
-bool Host_UIHasFocus() { return false; }
-void Host_NotifyMapLoaded() {}
-void Host_UpdateDisasmDialog() {}
-void Host_SetStartupDebuggingParameters() {}
-void Host_SetWiiMoteConnectionState(int state) {}
-void Host_ConnectWiimote(int wm_idx, bool connect) {}
-void Host_ShowVideoConfig(void* parent, const std::string& backend_name,
-                          const std::string& config_name) {}
-void Host_RefreshDSPDebuggerWindow() {}
+void Host_UpdateMainFrame()
+{
+}
+
+void Host_RequestRenderWindowSize(int w, int h)
+{
+  emit Host::GetInstance()->RequestRenderSize(w, h);
+}
+
+bool Host_UINeedsControllerState()
+{
+  return Settings::Instance().IsControllerStateNeeded();
+}
+void Host_NotifyMapLoaded()
+{
+}
+void Host_ShowVideoConfig(void* parent, const std::string& backend_name)
+{
+}
+void Host_RefreshDSPDebuggerWindow()
+{
+}

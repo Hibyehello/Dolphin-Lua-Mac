@@ -11,10 +11,10 @@
 #ifndef _WX_STOCKITEM_H_
 #define _WX_STOCKITEM_H_
 
-#include "wx/defs.h"
-#include "wx/chartype.h"
-#include "wx/string.h"
-#include "wx/accel.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/chartype.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/accel.h"
 
 // ----------------------------------------------------------------------------
 // Helper functions for stock items handling:

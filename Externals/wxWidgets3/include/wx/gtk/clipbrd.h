@@ -14,7 +14,7 @@
 // wxClipboard
 // ----------------------------------------------------------------------------
 
-#include "wx/weakref.h"
+#include "wxWidgets3/include/wx/weakref.h"
 
 class WXDLLIMPEXP_CORE wxClipboard : public wxClipboardBase
 {

@@ -10,11 +10,11 @@
 #ifndef _WX_GENERIC_ABOUTDLGG_H_
 #define _WX_GENERIC_ABOUTDLGG_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_ABOUTDLG
 
-#include "wx/dialog.h"
+#include "wxWidgets3/include/wx/dialog.h"
 
 class WXDLLIMPEXP_FWD_ADV wxAboutDialogInfo;
 class WXDLLIMPEXP_FWD_CORE wxSizer;

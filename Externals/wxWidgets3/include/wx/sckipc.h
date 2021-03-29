@@ -15,14 +15,14 @@
 #ifndef _WX_SCKIPC_H
 #define _WX_SCKIPC_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_SOCKETS && wxUSE_IPC
 
-#include "wx/ipcbase.h"
-#include "wx/socket.h"
-#include "wx/sckstrm.h"
-#include "wx/datstrm.h"
+#include "wxWidgets3/include/wx/ipcbase.h"
+#include "wxWidgets3/include/wx/socket.h"
+#include "wxWidgets3/include/wx/sckstrm.h"
+#include "wxWidgets3/include/wx/datstrm.h"
 
 /*
  * Mini-DDE implementation

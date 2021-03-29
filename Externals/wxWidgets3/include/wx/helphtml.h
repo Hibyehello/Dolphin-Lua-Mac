@@ -12,7 +12,7 @@
 #define __WX_HELPHTML_H_
 
 #if wxUSE_WXHTML_HELP
-#include "wx/html/helpctrl.h"
+#include "wxWidgets3/include/wx/html/helpctrl.h"
 #endif
 
 #endif // __WX_HELPHTML_H_

@@ -12,8 +12,8 @@
 #define _WX_MATRIXH__
 
 //! headerfiles="matrix.h wx/object.h"
-#include "wx/object.h"
-#include "wx/math.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/math.h"
 
 //! codefiles="matrix.cpp"
 

@@ -10,7 +10,7 @@
 #ifndef _WX_MOUSEMANAGER_H_
 #define _WX_MOUSEMANAGER_H_
 
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/event.h"
 
 // ----------------------------------------------------------------------------
 // wxMouseEventsManager

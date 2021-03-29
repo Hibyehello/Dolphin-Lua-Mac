@@ -11,7 +11,7 @@
 #ifndef _WX_GTK_COLORDLG_H_
 #define _WX_GTK_COLORDLG_H_
 
-#include "wx/dialog.h"
+#include "wxWidgets3/include/wx/dialog.h"
 
 class WXDLLIMPEXP_CORE wxColourDialog : public wxDialog
 {

@@ -5,6 +5,7 @@
 #include "DolphinWX/LUA_API.h"
 
 #include "Core/Movie.h"
+#include "Core/Core.h"
 #include "Core/HW/ProcessorInterface.h"
 #include "Core/ConfigManager.h"
 
@@ -15,7 +16,7 @@ namespace Lua
 		int frameAdvance(lua_State *L)
 		{
 			u64 current_frame = Movie::GetCurrentFrame();
-			Movie::DoFrameStep();
+			Core::DoFrameStep();
 
 			// Block until a frame has actually processed
 			// Prevents a script from executing it's main loop more than once per frame.
@@ -31,7 +32,7 @@ namespace Lua
 
 		int getLagCount(lua_State *L)
         {
-	        lua_pushinteger(L, Movie::g_currentLagCount);
+	        lua_pushinteger(L, Movie::s_currentLagCount);
 	        return 1;
         }
 

@@ -12,13 +12,13 @@
 #ifndef _WX_FILEH__
 #define _WX_FILEH__
 
-#include  "wx/defs.h"
+#include  "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FILE
 
-#include  "wx/string.h"
-#include  "wx/filefn.h"
-#include  "wx/convauto.h"
+#include  "wxWidgets3/include/wx/string.h"
+#include  "wxWidgets3/include/wx/filefn.h"
+#include  "wxWidgets3/include/wx/convauto.h"
 
 // ----------------------------------------------------------------------------
 // class wxFile: raw file IO

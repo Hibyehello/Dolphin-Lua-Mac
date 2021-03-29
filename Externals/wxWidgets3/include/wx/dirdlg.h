@@ -11,11 +11,11 @@
 #ifndef _WX_DIRDLG_H_BASE_
 #define _WX_DIRDLG_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DIRDLG
 
-#include "wx/dialog.h"
+#include "wxWidgets3/include/wx/dialog.h"
 
 // ----------------------------------------------------------------------------
 // constants
@@ -84,26 +84,26 @@ protected:
 
 // Universal and non-port related switches with need for generic implementation
 #if defined(__WXUNIVERSAL__)
-    #include "wx/generic/dirdlgg.h"
+    #include "wxWidgets3/include/wx/generic/dirdlgg.h"
     #define wxDirDialog wxGenericDirDialog
 #elif defined(__WXMSW__) && !wxUSE_OLE
-    #include "wx/generic/dirdlgg.h"
+    #include "wxWidgets3/include/wx/generic/dirdlgg.h"
     #define wxDirDialog wxGenericDirDialog
 #elif defined(__WXMSW__)
-    #include "wx/msw/dirdlg.h"  // Native MSW
+    #include "wxWidgets3/include/wx/msw/dirdlg.h"  // Native MSW
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/dirdlg.h"  // Native GTK for gtk2.4
+    #include "wxWidgets3/include/wx/gtk/dirdlg.h"  // Native GTK for gtk2.4
 #elif defined(__WXGTK__)
-    #include "wx/generic/dirdlgg.h"
+    #include "wxWidgets3/include/wx/generic/dirdlgg.h"
     #define wxDirDialog wxGenericDirDialog
 #elif defined(__WXMAC__)
-    #include "wx/osx/dirdlg.h"      // Native Mac
+    #include "wxWidgets3/include/wx/osx/dirdlg.h"      // Native Mac
 #elif defined(__WXMOTIF__) || \
       defined(__WXX11__)
-    #include "wx/generic/dirdlgg.h"     // Other ports use generic implementation
+    #include "wxWidgets3/include/wx/generic/dirdlgg.h"     // Other ports use generic implementation
     #define wxDirDialog wxGenericDirDialog
 #elif defined(__WXQT__)
-    #include "wx/qt/dirdlg.h"
+    #include "wxWidgets3/include/wx/qt/dirdlg.h"
 #endif
 
 // ----------------------------------------------------------------------------

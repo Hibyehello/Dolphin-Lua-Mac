@@ -11,11 +11,11 @@
 #ifndef _WX_STATTEXT_H_BASE_
 #define _WX_STATTEXT_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_STATTEXT
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 /*
  * wxStaticText flags
@@ -91,19 +91,19 @@ private:
 #ifndef wxNO_PORT_STATTEXT_INCLUDE
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/stattext.h"
+    #include "wxWidgets3/include/wx/univ/stattext.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/stattext.h"
+    #include "wxWidgets3/include/wx/msw/stattext.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/stattext.h"
+    #include "wxWidgets3/include/wx/motif/stattext.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/stattext.h"
+    #include "wxWidgets3/include/wx/gtk/stattext.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/stattext.h"
+    #include "wxWidgets3/include/wx/gtk1/stattext.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/stattext.h"
+    #include "wxWidgets3/include/wx/osx/stattext.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/stattext.h"
+    #include "wxWidgets3/include/wx/qt/stattext.h"
 #endif
 
 #endif // !wxNO_PORT_STATTEXT_INCLUDE

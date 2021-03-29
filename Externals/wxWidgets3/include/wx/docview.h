@@ -11,19 +11,19 @@
 #ifndef _WX_DOCH__
 #define _WX_DOCH__
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_DOC_VIEW_ARCHITECTURE
 
-#include "wx/list.h"
-#include "wx/dlist.h"
-#include "wx/string.h"
-#include "wx/frame.h"
-#include "wx/filehistory.h"
-#include "wx/vector.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/dlist.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/frame.h"
+#include "wxWidgets3/include/wx/filehistory.h"
+#include "wxWidgets3/include/wx/vector.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE
-    #include "wx/print.h"
+    #include "wxWidgets3/include/wx/print.h"
 #endif
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
@@ -38,9 +38,9 @@ class WXDLLIMPEXP_FWD_BASE wxConfigBase;
 class wxDocChildFrameAnyBase;
 
 #if wxUSE_STD_IOSTREAM
-  #include "wx/iosfwrap.h"
+  #include "wxWidgets3/include/wx/iosfwrap.h"
 #else
-  #include "wx/stream.h"
+  #include "wxWidgets3/include/wx/stream.h"
 #endif
 
 // Flags for wxDocManager (can be combined).

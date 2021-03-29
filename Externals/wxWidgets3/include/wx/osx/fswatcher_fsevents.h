@@ -11,12 +11,12 @@
 #ifndef _WX_FSWATCHER_FSEVENTS_H_
 #define _WX_FSWATCHER_FSEVENTS_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FSWATCHER
 
 #include <CoreServices/CoreServices.h>
-#include "wx/unix/fswatcher_kqueue.h"
+#include "wxWidgets3/include/wx/unix/fswatcher_kqueue.h"
 
 WX_DECLARE_STRING_HASH_MAP(FSEventStreamRef, FSEventStreamRefMap);
 

@@ -9,14 +9,14 @@
 #ifndef _WX_ANIDECOD_H
 #define _WX_ANIDECOD_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_STREAMS && (wxUSE_ICO_CUR || wxUSE_GIF)
 
-#include "wx/stream.h"
-#include "wx/image.h"
-#include "wx/animdecod.h"
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/stream.h"
+#include "wxWidgets3/include/wx/image.h"
+#include "wxWidgets3/include/wx/animdecod.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 
 class /*WXDLLIMPEXP_CORE*/ wxANIFrameInfo;      // private implementation detail

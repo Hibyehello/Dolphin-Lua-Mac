@@ -13,7 +13,7 @@
 
 #if wxUSE_CLIPBOARD
 
-#include "wx/osx/core/cfref.h"
+#include "wxWidgets3/include/wx/osx/core/cfref.h"
 
 //-----------------------------------------------------------------------------
 // wxClipboard

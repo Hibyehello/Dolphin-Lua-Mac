@@ -11,7 +11,7 @@
 #ifndef _WX_GENERIC_ANIMATEH__
 #define _WX_GENERIC_ANIMATEH__
 
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/bitmap.h"
 
 // ----------------------------------------------------------------------------
 // wxAnimation

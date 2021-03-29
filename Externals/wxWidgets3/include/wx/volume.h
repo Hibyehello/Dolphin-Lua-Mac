@@ -15,11 +15,11 @@
 #ifndef _WX_FSVOLUME_H_
 #define _WX_FSVOLUME_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_FSVOLUME
 
-#include "wx/arrstr.h"
+#include "wxWidgets3/include/wx/arrstr.h"
 
 // the volume flags
 enum wxFSVolumeFlags
@@ -105,8 +105,8 @@ protected:
 
 #if wxUSE_GUI
 
-#include "wx/icon.h"
-#include "wx/iconbndl.h" // only for wxIconArray
+#include "wxWidgets3/include/wx/icon.h"
+#include "wxWidgets3/include/wx/iconbndl.h" // only for wxIconArray
 
 enum wxFSIconType
 {

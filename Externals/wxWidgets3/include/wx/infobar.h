@@ -10,11 +10,11 @@
 #ifndef _WX_INFOBAR_H_
 #define _WX_INFOBAR_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_INFOBAR
 
-#include "wx/control.h"
+#include "wxWidgets3/include/wx/control.h"
 
 // ----------------------------------------------------------------------------
 // wxInfoBar shows non-critical but important information to the user
@@ -57,13 +57,13 @@ private:
 
 // currently only GTK+ has a native implementation
 #if defined(__WXGTK218__) && !defined(__WXUNIVERSAL__)
-    #include "wx/gtk/infobar.h"
+    #include "wxWidgets3/include/wx/gtk/infobar.h"
     #define wxHAS_NATIVE_INFOBAR
 #endif // wxGTK2
 
 // if the generic version is the only one we have, use it
 #ifndef wxHAS_NATIVE_INFOBAR
-    #include "wx/generic/infobar.h"
+    #include "wxWidgets3/include/wx/generic/infobar.h"
     #define wxInfoBar wxInfoBarGeneric
 #endif
 

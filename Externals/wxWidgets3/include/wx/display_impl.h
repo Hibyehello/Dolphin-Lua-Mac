@@ -10,7 +10,7 @@
 #ifndef _WX_DISPLAY_IMPL_H_BASE_
 #define _WX_DISPLAY_IMPL_H_BASE_
 
-#include "wx/gdicmn.h"      // for wxRect
+#include "wxWidgets3/include/wx/gdicmn.h"      // for wxRect
 
 // ----------------------------------------------------------------------------
 // wxDisplayFactory: allows to create wxDisplay objects

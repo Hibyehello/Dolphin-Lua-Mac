@@ -10,11 +10,11 @@
 #ifndef _WX_AFFINEMATRIX2DBASE_H_
 #define _WX_AFFINEMATRIX2DBASE_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_GEOMETRY
 
-#include "wx/geometry.h"
+#include "wxWidgets3/include/wx/geometry.h"
 
 struct wxMatrix2D
 {

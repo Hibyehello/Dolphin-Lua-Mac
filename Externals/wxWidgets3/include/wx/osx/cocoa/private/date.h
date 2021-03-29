@@ -10,7 +10,7 @@
 #ifndef _WX_OSX_COCOA_PRIVATE_DATE_H_
 #define _WX_OSX_COCOA_PRIVATE_DATE_H_
 
-#include "wx/datetime.h"
+#include "wxWidgets3/include/wx/datetime.h"
 
 namespace wxOSXImpl
 {

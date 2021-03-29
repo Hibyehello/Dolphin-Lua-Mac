@@ -11,16 +11,16 @@
 #ifndef _WX_PROTOCOL_PROTOCOL_H
 #define _WX_PROTOCOL_PROTOCOL_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PROTOCOL
 
-#include "wx/object.h"
-#include "wx/string.h"
-#include "wx/stream.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/stream.h"
 
 #if wxUSE_SOCKETS
-    #include "wx/socket.h"
+    #include "wxWidgets3/include/wx/socket.h"
 #endif
 
 class WXDLLIMPEXP_FWD_NET wxProtocolLog;

@@ -10,8 +10,8 @@
 #ifndef _WX_UNIX_PRIVATE_WAKEUPPIPE_H_
 #define _WX_UNIX_PRIVATE_WAKEUPPIPE_H_
 
-#include "wx/unix/pipe.h"
-#include "wx/evtloopsrc.h"
+#include "wxWidgets3/include/wx/unix/pipe.h"
+#include "wxWidgets3/include/wx/evtloopsrc.h"
 
 // ----------------------------------------------------------------------------
 // wxWakeUpPipe: allows to wake up the event loop by writing to it

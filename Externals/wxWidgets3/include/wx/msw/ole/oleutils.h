@@ -11,17 +11,17 @@
 #ifndef   _WX_OLEUTILS_H
 #define   _WX_OLEUTILS_H
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_OLE
 
 // ole2.h includes windows.h, so include wrapwin.h first
-#include "wx/msw/wrapwin.h"
+#include "wxWidgets3/include/wx/msw/wrapwin.h"
 // get IUnknown, REFIID &c
 #include <ole2.h>
-#include "wx/intl.h"
-#include "wx/log.h"
-#include "wx/variant.h"
+#include "wxWidgets3/include/wx/intl.h"
+#include "wxWidgets3/include/wx/log.h"
+#include "wxWidgets3/include/wx/variant.h"
 
 // ============================================================================
 // General purpose functions and macros

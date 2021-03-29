@@ -11,8 +11,8 @@
 #ifndef _WX_GENERIC_SPLITTER_H_
 #define _WX_GENERIC_SPLITTER_H_
 
-#include "wx/window.h"                      // base class declaration
-#include "wx/containr.h"                    // wxControlContainer
+#include "wxWidgets3/include/wx/window.h"                      // base class declaration
+#include "wxWidgets3/include/wx/containr.h"                    // wxControlContainer
 
 class WXDLLIMPEXP_FWD_CORE wxSplitterEvent;
 

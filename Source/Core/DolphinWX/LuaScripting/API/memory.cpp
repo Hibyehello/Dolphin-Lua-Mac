@@ -208,7 +208,7 @@ namespace Lua
 	    u32 address = lua_tointeger(L, 1);
 	    double value = lua_tonumber(L, 2);
 
-	    PowerPC::Write_F32((float)value, address);
+	    PowerPC::Write_U32((float)value, address);
 
 	    return 0; // number of return values
     }

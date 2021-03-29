@@ -11,11 +11,11 @@
 #ifndef _WX_BMPBUTTON_H_BASE_
 #define _WX_BMPBUTTON_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_BMPBUTTON
 
-#include "wx/button.h"
+#include "wxWidgets3/include/wx/button.h"
 
 // FIXME: right now only wxMSW, wxGTK and wxOSX implement bitmap support in wxButton
 //        itself, this shouldn't be used for the other platforms neither
@@ -112,19 +112,19 @@ protected:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wx/univ/bmpbuttn.h"
+    #include "wxWidgets3/include/wx/univ/bmpbuttn.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/bmpbuttn.h"
+    #include "wxWidgets3/include/wx/msw/bmpbuttn.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/bmpbuttn.h"
+    #include "wxWidgets3/include/wx/motif/bmpbuttn.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/bmpbuttn.h"
+    #include "wxWidgets3/include/wx/gtk/bmpbuttn.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/bmpbuttn.h"
+    #include "wxWidgets3/include/wx/gtk1/bmpbuttn.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/bmpbuttn.h"
+    #include "wxWidgets3/include/wx/osx/bmpbuttn.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/bmpbuttn.h"
+    #include "wxWidgets3/include/wx/qt/bmpbuttn.h"
 #endif
 
 #endif // wxUSE_BMPBUTTON

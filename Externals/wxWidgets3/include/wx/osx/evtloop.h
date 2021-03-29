@@ -13,7 +13,7 @@
 #ifndef _WX_OSX_EVTLOOP_H_
 #define _WX_OSX_EVTLOOP_H_
 
-#include "wx/osx/cocoa/evtloop.h"
+#include "wxWidgets3/include/wx/osx/cocoa/evtloop.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 class WXDLLIMPEXP_FWD_CORE wxNonOwnedWindow;

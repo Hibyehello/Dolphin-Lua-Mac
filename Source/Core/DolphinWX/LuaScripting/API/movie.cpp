@@ -32,7 +32,7 @@ namespace Lua
 		{
 			if (Movie::IsMovieActive())
 			{
-				lua_pushinteger(L, Movie::g_totalFrames);
+				lua_pushinteger(L, Movie::s_totalFrames);
 				return 1;
 			}
 			else

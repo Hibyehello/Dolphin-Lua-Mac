@@ -11,9 +11,9 @@
 #ifndef _WX_PRIVATE_H_
 #define _WX_PRIVATE_H_
 
-#include "wx/defs.h"
-#include "wx/hashmap.h"
-#include "wx/utils.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/hashmap.h"
+#include "wxWidgets3/include/wx/utils.h"
 #if defined( __cplusplus ) && defined( __VMS )
 #pragma message disable nosimpint
 #endif
@@ -25,7 +25,7 @@
 #endif
 
 // Include common declarations
-#include "wx/x11/privx.h"
+#include "wxWidgets3/include/wx/x11/privx.h"
 
 #if wxUSE_PANGO
 #include <pango/pango.h>

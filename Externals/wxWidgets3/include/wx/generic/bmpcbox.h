@@ -14,7 +14,7 @@
 
 #define wxGENERIC_BITMAPCOMBOBOX     1
 
-#include "wx/odcombo.h"
+#include "wxWidgets3/include/wx/odcombo.h"
 
 // ----------------------------------------------------------------------------
 // wxBitmapComboBox: a wxComboBox that allows images to be shown

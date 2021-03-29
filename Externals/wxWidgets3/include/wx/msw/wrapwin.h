@@ -10,7 +10,7 @@
 #ifndef _WX_WRAPWIN_H_
 #define _WX_WRAPWIN_H_
 
-#include "wx/platform.h"
+#include "wxWidgets3/include/wx/platform.h"
 
 // strict type checking to detect conversion from HFOO to HBAR at compile-time
 #ifndef STRICT
@@ -52,6 +52,6 @@
 #include <windows.h>
 
 // #undef the macros defined in winsows.h which conflict with code elsewhere
-#include "wx/msw/winundef.h"
+#include "wxWidgets3/include/wx/msw/winundef.h"
 
 #endif // _WX_WRAPWIN_H_

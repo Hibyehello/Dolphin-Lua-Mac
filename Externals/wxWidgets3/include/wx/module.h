@@ -11,10 +11,10 @@
 #ifndef _WX_MODULE_H_
 #define _WX_MODULE_H_
 
-#include "wx/object.h"
-#include "wx/list.h"
-#include "wx/arrstr.h"
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/arrstr.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 // declare a linked list of modules
 class WXDLLIMPEXP_FWD_BASE wxModule;

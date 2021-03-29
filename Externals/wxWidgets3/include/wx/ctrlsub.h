@@ -11,12 +11,12 @@
 #ifndef _WX_CTRLSUB_H_BASE_
 #define _WX_CTRLSUB_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_CONTROLS
 
-#include "wx/arrstr.h"
-#include "wx/control.h"      // base class
+#include "wxWidgets3/include/wx/arrstr.h"
+#include "wxWidgets3/include/wx/control.h"      // base class
 
 #if wxUSE_STD_CONTAINERS_COMPATIBLY
 #include <vector>
@@ -480,11 +480,11 @@ private:
 
 // define the platform-specific wxControlWithItems class
 #if defined(__WXMSW__)
-    #include "wx/msw/ctrlsub.h"
+    #include "wxWidgets3/include/wx/msw/ctrlsub.h"
 #elif defined(__WXMOTIF__)
-    #include "wx/motif/ctrlsub.h"
+    #include "wxWidgets3/include/wx/motif/ctrlsub.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/ctrlsub.h"
+    #include "wxWidgets3/include/wx/qt/ctrlsub.h"
 #else
     class WXDLLIMPEXP_CORE wxControlWithItems : public wxControlWithItemsBase
     {

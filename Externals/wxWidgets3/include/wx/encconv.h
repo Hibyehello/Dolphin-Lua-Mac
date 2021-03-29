@@ -10,11 +10,11 @@
 #ifndef _WX_ENCCONV_H_
 #define _WX_ENCCONV_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
-#include "wx/object.h"
-#include "wx/fontenc.h"
-#include "wx/dynarray.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/fontenc.h"
+#include "wxWidgets3/include/wx/dynarray.h"
 
 // ----------------------------------------------------------------------------
 // constants

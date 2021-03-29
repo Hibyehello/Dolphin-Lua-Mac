@@ -11,8 +11,8 @@
 #ifndef _WX_ACCEL_H_
 #define _WX_ACCEL_H_
 
-#include "wx/string.h"
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/string.h"
+#include "wxWidgets3/include/wx/event.h"
 
 class WXDLLIMPEXP_CORE wxAcceleratorTable: public wxObject
 {

@@ -22,7 +22,7 @@
 // Pre-compiled header stuff
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 // ----------------------------------------------------------------------------
 // Compilation guard
@@ -34,8 +34,8 @@
 // Includes
 // ----------------------------------------------------------------------------
 
-#include "wx/control.h"
-#include "wx/uri.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/uri.h"
 
 // ============================================================================
 // Declarations

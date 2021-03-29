@@ -11,14 +11,14 @@
 #ifndef _WX_MSW_REGCONF_H_
 #define _WX_MSW_REGCONF_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_CONFIG && wxUSE_REGKEY
 
-#include "wx/msw/registry.h"
-#include "wx/object.h"
-#include "wx/confbase.h"
-#include "wx/buffer.h"
+#include "wxWidgets3/include/wx/msw/registry.h"
+#include "wxWidgets3/include/wx/object.h"
+#include "wxWidgets3/include/wx/confbase.h"
+#include "wxWidgets3/include/wx/buffer.h"
 
 // ----------------------------------------------------------------------------
 // wxRegConfig

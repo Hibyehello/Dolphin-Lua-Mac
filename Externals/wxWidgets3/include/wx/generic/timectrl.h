@@ -10,8 +10,8 @@
 #ifndef _WX_GENERIC_TIMECTRL_H_
 #define _WX_GENERIC_TIMECTRL_H_
 
-#include "wx/containr.h"
-#include "wx/compositewin.h"
+#include "wxWidgets3/include/wx/containr.h"
+#include "wxWidgets3/include/wx/compositewin.h"
 
 class WXDLLIMPEXP_ADV wxTimePickerCtrlGeneric
     : public wxCompositeWindow< wxNavigationEnabled<wxTimePickerCtrlBase> >

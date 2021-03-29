@@ -9,12 +9,12 @@
 #ifndef __BUSYINFO_H_BASE__
 #define __BUSYINFO_H_BASE__
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_BUSYINFO
 
-#include "wx/colour.h"
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/icon.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 
@@ -71,7 +71,7 @@ private:
     friend class wxBusyInfo;
 };
 
-#include "wx/generic/busyinfo.h"
+#include "wxWidgets3/include/wx/generic/busyinfo.h"
 
 #endif // wxUSE_BUSYINFO
 

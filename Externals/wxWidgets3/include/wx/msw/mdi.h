@@ -12,7 +12,7 @@
 #ifndef _WX_MSW_MDI_H_
 #define _WX_MSW_MDI_H_
 
-#include "wx/frame.h"
+#include "wxWidgets3/include/wx/frame.h"
 
 class WXDLLIMPEXP_FWD_CORE wxAcceleratorTable;
 

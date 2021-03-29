@@ -1,6 +1,7 @@
 package org.dolphinemu.dolphinemu.ui.main;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,13 +14,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.dolphinemu.dolphinemu.R;
-import org.dolphinemu.dolphinemu.activities.AddDirectoryActivity;
 import org.dolphinemu.dolphinemu.adapters.PlatformPagerAdapter;
 import org.dolphinemu.dolphinemu.model.GameProvider;
+import org.dolphinemu.dolphinemu.services.DirectoryInitializationService;
+import org.dolphinemu.dolphinemu.ui.platform.Platform;
 import org.dolphinemu.dolphinemu.ui.platform.PlatformGamesView;
 import org.dolphinemu.dolphinemu.ui.settings.SettingsActivity;
+import org.dolphinemu.dolphinemu.utils.AddDirectoryHelper;
+import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
+import org.dolphinemu.dolphinemu.utils.PermissionsHandler;
 import org.dolphinemu.dolphinemu.utils.StartupHandler;
 
 /**
@@ -45,27 +51,32 @@ public final class MainActivity extends AppCompatActivity implements MainView
 
 		setSupportActionBar(mToolbar);
 
-		PlatformPagerAdapter platformPagerAdapter = new PlatformPagerAdapter(getFragmentManager(), this);
-
-		mViewPager.setAdapter(platformPagerAdapter);
 		mTabLayout.setupWithViewPager(mViewPager);
 
 		// Set up the FAB.
-		mFab.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				mPresenter.onFabClick();
-			}
-		});
+		mFab.setOnClickListener(view -> mPresenter.onFabClick());
 
 		mPresenter.onCreate();
 
 		// Stuff in this block only happens when this activity is newly created (i.e. not a rotation)
-		// TODO Split some of this stuff into Application.onCreate()
 		if (savedInstanceState == null)
 			StartupHandler.HandleInit(this);
+
+		if (PermissionsHandler.hasWriteAccess(this))
+		{
+			PlatformPagerAdapter platformPagerAdapter = new PlatformPagerAdapter(
+					getSupportFragmentManager(), this);
+			mViewPager.setAdapter(platformPagerAdapter);
+		} else {
+			mViewPager.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		mPresenter.addDirIfNeeded(new AddDirectoryHelper(this));
 	}
 
 	// TODO: Replace with a ButterKnife injection.
@@ -106,7 +117,8 @@ public final class MainActivity extends AppCompatActivity implements MainView
 	public void refreshFragmentScreenshot(int fragmentPosition)
 	{
 		// Invalidate Picasso image so that the new screenshot is animated in.
-		PlatformGamesView fragment = getPlatformGamesView(mViewPager.getCurrentItem());
+		Platform platform = Platform.fromPosition(mViewPager.getCurrentItem());
+		PlatformGamesView fragment = getPlatformGamesView(platform);
 
 		if (fragment != null)
 		{
@@ -117,24 +129,22 @@ public final class MainActivity extends AppCompatActivity implements MainView
 	@Override
 	public void launchSettingsActivity(String menuTag)
 	{
-		SettingsActivity.launch(this, menuTag);
+		SettingsActivity.launch(this, menuTag, "");
 	}
 
 	@Override
 	public void launchFileListActivity()
 	{
-		AddDirectoryActivity.launch(this);
+		FileBrowserHelper.openDirectoryPicker(this);
 	}
 
 	@Override
-	public void showGames(int platformIndex, Cursor games)
+	public void showGames(Platform platform, Cursor games)
 	{
 		// no-op. Handled by PlatformGamesFragment.
 	}
 
 	/**
-	 * Callback from AddDirectoryActivity. Applies any changes necessary to the GameGridActivity.
-	 *
 	 * @param requestCode An int describing whether the Activity that is returning did so successfully.
 	 * @param resultCode  An int describing what Activity is giving us this callback.
 	 * @param result      The information the returning Activity is providing us.
@@ -142,7 +152,43 @@ public final class MainActivity extends AppCompatActivity implements MainView
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent result)
 	{
-		mPresenter.handleActivityResult(requestCode, resultCode);
+		switch (requestCode)
+		{
+			case MainPresenter.REQUEST_ADD_DIRECTORY:
+				// If the user picked a file, as opposed to just backing out.
+				if (resultCode == MainActivity.RESULT_OK)
+				{
+					mPresenter.onDirectorySelected(FileBrowserHelper.getSelectedDirectory(result));
+				}
+				break;
+
+			case MainPresenter.REQUEST_EMULATE_GAME:
+				mPresenter.refreshFragmentScreenshot(resultCode);
+				break;
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+			case PermissionsHandler.REQUEST_CODE_WRITE_PERMISSION:
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					DirectoryInitializationService.startService(this);
+
+					PlatformPagerAdapter platformPagerAdapter = new PlatformPagerAdapter(
+							getSupportFragmentManager(), this);
+					mViewPager.setAdapter(platformPagerAdapter);
+					mTabLayout.setupWithViewPager(mViewPager);
+					mViewPager.setVisibility(View.VISIBLE);
+				} else {
+					Toast.makeText(this, R.string.write_permission_needed, Toast.LENGTH_SHORT)
+							.show();
+				}
+				break;
+			default:
+				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+				break;
+		}
 	}
 
 	/**
@@ -159,7 +205,9 @@ public final class MainActivity extends AppCompatActivity implements MainView
 
 	private void refreshFragment()
 	{
-		PlatformGamesView fragment = getPlatformGamesView(mViewPager.getCurrentItem());
+
+		Platform platform = Platform.fromPosition(mViewPager.getCurrentItem());
+		PlatformGamesView fragment = getPlatformGamesView(platform);
 		if (fragment != null)
 		{
 			fragment.refresh();
@@ -167,10 +215,10 @@ public final class MainActivity extends AppCompatActivity implements MainView
 	}
 
 	@Nullable
-	private PlatformGamesView getPlatformGamesView(int platform)
+	private PlatformGamesView getPlatformGamesView(Platform platform)
 	{
-		String fragmentTag = "android:switcher:" + mViewPager.getId() + ":" + platform;
+		String fragmentTag = "android:switcher:" + mViewPager.getId() + ":" + platform.toInt();
 
-		return (PlatformGamesView) getFragmentManager().findFragmentByTag(fragmentTag);
+		return (PlatformGamesView) getSupportFragmentManager().findFragmentByTag(fragmentTag);
 	}
 }

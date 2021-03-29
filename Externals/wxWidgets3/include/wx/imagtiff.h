@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGTIFF_H_
 #define _WX_IMAGTIFF_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 //-----------------------------------------------------------------------------
 // wxTIFFHandler
@@ -17,8 +17,8 @@
 
 #if wxUSE_LIBTIFF
 
-#include "wx/image.h"
-#include "wx/versioninfo.h"
+#include "wxWidgets3/include/wx/image.h"
+#include "wxWidgets3/include/wx/versioninfo.h"
 
 // defines for wxImage::SetOption
 #define wxIMAGE_OPTION_TIFF_BITSPERSAMPLE               wxString(wxT("BitsPerSample"))

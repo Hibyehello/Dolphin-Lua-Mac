@@ -11,8 +11,8 @@
 #ifndef _WX_SPINBUTT_H_
 #define _WX_SPINBUTT_H_
 
-#include "wx/control.h"
-#include "wx/event.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/event.h"
 
 #if wxUSE_SPINBTN
 

@@ -11,14 +11,14 @@
 #ifndef _WX_CMNDATA_H_BASE_
 #define _WX_CMNDATA_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
-#include "wx/gdicmn.h"
+#include "wxWidgets3/include/wx/gdicmn.h"
 
 #if wxUSE_STREAMS
-#include "wx/stream.h"
+#include "wxWidgets3/include/wx/stream.h"
 #endif
 
 class WXDLLIMPEXP_FWD_CORE wxPrintNativeDataBase;

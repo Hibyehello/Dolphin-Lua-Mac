@@ -18,7 +18,7 @@
 #endif
 
 #ifdef __WINDOWS__
-#   include "wx/msw/winundef.h"
+#   include "wxWidgets3/include/wx/msw/winundef.h"
 #endif
 
 #endif // wxUSE_STD_IOSTREAM

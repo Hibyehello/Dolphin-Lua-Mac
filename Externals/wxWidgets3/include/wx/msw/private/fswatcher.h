@@ -10,9 +10,9 @@
 #ifndef WX_MSW_PRIVATE_FSWATCHER_H_
 #define WX_MSW_PRIVATE_FSWATCHER_H_
 
-#include "wx/filename.h"
-#include "wx/vector.h"
-#include "wx/msw/private.h"
+#include "wxWidgets3/include/wx/filename.h"
+#include "wxWidgets3/include/wx/vector.h"
+#include "wxWidgets3/include/wx/msw/private.h"
 
 // ============================================================================
 // wxFSWatcherEntry implementation & helper declarations

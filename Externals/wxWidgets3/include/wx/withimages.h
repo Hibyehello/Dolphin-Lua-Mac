@@ -10,9 +10,9 @@
 #ifndef _WX_WITHIMAGES_H_
 #define _WX_WITHIMAGES_H_
 
-#include "wx/defs.h"
-#include "wx/icon.h"
-#include "wx/imaglist.h"
+#include "wxWidgets3/include/wx/defs.h"
+#include "wxWidgets3/include/wx/icon.h"
+#include "wxWidgets3/include/wx/imaglist.h"
 
 // ----------------------------------------------------------------------------
 // wxWithImages: mix-in class providing access to wxImageList.

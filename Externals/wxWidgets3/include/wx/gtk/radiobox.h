@@ -9,11 +9,11 @@
 #ifndef _WX_GTK_RADIOBOX_H_
 #define _WX_GTK_RADIOBOX_H_
 
-#include "wx/bitmap.h"
+#include "wxWidgets3/include/wx/bitmap.h"
 
 class WXDLLIMPEXP_FWD_CORE wxGTKRadioButtonInfo;
 
-#include "wx/list.h"
+#include "wxWidgets3/include/wx/list.h"
 
 WX_DECLARE_EXPORTED_LIST(wxGTKRadioButtonInfo, wxRadioBoxButtonsInfoList);
 

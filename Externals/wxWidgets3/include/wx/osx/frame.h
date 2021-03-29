@@ -11,9 +11,9 @@
 #ifndef _WX_FRAME_H_
 #define _WX_FRAME_H_
 
-#include "wx/toolbar.h"
-#include "wx/accel.h"
-#include "wx/icon.h"
+#include "wxWidgets3/include/wx/toolbar.h"
+#include "wxWidgets3/include/wx/accel.h"
+#include "wxWidgets3/include/wx/icon.h"
 
 class WXDLLIMPEXP_FWD_CORE wxMacToolTip ;
 

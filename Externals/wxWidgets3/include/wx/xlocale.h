@@ -26,12 +26,12 @@
 #ifndef _WX_XLOCALE_H_
 #define _WX_XLOCALE_H_
 
-#include "wx/defs.h"    // wxUSE_XLOCALE
+#include "wxWidgets3/include/wx/defs.h"    // wxUSE_XLOCALE
 
 #if wxUSE_XLOCALE
 
-#include "wx/crt.h"     // Includes wx/chartype.h, wx/wxcrt.h(wx/string.h)
-#include "wx/intl.h"    // wxLanguage
+#include "wxWidgets3/include/wx/crt.h"     // Includes wx/chartype.h, wx/wxcrt.h(wx/string.h)
+#include "wxWidgets3/include/wx/intl.h"    // wxLanguage
 
 // The platform-specific locale type
 // If wxXLocale_t is not defined, then only "C" locale support is provided

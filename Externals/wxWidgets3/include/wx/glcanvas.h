@@ -11,13 +11,13 @@
 #ifndef _WX_GLCANVAS_H_BASE_
 #define _WX_GLCANVAS_H_BASE_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_GLCANVAS
 
-#include "wx/app.h"
-#include "wx/palette.h"
-#include "wx/window.h"
+#include "wxWidgets3/include/wx/app.h"
+#include "wxWidgets3/include/wx/palette.h"
+#include "wxWidgets3/include/wx/window.h"
 
 class WXDLLIMPEXP_FWD_GL wxGLCanvas;
 class WXDLLIMPEXP_FWD_GL wxGLContext;
@@ -316,17 +316,17 @@ public:
 };
 
 #if defined(__WXMSW__)
-    #include "wx/msw/glcanvas.h"
+    #include "wxWidgets3/include/wx/msw/glcanvas.h"
 #elif defined(__WXMOTIF__) || defined(__WXX11__)
-    #include "wx/x11/glcanvas.h"
+    #include "wxWidgets3/include/wx/x11/glcanvas.h"
 #elif defined(__WXGTK20__)
-    #include "wx/gtk/glcanvas.h"
+    #include "wxWidgets3/include/wx/gtk/glcanvas.h"
 #elif defined(__WXGTK__)
-    #include "wx/gtk1/glcanvas.h"
+    #include "wxWidgets3/include/wx/gtk1/glcanvas.h"
 #elif defined(__WXMAC__)
-    #include "wx/osx/glcanvas.h"
+    #include "wxWidgets3/include/wx/osx/glcanvas.h"
 #elif defined(__WXQT__)
-    #include "wx/qt/glcanvas.h"
+    #include "wxWidgets3/include/wx/qt/glcanvas.h"
 #else
     #error "wxGLCanvas not supported in this wxWidgets port"
 #endif

@@ -10,12 +10,12 @@
 #ifndef _WX_PRIVATE_THREADINFO_H_
 #define _WX_PRIVATE_THREADINFO_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 class WXDLLIMPEXP_FWD_BASE wxLog;
 
 #if wxUSE_INTL
-#include "wx/hashset.h"
+#include "wxWidgets3/include/wx/hashset.h"
 WX_DECLARE_HASH_SET(wxString, wxStringHash, wxStringEqual,
                     wxLocaleUntranslatedStrings);
 #endif

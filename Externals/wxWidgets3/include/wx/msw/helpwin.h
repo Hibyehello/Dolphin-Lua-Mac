@@ -11,11 +11,11 @@
 #ifndef _WX_HELPWIN_H_
 #define _WX_HELPWIN_H_
 
-#include "wx/wx.h"
+#include "wxWidgets3/include/wx/wx.h"
 
 #if wxUSE_HELP
 
-#include "wx/helpbase.h"
+#include "wxWidgets3/include/wx/helpbase.h"
 
 class WXDLLIMPEXP_CORE wxWinHelpController: public wxHelpControllerBase
 {

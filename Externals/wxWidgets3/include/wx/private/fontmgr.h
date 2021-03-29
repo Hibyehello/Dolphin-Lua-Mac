@@ -11,8 +11,8 @@
 #ifndef _WX_PRIVATE_FONTMGR_H_
 #define _WX_PRIVATE_FONTMGR_H_
 
-#include "wx/list.h"
-#include "wx/fontutil.h"
+#include "wxWidgets3/include/wx/list.h"
+#include "wxWidgets3/include/wx/fontutil.h"
 
 class wxFontsManager;
 class wxFontInstance;
@@ -192,7 +192,7 @@ protected:
 
 
 #if defined(__WXDFB__)
-    #include "wx/dfb/private/fontmgr.h"
+    #include "wxWidgets3/include/wx/dfb/private/fontmgr.h"
 #endif
 
 

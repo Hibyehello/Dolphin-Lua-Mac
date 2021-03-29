@@ -13,9 +13,9 @@
 
 #if wxUSE_GRAPHICS_CONTEXT
 
-#include "wx/dc.h"
-#include "wx/geometry.h"
-#include "wx/graphics.h"
+#include "wxWidgets3/include/wx/dc.h"
+#include "wxWidgets3/include/wx/geometry.h"
+#include "wxWidgets3/include/wx/graphics.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindowDC;
 

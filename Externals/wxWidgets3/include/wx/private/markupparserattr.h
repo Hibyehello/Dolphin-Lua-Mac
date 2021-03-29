@@ -10,12 +10,12 @@
 #ifndef _WX_PRIVATE_MARKUPPARSERATTR_H_
 #define _WX_PRIVATE_MARKUPPARSERATTR_H_
 
-#include "wx/private/markupparser.h"
+#include "wxWidgets3/include/wx/private/markupparser.h"
 
-#include "wx/stack.h"
+#include "wxWidgets3/include/wx/stack.h"
 
-#include "wx/colour.h"
-#include "wx/font.h"
+#include "wxWidgets3/include/wx/colour.h"
+#include "wxWidgets3/include/wx/font.h"
 
 // ----------------------------------------------------------------------------
 // wxMarkupParserAttrOutput: simplified wxFont-using version of the above.

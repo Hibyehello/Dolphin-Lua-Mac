@@ -11,13 +11,13 @@
 #ifndef _WX_GENERIC_GRID_H_
 #define _WX_GENERIC_GRID_H_
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_GRID
 
-#include "wx/hashmap.h"
+#include "wxWidgets3/include/wx/hashmap.h"
 
-#include "wx/scrolwin.h"
+#include "wxWidgets3/include/wx/scrolwin.h"
 
 // ----------------------------------------------------------------------------
 // constants

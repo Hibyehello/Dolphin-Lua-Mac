@@ -15,14 +15,14 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wx/defs.h"
+#include "wxWidgets3/include/wx/defs.h"
 
 #if wxUSE_TREECTRL
 
-#include "wx/control.h"
-#include "wx/treebase.h"
-#include "wx/textctrl.h" // wxTextCtrl::ms_classinfo used through wxCLASSINFO macro
-#include "wx/systhemectrl.h"
+#include "wxWidgets3/include/wx/control.h"
+#include "wxWidgets3/include/wx/treebase.h"
+#include "wxWidgets3/include/wx/textctrl.h" // wxTextCtrl::ms_classinfo used through wxCLASSINFO macro
+#include "wxWidgets3/include/wx/systhemectrl.h"
 
 class WXDLLIMPEXP_FWD_CORE wxImageList;
 
@@ -462,9 +462,9 @@ private:
 // ----------------------------------------------------------------------------
 
 #ifdef wxHAS_GENERIC_TREECTRL
-    #include "wx/generic/treectlg.h"
+    #include "wxWidgets3/include/wx/generic/treectlg.h"
 #elif defined(__WXMSW__)
-    #include "wx/msw/treectrl.h"
+    #include "wxWidgets3/include/wx/msw/treectrl.h"
 #else
     #error "unknown native wxTreeCtrl implementation"
 #endif
