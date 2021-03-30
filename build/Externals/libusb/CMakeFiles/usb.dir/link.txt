@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libusb.a CMakeFiles/usb.dir/libusb/core.c.o CMakeFiles/usb.dir/libusb/descriptor.c.o CMakeFiles/usb.dir/libusb/hotplug.c.o CMakeFiles/usb.dir/libusb/io.c.o CMakeFiles/usb.dir/libusb/strerror.c.o CMakeFiles/usb.dir/libusb/sync.c.o CMakeFiles/usb.dir/libusb/os/darwin_usb.c.o CMakeFiles/usb.dir/libusb/os/poll_posix.c.o CMakeFiles/usb.dir/libusb/os/threads_posix.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libusb.a

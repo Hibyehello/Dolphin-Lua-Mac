@@ -293,7 +293,7 @@ private:
   void OnRecordReadOnly(wxCommandEvent& event);
   void OnTASInput(wxCommandEvent& event);
   void OnTAStudio(wxCommandEvent& event); // TAStudio - Added by THC98
-  void OnInfoDisplay(wxCommandEvent& event);
+  void OnShowRAMDisplay(wxCommandEvent& event);
   void OnTogglePauseMovie(wxCommandEvent& event);
   void OnToggleDumpFrames(wxCommandEvent& event);
   void OnToggleDumpAudio(wxCommandEvent& event);

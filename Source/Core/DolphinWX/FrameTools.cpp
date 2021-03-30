@@ -163,7 +163,7 @@ void CFrame::BindMenuBarEvents()
   Bind(wxEVT_MENU, &CFrame::OnRecordReadOnly, this, IDM_RECORD_READ_ONLY);
   Bind(wxEVT_MENU, &CFrame::OnTASInput, this, IDM_TAS_INPUT);
   Bind(wxEVT_MENU, &CFrame::OnTAStudio, this, IDM_TASTUDIO);
-  Bind(wxEVT_MENU, &CFrame::OnInfoDisplay, this, IDM_SHOW_INFO_DISPLAY);
+  Bind(wxEVT_MENU, &CFrame::OnShowRAMDisplay, this, IDM_SHOW_RAM_DISPLAY);
   Bind(wxEVT_MENU, &CFrame::OnTogglePauseMovie, this, IDM_TOGGLE_PAUSE_MOVIE);
   Bind(wxEVT_MENU, &CFrame::OnShowLag, this, IDM_SHOW_LAG);
   Bind(wxEVT_MENU, &CFrame::OnShowFrameCount, this, IDM_SHOW_FRAME_COUNT);
@@ -449,6 +449,12 @@ void CFrame::OnShowInputDisplay(wxCommandEvent& WXUNUSED(event))
 {
   SConfig::GetInstance().m_ShowInputDisplay = !SConfig::GetInstance().m_ShowInputDisplay;
   SConfig::GetInstance().SaveSettings();
+}
+
+void CFrame::OnShowRAMDisplay(wxCommandEvent& WXUNUSED(event))
+{
+	SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;
+	SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))

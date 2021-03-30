@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libvideonull.a CMakeFiles/videonull.dir/NullBackend.cpp.o CMakeFiles/videonull.dir/NullTexture.cpp.o CMakeFiles/videonull.dir/Render.cpp.o CMakeFiles/videonull.dir/VertexManager.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libvideonull.a

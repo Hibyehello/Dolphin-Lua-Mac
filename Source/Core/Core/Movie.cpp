@@ -17,6 +17,7 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <iostream>
 
 #include "Common/Assert.h"
 #include "Common/ChunkFile.h"
@@ -184,10 +185,11 @@ std::string GetInputDisplay()
         std::string iniContent;
         
         bool success =
-        File::ReadFileToString(File::GetSysDirectory() +  "/InfoDisplay/" + gameID + ".ini" , iniContent);
+        File::ReadFileToString(File::GetSysDirectory() +  "InfoDisplay/" + gameID + ".ini" , iniContent);
         
         if (success)
         {
+        	std::cout << std::boolalpha << success << std::endl;
             int lineCounter = 0;
             bool inProgress = true;
             RAMDisplay.append("\n");
