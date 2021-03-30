@@ -160,6 +160,8 @@ wxMenu* MainMenuBar::CreateMovieMenu() const
   movie_menu->Check(IDM_RECORD_READ_ONLY, true);
   movie_menu->AppendCheckItem(IDM_SHOW_INPUT_DISPLAY, _("Show Input Display"));
   movie_menu->Check(IDM_SHOW_INPUT_DISPLAY, config_instance.m_ShowInputDisplay);
+  movie_menu->AppendCheckItem(IDM_SHOW_RAM_DISPLAY, _("Show Info Display"));
+  movie_menu->Check(IDM_SHOW_RAM_DISPLAY, config_instance.m_ShowRAMDisplay);
   movie_menu->AppendCheckItem(IDM_SHOW_RTC_DISPLAY, _("Show System Clock"));
   movie_menu->Check(IDM_SHOW_RTC_DISPLAY, config_instance.m_ShowRTC);
   movie_menu->AppendSeparator();
