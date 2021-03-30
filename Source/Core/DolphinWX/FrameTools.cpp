@@ -458,12 +458,6 @@ void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
   SConfig::GetInstance().SaveSettings();
 }
 
-void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
-{
-  SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
-  SConfig::GetInstance().SaveSettings();
-}
-
 void CFrame::OnFrameStep(wxCommandEvent& event)
 {
   bool wasPaused = Core::GetState() == Core::State::Paused;
