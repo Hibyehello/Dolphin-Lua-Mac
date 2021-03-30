@@ -181,6 +181,7 @@ void CFrame::BindMenuBarEvents()
 
   // Tools menu
   Bind(wxEVT_MENU, &CFrame::OnMemcard, this, IDM_MEMCARD);
+  Bind(wxEVT_MENU, &CFrame::OnScriptLaunch, this, IDM_SCRIPTLAUNCH); // ADDED
   Bind(wxEVT_MENU, &CFrame::OnImportSave, this, IDM_IMPORT_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnExportAllSaves, this, IDM_EXPORT_ALL_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnLoadGameCubeIPLJAP, this, IDM_LOAD_GC_IPL_JAP);
@@ -451,10 +452,10 @@ void CFrame::OnShowInputDisplay(wxCommandEvent& WXUNUSED(event))
   SConfig::GetInstance().SaveSettings();
 }
 
-void CFrame::OnShowRAMDisplay(wxCommandEvent& WXUNUSED(event))
+void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
 {
-	SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;
-	SConfig::GetInstance().SaveSettings();
+  SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
+  SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
@@ -1611,6 +1612,14 @@ void CFrame::OnUndoSaveState(wxCommandEvent& WXUNUSED(event))
   if (Core::IsRunningAndStarted())
     State::UndoSaveState();
 }
+
+// === ADDED FUNCTION ===
+void CFrame::OnScriptLaunch(wxCommandEvent &WXUNUSED(event))
+{
+        g_ScriptLauncher->Show(true);
+        g_ScriptLauncher->Shown();
+}
+// === ===
 
 void CFrame::OnLoadState(wxCommandEvent& event)
 {
