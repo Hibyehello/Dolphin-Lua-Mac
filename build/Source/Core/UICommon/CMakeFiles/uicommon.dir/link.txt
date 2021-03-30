@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libuicommon.a CMakeFiles/uicommon.dir/AutoUpdate.cpp.o CMakeFiles/uicommon.dir/CommandLineParse.cpp.o CMakeFiles/uicommon.dir/Disassembler.cpp.o CMakeFiles/uicommon.dir/GameFile.cpp.o CMakeFiles/uicommon.dir/GameFileCache.cpp.o CMakeFiles/uicommon.dir/UICommon.cpp.o CMakeFiles/uicommon.dir/USBUtils.cpp.o CMakeFiles/uicommon.dir/VideoUtils.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libuicommon.a
