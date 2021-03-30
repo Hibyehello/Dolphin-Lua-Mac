@@ -293,6 +293,7 @@ private:
   void OnRecordReadOnly(wxCommandEvent& event);
   void OnTASInput(wxCommandEvent& event);
   void OnTAStudio(wxCommandEvent& event); // TAStudio - Added by THC98
+  void OnShowRAMDisplay(wxCommandEvent& event);
   void OnTogglePauseMovie(wxCommandEvent& event);
   void OnToggleDumpFrames(wxCommandEvent& event);
   void OnToggleDumpAudio(wxCommandEvent& event);
@@ -342,6 +343,8 @@ private:
   void OnLoadGameCubeIPLJAP(wxCommandEvent& event);
   void OnLoadGameCubeIPLUSA(wxCommandEvent& event);
   void OnLoadGameCubeIPLEUR(wxCommandEvent& event);
+
+  void OnScriptLaunch(wxCommandEvent& event); // ADDED
 
   void OnNetPlay(wxCommandEvent& event);
 

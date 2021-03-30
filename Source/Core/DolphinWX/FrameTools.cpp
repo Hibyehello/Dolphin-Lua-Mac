@@ -163,6 +163,7 @@ void CFrame::BindMenuBarEvents()
   Bind(wxEVT_MENU, &CFrame::OnRecordReadOnly, this, IDM_RECORD_READ_ONLY);
   Bind(wxEVT_MENU, &CFrame::OnTASInput, this, IDM_TAS_INPUT);
   Bind(wxEVT_MENU, &CFrame::OnTAStudio, this, IDM_TASTUDIO);
+  Bind(wxEVT_MENU, &CFrame::OnShowRAMDisplay, this, IDM_SHOW_RAM_DISPLAY);
   Bind(wxEVT_MENU, &CFrame::OnTogglePauseMovie, this, IDM_TOGGLE_PAUSE_MOVIE);
   Bind(wxEVT_MENU, &CFrame::OnShowLag, this, IDM_SHOW_LAG);
   Bind(wxEVT_MENU, &CFrame::OnShowFrameCount, this, IDM_SHOW_FRAME_COUNT);
@@ -180,6 +181,7 @@ void CFrame::BindMenuBarEvents()
 
   // Tools menu
   Bind(wxEVT_MENU, &CFrame::OnMemcard, this, IDM_MEMCARD);
+  Bind(wxEVT_MENU, &CFrame::OnScriptLaunch, this, IDM_SCRIPTLAUNCH); // ADDED
   Bind(wxEVT_MENU, &CFrame::OnImportSave, this, IDM_IMPORT_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnExportAllSaves, this, IDM_EXPORT_ALL_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnLoadGameCubeIPLJAP, this, IDM_LOAD_GC_IPL_JAP);
@@ -448,6 +450,12 @@ void CFrame::OnShowInputDisplay(wxCommandEvent& WXUNUSED(event))
 {
   SConfig::GetInstance().m_ShowInputDisplay = !SConfig::GetInstance().m_ShowInputDisplay;
   SConfig::GetInstance().SaveSettings();
+}
+
+void CFrame::OnShowRAMDisplay(wxCommandEvent& WXUNUSED(event))
+{
+        SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;
+        SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
@@ -1604,6 +1612,14 @@ void CFrame::OnUndoSaveState(wxCommandEvent& WXUNUSED(event))
   if (Core::IsRunningAndStarted())
     State::UndoSaveState();
 }
+
+// === ADDED FUNCTION ===
+void CFrame::OnScriptLaunch(wxCommandEvent &WXUNUSED(event))
+{
+        g_ScriptLauncher->Show(true);
+        g_ScriptLauncher->Shown();
+}
+// === ===
 
 void CFrame::OnLoadState(wxCommandEvent& event)
 {
