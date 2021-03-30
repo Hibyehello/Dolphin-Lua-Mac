@@ -154,7 +154,7 @@ void LuaWindow::Shown()
 	m_choice_script->Clear();
 
 	//Find all Lua files
-	std::vector<std::string> rFilenames = Common::DoFileSearch({".lua"}, {File::GetUserPath(D_USER_IDX) +  "/Scripts" }, true);
+	std::vector<std::string> rFilenames = Common::DoFileSearch({File::GetUserPath(D_USER_IDX) +  "/Scripts" }, {".lua"}, true);
 			wxMessageBox(File::GetUserPath(D_USER_IDX) +  "Scripts");
 
 	if (rFilenames.size() > 0)
