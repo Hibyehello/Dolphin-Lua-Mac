@@ -695,7 +695,7 @@ namespace Lua
 	u32 readPointer(u32 startAddress, u32 offset)
 	{
 	    u32 pointer = Memory::Read_U32(startAddress) + offset;
-            //PanicAlertT("SHOULD BE AFTER ERROR BUT BEFORE PLEASE");
+
 	    // check if pointer is not in the mem1 or mem2
 	    if (Lua::IsInMEMArea(pointer))
 	    {
