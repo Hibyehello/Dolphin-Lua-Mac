@@ -428,6 +428,30 @@ u64 Read_U64(u32 address)
   return Common::swap64(GetPointer(address));
 }
 
+double Read_F64(const u32 address)
+{
+        union
+        {
+                u64 i;
+                double d;
+        } cvt;
+
+        cvt.i = Read_U64(address);
+        return cvt.d;
+}
+
+float Read_F32(const u32 address)
+{
+        union
+        {
+                u32 i;
+                float d;
+        } cvt;
+
+        cvt.i = Read_U32(address);
+        return cvt.d;
+}
+
 void Write_U8(u8 value, u32 address)
 {
   *GetPointer(address) = value;
