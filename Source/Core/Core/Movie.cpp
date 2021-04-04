@@ -183,19 +183,27 @@ std::string GetInputDisplay()
         // Dragonbane
         std::string gameID = SConfig::GetInstance().GetGameID();
         std::string iniContent;
+        std::string iniContent2;
+        //PanicAlertT(gameID.c_str());
         
         bool success =
         File::ReadFileToString(File::GetSysDirectory() +  "InfoDisplay/" + gameID + ".ini" , iniContent);
+
+        std::string tmp = File::GetSysDirectory() + "InfoDisplay/";
+        //PanicAlertT(tmp.c_str());
+        File::ReadFileToString(File::GetSysDirectory() +  "InfoDisplay/" + gameID + ".ini" , iniContent2);
         
         if (success)
         {
-        	std::cout << std::boolalpha << success << std::endl;
+            //PanicAlertT(".ini FILE READ SUCCESSFULLY");
+            //PanicAlertT(iniContent2.c_str());
             int lineCounter = 0;
             bool inProgress = true;
             RAMDisplay.append("\n");
             
             while (inProgress)
             {
+                //PanicAlertT(RAMDisplay.c_str());
                 lineCounter++;
                 
                 std::string lineName = StringFromFormat("Line%i", lineCounter);
@@ -212,6 +220,8 @@ std::string GetInputDisplay()
                 
                 std::string line = iniContent.substr(0, iniContent.find("\"", 0));
                 std::string blockContent = iniContent.substr(0, iniContent.find("End Line", 0));
+                //PanicAlertT("LINE FOUND");
+                //PanicAlertT(blockContent.c_str());
                 
                 std::string::size_type locNext = line.find("%", 0);
                 std::string subLine = line;
@@ -238,6 +248,7 @@ std::string GetInputDisplay()
                     if (locNextArg == std::string::npos)
                         break;
                     
+                    //PanicAlertT("FINDING ARUMENTS");
                     std::string argString = blockContent.substr(locNextArg);
                     argString = argString.substr(argString.find("=", 0) + 1);
                     argString = argString.substr(0, argString.find(";", 0));
@@ -267,6 +278,7 @@ std::string GetInputDisplay()
                     }
                     else
                     {
+                        //PanicAlertT("Inside");
                         u32 pointerAddress;
                         u32 offset;
                         
@@ -284,7 +296,9 @@ std::string GetInputDisplay()
                         while (locPlus != std::string::npos)
                         {
                             offset = strtol(arguString.c_str(), nullptr, 16);
+                            //PanicAlertT("HERE?");
                             pointerAddress = Lua::readPointer(pointerAddress, offset);
+                            //PanicAlertT("please");
                             locPlus = argString.find("+", locPlus + 1);
                             arguString = argString.substr(locPlus + 2);
                         }
@@ -311,7 +325,7 @@ std::string GetInputDisplay()
                     }
                     else if (identifier.compare("%f") == 0)
                     {
-                        float outputFloat = PowerPC::Read_F32(readAddress);
+                        float outputFloat = 0;//PowerPC::Read_F32(readAddress);
                         finalOutput = StringFromFormat(identifier.c_str(), outputFloat);
                     }
                     else if (numBytes == 4)
