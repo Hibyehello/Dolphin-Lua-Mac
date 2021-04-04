@@ -181,6 +181,7 @@ void CFrame::BindMenuBarEvents()
 
   // Tools menu
   Bind(wxEVT_MENU, &CFrame::OnMemcard, this, IDM_MEMCARD);
+  Bind(wxEVT_MENU, &CFrame::OnScriptLaunch, this, IDM_SCRIPTLAUNCH); // ADDED
   Bind(wxEVT_MENU, &CFrame::OnImportSave, this, IDM_IMPORT_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnExportAllSaves, this, IDM_EXPORT_ALL_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnLoadGameCubeIPLJAP, this, IDM_LOAD_GC_IPL_JAP);
@@ -1611,6 +1612,14 @@ void CFrame::OnUndoSaveState(wxCommandEvent& WXUNUSED(event))
   if (Core::IsRunningAndStarted())
     State::UndoSaveState();
 }
+
+// === ADDED FUNCTION ===
+void CFrame::OnScriptLaunch(wxCommandEvent &WXUNUSED(event))
+{
+        g_ScriptLauncher->Show(true);
+        g_ScriptLauncher->Shown();
+}
+// === ===
 
 void CFrame::OnLoadState(wxCommandEvent& event)
 {

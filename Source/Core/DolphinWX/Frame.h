@@ -344,6 +344,8 @@ private:
   void OnLoadGameCubeIPLUSA(wxCommandEvent& event);
   void OnLoadGameCubeIPLEUR(wxCommandEvent& event);
 
+  void OnScriptLaunch(wxCommandEvent& event); // ADDED
+
   void OnNetPlay(wxCommandEvent& event);
 
   void OnShowCheatsWindow(wxCommandEvent& event);
