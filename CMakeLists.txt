@@ -768,6 +768,7 @@ add_subdirectory(Source)
 # Install shared data files
 #
 
+# ADDED
 install(DIRECTORY Data/Sys/InfoDisplay/ DESTINATION ${datafir}/sys/InfoDisplay PATTERN)
 
 if(NOT CMAKE_SYSTEM_NAME MATCHES "Darwin|Windows")

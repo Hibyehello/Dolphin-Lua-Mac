@@ -878,15 +878,14 @@ namespace Lua
 		memset(&PadLocal, 0, sizeof(PadLocal));
 
 		//Auto launch Scripts that start with _
-
-
-                std::vector<std::string> rFilenames = Common::DoFileSearch({File::GetUserPath(D_USER_IDX) +  "/Scripts"}, {".lua"});
+	  std::vector<std::string> rFilenames = Common::DoFileSearch({File::GetUserPath(D_USER_IDX) +  "/Scripts"}, {".lua"});
 
 		if (rFilenames.size() > 0)
 		{
 			for (u32 i = 0; i < rFilenames.size(); i++)
 			{
 				std::string FileName;
+
 				SplitPath(rFilenames[i], nullptr, &FileName, nullptr);
 
 				if (!FileName.substr(0, 1).compare("_"))

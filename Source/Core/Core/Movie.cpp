@@ -17,7 +17,6 @@
 #include <utility>
 #include <variant>
 #include <vector>
-#include <iostream>
 
 #include "Common/Assert.h"
 #include "Common/ChunkFile.h"
@@ -185,7 +184,7 @@ std::string GetInputDisplay()
         std::string iniContent;
         
         bool success =
-        File::ReadFileToString(File::GetSysDirectory() +  "InfoDisplay/" + gameID + ".ini" , iniContent);
+        File::ReadFileToString(File::GetUserPath(D_USER_IDX) +  "/InfoDisplay/" + gameID + ".ini" , iniContent);
         
         if (success)
         {
