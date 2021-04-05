@@ -165,6 +165,7 @@ BatTable dbat_table;
 
 static void GenerateDSIException(u32 _EffectiveAddress, bool _bWrite);
 
+
 template <XCheckTLBFlag flag, typename T, bool never_translate = false>
 static T ReadFromHardware(u32 em_address)
 {
@@ -524,20 +525,14 @@ double Read_F64(const u32 address)
 {
   const u64 integral = Read_U64(address);
 
-  double real;
-  std::memcpy(&real, &integral, sizeof(double));
-
-  return real;
+  return Common::BitCast<double>(integral);
 }
 
 float Read_F32(const u32 address)
 {
   const u32 integral = Read_U32(address);
 
-  float real;
-  std::memcpy(&real, &integral, sizeof(float));
-
-  return real;
+  return Common::BitCast<float>(integral);
 }
 
 u32 Read_U8_ZX(const u32 address)

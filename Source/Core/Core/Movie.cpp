@@ -309,7 +309,7 @@ std::string GetInputDisplay()
                     }
                     else if (identifier.compare("%f") == 0)
                     {
-                        float outputFloat = PowerPC::Read_F32(readAddress);
+                        float outputFloat = Memory::Read_F32(readAddress); //THIS NEEDS FIXED STILL -ThatsSlick
                         finalOutput = StringFromFormat(identifier.c_str(), outputFloat);
                     }
                     else if (numBytes == 4)
