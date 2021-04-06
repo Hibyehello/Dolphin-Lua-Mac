@@ -152,10 +152,10 @@ void LuaWindow::Shown()
 {
 	//Refresh Script List
 	m_choice_script->Clear();
-
+	
 	//Find all Lua files
 	std::vector<std::string> rFilenames = Common::DoFileSearch({File::GetUserPath(D_USER_IDX) +  "/Scripts" }, {".lua"});
-
+	
 	if (rFilenames.size() > 0)
 	{
 		for (u32 i = 0; i < rFilenames.size(); i++)
