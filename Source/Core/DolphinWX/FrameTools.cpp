@@ -460,8 +460,8 @@ void CFrame::OnShowRAMDisplay(wxCommandEvent& WXUNUSED(event))
 
 void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
 {
-  SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
-  SConfig::GetInstance().SaveSettings();
+  	SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
+  	SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnFrameStep(wxCommandEvent& event)
