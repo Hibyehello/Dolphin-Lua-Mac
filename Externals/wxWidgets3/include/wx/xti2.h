@@ -81,8 +81,8 @@ private :
 { wxFromStringConverter<type>(data, result); }
 #endif
 
-#include "wxWidgets3/include/wx/xtiprop.h"
-#include "wxWidgets3/include/wx/xtictor.h"
+#include "wx/xtiprop.h"
+#include "wx/xtictor.h"
 
 // ----------------------------------------------------------------------------
 // wxIMPLEMENT class macros for concrete classes

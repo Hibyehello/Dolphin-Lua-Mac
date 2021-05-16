@@ -10,7 +10,7 @@
 #ifndef _WX_TEXTWRAPPER_H_
 #define _WX_TEXTWRAPPER_H_
 
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/window.h"
 
 // ----------------------------------------------------------------------------
 // wxTextWrapper
@@ -67,8 +67,8 @@ private:
 
 #if wxUSE_STATTEXT
 
-#include "wxWidgets3/include/wx/sizer.h"
-#include "wxWidgets3/include/wx/stattext.h"
+#include "wx/sizer.h"
+#include "wx/stattext.h"
 
 // A class creating a sizer with one static text per line of text. Creation of
 // the controls used for each line can be customized by overriding

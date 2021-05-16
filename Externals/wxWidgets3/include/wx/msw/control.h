@@ -11,7 +11,7 @@
 #ifndef _WX_CONTROL_H_
 #define _WX_CONTROL_H_
 
-#include "wxWidgets3/include/wx/dynarray.h"
+#include "wx/dynarray.h"
 
 // General item class
 class WXDLLIMPEXP_CORE wxControl : public wxControlBase

@@ -11,7 +11,7 @@
 #ifndef _WX_PALETTE_H_
 #define _WX_PALETTE_H_
 
-#include "wxWidgets3/include/wx/list.h"
+#include "wx/list.h"
 
 class WXDLLIMPEXP_FWD_CORE wxPalette;
 

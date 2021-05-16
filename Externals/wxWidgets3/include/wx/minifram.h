@@ -11,28 +11,28 @@
 #ifndef _WX_MINIFRAM_H_BASE_
 #define _WX_MINIFRAM_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_MINIFRAME
 
 #if defined(__WXMSW__)
-#include "wxWidgets3/include/wx/msw/minifram.h"
+#include "wx/msw/minifram.h"
 #elif defined(__WXMOTIF__)
-#include "wxWidgets3/include/wx/motif/minifram.h"
+#include "wx/motif/minifram.h"
 #elif defined(__WXGTK20__)
-#include "wxWidgets3/include/wx/gtk/minifram.h"
+#include "wx/gtk/minifram.h"
 #elif defined(__WXGTK__)
-#include "wxWidgets3/include/wx/gtk1/minifram.h"
+#include "wx/gtk1/minifram.h"
 #elif defined(__WXX11__)
-#include "wxWidgets3/include/wx/x11/minifram.h"
+#include "wx/x11/minifram.h"
 #elif defined(__WXMAC__)
-#include "wxWidgets3/include/wx/osx/minifram.h"
+#include "wx/osx/minifram.h"
 #elif defined(__WXQT__)
-#include "wxWidgets3/include/wx/qt/minifram.h"
+#include "wx/qt/minifram.h"
 #else
 // TODO: it seems that wxMiniFrame could be just defined here generically
 //       instead of having all the above port-specific headers
-#include "wxWidgets3/include/wx/frame.h"
+#include "wx/frame.h"
 typedef wxFrame wxMiniFrame;
 #endif
 

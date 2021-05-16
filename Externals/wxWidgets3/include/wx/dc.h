@@ -15,20 +15,20 @@
 // headers which we must include here
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/object.h"          // the base class
+#include "wx/object.h"          // the base class
 
-#include "wxWidgets3/include/wx/intl.h"            // for wxLayoutDirection
-#include "wxWidgets3/include/wx/colour.h"          // we have member variables of these classes
-#include "wxWidgets3/include/wx/font.h"            // so we can't do without them
-#include "wxWidgets3/include/wx/bitmap.h"          // for wxNullBitmap
-#include "wxWidgets3/include/wx/brush.h"
-#include "wxWidgets3/include/wx/pen.h"
-#include "wxWidgets3/include/wx/palette.h"
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/math.h"
-#include "wxWidgets3/include/wx/image.h"
-#include "wxWidgets3/include/wx/region.h"
-#include "wxWidgets3/include/wx/affinematrix2d.h"
+#include "wx/intl.h"            // for wxLayoutDirection
+#include "wx/colour.h"          // we have member variables of these classes
+#include "wx/font.h"            // so we can't do without them
+#include "wx/bitmap.h"          // for wxNullBitmap
+#include "wx/brush.h"
+#include "wx/pen.h"
+#include "wx/palette.h"
+#include "wx/dynarray.h"
+#include "wx/math.h"
+#include "wx/image.h"
+#include "wx/region.h"
+#include "wx/affinematrix2d.h"
 
 #define wxUSE_NEW_DC 1
 

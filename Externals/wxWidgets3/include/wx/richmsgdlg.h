@@ -10,11 +10,11 @@
 #ifndef _WX_RICHMSGDLG_H_BASE_
 #define _WX_RICHMSGDLG_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_RICHMSGDLG
 
-#include "wxWidgets3/include/wx/msgdlg.h"
+#include "wx/msgdlg.h"
 
 // Extends a message dialog with an optional checkbox and user-expandable
 // detailed text.
@@ -62,10 +62,10 @@ private:
 
 // Always include the generic version as it's currently used as the base class
 // by the MSW native implementation too.
-#include "wxWidgets3/include/wx/generic/richmsgdlgg.h"
+#include "wx/generic/richmsgdlgg.h"
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/msw/richmsgdlg.h"
+    #include "wx/msw/richmsgdlg.h"
 #else
     class WXDLLIMPEXP_CORE wxRichMessageDialog
                            : public wxGenericRichMessageDialog

@@ -10,12 +10,12 @@
 #ifndef _WX_ABOUTDLG_H_
 #define _WX_ABOUTDLG_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_ABOUTDLG
 
-#include "wxWidgets3/include/wx/app.h"
-#include "wxWidgets3/include/wx/icon.h"
+#include "wx/app.h"
+#include "wx/icon.h"
 
 // ----------------------------------------------------------------------------
 // wxAboutDialogInfo: information shown by the standard "About" dialog

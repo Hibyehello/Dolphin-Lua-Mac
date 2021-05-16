@@ -21,10 +21,10 @@
 // wx includes
 //---------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/msw/ole/oleutils.h" // wxBasicString &c
-#include "wxWidgets3/include/wx/msw/ole/uuid.h"
-#include "wxWidgets3/include/wx/window.h"
-#include "wxWidgets3/include/wx/variant.h"
+#include "wx/msw/ole/oleutils.h" // wxBasicString &c
+#include "wx/msw/ole/uuid.h"
+#include "wx/window.h"
+#include "wx/variant.h"
 
 class FrameSite;
 

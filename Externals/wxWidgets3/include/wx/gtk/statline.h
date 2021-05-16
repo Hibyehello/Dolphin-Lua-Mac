@@ -9,7 +9,7 @@
 #ifndef __GTKSTATICLINEH__
 #define __GTKSTATICLINEH__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_STATLINE
 

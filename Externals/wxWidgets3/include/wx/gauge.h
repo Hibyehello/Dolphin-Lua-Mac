@@ -11,11 +11,11 @@
 #ifndef _WX_GAUGE_H_BASE_
 #define _WX_GAUGE_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_GAUGE
 
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/control.h"
 
 // ----------------------------------------------------------------------------
 // wxGauge style flags
@@ -122,19 +122,19 @@ protected:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/gauge.h"
+    #include "wx/univ/gauge.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/gauge.h"
+    #include "wx/msw/gauge.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/gauge.h"
+    #include "wx/motif/gauge.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/gauge.h"
+    #include "wx/gtk/gauge.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/gauge.h"
+    #include "wx/gtk1/gauge.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/gauge.h"
+    #include "wx/osx/gauge.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/gauge.h"
+    #include "wx/qt/gauge.h"
 #endif
 
 #endif // wxUSE_GAUGE

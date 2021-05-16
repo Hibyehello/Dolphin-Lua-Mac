@@ -10,7 +10,7 @@
 #ifndef _WX_ANYBUTTON_H_BASE_
 #define _WX_ANYBUTTON_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #ifdef wxHAS_ANY_BUTTON
 
@@ -41,8 +41,8 @@
 #define wxBU_NOTEXT          0x0002
 
 
-#include "wxWidgets3/include/wx/bitmap.h"
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/bitmap.h"
+#include "wx/control.h"
 
 // ----------------------------------------------------------------------------
 // wxAnyButton: common button functionality
@@ -182,19 +182,19 @@ protected:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/anybutton.h"
+    #include "wx/univ/anybutton.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/anybutton.h"
+    #include "wx/msw/anybutton.h"
 //#elif defined(__WXMOTIF__)
-//    #include "wxWidgets3/include/wx/motif/anybutton.h"
+//    #include "wx/motif/anybutton.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/anybutton.h"
+    #include "wx/gtk/anybutton.h"
 //#elif defined(__WXGTK__)
-//    #include "wxWidgets3/include/wx/gtk1/anybutton.h"
+//    #include "wx/gtk1/anybutton.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/anybutton.h"
+    #include "wx/osx/anybutton.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/anybutton.h"
+    #include "wx/qt/anybutton.h"
 #else
     typedef wxAnyButtonBase wxAnyButton;
 #endif

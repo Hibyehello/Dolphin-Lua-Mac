@@ -11,9 +11,9 @@
 #ifndef _WX_GLCANVAS_H_
 #define _WX_GLCANVAS_H_
 
-#include "wxWidgets3/include/wx/palette.h"
+#include "wx/palette.h"
 
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
+#include "wx/msw/wrapwin.h"
 
 #include <GL/gl.h>
 

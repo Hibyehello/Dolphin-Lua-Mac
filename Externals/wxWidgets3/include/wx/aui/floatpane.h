@@ -15,16 +15,16 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/weakref.h"
+#include "wx/defs.h"
+#include "wx/weakref.h"
 
 #if wxUSE_AUI
 
 #if wxUSE_MINIFRAME
-    #include "wxWidgets3/include/wx/minifram.h"
+    #include "wx/minifram.h"
     #define wxAuiFloatingFrameBaseClass wxMiniFrame
 #else
-    #include "wxWidgets3/include/wx/frame.h"
+    #include "wx/frame.h"
     #define wxAuiFloatingFrameBaseClass wxFrame
 #endif
 

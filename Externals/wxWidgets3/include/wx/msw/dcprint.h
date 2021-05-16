@@ -13,9 +13,9 @@
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
-#include "wxWidgets3/include/wx/dcprint.h"
-#include "wxWidgets3/include/wx/cmndata.h"
-#include "wxWidgets3/include/wx/msw/dc.h"
+#include "wx/dcprint.h"
+#include "wx/cmndata.h"
+#include "wx/msw/dc.h"
 
 // ------------------------------------------------------------------------
 //    wxPrinterDCImpl

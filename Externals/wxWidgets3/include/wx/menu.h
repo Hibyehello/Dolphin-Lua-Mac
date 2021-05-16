@@ -11,7 +11,7 @@
 #ifndef _WX_MENU_H_BASE_
 #define _WX_MENU_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_MENUS
 
@@ -19,12 +19,12 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/list.h"        // for "template" list classes
-#include "wxWidgets3/include/wx/window.h"      // base class for wxMenuBar
+#include "wx/list.h"        // for "template" list classes
+#include "wx/window.h"      // base class for wxMenuBar
 
 // also include this one to ensure compatibility with old code which only
 // included wx/menu.h
-#include "wxWidgets3/include/wx/menuitem.h"
+#include "wx/menuitem.h"
 
 class WXDLLIMPEXP_FWD_CORE wxFrame;
 class WXDLLIMPEXP_FWD_CORE wxMenu;
@@ -593,19 +593,19 @@ protected:
     #define wxMenuItem wxMenuItemBase
 #else // !wxUSE_BASE_CLASSES_ONLY
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/menu.h"
+    #include "wx/univ/menu.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/menu.h"
+    #include "wx/msw/menu.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/menu.h"
+    #include "wx/motif/menu.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/menu.h"
+    #include "wx/gtk/menu.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/menu.h"
+    #include "wx/gtk1/menu.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/menu.h"
+    #include "wx/osx/menu.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/menu.h"
+    #include "wx/qt/menu.h"
 #endif
 #endif // wxUSE_BASE_CLASSES_ONLY/!wxUSE_BASE_CLASSES_ONLY
 

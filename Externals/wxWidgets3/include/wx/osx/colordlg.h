@@ -12,7 +12,7 @@
 #ifndef _WX_COLORDLG_H_
 #define _WX_COLORDLG_H_
 
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/dialog.h"
 
 /*
  * Platform-specific colour dialog implementation

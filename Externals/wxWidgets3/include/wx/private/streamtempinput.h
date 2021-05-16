@@ -13,7 +13,7 @@
 #ifndef _WX_PRIVATE_STREAMTEMPINPUT_H
 #define _WX_PRIVATE_STREAMTEMPINPUT_H
 
-#include "wxWidgets3/include/wx/private/pipestream.h"
+#include "wx/private/pipestream.h"
 
 // ----------------------------------------------------------------------------
 // wxStreamTempInputBuffer

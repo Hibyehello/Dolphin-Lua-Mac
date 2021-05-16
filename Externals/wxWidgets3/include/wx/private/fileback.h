@@ -9,11 +9,11 @@
 #ifndef _WX_FILEBACK_H__
 #define _WX_FILEBACK_H__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FILESYSTEM
 
-#include "wxWidgets3/include/wx/stream.h"
+#include "wx/stream.h"
 
 // ----------------------------------------------------------------------------
 // Backs an input stream with memory or a file to make it seekable.

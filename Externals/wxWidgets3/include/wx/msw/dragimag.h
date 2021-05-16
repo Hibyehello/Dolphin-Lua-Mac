@@ -14,11 +14,11 @@
 
 #if wxUSE_DRAGIMAGE
 
-#include "wxWidgets3/include/wx/bitmap.h"
-#include "wxWidgets3/include/wx/icon.h"
-#include "wxWidgets3/include/wx/cursor.h"
-#include "wxWidgets3/include/wx/treectrl.h"
-#include "wxWidgets3/include/wx/listctrl.h"
+#include "wx/bitmap.h"
+#include "wx/icon.h"
+#include "wx/cursor.h"
+#include "wx/treectrl.h"
+#include "wx/listctrl.h"
 
 // If 1, use a simple wxCursor instead of ImageList_SetDragCursorImage
 #define wxUSE_SIMPLER_DRAGIMAGE 0

@@ -11,8 +11,8 @@
 #ifndef _WX_MSW_DC_H_
 #define _WX_MSW_DC_H_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/defs.h"
+#include "wx/dc.h"
 
 // ---------------------------------------------------------------------------
 // macros

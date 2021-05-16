@@ -14,8 +14,8 @@
 // ----------------------------------------------------------------------------
 // simple types
 // ----------------------------------------------------------------------------
-#include  "wxWidgets3/include/wx/dynarray.h"
-#include  "wxWidgets3/include/wx/arrstr.h"
+#include  "wx/dynarray.h"
+#include  "wx/arrstr.h"
 
 // forward decl for GetSelections()
 class wxArrayInt;

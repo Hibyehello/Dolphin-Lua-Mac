@@ -13,7 +13,7 @@
 // this file is currently empty as its original contents was moved to
 // include/wx/private/fd.h but let's keep it for now in case we need it for
 // something again in the future
-#include "wxWidgets3/include/wx/private/fd.h"
+#include "wx/private/fd.h"
 
 #endif // _WX_UNIX_PRIVATE_H_
 

@@ -10,7 +10,7 @@
 #ifndef _WX_PROTOCOL_LOG_H_
 #define _WX_PROTOCOL_LOG_H_
 
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/string.h"
 
 // ----------------------------------------------------------------------------
 // wxProtocolLog: simple class for logging network requests and responses

@@ -11,7 +11,7 @@
 #ifndef __PROGDLGH_G__
 #define __PROGDLGH_G__
 
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/dialog.h"
 
 class WXDLLIMPEXP_FWD_CORE wxButton;
 class WXDLLIMPEXP_FWD_CORE wxEventLoop;

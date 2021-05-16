@@ -10,12 +10,12 @@
 #ifndef _WX_GTK_GVFS_H_
 #define _WX_GTK_GVFS_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_MIMETYPE && wxUSE_LIBGNOMEVFS
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/unix/mimetype.h"
+#include "wx/string.h"
+#include "wx/unix/mimetype.h"
 
 //----------------------------------------------------------------------------
 // wxGnomeVFSMimeTypesManagerImpl

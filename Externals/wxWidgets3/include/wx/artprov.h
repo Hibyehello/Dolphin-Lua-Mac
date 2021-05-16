@@ -11,10 +11,10 @@
 #ifndef _WX_ARTPROV_H_
 #define _WX_ARTPROV_H_
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/bitmap.h"
-#include "wxWidgets3/include/wx/icon.h"
-#include "wxWidgets3/include/wx/iconbndl.h"
+#include "wx/string.h"
+#include "wx/bitmap.h"
+#include "wx/icon.h"
+#include "wx/iconbndl.h"
 
 class WXDLLIMPEXP_FWD_CORE wxArtProvidersList;
 class WXDLLIMPEXP_FWD_CORE wxArtProviderCache;

@@ -10,15 +10,15 @@
 #ifndef _WX_DATETIME_CTRL_H_
 #define _WX_DATETIME_CTRL_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_DATEPICKCTRL || wxUSE_TIMEPICKCTRL
 
 #define wxNEEDS_DATETIMEPICKCTRL
 
-#include "wxWidgets3/include/wx/control.h"         // the base class
+#include "wx/control.h"         // the base class
 
-#include "wxWidgets3/include/wx/datetime.h"
+#include "wx/datetime.h"
 
 // ----------------------------------------------------------------------------
 // wxDateTimePickerCtrl: Private common base class of wx{Date,Time}PickerCtrl.
@@ -35,9 +35,9 @@ public:
 };
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/msw/datetimectrl.h"
+    #include "wx/msw/datetimectrl.h"
 #elif defined(__WXOSX_COCOA__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/osx/datetimectrl.h"
+    #include "wx/osx/datetimectrl.h"
 #else
     typedef wxDateTimePickerCtrlBase wxDateTimePickerCtrl;
 #endif

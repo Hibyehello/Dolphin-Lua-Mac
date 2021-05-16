@@ -12,9 +12,9 @@
 
 #if wxUSE_DATEPICKCTRL
 
-#include "wxWidgets3/include/wx/osx/private.h"
+#include "wx/osx/private.h"
 
-#include "wxWidgets3/include/wx/datetime.h"
+#include "wx/datetime.h"
 
 enum wxDateTimeWidgetKind
 {

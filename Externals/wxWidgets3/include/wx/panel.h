@@ -16,8 +16,8 @@
 // headers and forward declarations
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/window.h"
-#include "wxWidgets3/include/wx/containr.h"
+#include "wx/window.h"
+#include "wx/containr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxControlContainer;
 
@@ -61,12 +61,12 @@ private:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/panel.h"
+    #include "wx/univ/panel.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/panel.h"
+    #include "wx/msw/panel.h"
 #else
     #define wxHAS_GENERIC_PANEL
-    #include "wxWidgets3/include/wx/generic/panelg.h"
+    #include "wx/generic/panelg.h"
 #endif
 
 #endif // _WX_PANELH_BASE_

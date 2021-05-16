@@ -11,9 +11,9 @@
 #ifndef _WX_STATBMP_H_
 #define _WX_STATBMP_H_
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/icon.h"
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/control.h"
+#include "wx/icon.h"
+#include "wx/bitmap.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticBitmapNameStr[];
 

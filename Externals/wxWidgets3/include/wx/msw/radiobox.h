@@ -11,7 +11,7 @@
 #ifndef _WX_RADIOBOX_H_
 #define _WX_RADIOBOX_H_
 
-#include "wxWidgets3/include/wx/statbox.h"
+#include "wx/statbox.h"
 
 class WXDLLIMPEXP_FWD_CORE wxSubwindows;
 

@@ -10,7 +10,7 @@
 #ifndef _MSW_OLE_SAFEARRAY_H_
 #define _MSW_OLE_SAFEARRAY_H_
 
-#include "wxWidgets3/include/wx/msw/ole/oleutils.h"
+#include "wx/msw/ole/oleutils.h"
 
 #if wxUSE_OLE && wxUSE_VARIANT
 

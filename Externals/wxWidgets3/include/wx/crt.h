@@ -10,13 +10,13 @@
 #ifndef _WX_CRT_H_
 #define _WX_CRT_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 // include wxChar type definition:
-#include "wxWidgets3/include/wx/chartype.h"
+#include "wx/chartype.h"
 
 // and wrappers for CRT functions:
-#include "wxWidgets3/include/wx/wxcrt.h"
-#include "wxWidgets3/include/wx/wxcrtvararg.h"
+#include "wx/wxcrt.h"
+#include "wx/wxcrtvararg.h"
 
 #endif // _WX_CRT_H_

@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGGIF_H_
 #define _WX_IMAGGIF_H_
 
-#include "wxWidgets3/include/wx/image.h"
+#include "wx/image.h"
 
 
 //-----------------------------------------------------------------------------

@@ -11,7 +11,7 @@
 #ifndef _WX_PRINT_H_
 #define _WX_PRINT_H_
 
-#include "wxWidgets3/include/wx/prntbase.h"
+#include "wx/prntbase.h"
 
 /*
 * Represents the printer: manages printing a wxPrintout object

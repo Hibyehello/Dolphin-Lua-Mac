@@ -10,7 +10,7 @@
 #ifndef _WX_OSX_APPPROG_H_
 #define _WX_OSX_APPPROG_H_
 
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/window.h"
 
 class WXDLLIMPEXP_CORE wxAppProgressIndicator
     : public wxAppProgressIndicatorBase

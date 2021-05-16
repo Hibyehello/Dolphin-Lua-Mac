@@ -11,15 +11,15 @@
 #ifndef _WX_CLIPBRD_H_BASE_
 #define _WX_CLIPBRD_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_CLIPBOARD
 
 
-#include "wxWidgets3/include/wx/event.h"
-#include "wxWidgets3/include/wx/chartype.h"
-#include "wxWidgets3/include/wx/dataobj.h"     // for wxDataFormat
-#include "wxWidgets3/include/wx/vector.h"
+#include "wx/event.h"
+#include "wx/chartype.h"
+#include "wx/dataobj.h"     // for wxDataFormat
+#include "wx/vector.h"
 
 class WXDLLIMPEXP_FWD_CORE wxClipboard;
 
@@ -150,19 +150,19 @@ typedef void (wxEvtHandler::*wxClipboardEventFunction)(wxClipboardEvent&);
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/clipbrd.h"
+    #include "wx/msw/clipbrd.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/clipbrd.h"
+    #include "wx/motif/clipbrd.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/clipbrd.h"
+    #include "wx/gtk/clipbrd.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/clipbrd.h"
+    #include "wx/gtk1/clipbrd.h"
 #elif defined(__WXX11__)
-    #include "wxWidgets3/include/wx/x11/clipbrd.h"
+    #include "wx/x11/clipbrd.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/clipbrd.h"
+    #include "wx/osx/clipbrd.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/clipbrd.h"
+    #include "wx/qt/clipbrd.h"
 #endif
 
 // ----------------------------------------------------------------------------

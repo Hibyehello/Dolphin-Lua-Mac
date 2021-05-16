@@ -10,7 +10,7 @@
 
 #if wxUSE_STD_IOSTREAM
 
-#include "wxWidgets3/include/wx/beforestd.h"
+#include "wx/beforestd.h"
 
 #if wxUSE_IOSTREAMH
 #   include <iostream.h>
@@ -18,10 +18,10 @@
 #   include <iostream>
 #endif
 
-#include "wxWidgets3/include/wx/afterstd.h"
+#include "wx/afterstd.h"
 
 #ifdef __WINDOWS__
-#   include "wxWidgets3/include/wx/msw/winundef.h"
+#   include "wx/msw/winundef.h"
 #endif
 
 #endif

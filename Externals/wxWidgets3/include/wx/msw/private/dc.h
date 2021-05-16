@@ -10,8 +10,8 @@
 #ifndef _MSW_PRIVATE_DC_H_
 #define _MSW_PRIVATE_DC_H_
 
-#include "wxWidgets3/include/wx/msw/dc.h"
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
+#include "wx/msw/dc.h"
+#include "wx/msw/wrapwin.h"
 
 namespace wxMSWImpl
 {

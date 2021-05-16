@@ -11,21 +11,21 @@
 #ifndef _WX_PRIVATE_OVERLAY_H_
 #define _WX_PRIVATE_OVERLAY_H_
 
-#include "wxWidgets3/include/wx/overlay.h"
+#include "wx/overlay.h"
 
 #ifdef wxHAS_NATIVE_OVERLAY
 
 #if defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/carbon/private/overlay.h"
+    #include "wx/osx/carbon/private/overlay.h"
 #elif defined(__WXDFB__)
-    #include "wxWidgets3/include/wx/dfb/private/overlay.h"
+    #include "wx/dfb/private/overlay.h"
 #else
     #error "unknown native wxOverlay implementation"
 #endif
 
 #else // !wxHAS_NATIVE_OVERLAY
 
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/bitmap.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 

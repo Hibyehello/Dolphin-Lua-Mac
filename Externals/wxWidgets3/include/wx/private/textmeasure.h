@@ -156,11 +156,11 @@ protected:
 
 // Include the platform dependent class declaration, if any.
 #if defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/private/textmeasure.h"
+    #include "wx/gtk/private/textmeasure.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/private/textmeasure.h"
+    #include "wx/msw/private/textmeasure.h"
 #else // no platform-specific implementation of wxTextMeasure yet
-    #include "wxWidgets3/include/wx/generic/private/textmeasure.h"
+    #include "wx/generic/private/textmeasure.h"
 
     #define wxUSE_GENERIC_TEXTMEASURE 1
 #endif

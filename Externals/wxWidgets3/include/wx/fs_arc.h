@@ -9,12 +9,12 @@
 #ifndef _WX_FS_ARC_H_
 #define _WX_FS_ARC_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FS_ARCHIVE
 
-#include "wxWidgets3/include/wx/filesys.h"
-#include "wxWidgets3/include/wx/hashmap.h"
+#include "wx/filesys.h"
+#include "wx/hashmap.h"
 
 WX_DECLARE_STRING_HASH_MAP(int, wxArchiveFilenameHashMap);
 

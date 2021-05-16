@@ -10,8 +10,8 @@
 #ifndef _WX_GENERIC_PRIVATE_RICHTOOLTIP_H_
 #define _WX_GENERIC_PRIVATE_RICHTOOLTIP_H_
 
-#include "wxWidgets3/include/wx/icon.h"
-#include "wxWidgets3/include/wx/colour.h"
+#include "wx/icon.h"
+#include "wx/colour.h"
 
 // ----------------------------------------------------------------------------
 // wxRichToolTipGenericImpl: defines generic wxRichToolTip implementation.

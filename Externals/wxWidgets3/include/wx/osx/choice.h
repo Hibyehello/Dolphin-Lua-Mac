@@ -11,10 +11,10 @@
 #ifndef _WX_CHOICE_H_
 #define _WX_CHOICE_H_
 
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/control.h"
 
-#include  "wxWidgets3/include/wx/dynarray.h"
-#include  "wxWidgets3/include/wx/arrstr.h"
+#include  "wx/dynarray.h"
+#include  "wx/arrstr.h"
 
 WX_DEFINE_ARRAY( char * , wxChoiceDataArray ) ;
 

@@ -11,7 +11,7 @@
 #ifndef _WX_REPARENT_H_
 #define _WX_REPARENT_H_
 
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/window.h"
 
 /*
  * This class helps to reparent a specific window

@@ -11,7 +11,7 @@
 #ifndef _WX_QUANTIZE_H_
 #define _WX_QUANTIZE_H_
 
-#include "wxWidgets3/include/wx/object.h"
+#include "wx/object.h"
 
 /*
  * From jquant2.c

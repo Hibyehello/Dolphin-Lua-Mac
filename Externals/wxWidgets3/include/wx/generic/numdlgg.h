@@ -11,11 +11,11 @@
 #ifndef __NUMDLGH_G__
 #define __NUMDLGH_G__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_NUMBERDLG
 
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/dialog.h"
 
 #if wxUSE_SPINCTRL
     class WXDLLIMPEXP_FWD_CORE wxSpinCtrl;

@@ -11,7 +11,7 @@
 #ifndef _WX_CARET_H_BASE_
 #define _WX_CARET_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_CARET
 
@@ -26,7 +26,7 @@ class WXDLLIMPEXP_FWD_CORE wxWindowBase;
 // headers we have to include
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/gdicmn.h"  // for wxPoint, wxSize
+#include "wx/gdicmn.h"  // for wxPoint, wxSize
 
 // ----------------------------------------------------------------------------
 // A caret is a blinking cursor showing the position where the typed text will
@@ -193,9 +193,9 @@ private:
 // ---------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/caret.h"
+    #include "wx/msw/caret.h"
 #else
-    #include "wxWidgets3/include/wx/generic/caret.h"
+    #include "wx/generic/caret.h"
 #endif // platform
 
 // ----------------------------------------------------------------------------

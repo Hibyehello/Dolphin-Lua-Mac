@@ -11,9 +11,9 @@
 #ifndef _WX_GTKHYPERLINKCTRL_H_
 #define _WX_GTKHYPERLINKCTRL_H_
 
-#include "wxWidgets3/include/wx/generic/hyperlink.h"
+#include "wx/generic/hyperlink.h"
 
-#include "wxWidgets3/include/wx/scopedptr.h"
+#include "wx/scopedptr.h"
 
 #ifdef __WXGTK3__
 class wxHyperlinkCtrlColData;

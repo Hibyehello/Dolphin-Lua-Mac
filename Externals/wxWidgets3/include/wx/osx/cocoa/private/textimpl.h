@@ -11,8 +11,8 @@
 #ifndef _WX_OSX_COCOA_PRIVATE_TEXTIMPL_H_
 #define _WX_OSX_COCOA_PRIVATE_TEXTIMPL_H_
 
-#include "wxWidgets3/include/wx/combobox.h"
-#include "wxWidgets3/include/wx/osx/private.h"
+#include "wx/combobox.h"
+#include "wx/osx/private.h"
 
 @class wxTextEntryFormatter;
 

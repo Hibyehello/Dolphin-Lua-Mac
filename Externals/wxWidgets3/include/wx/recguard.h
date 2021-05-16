@@ -11,7 +11,7 @@
 #ifndef _WX_RECGUARD_H_
 #define _WX_RECGUARD_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 // ----------------------------------------------------------------------------
 // wxRecursionGuardFlag is used with wxRecursionGuard

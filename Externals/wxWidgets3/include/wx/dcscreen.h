@@ -11,8 +11,8 @@
 #ifndef _WX_DCSCREEN_H_BASE_
 #define _WX_DCSCREEN_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/defs.h"
+#include "wx/dc.h"
 
 class WXDLLIMPEXP_CORE wxScreenDC : public wxDC
 {

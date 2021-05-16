@@ -10,13 +10,13 @@
 #ifndef _WX_HTTP_H
 #define _WX_HTTP_H
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_PROTOCOL_HTTP
 
-#include "wxWidgets3/include/wx/hashmap.h"
-#include "wxWidgets3/include/wx/protocol/protocol.h"
-#include "wxWidgets3/include/wx/buffer.h"
+#include "wx/hashmap.h"
+#include "wx/protocol/protocol.h"
+#include "wx/buffer.h"
 
 class WXDLLIMPEXP_NET wxHTTP : public wxProtocol
 {

@@ -16,13 +16,13 @@
 // headers we have to include here
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/event.h"       // for the base class
-#include "wxWidgets3/include/wx/eventfilter.h" // (and another one)
-#include "wxWidgets3/include/wx/build.h"
-#include "wxWidgets3/include/wx/cmdargs.h"     // for wxCmdLineArgsArray used by wxApp::argv
-#include "wxWidgets3/include/wx/init.h"        // we must declare wxEntry()
-#include "wxWidgets3/include/wx/intl.h"        // for wxLayoutDirection
-#include "wxWidgets3/include/wx/log.h"         // for wxDISABLE_DEBUG_LOGGING_IN_RELEASE_BUILD()
+#include "wx/event.h"       // for the base class
+#include "wx/eventfilter.h" // (and another one)
+#include "wx/build.h"
+#include "wx/cmdargs.h"     // for wxCmdLineArgsArray used by wxApp::argv
+#include "wx/init.h"        // we must declare wxEntry()
+#include "wx/intl.h"        // for wxLayoutDirection
+#include "wx/log.h"         // for wxDISABLE_DEBUG_LOGGING_IN_RELEASE_BUILD()
 
 class WXDLLIMPEXP_FWD_BASE wxAppConsole;
 class WXDLLIMPEXP_FWD_BASE wxAppTraits;
@@ -540,7 +540,7 @@ protected:
 };
 
 #if defined(__UNIX__) && !defined(__WINDOWS__)
-    #include "wxWidgets3/include/wx/unix/app.h"
+    #include "wx/unix/app.h"
 #else
     // this has to be a class and not a typedef as we forward declare it
     class wxAppConsole : public wxAppConsoleBase { };
@@ -716,21 +716,21 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/app.h"
+    #include "wx/msw/app.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/app.h"
+    #include "wx/motif/app.h"
 #elif defined(__WXDFB__)
-    #include "wxWidgets3/include/wx/dfb/app.h"
+    #include "wx/dfb/app.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/app.h"
+    #include "wx/gtk/app.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/app.h"
+    #include "wx/gtk1/app.h"
 #elif defined(__WXX11__)
-    #include "wxWidgets3/include/wx/x11/app.h"
+    #include "wx/x11/app.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/app.h"
+    #include "wx/osx/app.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/app.h"
+    #include "wx/qt/app.h"
 #endif
 
 #else // !GUI
@@ -825,7 +825,7 @@ public:
 #endif // defined(wxIMPLEMENT_WXWIN_MAIN)
 
 #ifdef __WXUNIVERSAL__
-    #include "wxWidgets3/include/wx/univ/theme.h"
+    #include "wx/univ/theme.h"
 
     #ifdef wxUNIV_DEFAULT_THEME
         #define wxIMPLEMENT_WX_THEME_SUPPORT \

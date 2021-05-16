@@ -10,7 +10,7 @@
 #ifndef _WX_PRIVATE_PREFERENCES_H_
 #define _WX_PRIVATE_PREFERENCES_H_
 
-#include "wxWidgets3/include/wx/preferences.h"
+#include "wx/preferences.h"
 
 #if wxUSE_TOOLBAR && defined(__WXOSX_COCOA__) && wxOSX_USE_NATIVE_TOOLBAR
     #define wxHAS_PREF_EDITOR_NATIVE

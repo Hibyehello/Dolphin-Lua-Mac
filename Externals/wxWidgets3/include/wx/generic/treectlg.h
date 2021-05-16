@@ -13,8 +13,8 @@
 
 #if wxUSE_TREECTRL
 
-#include "wxWidgets3/include/wx/scrolwin.h"
-#include "wxWidgets3/include/wx/pen.h"
+#include "wx/scrolwin.h"
+#include "wx/pen.h"
 
 // -----------------------------------------------------------------------------
 // forward declaration

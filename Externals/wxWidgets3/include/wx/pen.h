@@ -11,8 +11,8 @@
 #ifndef _WX_PEN_H_BASE_
 #define _WX_PEN_H_BASE_
 
-#include "wxWidgets3/include/wx/gdiobj.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wx/gdiobj.h"
+#include "wx/gdicmn.h"
 
 enum wxPenStyle
 {
@@ -98,19 +98,19 @@ public:
 };
 
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/pen.h"
+    #include "wx/msw/pen.h"
 #elif defined(__WXMOTIF__) || defined(__WXX11__)
-    #include "wxWidgets3/include/wx/x11/pen.h"
+    #include "wx/x11/pen.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/pen.h"
+    #include "wx/gtk/pen.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/pen.h"
+    #include "wx/gtk1/pen.h"
 #elif defined(__WXDFB__)
-    #include "wxWidgets3/include/wx/dfb/pen.h"
+    #include "wx/dfb/pen.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/pen.h"
+    #include "wx/osx/pen.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/pen.h"
+    #include "wx/qt/pen.h"
 #endif
 
 class WXDLLIMPEXP_CORE wxPenList: public wxGDIObjListBase

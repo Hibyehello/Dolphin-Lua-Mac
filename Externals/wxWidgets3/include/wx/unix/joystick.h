@@ -11,7 +11,7 @@
 #ifndef _WX_UNIX_JOYSTICK_H_
 #define _WX_UNIX_JOYSTICK_H_
 
-#include "wxWidgets3/include/wx/event.h"
+#include "wx/event.h"
 
 class WXDLLIMPEXP_FWD_CORE wxJoystickThread;
 

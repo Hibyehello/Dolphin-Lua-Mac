@@ -11,8 +11,8 @@
 #ifndef _WX_GENERIC_CALCTRLG_H
 #define _WX_GENERIC_CALCTRLG_H
 
-#include "wxWidgets3/include/wx/control.h"         // the base class
-#include "wxWidgets3/include/wx/dcclient.h"        // for wxPaintDC
+#include "wx/control.h"         // the base class
+#include "wx/dcclient.h"        // for wxPaintDC
 
 class WXDLLIMPEXP_FWD_CORE wxComboBox;
 class WXDLLIMPEXP_FWD_CORE wxStaticText;

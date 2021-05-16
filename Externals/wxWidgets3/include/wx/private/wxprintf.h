@@ -15,9 +15,9 @@
 // headers and macros
 // ---------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/crt.h"
-#include "wxWidgets3/include/wx/log.h"
-#include "wxWidgets3/include/wx/utils.h"
+#include "wx/crt.h"
+#include "wx/log.h"
+#include "wx/utils.h"
 
 #include <string.h>
 

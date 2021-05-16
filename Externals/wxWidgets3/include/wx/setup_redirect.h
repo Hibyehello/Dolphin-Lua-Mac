@@ -10,7 +10,7 @@
  */
 
 #ifdef __WXMSW__
-#include "wxWidgets3/include/wx/msw/setup.h"
+#include "wx/msw/setup.h"
 #else
 #error Please adjust your include path to pick up the wx/setup.h file under lib first.
 #endif

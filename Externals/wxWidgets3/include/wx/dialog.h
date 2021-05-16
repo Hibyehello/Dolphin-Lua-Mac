@@ -11,9 +11,9 @@
 #ifndef _WX_DIALOG_H_BASE_
 #define _WX_DIALOG_H_BASE_
 
-#include "wxWidgets3/include/wx/toplevel.h"
-#include "wxWidgets3/include/wx/containr.h"
-#include "wxWidgets3/include/wx/sharedptr.h"
+#include "wx/toplevel.h"
+#include "wx/containr.h"
+#include "wx/sharedptr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxSizer;
 class WXDLLIMPEXP_FWD_CORE wxStdDialogButtonSizer;
@@ -344,20 +344,20 @@ public:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/dialog.h"
+    #include "wx/univ/dialog.h"
 #else
     #if defined(__WXMSW__)
-        #include "wxWidgets3/include/wx/msw/dialog.h"
+        #include "wx/msw/dialog.h"
     #elif defined(__WXMOTIF__)
-        #include "wxWidgets3/include/wx/motif/dialog.h"
+        #include "wx/motif/dialog.h"
     #elif defined(__WXGTK20__)
-        #include "wxWidgets3/include/wx/gtk/dialog.h"
+        #include "wx/gtk/dialog.h"
     #elif defined(__WXGTK__)
-        #include "wxWidgets3/include/wx/gtk1/dialog.h"
+        #include "wx/gtk1/dialog.h"
     #elif defined(__WXMAC__)
-        #include "wxWidgets3/include/wx/osx/dialog.h"
+        #include "wx/osx/dialog.h"
     #elif defined(__WXQT__)
-        #include "wxWidgets3/include/wx/qt/dialog.h"
+        #include "wx/qt/dialog.h"
     #endif
 #endif
 

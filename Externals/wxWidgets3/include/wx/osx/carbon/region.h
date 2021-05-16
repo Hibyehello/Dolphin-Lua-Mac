@@ -11,7 +11,7 @@
 #ifndef _WX_MAC_CARBON_REGION_H_
 #define _WX_MAC_CARBON_REGION_H_
 
-#include "wxWidgets3/include/wx/list.h"
+#include "wx/list.h"
 
 class WXDLLIMPEXP_CORE wxRegion : public wxRegionWithCombine
 {

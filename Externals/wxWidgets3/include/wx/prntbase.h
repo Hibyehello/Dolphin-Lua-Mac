@@ -11,17 +11,17 @@
 #ifndef _WX_PRNTBASEH__
 #define _WX_PRNTBASEH__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
-#include "wxWidgets3/include/wx/event.h"
-#include "wxWidgets3/include/wx/cmndata.h"
-#include "wxWidgets3/include/wx/panel.h"
-#include "wxWidgets3/include/wx/scrolwin.h"
-#include "wxWidgets3/include/wx/dialog.h"
-#include "wxWidgets3/include/wx/frame.h"
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/event.h"
+#include "wx/cmndata.h"
+#include "wx/panel.h"
+#include "wx/scrolwin.h"
+#include "wx/dialog.h"
+#include "wx/frame.h"
+#include "wx/dc.h"
 
 class WXDLLIMPEXP_FWD_CORE wxDC;
 class WXDLLIMPEXP_FWD_CORE wxButton;

@@ -10,11 +10,11 @@
 #ifndef _WX_OSX_PRIVATE_ADDREMOVECTRL_H_
 #define _WX_OSX_PRIVATE_ADDREMOVECTRL_H_
 
-#include "wxWidgets3/include/wx/artprov.h"
-#include "wxWidgets3/include/wx/bmpbuttn.h"
-#include "wxWidgets3/include/wx/panel.h"
+#include "wx/artprov.h"
+#include "wx/bmpbuttn.h"
+#include "wx/panel.h"
 
-#include "wxWidgets3/include/wx/osx/private.h"
+#include "wx/osx/private.h"
 
 // ----------------------------------------------------------------------------
 // wxAddRemoveImpl itself

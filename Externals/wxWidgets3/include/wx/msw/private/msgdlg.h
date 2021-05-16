@@ -10,8 +10,8 @@
 #ifndef _WX_MSW_PRIVATE_MSGDLG_H_
 #define _WX_MSW_PRIVATE_MSGDLG_H_
 
-#include "wxWidgets3/include/wx/msw/wrapcctl.h"
-#include "wxWidgets3/include/wx/scopedarray.h"
+#include "wx/msw/wrapcctl.h"
+#include "wx/scopedarray.h"
 
 // Macro to help identify if task dialogs are available: we rely on
 // TD_WARNING_ICON being defined in the headers for this as this symbol is used

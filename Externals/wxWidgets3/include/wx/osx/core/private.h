@@ -13,12 +13,12 @@
 #ifndef _WX_PRIVATE_CORE_H_
 #define _WX_PRIVATE_CORE_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #include <CoreFoundation/CoreFoundation.h>
 
-#include "wxWidgets3/include/wx/osx/core/cfstring.h"
-#include "wxWidgets3/include/wx/osx/core/cfdataref.h"
+#include "wx/osx/core/cfstring.h"
+#include "wx/osx/core/cfdataref.h"
 
 // platform specific Clang analyzer support
 #ifndef NS_RETURNS_RETAINED
@@ -65,8 +65,8 @@ WXDLLIMPEXP_BASE long wxMacTranslateKey(unsigned char key, unsigned char code);
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 
-#include "wxWidgets3/include/wx/bitmap.h"
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/bitmap.h"
+#include "wx/window.h"
 
 class WXDLLIMPEXP_CORE wxMacCGContextStateSaver
 {

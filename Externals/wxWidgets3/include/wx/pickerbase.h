@@ -11,9 +11,9 @@
 #ifndef _WX_PICKERBASE_H_BASE_
 #define _WX_PICKERBASE_H_BASE_
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/sizer.h"
-#include "wxWidgets3/include/wx/containr.h"
+#include "wx/control.h"
+#include "wx/sizer.h"
+#include "wx/containr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxTextCtrl;
 class WXDLLIMPEXP_FWD_CORE wxToolTip;

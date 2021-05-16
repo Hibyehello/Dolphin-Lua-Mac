@@ -17,7 +17,7 @@
 #ifdef __WXGTK3__
     #define wxActivityIndicatorGtkBase wxActivityIndicatorBase
 #else
-    #include "wxWidgets3/include/wx/generic/activityindicator.h"
+    #include "wx/generic/activityindicator.h"
 
     #define wxActivityIndicatorGtkBase wxActivityIndicatorGeneric
 #endif

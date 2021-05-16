@@ -10,7 +10,7 @@
 #ifndef _WX_ADDREMOVECTRL_H_
 #define _WX_ADDREMOVECTRL_H_
 
-#include "wxWidgets3/include/wx/panel.h"
+#include "wx/panel.h"
 
 #if wxUSE_ADDREMOVECTRL
 

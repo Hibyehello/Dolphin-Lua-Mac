@@ -10,11 +10,11 @@
 #ifndef __WX_EDITLBOX_H__
 #define __WX_EDITLBOX_H__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_EDITABLELISTBOX
 
-#include "wxWidgets3/include/wx/panel.h"
+#include "wx/panel.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBitmapButton;
 class WXDLLIMPEXP_FWD_CORE wxListCtrl;

@@ -12,13 +12,13 @@
 #ifndef __WX_FTP_H__
 #define __WX_FTP_H__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_PROTOCOL_FTP
 
-#include "wxWidgets3/include/wx/sckaddr.h"
-#include "wxWidgets3/include/wx/protocol/protocol.h"
-#include "wxWidgets3/include/wx/url.h"
+#include "wx/sckaddr.h"
+#include "wx/protocol/protocol.h"
+#include "wx/url.h"
 
 class WXDLLIMPEXP_NET wxFTP : public wxProtocol
 {

@@ -226,11 +226,11 @@ protected:
     #define wxDataViewCustomRendererRealBase wxDataViewRendererBase
 #else
     #if defined(__WXGTK20__)
-        #include "wxWidgets3/include/wx/gtk/dvrenderer.h"
+        #include "wx/gtk/dvrenderer.h"
     #elif defined(__WXMAC__)
-        #include "wxWidgets3/include/wx/osx/dvrenderer.h"
+        #include "wx/osx/dvrenderer.h"
     #elif defined(__WXQT__)
-        #include "wxWidgets3/include/wx/qt/dvrenderer.h"
+        #include "wx/qt/dvrenderer.h"
     #else
         #error "unknown native wxDataViewCtrl implementation"
     #endif
@@ -349,14 +349,14 @@ private:
     // version, as explained above, we can include the header defining
     // wxDataViewRenderer only here and not before wxDataViewCustomRendererBase
     // declaration as for the native ports
-    #include "wxWidgets3/include/wx/generic/dvrenderer.h"
-    #include "wxWidgets3/include/wx/generic/dvrenderers.h"
+    #include "wx/generic/dvrenderer.h"
+    #include "wx/generic/dvrenderers.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/dvrenderers.h"
+    #include "wx/gtk/dvrenderers.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/dvrenderers.h"
+    #include "wx/osx/dvrenderers.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/dvrenderers.h"
+    #include "wx/qt/dvrenderers.h"
 #else
     #error "unknown native wxDataViewCtrl implementation"
 #endif

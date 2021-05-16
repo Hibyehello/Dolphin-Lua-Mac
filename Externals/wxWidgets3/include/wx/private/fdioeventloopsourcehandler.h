@@ -11,7 +11,7 @@
 #ifndef _WX_PRIVATE_FDIO_EVENT_LOOP_SOURCE_HANDLER_H
 #define _WX_PRIVATE_FDIO_EVENT_LOOP_SOURCE_HANDLER_H
 
-#include "wxWidgets3/include/wx/evtloopsrc.h"
+#include "wx/evtloopsrc.h"
 
 // This class is a temporary bridge between event loop sources and
 // FDIODispatcher. It is going to be removed soon, when all subject interfaces

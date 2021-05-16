@@ -10,23 +10,23 @@
 #ifndef WX_PRIVATE_FSWATCHER_H_
 #define WX_PRIVATE_FSWATCHER_H_
 
-#include "wxWidgets3/include/wx/sharedptr.h"
+#include "wx/sharedptr.h"
 
 #ifdef wxHAS_INOTIFY
     class wxFSWatchEntryUnix;
     #define wxFSWatchEntry wxFSWatchEntryUnix
     WX_DECLARE_STRING_HASH_MAP(wxSharedPtr<wxFSWatchEntry>,wxFSWatchEntries);
-    #include "wxWidgets3/include/wx/unix/private/fswatcher_inotify.h"
+    #include "wx/unix/private/fswatcher_inotify.h"
 #elif defined(wxHAS_KQUEUE)
     class wxFSWatchEntryKq;
     #define wxFSWatchEntry wxFSWatchEntryKq
     WX_DECLARE_STRING_HASH_MAP(wxSharedPtr<wxFSWatchEntry>,wxFSWatchEntries);
-    #include "wxWidgets3/include/wx/unix/private/fswatcher_kqueue.h"
+    #include "wx/unix/private/fswatcher_kqueue.h"
 #elif defined(__WINDOWS__)
     class wxFSWatchEntryMSW;
     #define wxFSWatchEntry wxFSWatchEntryMSW
     WX_DECLARE_STRING_HASH_MAP(wxSharedPtr<wxFSWatchEntry>,wxFSWatchEntries);
-    #include "wxWidgets3/include/wx/msw/private/fswatcher.h"
+    #include "wx/msw/private/fswatcher.h"
 #else
     #define wxFSWatchEntry wxFSWatchEntryPolling
 #endif

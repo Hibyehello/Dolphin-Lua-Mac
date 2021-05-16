@@ -10,7 +10,7 @@
 #ifndef _WX_VALGENH__
 #define _WX_VALGENH__
 
-#include "wxWidgets3/include/wx/validate.h"
+#include "wx/validate.h"
 
 #if wxUSE_VALIDATORS
 

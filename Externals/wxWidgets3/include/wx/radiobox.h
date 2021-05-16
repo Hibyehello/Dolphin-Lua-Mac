@@ -11,15 +11,15 @@
 #ifndef _WX_RADIOBOX_H_BASE_
 #define _WX_RADIOBOX_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_RADIOBOX
 
-#include "wxWidgets3/include/wx/ctrlsub.h"
+#include "wx/ctrlsub.h"
 
 #if wxUSE_TOOLTIPS
 
-#include "wxWidgets3/include/wx/dynarray.h"
+#include "wx/dynarray.h"
 
 class WXDLLIMPEXP_FWD_CORE wxToolTip;
 
@@ -152,19 +152,19 @@ private:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/radiobox.h"
+    #include "wx/univ/radiobox.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/radiobox.h"
+    #include "wx/msw/radiobox.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/radiobox.h"
+    #include "wx/motif/radiobox.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/radiobox.h"
+    #include "wx/gtk/radiobox.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/radiobox.h"
+    #include "wx/gtk1/radiobox.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/radiobox.h"
+    #include "wx/osx/radiobox.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/radiobox.h"
+    #include "wx/qt/radiobox.h"
 #endif
 
 #endif // wxUSE_RADIOBOX

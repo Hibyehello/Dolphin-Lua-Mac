@@ -9,11 +9,11 @@
 #ifndef _WX_FS_ZIP_H_
 #define _WX_FS_ZIP_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FS_ZIP
 
-#include "wxWidgets3/include/wx/fs_arc.h"
+#include "wx/fs_arc.h"
 
 typedef wxArchiveFSHandler wxZipFSHandler;
 

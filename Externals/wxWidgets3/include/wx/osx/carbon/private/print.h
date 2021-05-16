@@ -11,8 +11,8 @@
 #ifndef _WX_MAC_PRIVATE_PRINT_H_
 #define _WX_MAC_PRIVATE_PRINT_H_
 
-#include "wxWidgets3/include/wx/cmndata.h"
-#include "wxWidgets3/include/wx/print.h"
+#include "wx/cmndata.h"
+#include "wx/print.h"
 
 // for PrintingManager
 #include "ApplicationServices/ApplicationServices.h"

@@ -19,30 +19,30 @@ class WXDLLIMPEXP_FWD_CORE wxDC;
 
 #if defined(__WXMSW__)
 #   if defined(__WXUNIVERSAL__)
-#       include "wxWidgets3/include/wx/generic/dragimgg.h"
+#       include "wx/generic/dragimgg.h"
 #       define wxDragImage wxGenericDragImage
 #   else
-#       include "wxWidgets3/include/wx/msw/dragimag.h"
+#       include "wx/msw/dragimag.h"
 #   endif
 
 #elif defined(__WXMOTIF__)
-#   include "wxWidgets3/include/wx/generic/dragimgg.h"
+#   include "wx/generic/dragimgg.h"
 #   define wxDragImage wxGenericDragImage
 
 #elif defined(__WXGTK__)
-#   include "wxWidgets3/include/wx/generic/dragimgg.h"
+#   include "wx/generic/dragimgg.h"
 #   define wxDragImage wxGenericDragImage
 
 #elif defined(__WXX11__)
-#   include "wxWidgets3/include/wx/generic/dragimgg.h"
+#   include "wx/generic/dragimgg.h"
 #   define wxDragImage wxGenericDragImage
 
 #elif defined(__WXMAC__)
-#   include "wxWidgets3/include/wx/generic/dragimgg.h"
+#   include "wx/generic/dragimgg.h"
 #   define wxDragImage wxGenericDragImage
 
 #elif defined(__WXQT__)
-#   include "wxWidgets3/include/wx/generic/dragimgg.h"
+#   include "wx/generic/dragimgg.h"
 #   define wxDragImage wxGenericDragImage
 
 #endif

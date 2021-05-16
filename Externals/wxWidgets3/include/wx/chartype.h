@@ -14,7 +14,7 @@
 #define _WX_WXCHARTYPE_H_
 
 /* defs.h indirectly includes this file, so don't include it here */
-#include "wxWidgets3/include/wx/platform.h"
+#include "wx/platform.h"
 
 /* check whether we have wchar_t and which size it is if we do */
 #if !defined(wxUSE_WCHAR_T)

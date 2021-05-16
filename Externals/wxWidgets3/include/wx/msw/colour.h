@@ -11,7 +11,7 @@
 #ifndef _WX_COLOUR_H_
 #define _WX_COLOUR_H_
 
-#include "wxWidgets3/include/wx/object.h"
+#include "wx/object.h"
 
 // ----------------------------------------------------------------------------
 // Colour

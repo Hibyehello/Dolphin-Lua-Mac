@@ -11,15 +11,15 @@
 #ifndef _WX_TEXTDLGG_H_
 #define _WX_TEXTDLGG_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_TEXTDLG
 
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/dialog.h"
 
 #if wxUSE_VALIDATORS
-#include "wxWidgets3/include/wx/valtext.h"
-#include "wxWidgets3/include/wx/textctrl.h"
+#include "wx/valtext.h"
+#include "wx/textctrl.h"
 #endif
 
 class WXDLLIMPEXP_FWD_CORE wxTextCtrl;

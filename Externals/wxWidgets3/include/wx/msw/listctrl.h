@@ -11,9 +11,9 @@
 #ifndef _WX_LISTCTRL_H_
 #define _WX_LISTCTRL_H_
 
-#include "wxWidgets3/include/wx/textctrl.h"
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/vector.h"
+#include "wx/textctrl.h"
+#include "wx/dynarray.h"
+#include "wx/vector.h"
 
 class wxMSWListItemData;
 

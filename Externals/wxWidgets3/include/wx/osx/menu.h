@@ -13,7 +13,7 @@
 
 class WXDLLIMPEXP_FWD_CORE wxFrame;
 
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/arrstr.h"
 
 // ----------------------------------------------------------------------------
 // Menu

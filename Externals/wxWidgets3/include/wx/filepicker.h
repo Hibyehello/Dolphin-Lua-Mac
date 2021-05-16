@@ -11,12 +11,12 @@
 #ifndef _WX_FILEDIRPICKER_H_BASE_
 #define _WX_FILEDIRPICKER_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FILEPICKERCTRL || wxUSE_DIRPICKERCTRL
 
-#include "wxWidgets3/include/wx/pickerbase.h"
-#include "wxWidgets3/include/wx/filename.h"
+#include "wx/pickerbase.h"
+#include "wx/filename.h"
 
 class WXDLLIMPEXP_FWD_CORE wxDialog;
 class WXDLLIMPEXP_FWD_CORE wxFileDirPickerEvent;
@@ -129,11 +129,11 @@ protected:
 //       same prototype for the contructor...
 // since GTK >= 2.6, there is GtkFileButton
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/gtk/filepicker.h"
+    #include "wx/gtk/filepicker.h"
     #define wxFilePickerWidget      wxFileButton
     #define wxDirPickerWidget       wxDirButton
 #else
-    #include "wxWidgets3/include/wx/generic/filepickerg.h"
+    #include "wx/generic/filepickerg.h"
     #define wxFilePickerWidget      wxGenericFileButton
     #define wxDirPickerWidget       wxGenericDirButton
 #endif

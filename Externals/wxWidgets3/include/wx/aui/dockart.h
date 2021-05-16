@@ -15,14 +15,14 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_AUI
 
-#include "wxWidgets3/include/wx/pen.h"
-#include "wxWidgets3/include/wx/brush.h"
-#include "wxWidgets3/include/wx/bitmap.h"
-#include "wxWidgets3/include/wx/colour.h"
+#include "wx/pen.h"
+#include "wx/brush.h"
+#include "wx/bitmap.h"
+#include "wx/colour.h"
 
 // dock art provider code - a dock provider provides all drawing
 // functionality to the wxAui dock manager.  This allows the dock

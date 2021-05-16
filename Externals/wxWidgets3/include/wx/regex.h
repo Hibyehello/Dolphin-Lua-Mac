@@ -11,11 +11,11 @@
 #ifndef _WX_REGEX_H_
 #define _WX_REGEX_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_REGEX
 
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/string.h"
 
 // ----------------------------------------------------------------------------
 // constants

@@ -12,8 +12,8 @@
 #ifndef _WX_UNIX_UTILSX11_H_
 #define _WX_UNIX_UTILSX11_H_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wx/defs.h"
+#include "wx/gdicmn.h"
 
 #include <X11/Xlib.h>
 

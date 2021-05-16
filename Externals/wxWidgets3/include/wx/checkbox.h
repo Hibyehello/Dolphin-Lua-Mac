@@ -11,11 +11,11 @@
 #ifndef _WX_CHECKBOX_H_BASE_
 #define _WX_CHECKBOX_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_CHECKBOX
 
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/control.h"
 
 
 /*
@@ -166,20 +166,20 @@ private:
 #define wxHAS_3STATE_CHECKBOX
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/checkbox.h"
+    #include "wx/univ/checkbox.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/checkbox.h"
+    #include "wx/msw/checkbox.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/checkbox.h"
+    #include "wx/motif/checkbox.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/checkbox.h"
+    #include "wx/gtk/checkbox.h"
 #elif defined(__WXGTK__)
     #undef wxHAS_3STATE_CHECKBOX
-    #include "wxWidgets3/include/wx/gtk1/checkbox.h"
+    #include "wx/gtk1/checkbox.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/checkbox.h"
+    #include "wx/osx/checkbox.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/checkbox.h"
+    #include "wx/qt/checkbox.h"
 #endif
 
 #endif // wxUSE_CHECKBOX

@@ -11,8 +11,8 @@
 #ifndef _WX_MSW_TOOLTIP_H_
 #define _WX_MSW_TOOLTIP_H_
 
-#include "wxWidgets3/include/wx/object.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wx/object.h"
+#include "wx/gdicmn.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 class wxToolTipOtherWindows;

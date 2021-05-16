@@ -11,7 +11,7 @@
 #ifndef _WX_OVERLAY_H_
 #define _WX_OVERLAY_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if defined(__WXDFB__)
     #define wxHAS_NATIVE_OVERLAY 1

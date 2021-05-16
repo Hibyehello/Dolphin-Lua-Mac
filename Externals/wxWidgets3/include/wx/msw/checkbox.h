@@ -11,7 +11,7 @@
 #ifndef _WX_CHECKBOX_H_
 #define _WX_CHECKBOX_H_
 
-#include "wxWidgets3/include/wx/msw/ownerdrawnbutton.h"
+#include "wx/msw/ownerdrawnbutton.h"
 
 // Checkbox item (single checkbox)
 class WXDLLIMPEXP_CORE wxCheckBox : public wxMSWOwnerDrawnButton<wxCheckBoxBase>

@@ -10,9 +10,9 @@
 #ifndef _WX_GENERIC_LISTCTRL_H_
 #define _WX_GENERIC_LISTCTRL_H_
 
-#include "wxWidgets3/include/wx/containr.h"
-#include "wxWidgets3/include/wx/scrolwin.h"
-#include "wxWidgets3/include/wx/textctrl.h"
+#include "wx/containr.h"
+#include "wx/scrolwin.h"
+#include "wx/textctrl.h"
 
 #if wxUSE_DRAG_AND_DROP
 class WXDLLIMPEXP_FWD_CORE wxDropTarget;

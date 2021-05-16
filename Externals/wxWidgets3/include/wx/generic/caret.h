@@ -11,9 +11,9 @@
 #ifndef _WX_CARET_H_
 #define _WX_CARET_H_
 
-#include "wxWidgets3/include/wx/timer.h"
-#include "wxWidgets3/include/wx/dc.h"
-#include "wxWidgets3/include/wx/overlay.h"
+#include "wx/timer.h"
+#include "wx/dc.h"
+#include "wx/overlay.h"
 
 #ifdef wxHAS_NATIVE_OVERLAY
     #define wxHAS_CARET_USING_OVERLAYS

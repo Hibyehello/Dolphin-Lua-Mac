@@ -11,8 +11,8 @@
 #ifndef _WX_SPINBUTT_H_
 #define _WX_SPINBUTT_H_
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/event.h"
+#include "wx/control.h"
+#include "wx/event.h"
 
 /*
     The wxSpinButton is like a small scrollbar than is often placed next

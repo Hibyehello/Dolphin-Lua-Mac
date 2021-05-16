@@ -10,14 +10,14 @@
 #ifndef _WX_GIFDECOD_H_
 #define _WX_GIFDECOD_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_STREAMS && wxUSE_GIF
 
-#include "wxWidgets3/include/wx/stream.h"
-#include "wxWidgets3/include/wx/image.h"
-#include "wxWidgets3/include/wx/animdecod.h"
-#include "wxWidgets3/include/wx/dynarray.h"
+#include "wx/stream.h"
+#include "wx/image.h"
+#include "wx/animdecod.h"
+#include "wx/dynarray.h"
 
 // internal utility used to store a frame in 8bit-per-pixel format
 class GIFImage;

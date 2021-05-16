@@ -19,8 +19,8 @@
 #ifndef _WX_MACCARBONHID_H_
 #define _WX_MACCARBONHID_H_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/defs.h"
+#include "wx/string.h"
 
 //Mac OSX only
 #ifdef __DARWIN__

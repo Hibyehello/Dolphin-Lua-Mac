@@ -10,14 +10,14 @@
 #ifndef _WX_REARRANGECTRL_H_
 #define _WX_REARRANGECTRL_H_
 
-#include "wxWidgets3/include/wx/checklst.h"
+#include "wx/checklst.h"
 
 #if wxUSE_REARRANGECTRL
 
-#include "wxWidgets3/include/wx/panel.h"
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/panel.h"
+#include "wx/dialog.h"
 
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/arrstr.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxRearrangeListNameStr[];
 extern WXDLLIMPEXP_DATA_CORE(const char) wxRearrangeDialogNameStr[];

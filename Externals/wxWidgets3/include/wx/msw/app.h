@@ -11,8 +11,8 @@
 #ifndef _WX_APP_H_
 #define _WX_APP_H_
 
-#include "wxWidgets3/include/wx/event.h"
-#include "wxWidgets3/include/wx/icon.h"
+#include "wx/event.h"
+#include "wx/icon.h"
 
 class WXDLLIMPEXP_FWD_CORE wxFrame;
 class WXDLLIMPEXP_FWD_CORE wxWindow;

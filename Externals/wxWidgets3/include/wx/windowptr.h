@@ -10,7 +10,7 @@
 #ifndef _WX_WINDOWPTR_H_
 #define _WX_WINDOWPTR_H_
 
-#include "wxWidgets3/include/wx/sharedptr.h"
+#include "wx/sharedptr.h"
 
 // ----------------------------------------------------------------------------
 // wxWindowPtr: A smart pointer with correct wxWindow destruction.

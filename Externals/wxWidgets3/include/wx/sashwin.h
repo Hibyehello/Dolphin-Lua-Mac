@@ -11,7 +11,7 @@
 #ifndef _WX_SASHWIN_H_BASE_
 #define _WX_SASHWIN_H_BASE_
 
-#include "wxWidgets3/include/wx/generic/sashwin.h"
+#include "wx/generic/sashwin.h"
 
 #endif
     // _WX_SASHWIN_H_BASE_

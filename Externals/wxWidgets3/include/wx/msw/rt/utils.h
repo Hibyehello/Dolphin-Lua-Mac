@@ -10,12 +10,12 @@
 #ifndef   _WX_MSW_RTUTILS_H
 #define   _WX_MSW_RTUTILS_H
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_WINRT
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
+#include "wx/string.h"
+#include "wx/msw/wrapwin.h"
 
 #include <winstring.h>
 

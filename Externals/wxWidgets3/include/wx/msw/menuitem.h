@@ -15,10 +15,10 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/bitmap.h"
 
 #if wxUSE_OWNER_DRAWN
-    #include "wxWidgets3/include/wx/ownerdrw.h"
+    #include "wx/ownerdrw.h"
 
     struct tagRECT;
 #endif

@@ -22,8 +22,8 @@
     #define wxMAC_TEXTCONTROL_USE_SPELL_CHECKER wxT("mac.textcontrol-use-spell-checker")
 #endif
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/textctrl.h"
+#include "wx/control.h"
+#include "wx/textctrl.h"
 
 class WXDLLIMPEXP_CORE wxTextCtrl: public wxTextCtrlBase
 {

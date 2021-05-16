@@ -13,7 +13,7 @@
 #ifndef _WX_MINIFRAM_H_
 #define _WX_MINIFRAM_H_
 
-#include "wxWidgets3/include/wx/frame.h"
+#include "wx/frame.h"
 
 class WXDLLIMPEXP_CORE wxMiniFrame: public wxFrame {
 

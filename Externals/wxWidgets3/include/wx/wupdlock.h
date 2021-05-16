@@ -10,7 +10,7 @@
 #ifndef _WX_WUPDLOCK_H_
 #define _WX_WUPDLOCK_H_
 
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/window.h"
 
 // ----------------------------------------------------------------------------
 // wxWindowUpdateLocker prevents updates to the window during its lifetime

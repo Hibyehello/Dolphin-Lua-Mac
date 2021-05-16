@@ -9,7 +9,7 @@
 #ifndef __FILESYS_H__
 #define __FILESYS_H__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FILESYSTEM
 
@@ -21,10 +21,10 @@
 #error You cannot compile wxHTML without virtual file systems
 #endif
 
-#include "wxWidgets3/include/wx/stream.h"
-#include "wxWidgets3/include/wx/datetime.h"
-#include "wxWidgets3/include/wx/filename.h"
-#include "wxWidgets3/include/wx/hashmap.h"
+#include "wx/stream.h"
+#include "wx/datetime.h"
+#include "wx/filename.h"
+#include "wx/hashmap.h"
 
 class WXDLLIMPEXP_FWD_BASE wxFSFile;
 class WXDLLIMPEXP_FWD_BASE wxFileSystemHandler;

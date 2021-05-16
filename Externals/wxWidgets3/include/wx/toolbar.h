@@ -11,7 +11,7 @@
 #ifndef _WX_TOOLBAR_H_BASE_
 #define _WX_TOOLBAR_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 // ----------------------------------------------------------------------------
 // wxToolBar style flags
@@ -65,22 +65,22 @@ enum
 };
 
 #if wxUSE_TOOLBAR
-    #include "wxWidgets3/include/wx/tbarbase.h"     // the base class for all toolbars
+    #include "wx/tbarbase.h"     // the base class for all toolbars
 
     #if defined(__WXUNIVERSAL__)
-       #include "wxWidgets3/include/wx/univ/toolbar.h"
+       #include "wx/univ/toolbar.h"
     #elif defined(__WXMSW__)
-       #include "wxWidgets3/include/wx/msw/toolbar.h"
+       #include "wx/msw/toolbar.h"
     #elif defined(__WXMOTIF__)
-       #include "wxWidgets3/include/wx/motif/toolbar.h"
+       #include "wx/motif/toolbar.h"
     #elif defined(__WXGTK20__)
-        #include "wxWidgets3/include/wx/gtk/toolbar.h"
+        #include "wx/gtk/toolbar.h"
     #elif defined(__WXGTK__)
-        #include "wxWidgets3/include/wx/gtk1/toolbar.h"
+        #include "wx/gtk1/toolbar.h"
     #elif defined(__WXMAC__)
-       #include "wxWidgets3/include/wx/osx/toolbar.h"
+       #include "wx/osx/toolbar.h"
     #elif defined(__WXQT__)
-        #include "wxWidgets3/include/wx/qt/toolbar.h"
+        #include "wx/qt/toolbar.h"
     #endif
 #endif // wxUSE_TOOLBAR
 

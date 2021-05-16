@@ -11,11 +11,11 @@
 #ifndef _WX_POPUPWIN_H_BASE_
 #define _WX_POPUPWIN_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_POPUPWIN
 
-#include "wxWidgets3/include/wx/nonownedwnd.h"
+#include "wx/nonownedwnd.h"
 
 // ----------------------------------------------------------------------------
 // wxPopupWindow: a special kind of top level window used for popup menus,
@@ -52,21 +52,21 @@ public:
 
 // include the real class declaration
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/popupwin.h"
+    #include "wx/msw/popupwin.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/popupwin.h"
+    #include "wx/gtk/popupwin.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/popupwin.h"
+    #include "wx/gtk1/popupwin.h"
 #elif defined(__WXX11__)
-    #include "wxWidgets3/include/wx/x11/popupwin.h"
+    #include "wx/x11/popupwin.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/popupwin.h"
+    #include "wx/motif/popupwin.h"
 #elif defined(__WXDFB__)
-    #include "wxWidgets3/include/wx/dfb/popupwin.h"
+    #include "wx/dfb/popupwin.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/popupwin.h"
+    #include "wx/osx/popupwin.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/popupwin.h"
+    #include "wx/qt/popupwin.h"
 #else
     #error "wxPopupWindow is not supported under this platform."
 #endif

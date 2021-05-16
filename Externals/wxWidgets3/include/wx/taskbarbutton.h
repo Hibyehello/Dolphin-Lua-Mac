@@ -11,12 +11,12 @@
 #ifndef _WX_TASKBARBUTTON_H_
 #define _WX_TASKBARBUTTON_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_TASKBARBUTTON
 
-#include "wxWidgets3/include/wx/icon.h"
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/icon.h"
+#include "wx/string.h"
 
 class WXDLLIMPEXP_FWD_CORE wxTaskBarButton;
 class WXDLLIMPEXP_FWD_CORE wxTaskBarJumpListCategory;

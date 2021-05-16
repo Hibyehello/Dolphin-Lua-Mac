@@ -12,7 +12,7 @@
 
 #if wxUSE_SEARCHCTRL
 
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/bitmap.h"
 
 class WXDLLIMPEXP_FWD_CORE wxSearchButton;
 class WXDLLIMPEXP_FWD_CORE wxSearchTextCtrl;

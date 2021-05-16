@@ -11,7 +11,7 @@
 #ifndef _WX_POWER_H_
 #define _WX_POWER_H_
 
-#include "wxWidgets3/include/wx/event.h"
+#include "wx/event.h"
 
 // ----------------------------------------------------------------------------
 // power management constants

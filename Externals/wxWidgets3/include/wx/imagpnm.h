@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGPNM_H_
 #define _WX_IMAGPNM_H_
 
-#include "wxWidgets3/include/wx/image.h"
+#include "wx/image.h"
 
 //-----------------------------------------------------------------------------
 // wxPNMHandler

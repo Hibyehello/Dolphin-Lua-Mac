@@ -11,9 +11,9 @@
 #ifndef _WX_MAC_NONOWNEDWND_H_
 #define _WX_MAC_NONOWNEDWND_H_
 
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/window.h"
 
-#include "wxWidgets3/include/wx/graphics.h"
+#include "wx/graphics.h"
 
 #if wxUSE_SYSTEM_OPTIONS
     #define wxMAC_WINDOW_PLAIN_TRANSITION wxT("mac.window-plain-transition")

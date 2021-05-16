@@ -11,11 +11,11 @@
 #ifndef _WX_ACCEL_H_BASE_
 #define _WX_ACCEL_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_ACCEL
 
-#include "wxWidgets3/include/wx/object.h"
+#include "wx/object.h"
 
 class WXDLLIMPEXP_FWD_CORE wxAcceleratorTable;
 class WXDLLIMPEXP_FWD_CORE wxMenuItem;
@@ -153,19 +153,19 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/generic/accel.h"
+    #include "wx/generic/accel.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/accel.h"
+    #include "wx/msw/accel.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/accel.h"
+    #include "wx/motif/accel.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/accel.h"
+    #include "wx/gtk/accel.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/accel.h"
+    #include "wx/gtk1/accel.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/accel.h"
+    #include "wx/osx/accel.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/accel.h"
+    #include "wx/qt/accel.h"
 #endif
 
 extern WXDLLIMPEXP_DATA_CORE(wxAcceleratorTable) wxNullAcceleratorTable;

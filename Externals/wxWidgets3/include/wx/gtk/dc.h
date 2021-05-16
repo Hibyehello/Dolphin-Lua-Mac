@@ -11,7 +11,7 @@
 
 #ifdef __WXGTK3__
 
-#include "wxWidgets3/include/wx/dcgraph.h"
+#include "wx/dcgraph.h"
 
 class wxGTKCairoDCImpl: public wxGCDCImpl
 {
@@ -111,7 +111,7 @@ public:
 
 #else
 
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/dc.h"
 
 //-----------------------------------------------------------------------------
 // wxDC

@@ -10,7 +10,7 @@
 #ifndef _WX_GENERIC_SCROLLWIN_H_
 #define _WX_GENERIC_SCROLLWIN_H_
 
-#include "wxWidgets3/include/wx/recguard.h"
+#include "wx/recguard.h"
 
 // ----------------------------------------------------------------------------
 // generic wxScrollHelper implementation

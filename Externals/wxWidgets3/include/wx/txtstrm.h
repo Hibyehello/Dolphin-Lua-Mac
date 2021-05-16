@@ -11,8 +11,8 @@
 #ifndef _WX_TXTSTREAM_H_
 #define _WX_TXTSTREAM_H_
 
-#include "wxWidgets3/include/wx/stream.h"
-#include "wxWidgets3/include/wx/convauto.h"
+#include "wx/stream.h"
+#include "wx/convauto.h"
 
 #if wxUSE_STREAMS
 

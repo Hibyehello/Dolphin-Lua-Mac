@@ -11,18 +11,18 @@
 #ifndef _WX_CSHELP_H_
 #define _WX_CSHELP_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_HELP
 
-#include "wxWidgets3/include/wx/help.h"
+#include "wx/help.h"
 
-#include "wxWidgets3/include/wx/hashmap.h"
+#include "wx/hashmap.h"
 #if wxUSE_BMPBUTTON
-#include "wxWidgets3/include/wx/bmpbuttn.h"
+#include "wx/bmpbuttn.h"
 #endif
 
-#include "wxWidgets3/include/wx/event.h"
+#include "wx/event.h"
 
 // ----------------------------------------------------------------------------
 // classes used to implement context help UI

@@ -10,14 +10,14 @@
 #ifndef _WX_GENERIC_LISTCTRL_PRIVATE_H_
 #define _WX_GENERIC_LISTCTRL_PRIVATE_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_LISTCTRL
 
-#include "wxWidgets3/include/wx/listctrl.h"
-#include "wxWidgets3/include/wx/selstore.h"
-#include "wxWidgets3/include/wx/timer.h"
-#include "wxWidgets3/include/wx/settings.h"
+#include "wx/listctrl.h"
+#include "wx/selstore.h"
+#include "wx/timer.h"
+#include "wx/settings.h"
 
 // ============================================================================
 // private classes

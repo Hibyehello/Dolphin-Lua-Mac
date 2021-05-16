@@ -11,12 +11,12 @@
 #ifndef _WX_RAWBMP_H_
 #define _WX_RAWBMP_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #ifdef wxHAS_RAW_BITMAP
 
-#include "wxWidgets3/include/wx/image.h"
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/image.h"
+#include "wx/bitmap.h"
 
 // ----------------------------------------------------------------------------
 // Abstract Pixel API

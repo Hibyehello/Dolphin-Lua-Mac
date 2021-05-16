@@ -11,11 +11,11 @@
 #ifndef _WX_SPINCTRL_H_
 #define _WX_SPINCTRL_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_SPINCTRL
 
-#include "wxWidgets3/include/wx/spinbutt.h"        // should make wxSpinEvent visible to the app
+#include "wx/spinbutt.h"        // should make wxSpinEvent visible to the app
 
 // Events
 class WXDLLIMPEXP_FWD_CORE wxSpinDoubleEvent;
@@ -119,22 +119,22 @@ typedef void (wxEvtHandler::*wxSpinDoubleEventFunction)(wxSpinDoubleEvent&);
     // nothing, use generic controls
 #elif defined(__WXMSW__)
     #define wxHAS_NATIVE_SPINCTRL
-    #include "wxWidgets3/include/wx/msw/spinctrl.h"
+    #include "wx/msw/spinctrl.h"
 #elif defined(__WXGTK20__)
     #define wxHAS_NATIVE_SPINCTRL
     #define wxHAS_NATIVE_SPINCTRLDOUBLE
-    #include "wxWidgets3/include/wx/gtk/spinctrl.h"
+    #include "wx/gtk/spinctrl.h"
 #elif defined(__WXGTK__)
     #define wxHAS_NATIVE_SPINCTRL
-    #include "wxWidgets3/include/wx/gtk1/spinctrl.h"
+    #include "wx/gtk1/spinctrl.h"
 #elif defined(__WXQT__)
     #define wxHAS_NATIVE_SPINCTRL
     #define wxHAS_NATIVE_SPINCTRLDOUBLE
-    #include "wxWidgets3/include/wx/qt/spinctrl.h"
+    #include "wx/qt/spinctrl.h"
 #endif // platform
 
 #if !defined(wxHAS_NATIVE_SPINCTRL) || !defined(wxHAS_NATIVE_SPINCTRLDOUBLE)
-    #include "wxWidgets3/include/wx/generic/spinctlg.h"
+    #include "wx/generic/spinctlg.h"
 #endif
 namespace wxPrivate
 {

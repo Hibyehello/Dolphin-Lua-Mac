@@ -11,12 +11,12 @@
 #ifndef _WX_FILEDLGG_H_
 #define _WX_FILEDLGG_H_
 
-#include "wxWidgets3/include/wx/listctrl.h"
-#include "wxWidgets3/include/wx/datetime.h"
-#include "wxWidgets3/include/wx/filefn.h"
-#include "wxWidgets3/include/wx/artprov.h"
-#include "wxWidgets3/include/wx/filedlg.h"
-#include "wxWidgets3/include/wx/generic/filectrlg.h"
+#include "wx/listctrl.h"
+#include "wx/datetime.h"
+#include "wx/filefn.h"
+#include "wx/artprov.h"
+#include "wx/filedlg.h"
+#include "wx/generic/filectrlg.h"
 
 //-----------------------------------------------------------------------------
 // classes

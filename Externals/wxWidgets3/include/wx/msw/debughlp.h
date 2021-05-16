@@ -10,9 +10,9 @@
 #ifndef _WX_MSW_DEBUGHLPH_H_
 #define _WX_MSW_DEBUGHLPH_H_
 
-#include "wxWidgets3/include/wx/dynlib.h"
+#include "wx/dynlib.h"
 
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
+#include "wx/msw/wrapwin.h"
 
 #ifdef __VISUALC__
     // Disable a warning that we can do nothing about: we get it at least for
@@ -29,7 +29,7 @@
   #pragma warning(pop)
 #endif
 
-#include "wxWidgets3/include/wx/msw/private.h"
+#include "wx/msw/private.h"
 
 // wxUSE_DBGHELP can be predefined on the compiler command line to force using
 // dbghelp.dll even if it's not detected or, on the contrary, avoid using even

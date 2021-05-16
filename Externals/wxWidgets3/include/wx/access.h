@@ -15,11 +15,11 @@
 // headers we have to include here
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_ACCESSIBILITY
 
-#include "wxWidgets3/include/wx/variant.h"
+#include "wx/variant.h"
 
 enum wxAccStatus
 {
@@ -367,7 +367,7 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/ole/access.h"
+    #include "wx/msw/ole/access.h"
 #endif
 
 #endif // wxUSE_ACCESSIBILITY

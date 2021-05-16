@@ -14,7 +14,7 @@
 // since GtkColorButton is available only for GTK+ >= 2.4,
 // we need to use generic versions if we detect (at runtime)
 // that GTK+ < 2.4
-#include "wxWidgets3/include/wx/generic/filepickerg.h"
+#include "wx/generic/filepickerg.h"
 
 //-----------------------------------------------------------------------------
 // wxFileButton and wxDirButton shared code

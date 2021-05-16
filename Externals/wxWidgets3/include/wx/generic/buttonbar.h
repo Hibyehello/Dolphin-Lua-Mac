@@ -12,8 +12,8 @@
 #ifndef _WX_BUTTONBAR_H_
 #define _WX_BUTTONBAR_H_
 
-#include "wxWidgets3/include/wx/bmpbuttn.h"
-#include "wxWidgets3/include/wx/toolbar.h"
+#include "wx/bmpbuttn.h"
+#include "wx/toolbar.h"
 
 class WXDLLIMPEXP_FWD_CORE wxButtonToolBarTool;
 

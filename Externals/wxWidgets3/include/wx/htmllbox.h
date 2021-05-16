@@ -11,12 +11,12 @@
 #ifndef _WX_HTMLLBOX_H_
 #define _WX_HTMLLBOX_H_
 
-#include "wxWidgets3/include/wx/vlbox.h"               // base class
-#include "wxWidgets3/include/wx/html/htmlwin.h"
-#include "wxWidgets3/include/wx/ctrlsub.h"
+#include "wx/vlbox.h"               // base class
+#include "wx/html/htmlwin.h"
+#include "wx/ctrlsub.h"
 
 #if wxUSE_FILESYSTEM
-    #include "wxWidgets3/include/wx/filesys.h"
+    #include "wx/filesys.h"
 #endif // wxUSE_FILESYSTEM
 
 class WXDLLIMPEXP_FWD_HTML wxHtmlCell;

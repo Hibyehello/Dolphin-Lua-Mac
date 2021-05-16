@@ -11,10 +11,10 @@
 #ifndef _WX_UXTHEME_H_
 #define _WX_UXTHEME_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
-#include "wxWidgets3/include/wx/msw/private.h"     // we use GetHwndOf()
-#include "wxWidgets3/include/wx/msw/uxthemep.h"
+#include "wx/msw/private.h"     // we use GetHwndOf()
+#include "wx/msw/uxthemep.h"
 
 // Amazingly, GetThemeFont() and GetThemeSysFont() functions use LOGFONTA under
 // XP but LOGFONTW (even in non-Unicode build) under later versions of Windows.
@@ -161,7 +161,7 @@ typedef HRESULT (__stdcall *PFNWXUENABLETHEMING)(BOOL);
 // we always define this class, even if wxUSE_UXTHEME == 0, but we just make it
 // empty in this case -- this allows to use it elsewhere without any #ifdefs
 #if wxUSE_UXTHEME
-    #include "wxWidgets3/include/wx/dynlib.h"
+    #include "wx/dynlib.h"
 
     #define wxUX_THEME_DECLARE(type, func) type func;
 #else

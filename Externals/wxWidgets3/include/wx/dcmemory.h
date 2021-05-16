@@ -11,8 +11,8 @@
 #ifndef _WX_DCMEMORY_H_BASE_
 #define _WX_DCMEMORY_H_BASE_
 
-#include "wxWidgets3/include/wx/dc.h"
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/dc.h"
+#include "wx/bitmap.h"
 
 //-----------------------------------------------------------------------------
 // wxMemoryDC

@@ -12,7 +12,7 @@
 #ifndef _WX_GLCANVAS_H_
 #define _WX_GLCANVAS_H_
 
-#include "wxWidgets3/include/wx/unix/glx11.h"
+#include "wx/unix/glx11.h"
 
 class WXDLLIMPEXP_GL wxGLCanvas : public wxGLCanvasX11
 {

@@ -12,7 +12,7 @@
 #define _WX_HELPWIN_H_BASE_
 
 #if defined(__WXMSW__)
-#include "wxWidgets3/include/wx/msw/helpwin.h"
+#include "wx/msw/helpwin.h"
 #endif
 
 #endif

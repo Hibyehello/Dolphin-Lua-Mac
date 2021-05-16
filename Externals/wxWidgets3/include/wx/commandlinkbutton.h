@@ -10,11 +10,11 @@
 #ifndef _WX_COMMANDLINKBUTTON_H_
 #define _WX_COMMANDLINKBUTTON_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_COMMANDLINKBUTTON
 
-#include "wxWidgets3/include/wx/button.h"
+#include "wx/button.h"
 
 // ----------------------------------------------------------------------------
 // Command link button common base class
@@ -132,7 +132,7 @@ private:
 };
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/msw/commandlinkbutton.h"
+    #include "wx/msw/commandlinkbutton.h"
 #else
     class WXDLLIMPEXP_ADV wxCommandLinkButton : public wxGenericCommandLinkButton
     {

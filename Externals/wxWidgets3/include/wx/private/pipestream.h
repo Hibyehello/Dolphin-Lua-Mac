@@ -12,7 +12,7 @@
 #ifndef _WX_PRIVATE_PIPESTREAM_H_
 #define _WX_PRIVATE_PIPESTREAM_H_
 
-#include "wxWidgets3/include/wx/platform.h"
+#include "wx/platform.h"
 
 // wxPipeInputStream is a platform-dependent input stream class (i.e. deriving,
 // possible indirectly, from wxInputStream) for reading from a pipe, i.e. a
@@ -21,9 +21,9 @@
 //
 // wxPipeOutputStream is similar but has no additional methods at all.
 #if defined(__UNIX__) && !defined(__WINDOWS__)
-    #include "wxWidgets3/include/wx/unix/private/pipestream.h"
+    #include "wx/unix/private/pipestream.h"
 #elif defined(__WINDOWS__)
-    #include "wxWidgets3/include/wx/msw/private/pipestream.h"
+    #include "wx/msw/private/pipestream.h"
 #endif
 
 #endif // _WX_PRIVATE_PIPESTREAM_H_

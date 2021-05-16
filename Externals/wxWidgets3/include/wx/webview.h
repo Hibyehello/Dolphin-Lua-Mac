@@ -9,22 +9,22 @@
 #ifndef _WX_WEBVIEW_H_
 #define _WX_WEBVIEW_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_WEBVIEW
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/event.h"
-#include "wxWidgets3/include/wx/sstream.h"
-#include "wxWidgets3/include/wx/sharedptr.h"
-#include "wxWidgets3/include/wx/vector.h"
+#include "wx/control.h"
+#include "wx/event.h"
+#include "wx/sstream.h"
+#include "wx/sharedptr.h"
+#include "wx/vector.h"
 
 #if defined(__WXOSX__)
-    #include "wxWidgets3/include/wx/osx/webviewhistoryitem_webkit.h"
+    #include "wx/osx/webviewhistoryitem_webkit.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk/webviewhistoryitem_webkit.h"
+    #include "wx/gtk/webviewhistoryitem_webkit.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/webviewhistoryitem_ie.h"
+    #include "wx/msw/webviewhistoryitem_ie.h"
 #else
     #error "wxWebView not implemented on this platform."
 #endif

@@ -10,7 +10,7 @@
 #ifndef _WX_GENERIC_CTRLSUB_H_
 #define _WX_GENERIC_CTRLSUB_H_
 
-#include "wxWidgets3/include/wx/dynarray.h"
+#include "wx/dynarray.h"
 
 // ----------------------------------------------------------------------------
 // wxControlWithItemsGeneric: generic implementation of item client data

@@ -11,20 +11,20 @@
 #ifndef _WX_VARIANTBASE_H_
 #define _WX_VARIANTBASE_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_VARIANT
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/arrstr.h"
-#include "wxWidgets3/include/wx/cpp.h"
+#include "wx/string.h"
+#include "wx/arrstr.h"
+#include "wx/cpp.h"
 #include <typeinfo>
 
 #if wxUSE_DATETIME
-    #include "wxWidgets3/include/wx/datetime.h"
+    #include "wx/datetime.h"
 #endif // wxUSE_DATETIME
 
-#include "wxWidgets3/include/wx/iosfwrap.h"
+#include "wx/iosfwrap.h"
 
 class wxTypeInfo;
 class wxObject;
@@ -253,7 +253,7 @@ protected:
     wxString        m_name;
 };
 
-#include "wxWidgets3/include/wx/dynarray.h"
+#include "wx/dynarray.h"
 WX_DECLARE_OBJARRAY_WITH_DECL(wxVariantBase, wxVariantBaseArray, class WXDLLIMPEXP_BASE);
 
 

@@ -11,13 +11,13 @@
 #ifndef _WX_COMBOBOX_H_BASE_
 #define _WX_COMBOBOX_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_COMBOBOX
 
 // For compatibility with 2.8 include this header to allow using wxTE_XXX
 // styles with wxComboBox without explicitly including it in the user code.
-#include "wxWidgets3/include/wx/textctrl.h"
+#include "wx/textctrl.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxComboBoxNameStr[];
 
@@ -25,8 +25,8 @@ extern WXDLLIMPEXP_DATA_CORE(const char) wxComboBoxNameStr[];
 // wxComboBoxBase: this interface defines the methods wxComboBox must implement
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/ctrlsub.h"
-#include "wxWidgets3/include/wx/textentry.h"
+#include "wx/ctrlsub.h"
+#include "wx/textentry.h"
 
 class WXDLLIMPEXP_CORE wxComboBoxBase : public wxItemContainer,
                                         public wxTextEntry
@@ -70,19 +70,19 @@ public:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/combobox.h"
+    #include "wx/univ/combobox.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/combobox.h"
+    #include "wx/msw/combobox.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/combobox.h"
+    #include "wx/motif/combobox.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/combobox.h"
+    #include "wx/gtk/combobox.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/combobox.h"
+    #include "wx/gtk1/combobox.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/combobox.h"
+    #include "wx/osx/combobox.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/combobox.h"
+    #include "wx/qt/combobox.h"
 #endif
 
 #endif // wxUSE_COMBOBOX

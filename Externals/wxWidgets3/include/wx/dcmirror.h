@@ -11,7 +11,7 @@
 #ifndef _WX_DCMIRROR_H_
 #define _WX_DCMIRROR_H_
 
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/dc.h"
 
 // ----------------------------------------------------------------------------
 // wxMirrorDC allows to write the same code for horz/vertical layout

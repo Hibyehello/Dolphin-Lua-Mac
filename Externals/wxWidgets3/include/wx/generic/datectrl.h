@@ -11,7 +11,7 @@
 #ifndef _WX_GENERIC_DATECTRL_H_
 #define _WX_GENERIC_DATECTRL_H_
 
-#include "wxWidgets3/include/wx/compositewin.h"
+#include "wx/compositewin.h"
 
 class WXDLLIMPEXP_FWD_CORE wxComboCtrl;
 

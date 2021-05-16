@@ -10,12 +10,12 @@
 #ifndef _WX_WXZSTREAM_H__
 #define _WX_WXZSTREAM_H__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_ZLIB && wxUSE_STREAMS
 
-#include "wxWidgets3/include/wx/stream.h"
-#include "wxWidgets3/include/wx/versioninfo.h"
+#include "wx/stream.h"
+#include "wx/versioninfo.h"
 
 // Compression level
 enum wxZlibCompressionLevels {

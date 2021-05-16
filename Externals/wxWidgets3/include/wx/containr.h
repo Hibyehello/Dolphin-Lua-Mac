@@ -11,11 +11,11 @@
 #ifndef _WX_CONTAINR_H_
 #define _WX_CONTAINR_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #ifndef wxHAS_NATIVE_TAB_TRAVERSAL
     // We need wxEVT_XXX declarations in this case.
-    #include "wxWidgets3/include/wx/event.h"
+    #include "wx/event.h"
 #endif
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;

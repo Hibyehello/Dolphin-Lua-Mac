@@ -11,9 +11,9 @@
 #ifndef _WX_COMBOBOX_H_
 #define _WX_COMBOBOX_H_
 
-#include "wxWidgets3/include/wx/containr.h"
-#include "wxWidgets3/include/wx/choice.h"
-#include "wxWidgets3/include/wx/textctrl.h"
+#include "wx/containr.h"
+#include "wx/choice.h"
+#include "wx/textctrl.h"
 
 WX_DEFINE_ARRAY( char * , wxComboBoxDataArray ) ;
 

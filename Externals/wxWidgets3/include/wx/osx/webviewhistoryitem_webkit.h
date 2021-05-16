@@ -9,11 +9,11 @@
 #ifndef _WX_OSX_WEBVIEWHISTORYITEM_H_
 #define _WX_OSX_WEBVIEWHISTORYITEM_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_WEBVIEW && wxUSE_WEBVIEW_WEBKIT && defined(__WXOSX__)
 
-#include "wxWidgets3/include/wx/osx/core/objcid.h"
+#include "wx/osx/core/objcid.h"
 
 class WXDLLIMPEXP_WEBVIEW wxWebViewHistoryItem
 {

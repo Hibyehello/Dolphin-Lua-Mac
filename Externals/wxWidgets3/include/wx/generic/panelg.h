@@ -11,7 +11,7 @@
 #ifndef _WX_GENERIC_PANELG_H_
 #define _WX_GENERIC_PANELG_H_
 
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/bitmap.h"
 
 class WXDLLIMPEXP_CORE wxPanel : public wxPanelBase
 {

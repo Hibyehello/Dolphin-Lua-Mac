@@ -12,9 +12,9 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include "wxWidgets3/include/wx/dir.h"
-#include "wxWidgets3/include/wx/debug.h"
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/dir.h"
+#include "wx/debug.h"
+#include "wx/arrstr.h"
 
 // ============================================================================
 // wxFSWatcherEntry implementation & helper declarations

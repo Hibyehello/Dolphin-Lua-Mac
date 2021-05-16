@@ -10,8 +10,8 @@
 #ifndef _WX_PRIVATE_ADDREMOVECTRL_H_
 #define _WX_PRIVATE_ADDREMOVECTRL_H_
 
-#include "wxWidgets3/include/wx/button.h"
-#include "wxWidgets3/include/wx/sizer.h"
+#include "wx/button.h"
+#include "wx/sizer.h"
 
 // ----------------------------------------------------------------------------
 // wxAddRemoveImplBase: implementation-only part of wxAddRemoveCtrl, base part
@@ -144,11 +144,11 @@ protected:
 #endif // !wxGTK
 
 #ifdef __WXOSX__
-    #include "wxWidgets3/include/wx/osx/private/addremovectrl.h"
+    #include "wx/osx/private/addremovectrl.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk/private/addremovectrl.h"
+    #include "wx/gtk/private/addremovectrl.h"
 #else
-    #include "wxWidgets3/include/wx/generic/private/addremovectrl.h"
+    #include "wx/generic/private/addremovectrl.h"
 #endif
 
 #endif // _WX_PRIVATE_ADDREMOVECTRL_H_

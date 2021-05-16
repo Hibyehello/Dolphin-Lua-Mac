@@ -11,8 +11,8 @@
 #ifndef _WX_LISTCTRL_H_
 #define _WX_LISTCTRL_H_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/generic/listctrl.h"
+#include "wx/defs.h"
+#include "wx/generic/listctrl.h"
 
 #define wxMAC_ALWAYS_USE_GENERIC_LISTCTRL wxT("mac.listctrl.always_use_generic")
 

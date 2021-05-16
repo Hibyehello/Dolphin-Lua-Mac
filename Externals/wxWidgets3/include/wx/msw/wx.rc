@@ -11,7 +11,7 @@
 
 #include <windows.h>
 
-#include "wxWidgets3/include/wx/msw/rcdefs.h"
+#include "wx/msw/rcdefs.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -36,16 +36,16 @@ END
 // Standard wxWindows Cursors
 //
 
-WXCURSOR_HAND           CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/hand.cur"
-WXCURSOR_BULLSEYE       CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/bullseye.cur"
-WXCURSOR_PENCIL         CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/pencil.cur"
-WXCURSOR_MAGNIFIER      CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/magnif1.cur"
-WXCURSOR_ROLLER         CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/roller.cur"
-WXCURSOR_PBRUSH         CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/pbrush.cur"
-WXCURSOR_PLEFT          CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/pntleft.cur"
-WXCURSOR_PRIGHT         CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/pntright.cur"
-WXCURSOR_BLANK          CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/blank.cur"
-WXCURSOR_CROSS          CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/cross.cur"
+WXCURSOR_HAND           CURSOR  DISCARDABLE     "wx/msw/hand.cur"
+WXCURSOR_BULLSEYE       CURSOR  DISCARDABLE     "wx/msw/bullseye.cur"
+WXCURSOR_PENCIL         CURSOR  DISCARDABLE     "wx/msw/pencil.cur"
+WXCURSOR_MAGNIFIER      CURSOR  DISCARDABLE     "wx/msw/magnif1.cur"
+WXCURSOR_ROLLER         CURSOR  DISCARDABLE     "wx/msw/roller.cur"
+WXCURSOR_PBRUSH         CURSOR  DISCARDABLE     "wx/msw/pbrush.cur"
+WXCURSOR_PLEFT          CURSOR  DISCARDABLE     "wx/msw/pntleft.cur"
+WXCURSOR_PRIGHT         CURSOR  DISCARDABLE     "wx/msw/pntright.cur"
+WXCURSOR_BLANK          CURSOR  DISCARDABLE     "wx/msw/blank.cur"
+WXCURSOR_CROSS          CURSOR  DISCARDABLE     "wx/msw/cross.cur"
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -59,21 +59,21 @@ WXCURSOR_CROSS          CURSOR  DISCARDABLE     "wxWidgets3/include/wx/msw/cross
 // main program doesn't define any icons preceding this one in alphabetical
 // order (i.e. any icons defined by it start with "wy", "x", "y"  or "z") in
 // 16*16 or 32*32 sizes.
-wxICON_AAA                      ICON "wxWidgets3/include/wx/msw/std.ico"
+wxICON_AAA                      ICON "wx/msw/std.ico"
 
-//wxDEFAULT_FRAME               ICON "wxWidgets3/include/wx/msw/std.ico"
-//wxDEFAULT_MDIPARENTFRAME      ICON "wxWidgets3/include/wx/msw/mdi.ico"
-//wxDEFAULT_MDICHILDFRAME       ICON "wxWidgets3/include/wx/msw/child.ico"
+//wxDEFAULT_FRAME               ICON "wx/msw/std.ico"
+//wxDEFAULT_MDIPARENTFRAME      ICON "wx/msw/mdi.ico"
+//wxDEFAULT_MDICHILDFRAME       ICON "wx/msw/child.ico"
 
 // Standard small icons
-wxICON_SMALL_CLOSED_FOLDER      ICON "wxWidgets3/include/wx/msw/folder1.ico"
-wxICON_SMALL_OPEN_FOLDER        ICON "wxWidgets3/include/wx/msw/folder2.ico"
-wxICON_SMALL_FILE               ICON "wxWidgets3/include/wx/msw/file1.ico"
-wxICON_SMALL_COMPUTER           ICON "wxWidgets3/include/wx/msw/computer.ico"
-wxICON_SMALL_DRIVE              ICON "wxWidgets3/include/wx/msw/drive.ico"
-wxICON_SMALL_CDROM              ICON "wxWidgets3/include/wx/msw/cdrom.ico"
-wxICON_SMALL_FLOPPY             ICON "wxWidgets3/include/wx/msw/floppy.ico"
-wxICON_SMALL_REMOVEABLE         ICON "wxWidgets3/include/wx/msw/removble.ico"
+wxICON_SMALL_CLOSED_FOLDER      ICON "wx/msw/folder1.ico"
+wxICON_SMALL_OPEN_FOLDER        ICON "wx/msw/folder2.ico"
+wxICON_SMALL_FILE               ICON "wx/msw/file1.ico"
+wxICON_SMALL_COMPUTER           ICON "wx/msw/computer.ico"
+wxICON_SMALL_DRIVE              ICON "wx/msw/drive.ico"
+wxICON_SMALL_CDROM              ICON "wx/msw/cdrom.ico"
+wxICON_SMALL_FLOPPY             ICON "wx/msw/floppy.ico"
+wxICON_SMALL_REMOVEABLE         ICON "wx/msw/removble.ico"
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -81,10 +81,10 @@ wxICON_SMALL_REMOVEABLE         ICON "wxWidgets3/include/wx/msw/removble.ico"
 //
 
 // For wxContextHelpButton
-csquery                 BITMAP "wxWidgets3/include/wx/msw/csquery.bmp"
+csquery                 BITMAP "wx/msw/csquery.bmp"
 
 // For obtaining the RGB values of standard colours
-wxBITMAP_STD_COLOURS    BITMAP "wxWidgets3/include/wx/msw/colours.bmp"
+wxBITMAP_STD_COLOURS    BITMAP "wx/msw/colours.bmp"
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -106,11 +106,11 @@ wxBITMAP_STD_COLOURS    BITMAP "wxWidgets3/include/wx/msw/colours.bmp"
 #endif
 
 #if defined(WX_CPU_AMD64)
-wxMANIFEST_ID 24 "wxWidgets3/include/wx/msw/amd64.manifest"
+wxMANIFEST_ID 24 "wx/msw/amd64.manifest"
 #elif defined(WX_CPU_IA64)
-wxMANIFEST_ID 24 "wxWidgets3/include/wx/msw/ia64.manifest"
+wxMANIFEST_ID 24 "wx/msw/ia64.manifest"
 #elif defined(WX_CPU_X86)
-wxMANIFEST_ID 24 "wxWidgets3/include/wx/msw/wx.manifest"
+wxMANIFEST_ID 24 "wx/msw/wx.manifest"
 #else
 // Notice that if the manifest is included, WX_CPU_XXX constant corresponding
 // to the architecture we're compiling for must be defined. This can be done

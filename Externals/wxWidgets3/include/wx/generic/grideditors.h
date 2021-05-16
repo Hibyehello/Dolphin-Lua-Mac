@@ -11,11 +11,11 @@
 #ifndef _WX_GENERIC_GRID_EDITORS_H_
 #define _WX_GENERIC_GRID_EDITORS_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_GRID
 
-#include "wxWidgets3/include/wx/scopedptr.h"
+#include "wx/scopedptr.h"
 
 class wxGridCellEditorEvtHandler : public wxEvtHandler
 {

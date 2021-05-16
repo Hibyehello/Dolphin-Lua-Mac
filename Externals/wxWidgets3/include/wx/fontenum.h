@@ -12,12 +12,12 @@
 #ifndef _WX_FONTENUM_H_
 #define _WX_FONTENUM_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FONTENUM
 
-#include "wxWidgets3/include/wx/fontenc.h"
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/fontenc.h"
+#include "wx/arrstr.h"
 
 // ----------------------------------------------------------------------------
 // wxFontEnumerator enumerates all available fonts on the system or only the

@@ -11,12 +11,12 @@
 
 #if wxUSE_DRAG_AND_DROP
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/object.h"
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/dataobj.h"
-#include "wxWidgets3/include/wx/cursor.h"
+#include "wx/defs.h"
+#include "wx/object.h"
+#include "wx/string.h"
+#include "wx/string.h"
+#include "wx/dataobj.h"
+#include "wx/cursor.h"
 
 //-------------------------------------------------------------------------
 // classes

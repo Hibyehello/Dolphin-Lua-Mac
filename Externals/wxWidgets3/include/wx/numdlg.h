@@ -11,11 +11,11 @@
 #ifndef _WX_NUMDLGDLG_H_BASE_
 #define _WX_NUMDLGDLG_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_NUMBERDLG
 
-#include "wxWidgets3/include/wx/generic/numdlgg.h"
+#include "wx/generic/numdlgg.h"
 
 #endif // wxUSE_NUMBERDLG
 

@@ -11,12 +11,12 @@
 #ifndef _WX_COLLAPSABLE_PANE_H_BASE_
 #define _WX_COLLAPSABLE_PANE_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 
 #if wxUSE_COLLPANE
 
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/control.h"
 
 // class name
 extern WXDLLIMPEXP_DATA_CORE(const char) wxCollapsiblePaneNameStr[];
@@ -92,9 +92,9 @@ typedef void (wxEvtHandler::*wxCollapsiblePaneEventFunction)(wxCollapsiblePaneEv
 
 
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/gtk/collpane.h"
+    #include "wx/gtk/collpane.h"
 #else
-    #include "wxWidgets3/include/wx/generic/collpaneg.h"
+    #include "wx/generic/collpaneg.h"
 
     // use #define and not a typedef to allow forward declaring the class
     #define wxCollapsiblePane wxGenericCollapsiblePane

@@ -9,7 +9,7 @@
 #ifndef _WX_DCCLIENT_H_BASE_
 #define _WX_DCCLIENT_H_BASE_
 
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/dc.h"
 
 //-----------------------------------------------------------------------------
 // wxWindowDC

@@ -15,7 +15,7 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/object.h"
+#include "wx/object.h"
 
 // X stupidly defines these in X.h
 #ifdef Above

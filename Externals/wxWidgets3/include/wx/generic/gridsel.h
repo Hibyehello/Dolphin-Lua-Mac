@@ -11,11 +11,11 @@
 #ifndef _WX_GENERIC_GRIDSEL_H_
 #define _WX_GENERIC_GRIDSEL_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_GRID
 
-#include "wxWidgets3/include/wx/grid.h"
+#include "wx/grid.h"
 
 class WXDLLIMPEXP_ADV wxGridSelection
 {

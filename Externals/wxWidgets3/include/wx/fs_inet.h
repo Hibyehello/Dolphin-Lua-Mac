@@ -9,11 +9,11 @@
 #ifndef _WX_FS_INET_H_
 #define _WX_FS_INET_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FILESYSTEM && wxUSE_FS_INET && wxUSE_STREAMS && wxUSE_SOCKETS
 
-#include "wxWidgets3/include/wx/filesys.h"
+#include "wx/filesys.h"
 
 // ----------------------------------------------------------------------------
 // wxInternetFSHandler

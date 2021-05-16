@@ -21,7 +21,7 @@
   class WXDLLIMPEXP_FWD_CORE wxOwnerDrawn;
 
   // define the array of list box items
-  #include  "wxWidgets3/include/wx/dynarray.h"
+  #include  "wx/dynarray.h"
 
   WX_DEFINE_EXPORTED_ARRAY_PTR(wxOwnerDrawn *, wxListBoxItemsArray);
 #endif // wxUSE_OWNER_DRAWN

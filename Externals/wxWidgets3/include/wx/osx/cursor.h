@@ -11,7 +11,7 @@
 #ifndef _WX_CURSOR_H_
 #define _WX_CURSOR_H_
 
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/bitmap.h"
 
 // Cursor
 class WXDLLIMPEXP_CORE wxCursor : public wxCursorBase

@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGJPEG_H_
 #define _WX_IMAGJPEG_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 //-----------------------------------------------------------------------------
 // wxJPEGHandler
@@ -17,8 +17,8 @@
 
 #if wxUSE_LIBJPEG
 
-#include "wxWidgets3/include/wx/image.h"
-#include "wxWidgets3/include/wx/versioninfo.h"
+#include "wx/image.h"
+#include "wx/versioninfo.h"
 
 class WXDLLIMPEXP_CORE wxJPEGHandler: public wxImageHandler
 {

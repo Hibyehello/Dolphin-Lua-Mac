@@ -9,8 +9,8 @@
 #ifndef _WX_GTKTOOLTIP_H_
 #define _WX_GTKTOOLTIP_H_
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/object.h"
+#include "wx/string.h"
+#include "wx/object.h"
 
 //-----------------------------------------------------------------------------
 // forward declarations

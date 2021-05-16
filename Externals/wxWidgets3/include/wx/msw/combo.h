@@ -18,7 +18,7 @@
 #if wxUSE_COMBOCTRL
 
 #if wxUSE_TIMER
-    #include "wxWidgets3/include/wx/timer.h"
+    #include "wx/timer.h"
     #define wxUSE_COMBOCTRL_POPUP_ANIMATION     1
 #endif
 

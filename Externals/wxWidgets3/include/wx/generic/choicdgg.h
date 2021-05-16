@@ -11,8 +11,8 @@
 #ifndef _WX_GENERIC_CHOICDGG_H_
 #define _WX_GENERIC_CHOICDGG_H_
 
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/dynarray.h"
+#include "wx/dialog.h"
 
 class WXDLLIMPEXP_FWD_CORE wxListBoxBase;
 

@@ -9,7 +9,7 @@
 #ifndef _WX_XPMDECOD_H_
 #define _WX_XPMDECOD_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_IMAGE && wxUSE_XPM
 

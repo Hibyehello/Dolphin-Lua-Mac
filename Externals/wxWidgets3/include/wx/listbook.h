@@ -11,12 +11,12 @@
 #ifndef _WX_LISTBOOK_H_
 #define _WX_LISTBOOK_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_LISTBOOK
 
-#include "wxWidgets3/include/wx/bookctrl.h"
-#include "wxWidgets3/include/wx/containr.h"
+#include "wx/bookctrl.h"
+#include "wx/containr.h"
 
 class WXDLLIMPEXP_FWD_CORE wxListView;
 class WXDLLIMPEXP_FWD_CORE wxListEvent;

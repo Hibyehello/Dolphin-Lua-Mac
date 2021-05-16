@@ -10,9 +10,9 @@
 #ifndef _WX_TESTING_H_
 #define _WX_TESTING_H_
 
-#include "wxWidgets3/include/wx/debug.h"
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/modalhook.h"
+#include "wx/debug.h"
+#include "wx/string.h"
+#include "wx/modalhook.h"
 
 class WXDLLIMPEXP_FWD_CORE wxMessageDialogBase;
 class WXDLLIMPEXP_FWD_CORE wxFileDialogBase;
@@ -24,15 +24,15 @@ class WXDLLIMPEXP_FWD_CORE wxFileDialogBase;
 // Don't include this code when building the library itself
 #ifndef WXBUILDING
 
-#include "wxWidgets3/include/wx/beforestd.h"
+#include "wx/beforestd.h"
 #include <algorithm>
 #include <iterator>
 #include <queue>
-#include "wxWidgets3/include/wx/afterstd.h"
-#include "wxWidgets3/include/wx/cpp.h"
-#include "wxWidgets3/include/wx/dialog.h"
-#include "wxWidgets3/include/wx/msgdlg.h"
-#include "wxWidgets3/include/wx/filedlg.h"
+#include "wx/afterstd.h"
+#include "wx/cpp.h"
+#include "wx/dialog.h"
+#include "wx/msgdlg.h"
+#include "wx/filedlg.h"
 
 #include <typeinfo>
 

@@ -11,14 +11,14 @@
 #ifndef _WX_ODCOMBO_H_
 #define _WX_ODCOMBO_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_ODCOMBOBOX
 
-#include "wxWidgets3/include/wx/combo.h"
-#include "wxWidgets3/include/wx/ctrlsub.h"
-#include "wxWidgets3/include/wx/vlbox.h"
-#include "wxWidgets3/include/wx/timer.h"
+#include "wx/combo.h"
+#include "wx/ctrlsub.h"
+#include "wx/vlbox.h"
+#include "wx/timer.h"
 
 
 //

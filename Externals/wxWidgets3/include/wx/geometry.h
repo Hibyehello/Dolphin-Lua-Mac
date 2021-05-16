@@ -11,13 +11,13 @@
 #ifndef _WX_GEOMETRY_H_
 #define _WX_GEOMETRY_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_GEOMETRY
 
-#include "wxWidgets3/include/wx/utils.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
-#include "wxWidgets3/include/wx/math.h"
+#include "wx/utils.h"
+#include "wx/gdicmn.h"
+#include "wx/math.h"
 
 class WXDLLIMPEXP_FWD_BASE wxDataInputStream;
 class WXDLLIMPEXP_FWD_BASE wxDataOutputStream;

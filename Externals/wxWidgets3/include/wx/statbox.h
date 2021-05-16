@@ -11,12 +11,12 @@
 #ifndef _WX_STATBOX_H_BASE_
 #define _WX_STATBOX_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_STATBOX
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/containr.h"
+#include "wx/control.h"
+#include "wx/containr.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxStaticBoxNameStr[];
 
@@ -53,19 +53,19 @@ protected:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/statbox.h"
+    #include "wx/univ/statbox.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/statbox.h"
+    #include "wx/msw/statbox.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/statbox.h"
+    #include "wx/motif/statbox.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/statbox.h"
+    #include "wx/gtk/statbox.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/statbox.h"
+    #include "wx/gtk1/statbox.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/statbox.h"
+    #include "wx/osx/statbox.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/statbox.h"
+    #include "wx/qt/statbox.h"
 #endif
 
 #endif // wxUSE_STATBOX

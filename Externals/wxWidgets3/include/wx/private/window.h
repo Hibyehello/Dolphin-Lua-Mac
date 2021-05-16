@@ -10,7 +10,7 @@
 #ifndef _WX_PRIVATE_WINDOW_H_
 #define _WX_PRIVATE_WINDOW_H_
 
-#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wx/gdicmn.h"
 
 namespace wxPrivate
 {

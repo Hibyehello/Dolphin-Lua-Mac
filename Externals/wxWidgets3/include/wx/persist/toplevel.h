@@ -10,10 +10,10 @@
 #ifndef _WX_PERSIST_TOPLEVEL_H_
 #define _WX_PERSIST_TOPLEVEL_H_
 
-#include "wxWidgets3/include/wx/persist/window.h"
+#include "wx/persist/window.h"
 
-#include "wxWidgets3/include/wx/toplevel.h"
-#include "wxWidgets3/include/wx/display.h"
+#include "wx/toplevel.h"
+#include "wx/display.h"
 
 // ----------------------------------------------------------------------------
 // string constants used by wxPersistentTLW

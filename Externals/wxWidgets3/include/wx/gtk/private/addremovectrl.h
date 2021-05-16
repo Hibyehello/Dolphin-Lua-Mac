@@ -10,9 +10,9 @@
 #ifndef _WX_GTK_PRIVATE_ADDREMOVECTRL_H_
 #define _WX_GTK_PRIVATE_ADDREMOVECTRL_H_
 
-#include "wxWidgets3/include/wx/artprov.h"
-#include "wxWidgets3/include/wx/bmpbuttn.h"
-#include "wxWidgets3/include/wx/toolbar.h"
+#include "wx/artprov.h"
+#include "wx/bmpbuttn.h"
+#include "wx/toolbar.h"
 
 #include <gtk/gtk.h>
 

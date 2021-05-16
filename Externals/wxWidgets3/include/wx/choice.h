@@ -15,11 +15,11 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_CHOICE
 
-#include "wxWidgets3/include/wx/ctrlsub.h"     // the base class
+#include "wx/ctrlsub.h"     // the base class
 
 // ----------------------------------------------------------------------------
 // global data
@@ -73,19 +73,19 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/choice.h"
+    #include "wx/univ/choice.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/choice.h"
+    #include "wx/msw/choice.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/choice.h"
+    #include "wx/motif/choice.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/choice.h"
+    #include "wx/gtk/choice.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/choice.h"
+    #include "wx/gtk1/choice.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/choice.h"
+    #include "wx/osx/choice.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/choice.h"
+    #include "wx/qt/choice.h"
 #endif
 
 #endif // wxUSE_CHOICE

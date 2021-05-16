@@ -9,14 +9,14 @@
 #ifndef _WX_ANIMDECOD_H
 #define _WX_ANIMDECOD_H
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_STREAMS
 
-#include "wxWidgets3/include/wx/colour.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
-#include "wxWidgets3/include/wx/log.h"
-#include "wxWidgets3/include/wx/stream.h"
+#include "wx/colour.h"
+#include "wx/gdicmn.h"
+#include "wx/log.h"
+#include "wx/stream.h"
 
 class WXDLLIMPEXP_FWD_CORE wxImage;
 

@@ -15,12 +15,12 @@
 // headers
 // ---------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/list.h"
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/fontenc.h"
-#include "wxWidgets3/include/wx/hashmap.h"
-#include "wxWidgets3/include/wx/math.h"
+#include "wx/defs.h"
+#include "wx/list.h"
+#include "wx/string.h"
+#include "wx/fontenc.h"
+#include "wx/hashmap.h"
+#include "wx/math.h"
 
 // ---------------------------------------------------------------------------
 // forward declarations

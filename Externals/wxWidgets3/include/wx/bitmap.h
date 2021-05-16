@@ -15,10 +15,10 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/gdicmn.h"  // for wxBitmapType
-#include "wxWidgets3/include/wx/colour.h"
-#include "wxWidgets3/include/wx/image.h"
+#include "wx/string.h"
+#include "wx/gdicmn.h"  // for wxBitmapType
+#include "wx/colour.h"
+#include "wx/image.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBitmap;
 class WXDLLIMPEXP_FWD_CORE wxBitmapHandler;
@@ -32,7 +32,7 @@ class WXDLLIMPEXP_FWD_CORE wxDC;
 // ----------------------------------------------------------------------------
 
 #if wxUSE_VARIANT
-#include "wxWidgets3/include/wx/variant.h"
+#include "wx/variant.h"
 DECLARE_VARIANT_OBJECT_EXPORTED(wxBitmap,WXDLLIMPEXP_CORE)
 #endif
 
@@ -264,32 +264,32 @@ protected:
 // for wxBitmap's ctor and wxBitmap::LoadFile() functions.
 #if defined(__WXMSW__)
     #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_BMP_RESOURCE
-    #include "wxWidgets3/include/wx/msw/bitmap.h"
+    #include "wx/msw/bitmap.h"
 #elif defined(__WXMOTIF__)
     #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_XPM
-    #include "wxWidgets3/include/wx/x11/bitmap.h"
+    #include "wx/x11/bitmap.h"
 #elif defined(__WXGTK20__)
     #ifdef __WINDOWS__
         #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_BMP_RESOURCE
     #else
         #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_XPM
     #endif
-    #include "wxWidgets3/include/wx/gtk/bitmap.h"
+    #include "wx/gtk/bitmap.h"
 #elif defined(__WXGTK__)
     #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_XPM
-    #include "wxWidgets3/include/wx/gtk1/bitmap.h"
+    #include "wx/gtk1/bitmap.h"
 #elif defined(__WXX11__)
     #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_XPM
-    #include "wxWidgets3/include/wx/x11/bitmap.h"
+    #include "wx/x11/bitmap.h"
 #elif defined(__WXDFB__)
     #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_BMP_RESOURCE
-    #include "wxWidgets3/include/wx/dfb/bitmap.h"
+    #include "wx/dfb/bitmap.h"
 #elif defined(__WXMAC__)
     #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_PICT_RESOURCE
-    #include "wxWidgets3/include/wx/osx/bitmap.h"
+    #include "wx/osx/bitmap.h"
 #elif defined(__WXQT__)
     #define wxBITMAP_DEFAULT_TYPE    wxBITMAP_TYPE_XPM
-    #include "wxWidgets3/include/wx/qt/bitmap.h"
+    #include "wx/qt/bitmap.h"
 #endif
 
 #if wxUSE_IMAGE
@@ -315,7 +315,7 @@ ConvertToDisabled(unsigned char brightness) const
 #endif
 
 #if wxUSE_GENERIC_MASK
-    #include "wxWidgets3/include/wx/generic/mask.h"
+    #include "wx/generic/mask.h"
 #endif
 
 #endif // _WX_BITMAP_H_BASE_

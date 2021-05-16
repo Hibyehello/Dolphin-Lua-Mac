@@ -18,7 +18,7 @@
                         headers and missing declarations
    ------------------------------------------------------------------------- */
 
-#include "wxWidgets3/include/wx/chartype.h"
+#include "wx/chartype.h"
 
 /*
     Standard headers we need here.

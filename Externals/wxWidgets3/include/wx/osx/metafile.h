@@ -14,14 +14,14 @@
 #ifndef _WX_METAFIILE_H_
 #define _WX_METAFIILE_H_
 
-#include "wxWidgets3/include/wx/dc.h"
-#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wx/dc.h"
+#include "wx/gdiobj.h"
 
 #if wxUSE_DATAOBJ
-#include "wxWidgets3/include/wx/dataobj.h"
+#include "wx/dataobj.h"
 #endif
 
-#include "wxWidgets3/include/wx/osx/dcclient.h"
+#include "wx/osx/dcclient.h"
 
 /*
  * Metafile and metafile device context classes

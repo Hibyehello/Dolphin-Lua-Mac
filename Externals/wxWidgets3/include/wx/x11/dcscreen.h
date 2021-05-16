@@ -11,8 +11,8 @@
 #ifndef _WX_DCSCREEN_H_
 #define _WX_DCSCREEN_H_
 
-#include "wxWidgets3/include/wx/dcclient.h"
-#include "wxWidgets3/include/wx/x11/dcclient.h"
+#include "wx/dcclient.h"
+#include "wx/x11/dcclient.h"
 
 //-----------------------------------------------------------------------------
 // wxScreenDC

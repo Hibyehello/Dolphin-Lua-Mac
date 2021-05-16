@@ -16,7 +16,7 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/panel.h"
+#include "wx/panel.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBookCtrlBase;
 class WXDLLIMPEXP_FWD_CORE wxBookCtrlEvent;

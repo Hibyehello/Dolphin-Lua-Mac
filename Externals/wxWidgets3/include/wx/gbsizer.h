@@ -13,7 +13,7 @@
 #ifndef __WXGBSIZER_H__
 #define __WXGBSIZER_H__
 
-#include "wxWidgets3/include/wx/sizer.h"
+#include "wx/sizer.h"
 
 
 //---------------------------------------------------------------------------

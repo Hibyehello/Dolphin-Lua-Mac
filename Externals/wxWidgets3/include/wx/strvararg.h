@@ -10,13 +10,13 @@
 #ifndef _WX_STRVARARG_H_
 #define _WX_STRVARARG_H_
 
-#include "wxWidgets3/include/wx/platform.h"
+#include "wx/platform.h"
 
-#include "wxWidgets3/include/wx/cpp.h"
-#include "wxWidgets3/include/wx/chartype.h"
-#include "wxWidgets3/include/wx/strconv.h"
-#include "wxWidgets3/include/wx/buffer.h"
-#include "wxWidgets3/include/wx/unichar.h"
+#include "wx/cpp.h"
+#include "wx/chartype.h"
+#include "wx/strconv.h"
+#include "wx/buffer.h"
+#include "wx/unichar.h"
 
 #if defined(HAVE_TYPE_TRAITS)
     #include <type_traits>
@@ -693,7 +693,7 @@ WX_ARG_NORMALIZER_FORWARD(const wxWCharBuffer&, const wchar_t*);
 // versions for std::[w]string:
 #if wxUSE_STD_STRING
 
-#include "wxWidgets3/include/wx/stringimpl.h"
+#include "wx/stringimpl.h"
 
 #if !wxUSE_UTF8_LOCALE_ONLY
 template<>

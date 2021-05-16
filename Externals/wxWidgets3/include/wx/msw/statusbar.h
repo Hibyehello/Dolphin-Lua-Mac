@@ -13,8 +13,8 @@
 
 #if wxUSE_NATIVE_STATUSBAR
 
-#include "wxWidgets3/include/wx/vector.h"
-#include "wxWidgets3/include/wx/tooltip.h"
+#include "wx/vector.h"
+#include "wx/tooltip.h"
 
 class WXDLLIMPEXP_FWD_CORE wxClientDC;
 

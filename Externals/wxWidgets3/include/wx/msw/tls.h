@@ -10,9 +10,9 @@
 #ifndef _WX_MSW_TLS_H_
 #define _WX_MSW_TLS_H_
 
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
-#include "wxWidgets3/include/wx/thread.h"
-#include "wxWidgets3/include/wx/vector.h"
+#include "wx/msw/wrapwin.h"
+#include "wx/thread.h"
+#include "wx/vector.h"
 
 // ----------------------------------------------------------------------------
 // wxTlsKey is a helper class encapsulating a TLS slot

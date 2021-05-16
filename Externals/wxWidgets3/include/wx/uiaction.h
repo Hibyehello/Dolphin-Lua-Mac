@@ -13,11 +13,11 @@
 #ifndef _WX_UIACTIONSIMULATOR_H_
 #define _WX_UIACTIONSIMULATOR_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_UIACTIONSIMULATOR
 
-#include "wxWidgets3/include/wx/mousestate.h"  // for wxMOUSE_BTN_XXX constants
+#include "wx/mousestate.h"  // for wxMOUSE_BTN_XXX constants
 
 class WXDLLIMPEXP_CORE wxUIActionSimulator
 {

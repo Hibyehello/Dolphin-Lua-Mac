@@ -12,8 +12,8 @@
 #define _WX_MENU_H_
 
 #if wxUSE_ACCEL
-    #include "wxWidgets3/include/wx/accel.h"
-    #include "wxWidgets3/include/wx/dynarray.h"
+    #include "wx/accel.h"
+    #include "wx/dynarray.h"
 
     WX_DEFINE_EXPORTED_ARRAY_PTR(wxAcceleratorEntry *, wxAcceleratorArray);
 #endif // wxUSE_ACCEL
@@ -23,7 +23,7 @@ class WXDLLIMPEXP_FWD_CORE wxFrame;
 class wxMenuRadioItemsData;
 
 
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/arrstr.h"
 
 // ----------------------------------------------------------------------------
 // Menu

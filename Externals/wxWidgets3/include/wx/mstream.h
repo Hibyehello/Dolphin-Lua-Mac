@@ -11,11 +11,11 @@
 #ifndef _WX_WXMMSTREAM_H__
 #define _WX_WXMMSTREAM_H__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_STREAMS
 
-#include "wxWidgets3/include/wx/stream.h"
+#include "wx/stream.h"
 
 class WXDLLIMPEXP_FWD_BASE wxMemoryOutputStream;
 

@@ -27,8 +27,8 @@
 #ifndef _WX_SCOPED_PTR_H_
 #define _WX_SCOPED_PTR_H_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/checkeddelete.h"
+#include "wx/defs.h"
+#include "wx/checkeddelete.h"
 
 // ----------------------------------------------------------------------------
 // wxScopedPtr: A scoped pointer

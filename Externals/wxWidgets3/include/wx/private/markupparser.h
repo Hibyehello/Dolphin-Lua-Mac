@@ -10,7 +10,7 @@
 #ifndef _WX_PRIVATE_MARKUPPARSER_H_
 #define _WX_PRIVATE_MARKUPPARSER_H_
 
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/string.h"
 
 // ----------------------------------------------------------------------------
 // wxMarkupSpanAttributes: information about attributes for a markup span.

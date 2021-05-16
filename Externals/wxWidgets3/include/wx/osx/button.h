@@ -11,8 +11,8 @@
 #ifndef _WX_OSX_BUTTON_H_
 #define _WX_OSX_BUTTON_H_
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wx/control.h"
+#include "wx/gdicmn.h"
 
 // Pushbutton
 class WXDLLIMPEXP_CORE wxButton : public wxButtonBase

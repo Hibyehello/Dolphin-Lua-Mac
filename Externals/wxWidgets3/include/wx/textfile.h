@@ -13,13 +13,13 @@
 #ifndef _WX_TEXTFILE_H
 #define _WX_TEXTFILE_H
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
-#include "wxWidgets3/include/wx/textbuf.h"
+#include "wx/textbuf.h"
 
 #if wxUSE_TEXTFILE
 
-#include "wxWidgets3/include/wx/file.h"
+#include "wx/file.h"
 
 // ----------------------------------------------------------------------------
 // wxTextFile

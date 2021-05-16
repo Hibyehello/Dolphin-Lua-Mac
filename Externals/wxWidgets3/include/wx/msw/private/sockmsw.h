@@ -13,7 +13,7 @@
 #ifndef _WX_MSW_GSOCKMSW_H_
 #define _WX_MSW_GSOCKMSW_H_
 
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
+#include "wx/msw/wrapwin.h"
 
 #if defined(__CYGWIN__)
     //CYGWIN gives annoying warning about runtime stuff if we don't do this

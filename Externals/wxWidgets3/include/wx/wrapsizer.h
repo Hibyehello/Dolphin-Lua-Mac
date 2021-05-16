@@ -10,7 +10,7 @@
 #ifndef _WX_WRAPSIZER_H_
 #define _WX_WRAPSIZER_H_
 
-#include "wxWidgets3/include/wx/sizer.h"
+#include "wx/sizer.h"
 
 // flags for wxWrapSizer
 enum

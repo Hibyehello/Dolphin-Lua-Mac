@@ -10,7 +10,7 @@
 #ifndef _WX_CUSTOMBGWIN_H_
 #define _WX_CUSTOMBGWIN_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBitmap;
 
@@ -46,11 +46,11 @@ protected:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/custombgwin.h"
+    #include "wx/univ/custombgwin.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/custombgwin.h"
+    #include "wx/msw/custombgwin.h"
 #else
-    #include "wxWidgets3/include/wx/generic/custombgwin.h"
+    #include "wx/generic/custombgwin.h"
 #endif
 
 #endif // _WX_CUSTOMBGWIN_H_

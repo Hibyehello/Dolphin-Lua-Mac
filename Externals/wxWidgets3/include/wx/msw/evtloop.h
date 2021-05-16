@@ -11,10 +11,10 @@
 #ifndef _WX_MSW_EVTLOOP_H_
 #define _WX_MSW_EVTLOOP_H_
 
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
-#include "wxWidgets3/include/wx/window.h"
-#include "wxWidgets3/include/wx/msw/evtloopconsole.h" // for wxMSWEventLoopBase
+#include "wx/dynarray.h"
+#include "wx/msw/wrapwin.h"
+#include "wx/window.h"
+#include "wx/msw/evtloopconsole.h" // for wxMSWEventLoopBase
 
 // ----------------------------------------------------------------------------
 // wxEventLoop

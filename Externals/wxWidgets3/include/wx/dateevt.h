@@ -11,9 +11,9 @@
 #ifndef _WX_DATEEVT_H_
 #define _WX_DATEEVT_H_
 
-#include "wxWidgets3/include/wx/event.h"
-#include "wxWidgets3/include/wx/datetime.h"
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/event.h"
+#include "wx/datetime.h"
+#include "wx/window.h"
 
 // ----------------------------------------------------------------------------
 // wxDateEvent: used by wxCalendarCtrl, wxDatePickerCtrl and wxTimePickerCtrl.

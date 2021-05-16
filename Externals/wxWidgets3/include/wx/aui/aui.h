@@ -11,12 +11,12 @@
 #ifndef _WX_AUI_H_
 #define _WX_AUI_H_
 
-#include "wxWidgets3/include/wx/aui/framemanager.h"
-#include "wxWidgets3/include/wx/aui/dockart.h"
-#include "wxWidgets3/include/wx/aui/floatpane.h"
-#include "wxWidgets3/include/wx/aui/auibar.h"
-#include "wxWidgets3/include/wx/aui/auibook.h"
-#include "wxWidgets3/include/wx/aui/tabmdi.h"
+#include "wx/aui/framemanager.h"
+#include "wx/aui/dockart.h"
+#include "wx/aui/floatpane.h"
+#include "wx/aui/auibar.h"
+#include "wx/aui/auibook.h"
+#include "wx/aui/tabmdi.h"
 
 #endif // _WX_AUI_H_
 

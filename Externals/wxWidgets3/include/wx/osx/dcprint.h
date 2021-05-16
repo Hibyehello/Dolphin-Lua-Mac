@@ -11,9 +11,9 @@
 #ifndef _WX_DCPRINT_H_
 #define _WX_DCPRINT_H_
 
-#include "wxWidgets3/include/wx/dc.h"
-#include "wxWidgets3/include/wx/dcgraph.h"
-#include "wxWidgets3/include/wx/cmndata.h"
+#include "wx/dc.h"
+#include "wx/dcgraph.h"
+#include "wx/cmndata.h"
 
 class wxNativePrinterDC ;
 

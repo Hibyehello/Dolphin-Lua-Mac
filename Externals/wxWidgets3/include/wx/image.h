@@ -9,18 +9,18 @@
 #ifndef _WX_IMAGE_H_
 #define _WX_IMAGE_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_IMAGE
 
-#include "wxWidgets3/include/wx/object.h"
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
-#include "wxWidgets3/include/wx/hashmap.h"
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/object.h"
+#include "wx/string.h"
+#include "wx/gdicmn.h"
+#include "wx/hashmap.h"
+#include "wx/arrstr.h"
 
 #if wxUSE_STREAMS
-#  include "wxWidgets3/include/wx/stream.h"
+#  include "wx/stream.h"
 #endif
 
 // on some systems (Unixware 7.x) index is defined as a macro in the headers
@@ -93,7 +93,7 @@ class WXDLLIMPEXP_FWD_CORE wxPalette;
 //-----------------------------------------------------------------------------
 
 #if wxUSE_VARIANT
-#include "wxWidgets3/include/wx/variant.h"
+#include "wx/variant.h"
 DECLARE_VARIANT_OBJECT_EXPORTED(wxImage,WXDLLIMPEXP_CORE)
 #endif
 
@@ -650,16 +650,16 @@ extern WXDLLIMPEXP_DATA_CORE(wxImage)    wxNullImage;
 // wxImage handlers
 //-----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/imagbmp.h"
-#include "wxWidgets3/include/wx/imagpng.h"
-#include "wxWidgets3/include/wx/imaggif.h"
-#include "wxWidgets3/include/wx/imagpcx.h"
-#include "wxWidgets3/include/wx/imagjpeg.h"
-#include "wxWidgets3/include/wx/imagtga.h"
-#include "wxWidgets3/include/wx/imagtiff.h"
-#include "wxWidgets3/include/wx/imagpnm.h"
-#include "wxWidgets3/include/wx/imagxpm.h"
-#include "wxWidgets3/include/wx/imagiff.h"
+#include "wx/imagbmp.h"
+#include "wx/imagpng.h"
+#include "wx/imaggif.h"
+#include "wx/imagpcx.h"
+#include "wx/imagjpeg.h"
+#include "wx/imagtga.h"
+#include "wx/imagtiff.h"
+#include "wx/imagpnm.h"
+#include "wx/imagxpm.h"
+#include "wx/imagiff.h"
 
 #endif // wxUSE_IMAGE
 

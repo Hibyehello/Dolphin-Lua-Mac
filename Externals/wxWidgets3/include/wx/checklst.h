@@ -11,11 +11,11 @@
 #ifndef _WX_CHECKLST_H_BASE_
 #define _WX_CHECKLST_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_CHECKLISTBOX
 
-#include "wxWidgets3/include/wx/listbox.h"
+#include "wx/listbox.h"
 
 // ----------------------------------------------------------------------------
 // wxCheckListBox: a listbox whose items may be checked
@@ -36,19 +36,19 @@ public:
 };
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/checklst.h"
+    #include "wx/univ/checklst.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/checklst.h"
+    #include "wx/msw/checklst.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/checklst.h"
+    #include "wx/motif/checklst.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/checklst.h"
+    #include "wx/gtk/checklst.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/checklst.h"
+    #include "wx/gtk1/checklst.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/checklst.h"
+    #include "wx/osx/checklst.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/checklst.h"
+    #include "wx/qt/checklst.h"
 #endif
 
 #endif // wxUSE_CHECKLISTBOX

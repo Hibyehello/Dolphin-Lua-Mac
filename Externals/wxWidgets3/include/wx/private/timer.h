@@ -10,9 +10,9 @@
 #ifndef _WX_TIMERIMPL_H_BASE_
 #define _WX_TIMERIMPL_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/event.h"
-#include "wxWidgets3/include/wx/timer.h"
+#include "wx/defs.h"
+#include "wx/event.h"
+#include "wx/timer.h"
 
 // ----------------------------------------------------------------------------
 // wxTimerImpl: abstract base class for wxTimer implementations

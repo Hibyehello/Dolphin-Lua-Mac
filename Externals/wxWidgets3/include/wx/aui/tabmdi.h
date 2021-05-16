@@ -17,11 +17,11 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/frame.h"
-#include "wxWidgets3/include/wx/panel.h"
-#include "wxWidgets3/include/wx/notebook.h"
-#include "wxWidgets3/include/wx/icon.h"
-#include "wxWidgets3/include/wx/aui/auibook.h"
+#include "wx/frame.h"
+#include "wx/panel.h"
+#include "wx/notebook.h"
+#include "wx/icon.h"
+#include "wx/aui/auibook.h"
 
 //-----------------------------------------------------------------------------
 // classes

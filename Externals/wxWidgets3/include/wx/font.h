@@ -15,10 +15,10 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"        // for wxDEFAULT &c
-#include "wxWidgets3/include/wx/fontenc.h"     // the font encoding constants
-#include "wxWidgets3/include/wx/gdiobj.h"      // the base class
-#include "wxWidgets3/include/wx/gdicmn.h"      // for wxGDIObjListBase
+#include "wx/defs.h"        // for wxDEFAULT &c
+#include "wx/fontenc.h"     // the font encoding constants
+#include "wx/gdiobj.h"      // the base class
+#include "wx/gdicmn.h"      // for wxGDIObjListBase
 
 // ----------------------------------------------------------------------------
 // forward declarations
@@ -517,21 +517,21 @@ WXDLLIMPEXP_CORE bool wxFromString(const wxString& str, wxFontBase* font);
 
 // include the real class declaration
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/font.h"
+    #include "wx/msw/font.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/font.h"
+    #include "wx/motif/font.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/font.h"
+    #include "wx/gtk/font.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/font.h"
+    #include "wx/gtk1/font.h"
 #elif defined(__WXX11__)
-    #include "wxWidgets3/include/wx/x11/font.h"
+    #include "wx/x11/font.h"
 #elif defined(__WXDFB__)
-    #include "wxWidgets3/include/wx/dfb/font.h"
+    #include "wx/dfb/font.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/font.h"
+    #include "wx/osx/font.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/font.h"
+    #include "wx/qt/font.h"
 #endif
 
 class WXDLLIMPEXP_CORE wxFontList: public wxGDIObjListBase

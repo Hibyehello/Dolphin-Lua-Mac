@@ -10,7 +10,7 @@
 #ifndef _WX_PRIVATE_FDIOMANAGER_H_
 #define _WX_PRIVATE_FDIOMANAGER_H_
 
-#include "wxWidgets3/include/wx/private/fdiohandler.h"
+#include "wx/private/fdiohandler.h"
 
 // ----------------------------------------------------------------------------
 // wxFDIOManager: register or unregister wxFDIOHandlers

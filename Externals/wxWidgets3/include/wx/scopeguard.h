@@ -18,9 +18,9 @@
 #ifndef _WX_SCOPEGUARD_H_
 #define _WX_SCOPEGUARD_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
-#include "wxWidgets3/include/wx/except.h"
+#include "wx/except.h"
 
 // ----------------------------------------------------------------------------
 // helpers

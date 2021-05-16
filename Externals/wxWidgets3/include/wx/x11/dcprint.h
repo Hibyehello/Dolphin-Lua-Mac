@@ -11,7 +11,7 @@
 #ifndef _WX_DCPRINT_H_
 #define _WX_DCPRINT_H_
 
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/dc.h"
 
 class WXDLLIMPEXP_CORE wxPrinterDC: public wxDC
 {

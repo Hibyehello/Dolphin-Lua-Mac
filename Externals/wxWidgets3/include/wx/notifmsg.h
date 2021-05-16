@@ -10,7 +10,7 @@
 #ifndef _WX_NOTIFMSG_H_
 #define _WX_NOTIFMSG_H_
 
-#include "wxWidgets3/include/wx/event.h"
+#include "wx/event.h"
 
 #if wxUSE_NOTIFICATION_MESSAGE
 
@@ -138,7 +138,7 @@ class WXDLLIMPEXP_FWD_ADV wxTaskBarIcon;
 #endif // defined(__WXMSW__)
 
 #else
-#include "wxWidgets3/include/wx/generic/notifmsg.h"
+#include "wx/generic/notifmsg.h"
 #endif // wxHAS_NATIVE_NOTIFICATION_MESSAGE
 
 class WXDLLIMPEXP_ADV wxNotificationMessage : public

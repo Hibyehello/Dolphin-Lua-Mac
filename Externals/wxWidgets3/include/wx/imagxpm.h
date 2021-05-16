@@ -9,7 +9,7 @@
 #ifndef _WX_IMAGXPM_H_
 #define _WX_IMAGXPM_H_
 
-#include "wxWidgets3/include/wx/image.h"
+#include "wx/image.h"
 
 #if wxUSE_XPM
 

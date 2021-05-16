@@ -11,7 +11,7 @@
 #ifndef _WX_METAFILE_H_BASE_
 #define _WX_METAFILE_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_METAFILE
 
@@ -24,11 +24,11 @@
 
 #if defined(__WXMSW__)
     #if wxUSE_ENH_METAFILE
-        #include "wxWidgets3/include/wx/msw/enhmeta.h"
+        #include "wx/msw/enhmeta.h"
 
         #if wxUSE_WIN_METAFILES_ALWAYS
             // use normal metafiles as well
-            #include "wxWidgets3/include/wx/msw/metafile.h"
+            #include "wx/msw/metafile.h"
         #else // also map all metafile classes to enh metafile
             typedef wxEnhMetaFile wxMetafile;
             typedef wxEnhMetaFileDC wxMetafileDC;
@@ -40,10 +40,10 @@
             #define wxMETAFILE_IS_ENH
         #endif // wxUSE_WIN_METAFILES_ALWAYS
     #else // !wxUSE_ENH_METAFILE
-        #include "wxWidgets3/include/wx/msw/metafile.h"
+        #include "wx/msw/metafile.h"
     #endif
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/metafile.h"
+    #include "wx/osx/metafile.h"
 #endif
 
 #endif // wxUSE_METAFILE

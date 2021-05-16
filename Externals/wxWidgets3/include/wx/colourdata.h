@@ -8,7 +8,7 @@
 #ifndef _WX_COLOURDATA_H_
 #define _WX_COLOURDATA_H_
 
-#include "wxWidgets3/include/wx/colour.h"
+#include "wx/colour.h"
 
 class WXDLLIMPEXP_CORE wxColourData : public wxObject
 {

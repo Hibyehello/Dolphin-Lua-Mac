@@ -15,13 +15,13 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_BOOKCTRL
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/withimages.h"
+#include "wx/control.h"
+#include "wx/dynarray.h"
+#include "wx/withimages.h"
 
 WX_DEFINE_EXPORTED_ARRAY_PTR(wxWindow *, wxArrayPages);
 
@@ -412,7 +412,7 @@ typedef void (wxEvtHandler::*wxBookCtrlEventFunction)(wxBookCtrlEvent&);
 // make a default book control for given platform
 #if wxUSE_NOTEBOOK
     // dedicated to majority of desktops
-    #include "wxWidgets3/include/wx/notebook.h"
+    #include "wx/notebook.h"
     #define wxBookCtrl                             wxNotebook
     #define wxEVT_BOOKCTRL_PAGE_CHANGED            wxEVT_NOTEBOOK_PAGE_CHANGED
     #define wxEVT_BOOKCTRL_PAGE_CHANGING           wxEVT_NOTEBOOK_PAGE_CHANGING
@@ -420,7 +420,7 @@ typedef void (wxEvtHandler::*wxBookCtrlEventFunction)(wxBookCtrlEvent&);
     #define EVT_BOOKCTRL_PAGE_CHANGING(id, fn)     EVT_NOTEBOOK_PAGE_CHANGING(id, fn)
 #else
     // dedicated to Smartphones
-    #include "wxWidgets3/include/wx/choicebk.h"
+    #include "wx/choicebk.h"
     #define wxBookCtrl                             wxChoicebook
     #define wxEVT_BOOKCTRL_PAGE_CHANGED            wxEVT_CHOICEBOOK_PAGE_CHANGED
     #define wxEVT_BOOKCTRL_PAGE_CHANGING           wxEVT_CHOICEBOOK_PAGE_CHANGING

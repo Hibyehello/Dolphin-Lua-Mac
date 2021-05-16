@@ -11,7 +11,7 @@
 #ifndef _WX_DCPS_H_BASE_
 #define _WX_DCPS_H_BASE_
 
-#include "wxWidgets3/include/wx/generic/dcpsg.h"
+#include "wx/generic/dcpsg.h"
 
 #endif
 

@@ -15,11 +15,11 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_SLIDER
 
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/control.h"
 
 // ----------------------------------------------------------------------------
 // wxSlider flags
@@ -128,19 +128,19 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/slider.h"
+    #include "wx/univ/slider.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/slider.h"
+    #include "wx/msw/slider.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/slider.h"
+    #include "wx/motif/slider.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/slider.h"
+    #include "wx/gtk/slider.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/slider.h"
+    #include "wx/gtk1/slider.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/slider.h"
+    #include "wx/osx/slider.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/slider.h"
+    #include "wx/qt/slider.h"
 #endif
 
 #endif // wxUSE_SLIDER

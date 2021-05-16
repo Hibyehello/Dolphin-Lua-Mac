@@ -16,7 +16,7 @@
 // ----------------------------------------------------------------------------
 
 // we need HINSTANCE declaration to define WinMain()
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
+#include "wx/msw/wrapwin.h"
 
 #ifndef SW_SHOWNORMAL
     #define SW_SHOWNORMAL 1

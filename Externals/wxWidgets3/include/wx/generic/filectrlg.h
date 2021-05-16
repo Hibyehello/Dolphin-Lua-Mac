@@ -13,10 +13,10 @@
 
 #if wxUSE_FILECTRL
 
-#include "wxWidgets3/include/wx/containr.h"
-#include "wxWidgets3/include/wx/listctrl.h"
-#include "wxWidgets3/include/wx/filectrl.h"
-#include "wxWidgets3/include/wx/filename.h"
+#include "wx/containr.h"
+#include "wx/listctrl.h"
+#include "wx/filectrl.h"
+#include "wx/filename.h"
 
 class WXDLLIMPEXP_FWD_CORE wxCheckBox;
 class WXDLLIMPEXP_FWD_CORE wxChoice;

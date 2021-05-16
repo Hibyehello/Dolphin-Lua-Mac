@@ -10,7 +10,7 @@
 #ifndef _WX_POSITION_H_
 #define _WX_POSITION_H_
 
-#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wx/gdicmn.h"
 
 class WXDLLIMPEXP_CORE wxPosition
 {

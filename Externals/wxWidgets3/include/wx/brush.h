@@ -11,10 +11,10 @@
 #ifndef _WX_BRUSH_H_BASE_
 #define _WX_BRUSH_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/object.h"
-#include "wxWidgets3/include/wx/gdiobj.h"
-#include "wxWidgets3/include/wx/gdicmn.h"      // for wxGDIObjListBase
+#include "wx/defs.h"
+#include "wx/object.h"
+#include "wx/gdiobj.h"
+#include "wx/gdicmn.h"      // for wxGDIObjListBase
 
 // NOTE: these values cannot be combined together!
 enum wxBrushStyle
@@ -70,19 +70,19 @@ public:
 };
 
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/brush.h"
+    #include "wx/msw/brush.h"
 #elif defined(__WXMOTIF__) || defined(__WXX11__)
-    #include "wxWidgets3/include/wx/x11/brush.h"
+    #include "wx/x11/brush.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/brush.h"
+    #include "wx/gtk/brush.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/brush.h"
+    #include "wx/gtk1/brush.h"
 #elif defined(__WXDFB__)
-    #include "wxWidgets3/include/wx/dfb/brush.h"
+    #include "wx/dfb/brush.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/brush.h"
+    #include "wx/osx/brush.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/brush.h"
+    #include "wx/qt/brush.h"
 #endif
 
 class WXDLLIMPEXP_CORE wxBrushList: public wxGDIObjListBase

@@ -10,7 +10,7 @@
 #ifndef _WX_MSW_PRIVATE_EVENT_H_
 #define _WX_MSW_PRIVATE_EVENT_H_
 
-#include "wxWidgets3/include/wx/msw/private.h"
+#include "wx/msw/private.h"
 
 namespace wxWinAPI
 {

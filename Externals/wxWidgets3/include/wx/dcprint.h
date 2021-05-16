@@ -11,11 +11,11 @@
 #ifndef _WX_DCPRINT_H_BASE_
 #define _WX_DCPRINT_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/dc.h"
 
 //-----------------------------------------------------------------------------
 // wxPrinterDC

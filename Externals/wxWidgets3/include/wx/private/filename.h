@@ -11,8 +11,8 @@
 #ifndef _WX_PRIVATE_FILENAME_H_
 #define _WX_PRIVATE_FILENAME_H_
 
-#include "wxWidgets3/include/wx/file.h"
-#include "wxWidgets3/include/wx/ffile.h"
+#include "wx/file.h"
+#include "wx/ffile.h"
 
 // Self deleting temp files aren't supported on all platforms. Therefore
 // rather than let these be in the API, they can be used internally to

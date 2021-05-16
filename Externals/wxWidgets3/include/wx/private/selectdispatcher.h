@@ -10,7 +10,7 @@
 #ifndef _WX_PRIVATE_SELECTDISPATCHER_H_
 #define _WX_PRIVATE_SELECTDISPATCHER_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_SELECT_DISPATCHER
 
@@ -21,8 +21,8 @@
 
 #include <sys/types.h>
 
-#include "wxWidgets3/include/wx/thread.h"
-#include "wxWidgets3/include/wx/private/fdiodispatcher.h"
+#include "wx/thread.h"
+#include "wx/private/fdiodispatcher.h"
 
 // helper class storing all the select() fd sets
 class WXDLLIMPEXP_BASE wxSelectSets

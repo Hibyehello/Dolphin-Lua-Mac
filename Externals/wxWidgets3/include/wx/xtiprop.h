@@ -12,12 +12,12 @@
 #ifndef _XTIPROP_H_
 #define _XTIPROP_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_EXTENDED_RTTI
 
-#include "wxWidgets3/include/wx/xti.h"
-#include "wxWidgets3/include/wx/any.h"
+#include "wx/xti.h"
+#include "wx/any.h"
 
 /*
 class WXDLLIMPEXP_BASE wxObject;

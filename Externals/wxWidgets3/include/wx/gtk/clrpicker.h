@@ -11,7 +11,7 @@
 #ifndef _WX_GTK_CLRPICKER_H_
 #define _WX_GTK_CLRPICKER_H_
 
-#include "wxWidgets3/include/wx/button.h"
+#include "wx/button.h"
 
 //-----------------------------------------------------------------------------
 // wxColourButton

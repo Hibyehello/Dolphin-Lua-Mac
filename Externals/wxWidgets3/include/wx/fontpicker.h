@@ -11,12 +11,12 @@
 #ifndef _WX_FONTPICKER_H_BASE_
 #define _WX_FONTPICKER_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 
 #if wxUSE_FONTPICKERCTRL
 
-#include "wxWidgets3/include/wx/pickerbase.h"
+#include "wx/pickerbase.h"
 
 
 class WXDLLIMPEXP_FWD_CORE wxFontPickerEvent;
@@ -73,10 +73,10 @@ protected:
 
 // native version currently only exists in wxGTK2
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/gtk/fontpicker.h"
+    #include "wx/gtk/fontpicker.h"
     #define wxFontPickerWidget      wxFontButton
 #else
-    #include "wxWidgets3/include/wx/generic/fontpickerg.h"
+    #include "wx/generic/fontpickerg.h"
     #define wxFontPickerWidget      wxGenericFontButton
 #endif
 

@@ -10,7 +10,7 @@
 #ifndef _WX_UNIX_PRIVATE_PIPESTREAM_H_
 #define _WX_UNIX_PRIVATE_PIPESTREAM_H_
 
-#include "wxWidgets3/include/wx/wfstream.h"
+#include "wx/wfstream.h"
 
 class wxPipeInputStream : public wxFileInputStream
 {

@@ -9,8 +9,8 @@
 #ifndef _WX_GTK_DCMEMORY_H_
 #define _WX_GTK_DCMEMORY_H_
 
-#include "wxWidgets3/include/wx/dcmemory.h"
-#include "wxWidgets3/include/wx/gtk/dcclient.h"
+#include "wx/dcmemory.h"
+#include "wx/gtk/dcclient.h"
 
 //-----------------------------------------------------------------------------
 // wxMemoryDCImpl

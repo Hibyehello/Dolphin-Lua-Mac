@@ -11,7 +11,7 @@
 #define _WX_PRIVATE_EVENTLOOPSOURCESMANAGER_H_
 
 // For pulling in the value of wxUSE_EVENTLOOP_SOURCE
-#include "wxWidgets3/include/wx/evtloop.h"
+#include "wx/evtloop.h"
 
 #if wxUSE_EVENTLOOP_SOURCE
 

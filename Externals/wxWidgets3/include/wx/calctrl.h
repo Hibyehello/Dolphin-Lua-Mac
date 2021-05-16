@@ -11,14 +11,14 @@
 #ifndef _WX_CALCTRL_H_
 #define _WX_CALCTRL_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_CALENDARCTRL
 
-#include "wxWidgets3/include/wx/dateevt.h"
-#include "wxWidgets3/include/wx/colour.h"
-#include "wxWidgets3/include/wx/font.h"
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/dateevt.h"
+#include "wx/colour.h"
+#include "wx/font.h"
+#include "wx/control.h"
 
 // ----------------------------------------------------------------------------
 // wxCalendarCtrl flags
@@ -343,19 +343,19 @@ protected:
 #ifndef __WXUNIVERSAL__
     #if defined(__WXGTK20__)
         #define wxHAS_NATIVE_CALENDARCTRL
-        #include "wxWidgets3/include/wx/gtk/calctrl.h"
+        #include "wx/gtk/calctrl.h"
         #define wxCalendarCtrl wxGtkCalendarCtrl
     #elif defined(__WXMSW__)
         #define wxHAS_NATIVE_CALENDARCTRL
-        #include "wxWidgets3/include/wx/msw/calctrl.h"
+        #include "wx/msw/calctrl.h"
     #elif defined(__WXQT__)
         #define wxHAS_NATIVE_CALENDARCTRL
-        #include "wxWidgets3/include/wx/qt/calctrl.h"
+        #include "wx/qt/calctrl.h"
     #endif
 #endif // !__WXUNIVERSAL__
 
 #ifndef wxHAS_NATIVE_CALENDARCTRL
-    #include "wxWidgets3/include/wx/generic/calctrlg.h"
+    #include "wx/generic/calctrlg.h"
     #define wxCalendarCtrl wxGenericCalendarCtrl
 #endif
 

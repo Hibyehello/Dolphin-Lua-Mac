@@ -9,11 +9,11 @@
 #ifndef _WX_BUSYINFO_H_
 #define _WX_BUSYINFO_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_BUSYINFO
 
-#include "wxWidgets3/include/wx/object.h"
+#include "wx/object.h"
 
 class WXDLLIMPEXP_FWD_CORE wxFrame;
 class WXDLLIMPEXP_FWD_CORE wxWindow;

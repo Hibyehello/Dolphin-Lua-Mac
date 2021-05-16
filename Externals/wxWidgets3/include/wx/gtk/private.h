@@ -13,8 +13,8 @@
 
 #include <gtk/gtk.h>
 
-#include "wxWidgets3/include/wx/gtk/private/string.h"
-#include "wxWidgets3/include/wx/gtk/private/gtk2-compat.h"
+#include "wx/gtk/private/string.h"
+#include "wx/gtk/private/gtk2-compat.h"
 
 #ifndef G_VALUE_INIT
     // introduced in GLib 2.30
@@ -42,7 +42,7 @@ extern const gchar *wx_pango_version_check(int major, int minor, int micro);
     #define wxGTK_CONV_BACK_FONT(s, font) wxGTK_CONV_BACK(s)
     #define wxGTK_CONV_BACK_SYS(s) wxGTK_CONV_BACK(s)
 #else
-    #include "wxWidgets3/include/wx/font.h"
+    #include "wx/font.h"
 
     // convert the text between the given encoding and UTF-8 used by wxGTK
     extern WXDLLIMPEXP_CORE wxCharBuffer

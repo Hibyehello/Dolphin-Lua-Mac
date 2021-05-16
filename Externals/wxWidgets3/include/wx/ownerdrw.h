@@ -11,12 +11,12 @@
 #ifndef _WX_OWNERDRW_H_BASE
 #define _WX_OWNERDRW_H_BASE
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_OWNER_DRAWN
 
-#include "wxWidgets3/include/wx/font.h"
-#include "wxWidgets3/include/wx/colour.h"
+#include "wx/font.h"
+#include "wx/colour.h"
 
 class WXDLLIMPEXP_FWD_CORE wxDC;
 
@@ -134,7 +134,7 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/ownerdrw.h"
+    #include "wx/msw/ownerdrw.h"
 #endif
 
 #endif // wxUSE_OWNER_DRAWN

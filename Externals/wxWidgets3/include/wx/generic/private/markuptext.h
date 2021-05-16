@@ -10,7 +10,7 @@
 #ifndef _WX_GENERIC_PRIVATE_MARKUPTEXT_H_
 #define _WX_GENERIC_PRIVATE_MARKUPTEXT_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 class WXDLLIMPEXP_FWD_CORE wxDC;
 class WXDLLIMPEXP_FWD_CORE wxRect;

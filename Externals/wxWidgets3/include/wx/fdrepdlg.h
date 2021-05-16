@@ -11,11 +11,11 @@
 #ifndef _WX_FINDREPLACEDLG_H_
 #define _WX_FINDREPLACEDLG_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_FINDREPLDLG
 
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/dialog.h"
 
 class WXDLLIMPEXP_FWD_CORE wxFindDialogEvent;
 class WXDLLIMPEXP_FWD_CORE wxFindReplaceDialog;
@@ -125,11 +125,11 @@ protected:
 
 // include wxFindReplaceDialog declaration
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/msw/fdrepdlg.h"
+    #include "wx/msw/fdrepdlg.h"
 #else
     #define wxGenericFindReplaceDialog wxFindReplaceDialog
 
-    #include "wxWidgets3/include/wx/generic/fdrepdlg.h"
+    #include "wx/generic/fdrepdlg.h"
 #endif
 
 // ----------------------------------------------------------------------------

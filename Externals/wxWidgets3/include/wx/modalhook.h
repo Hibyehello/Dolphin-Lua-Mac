@@ -10,7 +10,7 @@
 #ifndef _WX_MODALHOOK_H_
 #define _WX_MODALHOOK_H_
 
-#include "wxWidgets3/include/wx/vector.h"
+#include "wx/vector.h"
 
 class WXDLLIMPEXP_FWD_CORE wxDialog;
 

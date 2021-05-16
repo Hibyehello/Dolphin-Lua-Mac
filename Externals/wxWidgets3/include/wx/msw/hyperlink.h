@@ -10,7 +10,7 @@
 #ifndef _WX_MSW_HYPERLINK_H_
 #define _WX_MSW_HYPERLINK_H_
 
-#include "wxWidgets3/include/wx/generic/hyperlink.h"
+#include "wx/generic/hyperlink.h"
 
 // ----------------------------------------------------------------------------
 // wxHyperlinkCtrl

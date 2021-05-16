@@ -11,12 +11,12 @@
 #ifndef _WX_MDI_H_BASE_
 #define _WX_MDI_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_MDI
 
-#include "wxWidgets3/include/wx/frame.h"
-#include "wxWidgets3/include/wx/menu.h"
+#include "wx/frame.h"
+#include "wx/menu.h"
 
 // forward declarations
 class WXDLLIMPEXP_FWD_CORE wxMDIParentFrame;
@@ -371,17 +371,17 @@ public:
 #endif // wxUSE_GENERIC_MDI_AS_NATIVE
 
 #if wxUSE_GENERIC_MDI_AS_NATIVE
-    #include "wxWidgets3/include/wx/generic/mdig.h"
+    #include "wx/generic/mdig.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/mdi.h"
+    #include "wx/msw/mdi.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/mdi.h"
+    #include "wx/gtk/mdi.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/mdi.h"
+    #include "wx/gtk1/mdi.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/mdi.h"
+    #include "wx/osx/mdi.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/mdi.h"
+    #include "wx/qt/mdi.h"
 #endif
 
 inline wxMDIClientWindow *wxMDIParentFrameBase::OnCreateClient()

@@ -10,14 +10,14 @@
 #ifndef _WX_GTK_PRINT_H_
 #define _WX_GTK_PRINT_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_GTKPRINT
 
-#include "wxWidgets3/include/wx/print.h"
-#include "wxWidgets3/include/wx/printdlg.h"
-#include "wxWidgets3/include/wx/prntbase.h"
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/print.h"
+#include "wx/printdlg.h"
+#include "wx/prntbase.h"
+#include "wx/dc.h"
 
 typedef struct _GtkPrintOperation GtkPrintOperation;
 typedef struct _GtkPrintContext GtkPrintContext;

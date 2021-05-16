@@ -10,10 +10,10 @@
 #ifndef _WX_PERSIST_TREEBOOK_H_
 #define _WX_PERSIST_TREEBOOK_H_
 
-#include "wxWidgets3/include/wx/persist/bookctrl.h"
+#include "wx/persist/bookctrl.h"
 
-#include "wxWidgets3/include/wx/arrstr.h"
-#include "wxWidgets3/include/wx/treebook.h"
+#include "wx/arrstr.h"
+#include "wx/treebook.h"
 
 // ----------------------------------------------------------------------------
 // string constants used by wxPersistentTreeBookCtrl

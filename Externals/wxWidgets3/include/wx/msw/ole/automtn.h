@@ -11,12 +11,12 @@
 #ifndef _WX_AUTOMTN_H_
 #define _WX_AUTOMTN_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_OLE_AUTOMATION
 
-#include "wxWidgets3/include/wx/object.h"
-#include "wxWidgets3/include/wx/variant.h"
+#include "wx/object.h"
+#include "wx/variant.h"
 
 typedef void            WXIDISPATCH;
 typedef unsigned short* WXBSTR;

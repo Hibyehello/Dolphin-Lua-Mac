@@ -10,7 +10,7 @@
 #ifndef _WX_GTK_PRIVATE_DIALOGCOUNT_H_
 #define _WX_GTK_PRIVATE_DIALOGCOUNT_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 // This global variable contains the number of currently opened modal dialogs.
 // When it is non null, the global menu used in Ubuntu Unity needs to be

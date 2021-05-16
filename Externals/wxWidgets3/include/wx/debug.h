@@ -14,9 +14,9 @@
 
 #include <limits.h>          // for CHAR_BIT used below
 
-#include "wxWidgets3/include/wx/chartype.h"     // for __TFILE__ and wxChar
-#include "wxWidgets3/include/wx/cpp.h"          // for __WXFUNCTION__
-#include "wxWidgets3/include/wx/dlimpexp.h"     // for WXDLLIMPEXP_FWD_BASE
+#include "wx/chartype.h"     // for __TFILE__ and wxChar
+#include "wx/cpp.h"          // for __WXFUNCTION__
+#include "wx/dlimpexp.h"     // for WXDLLIMPEXP_FWD_BASE
 
 class WXDLLIMPEXP_FWD_BASE wxString;
 class WXDLLIMPEXP_FWD_BASE wxCStrData;

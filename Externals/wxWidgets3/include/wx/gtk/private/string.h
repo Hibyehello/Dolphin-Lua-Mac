@@ -35,9 +35,9 @@ private:
 // list for sorting collated strings
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/vector.h"
-#include "wxWidgets3/include/wx/sharedptr.h"
+#include "wx/string.h"
+#include "wx/vector.h"
+#include "wx/sharedptr.h"
 
 class wxGtkCollatableString
 {

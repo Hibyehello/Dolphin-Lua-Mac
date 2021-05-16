@@ -15,12 +15,12 @@
 // ----------------------------------------------------------------------------
 
 // this defines wxUSE_STATLINE
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_STATLINE
 
 // the base class declaration
-#include "wxWidgets3/include/wx/control.h"
+#include "wx/control.h"
 
 // ----------------------------------------------------------------------------
 // global variables
@@ -83,19 +83,19 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/statline.h"
+    #include "wx/univ/statline.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/statline.h"
+    #include "wx/msw/statline.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/statline.h"
+    #include "wx/gtk/statline.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/statline.h"
+    #include "wx/gtk1/statline.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/statline.h"
+    #include "wx/osx/statline.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/statline.h"
+    #include "wx/qt/statline.h"
 #else // use generic implementation for all other platforms
-    #include "wxWidgets3/include/wx/generic/statline.h"
+    #include "wx/generic/statline.h"
 #endif
 
 #endif // wxUSE_STATLINE

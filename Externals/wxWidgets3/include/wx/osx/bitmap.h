@@ -11,7 +11,7 @@
 #ifndef _WX_BITMAP_H_
 #define _WX_BITMAP_H_
 
-#include "wxWidgets3/include/wx/palette.h"
+#include "wx/palette.h"
 
 // Bitmap
 class WXDLLIMPEXP_FWD_CORE wxBitmap;

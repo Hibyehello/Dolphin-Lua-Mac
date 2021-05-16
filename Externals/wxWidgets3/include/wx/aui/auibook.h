@@ -17,14 +17,14 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_AUI
 
-#include "wxWidgets3/include/wx/aui/tabart.h"
-#include "wxWidgets3/include/wx/aui/framemanager.h"
-#include "wxWidgets3/include/wx/bookctrl.h"
-#include "wxWidgets3/include/wx/containr.h"
+#include "wx/aui/tabart.h"
+#include "wx/aui/framemanager.h"
+#include "wx/bookctrl.h"
+#include "wx/containr.h"
 
 
 class wxAuiNotebook;

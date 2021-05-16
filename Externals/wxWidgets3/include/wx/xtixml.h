@@ -11,12 +11,12 @@
 #ifndef _WX_XTIXMLH__
 #define _WX_XTIXMLH__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_EXTENDED_RTTI
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/xtistrm.h"
+#include "wx/string.h"
+#include "wx/xtistrm.h"
 
 /*
 class WXDLLIMPEXP_XML wxXmlNode;

@@ -10,9 +10,9 @@
 #ifndef __GTKPOPUPWINH__
 #define __GTKPOPUPWINH__
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/panel.h"
-#include "wxWidgets3/include/wx/icon.h"
+#include "wx/defs.h"
+#include "wx/panel.h"
+#include "wx/icon.h"
 
 //-----------------------------------------------------------------------------
 // wxPopUpWindow

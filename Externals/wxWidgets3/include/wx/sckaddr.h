@@ -12,11 +12,11 @@
 #ifndef _WX_SCKADDR_H_
 #define _WX_SCKADDR_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_SOCKETS
 
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/string.h"
 
 class wxSockAddressImpl;
 

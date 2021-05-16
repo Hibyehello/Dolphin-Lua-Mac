@@ -17,10 +17,10 @@
 
 #if wxUSE_TREECTRL
 
-#include "wxWidgets3/include/wx/textctrl.h"
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/treebase.h"
-#include "wxWidgets3/include/wx/hashmap.h"
+#include "wx/textctrl.h"
+#include "wx/dynarray.h"
+#include "wx/treebase.h"
+#include "wx/hashmap.h"
 
 #ifdef __GNUWIN32__
     // Cygwin windows.h defines these identifiers

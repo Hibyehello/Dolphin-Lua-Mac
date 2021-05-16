@@ -11,8 +11,8 @@
 #ifndef _WX_WINDOW_H_
 #define _WX_WINDOW_H_
 
-#include "wxWidgets3/include/wx/brush.h"
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/brush.h"
+#include "wx/dc.h"
 
 class WXDLLIMPEXP_FWD_CORE wxButton;
 class WXDLLIMPEXP_FWD_CORE wxScrollBar;

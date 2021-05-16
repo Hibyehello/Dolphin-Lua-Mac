@@ -11,11 +11,11 @@
 #ifndef _WX_MSW_ENHMETA_H_
 #define _WX_MSW_ENHMETA_H_
 
-#include "wxWidgets3/include/wx/dc.h"
-#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wx/dc.h"
+#include "wx/gdiobj.h"
 
 #if wxUSE_DRAG_AND_DROP
-    #include "wxWidgets3/include/wx/dataobj.h"
+    #include "wx/dataobj.h"
 #endif
 
 // ----------------------------------------------------------------------------

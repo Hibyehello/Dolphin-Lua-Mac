@@ -15,12 +15,12 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_CONTROLS
 
-#include "wxWidgets3/include/wx/window.h"      // base class
-#include "wxWidgets3/include/wx/gdicmn.h"      // wxEllipsize...
+#include "wx/window.h"      // base class
+#include "wx/gdicmn.h"      // wxEllipsize...
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxControlNameStr[];
 
@@ -202,19 +202,19 @@ protected:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/control.h"
+    #include "wx/univ/control.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/control.h"
+    #include "wx/msw/control.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/control.h"
+    #include "wx/motif/control.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/control.h"
+    #include "wx/gtk/control.h"
 #elif defined(__WXGTK__)
-    #include "wxWidgets3/include/wx/gtk1/control.h"
+    #include "wx/gtk1/control.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/control.h"
+    #include "wx/osx/control.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/control.h"
+    #include "wx/qt/control.h"
 #endif
 
 #endif // wxUSE_CONTROLS

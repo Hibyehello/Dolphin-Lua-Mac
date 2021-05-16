@@ -11,7 +11,7 @@
 #ifndef _WX_RADIOBUT_H_
 #define _WX_RADIOBUT_H_
 
-#include "wxWidgets3/include/wx/msw/ownerdrawnbutton.h"
+#include "wx/msw/ownerdrawnbutton.h"
 
 class WXDLLIMPEXP_CORE wxRadioButton : public wxMSWOwnerDrawnButton<wxControl>
 {

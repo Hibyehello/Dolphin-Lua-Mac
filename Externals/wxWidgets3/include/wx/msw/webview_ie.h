@@ -9,21 +9,21 @@
 #ifndef wxWebViewIE_H
 #define wxWebViewIE_H
 
-#include "wxWidgets3/include/wx/setup.h"
+#include "wx/setup.h"
 
 #if wxUSE_WEBVIEW && wxUSE_WEBVIEW_IE && defined(__WXMSW__)
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/webview.h"
-#include "wxWidgets3/include/wx/msw/ole/automtn.h"
-#include "wxWidgets3/include/wx/msw/ole/activex.h"
-#include "wxWidgets3/include/wx/msw/ole/oleutils.h"
-#include "wxWidgets3/include/wx/msw/private/comptr.h"
-#include "wxWidgets3/include/wx/msw/wrapwin.h"
-#include "wxWidgets3/include/wx/msw/missing.h"
-#include "wxWidgets3/include/wx/msw/webview_missing.h"
-#include "wxWidgets3/include/wx/sharedptr.h"
-#include "wxWidgets3/include/wx/vector.h"
+#include "wx/control.h"
+#include "wx/webview.h"
+#include "wx/msw/ole/automtn.h"
+#include "wx/msw/ole/activex.h"
+#include "wx/msw/ole/oleutils.h"
+#include "wx/msw/private/comptr.h"
+#include "wx/msw/wrapwin.h"
+#include "wx/msw/missing.h"
+#include "wx/msw/webview_missing.h"
+#include "wx/sharedptr.h"
+#include "wx/vector.h"
 
 struct IHTMLDocument2;
 struct IHTMLElement;

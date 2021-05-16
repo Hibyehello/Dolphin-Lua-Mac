@@ -12,19 +12,19 @@
 #ifndef __PRINTDLGH_G_
 #define __PRINTDLGH_G_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
-#include "wxWidgets3/include/wx/dialog.h"
-#include "wxWidgets3/include/wx/cmndata.h"
-#include "wxWidgets3/include/wx/prntbase.h"
-#include "wxWidgets3/include/wx/printdlg.h"
-#include "wxWidgets3/include/wx/listctrl.h"
+#include "wx/dialog.h"
+#include "wx/cmndata.h"
+#include "wx/prntbase.h"
+#include "wx/printdlg.h"
+#include "wx/listctrl.h"
 
-#include "wxWidgets3/include/wx/dc.h"
+#include "wx/dc.h"
 #if wxUSE_POSTSCRIPT
-    #include "wxWidgets3/include/wx/dcps.h"
+    #include "wx/dcps.h"
 #endif
 
 class WXDLLIMPEXP_FWD_CORE wxTextCtrl;

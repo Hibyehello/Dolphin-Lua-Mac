@@ -15,8 +15,8 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/defs.h"
+#include "wx/bitmap.h"
 
 // ----------------------------------------------------------------------------
 // wxMenuItem: an item in the menu, optionally implements owner-drawn behaviour

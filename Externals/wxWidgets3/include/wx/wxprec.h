@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 // compiler detection; includes setup.h
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 // check if to use precompiled headers: do it for most Windows compilers unless
 // explicitly disabled by defining NOPCH
@@ -23,22 +23,22 @@
 
 #ifdef WX_PRECOMP
 
-// include "wxWidgets3/include/wx/chartype.h" first to ensure that UNICODE macro is correctly set
+// include "wx/chartype.h" first to ensure that UNICODE macro is correctly set
 // _before_ including <windows.h>
-#include "wxWidgets3/include/wx/chartype.h"
+#include "wx/chartype.h"
 
 // include standard Windows headers
 #if defined(__WINDOWS__)
-    #include "wxWidgets3/include/wx/msw/wrapwin.h"
-    #include "wxWidgets3/include/wx/msw/private.h"
+    #include "wx/msw/wrapwin.h"
+    #include "wx/msw/private.h"
 #endif
 #if defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/wrapcctl.h"
-    #include "wxWidgets3/include/wx/msw/wrapcdlg.h"
-    #include "wxWidgets3/include/wx/msw/missing.h"
+    #include "wx/msw/wrapcctl.h"
+    #include "wx/msw/wrapcdlg.h"
+    #include "wx/msw/missing.h"
 #endif
 
 // include the most common wx headers
-#include "wxWidgets3/include/wx/wx.h"
+#include "wx/wx.h"
 
 #endif // WX_PRECOMP

@@ -9,12 +9,12 @@
 #ifndef _WX_GTK_WEBKITCTRL_H_
 #define _WX_GTK_WEBKITCTRL_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_WEBVIEW && wxUSE_WEBVIEW_WEBKIT && defined(__WXGTK__)
 
-#include "wxWidgets3/include/wx/sharedptr.h"
-#include "wxWidgets3/include/wx/webview.h"
+#include "wx/sharedptr.h"
+#include "wx/webview.h"
 
 typedef struct _WebKitWebView WebKitWebView;
 

@@ -11,7 +11,7 @@
 #ifndef _WX_BRUSH_H_
 #define _WX_BRUSH_H_
 
-#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wx/gdiobj.h"
 
 //-----------------------------------------------------------------------------
 // classes

@@ -10,13 +10,13 @@
 #ifndef _WX_BANNERWINDOW_H_
 #define _WX_BANNERWINDOW_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_BANNERWINDOW
 
-#include "wxWidgets3/include/wx/bitmap.h"
-#include "wxWidgets3/include/wx/event.h"
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/bitmap.h"
+#include "wx/event.h"
+#include "wx/window.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBitmap;
 class WXDLLIMPEXP_FWD_CORE wxColour;

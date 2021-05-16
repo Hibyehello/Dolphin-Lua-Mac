@@ -19,8 +19,8 @@ class WXDLLIMPEXP_FWD_CORE wxTextCompleter;
 class WXDLLIMPEXP_FWD_CORE wxTextEntryHintData;
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 
-#include "wxWidgets3/include/wx/filefn.h"              // for wxFILE and wxDIR only
-#include "wxWidgets3/include/wx/gdicmn.h"              // for wxPoint
+#include "wx/filefn.h"              // for wxFILE and wxDIR only
+#include "wx/gdicmn.h"              // for wxPoint
 
 // ----------------------------------------------------------------------------
 // wxTextEntryBase
@@ -322,15 +322,15 @@ private:
     {
     };
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/textentry.h"
+    #include "wx/gtk/textentry.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/textentry.h"
+    #include "wx/osx/textentry.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/textentry.h"
+    #include "wx/msw/textentry.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/textentry.h"
+    #include "wx/motif/textentry.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/textentry.h"
+    #include "wx/qt/textentry.h"
 #else
     // no platform-specific implementation of wxTextEntry yet
     class WXDLLIMPEXP_CORE wxTextEntry : public wxTextEntryBase

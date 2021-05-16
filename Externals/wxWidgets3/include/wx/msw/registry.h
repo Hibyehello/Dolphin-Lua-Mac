@@ -11,7 +11,7 @@
 #ifndef _WX_MSW_REGISTRY_H_
 #define _WX_MSW_REGISTRY_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_REGKEY
 

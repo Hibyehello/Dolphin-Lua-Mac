@@ -10,12 +10,12 @@
 #ifndef _WX_DEBUGRPT_H_
 #define _WX_DEBUGRPT_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_DEBUGREPORT && wxUSE_XML
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/string.h"
+#include "wx/arrstr.h"
 
 class WXDLLIMPEXP_FWD_XML wxXmlNode;
 

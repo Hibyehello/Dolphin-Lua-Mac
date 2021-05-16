@@ -11,7 +11,7 @@
 #ifndef _WX_OSX_BMPBUTTN_H_
 #define _WX_OSX_BMPBUTTN_H_
 
-#include "wxWidgets3/include/wx/button.h"
+#include "wx/button.h"
 
 #define wxDEFAULT_BUTTON_MARGIN 4
 

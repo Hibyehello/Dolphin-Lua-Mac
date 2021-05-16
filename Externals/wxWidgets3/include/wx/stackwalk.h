@@ -11,7 +11,7 @@
 #ifndef _WX_STACKWALK_H_
 #define _WX_STACKWALK_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_STACKWALKER
 
@@ -146,9 +146,9 @@ protected:
 };
 
 #ifdef __WINDOWS__
-    #include "wxWidgets3/include/wx/msw/stackwalk.h"
+    #include "wx/msw/stackwalk.h"
 #elif defined(__UNIX__)
-    #include "wxWidgets3/include/wx/unix/stackwalk.h"
+    #include "wx/unix/stackwalk.h"
 #else
     #error "wxStackWalker is not supported, set wxUSE_STACKWALKER to 0"
 #endif

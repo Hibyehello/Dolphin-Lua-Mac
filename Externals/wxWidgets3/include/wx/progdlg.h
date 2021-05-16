@@ -11,7 +11,7 @@
 #ifndef _WX_PROGDLG_H_BASE_
 #define _WX_PROGDLG_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_PROGRESSDLG
 
@@ -28,14 +28,14 @@
 #define wxPD_CAN_SKIP           0x0080
 
 
-#include "wxWidgets3/include/wx/generic/progdlgg.h"
+#include "wx/generic/progdlgg.h"
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
     // The native implementation requires the use of threads and still has some
     // problems, so it can be explicitly disabled.
     #if wxUSE_THREADS && wxUSE_NATIVE_PROGRESSDLG
         #define wxHAS_NATIVE_PROGRESSDIALOG
-        #include "wxWidgets3/include/wx/msw/progdlg.h"
+        #include "wx/msw/progdlg.h"
     #endif
 #endif
 

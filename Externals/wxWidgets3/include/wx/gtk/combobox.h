@@ -10,7 +10,7 @@
 #ifndef _WX_GTK_COMBOBOX_H_
 #define _WX_GTK_COMBOBOX_H_
 
-#include "wxWidgets3/include/wx/choice.h"
+#include "wx/choice.h"
 
 typedef struct _GtkEntry GtkEntry;
 

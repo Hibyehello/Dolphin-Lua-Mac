@@ -12,11 +12,11 @@
 #ifndef _XTIHANDLER_H_
 #define _XTIHANDLER_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_EXTENDED_RTTI
 
-#include "wxWidgets3/include/wx/xti.h"
+#include "wx/xti.h"
 
 // copied from event.h which cannot be included at this place
 

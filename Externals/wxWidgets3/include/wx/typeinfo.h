@@ -22,7 +22,7 @@
 // classes.
 //
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #ifndef wxNO_RTTI
 

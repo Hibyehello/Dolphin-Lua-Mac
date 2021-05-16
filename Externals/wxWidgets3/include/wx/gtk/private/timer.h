@@ -11,7 +11,7 @@
 
 #if wxUSE_TIMER
 
-#include "wxWidgets3/include/wx/private/timer.h"
+#include "wx/private/timer.h"
 
 //-----------------------------------------------------------------------------
 // wxTimer

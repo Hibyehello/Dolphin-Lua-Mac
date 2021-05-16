@@ -11,13 +11,13 @@
 #ifndef _WX_VALTEXT_H_
 #define _WX_VALTEXT_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_VALIDATORS && (wxUSE_TEXTCTRL || wxUSE_COMBOBOX)
 
 class WXDLLIMPEXP_FWD_CORE wxTextEntry;
 
-#include "wxWidgets3/include/wx/validate.h"
+#include "wx/validate.h"
 
 enum wxTextValidatorStyle
 {

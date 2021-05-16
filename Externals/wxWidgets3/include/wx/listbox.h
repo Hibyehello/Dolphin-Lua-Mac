@@ -15,11 +15,11 @@
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_LISTBOX
 
-#include "wxWidgets3/include/wx/ctrlsub.h"         // base class
+#include "wx/ctrlsub.h"         // base class
 
 // forward declarations are enough here
 class WXDLLIMPEXP_FWD_BASE wxArrayInt;
@@ -147,19 +147,19 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/univ/listbox.h"
+    #include "wx/univ/listbox.h"
 #elif defined(__WXMSW__)
-    #include "wxWidgets3/include/wx/msw/listbox.h"
+    #include "wx/msw/listbox.h"
 #elif defined(__WXMOTIF__)
-    #include "wxWidgets3/include/wx/motif/listbox.h"
+    #include "wx/motif/listbox.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/listbox.h"
+    #include "wx/gtk/listbox.h"
 #elif defined(__WXGTK__)
-  #include "wxWidgets3/include/wx/gtk1/listbox.h"
+  #include "wx/gtk1/listbox.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/listbox.h"
+    #include "wx/osx/listbox.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/listbox.h"
+    #include "wx/qt/listbox.h"
 #endif
 
 #endif // wxUSE_LISTBOX

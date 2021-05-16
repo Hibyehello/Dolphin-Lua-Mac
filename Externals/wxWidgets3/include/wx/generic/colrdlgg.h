@@ -11,8 +11,8 @@
 #ifndef _WX_COLORDLGG_H_
 #define _WX_COLORDLGG_H_
 
-#include "wxWidgets3/include/wx/gdicmn.h"
-#include "wxWidgets3/include/wx/dialog.h"
+#include "wx/gdicmn.h"
+#include "wx/dialog.h"
 
 #if wxUSE_SLIDER
     class WXDLLIMPEXP_FWD_CORE wxSlider;

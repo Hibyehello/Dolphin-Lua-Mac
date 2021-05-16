@@ -10,7 +10,7 @@
 #ifndef _WX_UNIX_PRIVATE_EXECUTEIOHANDLER_H_
 #define _WX_UNIX_PRIVATE_EXECUTEIOHANDLER_H_
 
-#include "wxWidgets3/include/wx/private/streamtempinput.h"
+#include "wx/private/streamtempinput.h"
 
 // This class handles IO events on the pipe FD connected to the child process
 // stdout/stderr and is used by wxExecute().

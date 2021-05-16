@@ -10,9 +10,9 @@
 #ifndef _WX_PERSIST_SPLITTER_H_
 #define _WX_PERSIST_SPLITTER_H_
 
-#include "wxWidgets3/include/wx/persist/window.h"
+#include "wx/persist/window.h"
 
-#include "wxWidgets3/include/wx/splitter.h"
+#include "wx/splitter.h"
 
 // ----------------------------------------------------------------------------
 // string constants used by wxPersistentSplitter

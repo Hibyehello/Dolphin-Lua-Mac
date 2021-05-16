@@ -11,14 +11,14 @@
 #ifndef _WX_ANIMATE_H_
 #define _WX_ANIMATE_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_ANIMATIONCTRL
 
-#include "wxWidgets3/include/wx/animdecod.h"
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/timer.h"
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/animdecod.h"
+#include "wx/control.h"
+#include "wx/timer.h"
+#include "wx/bitmap.h"
 
 class WXDLLIMPEXP_FWD_ADV wxAnimation;
 
@@ -115,9 +115,9 @@ private:
 // ----------------------------------------------------------------------------
 
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/gtk/animate.h"
+    #include "wx/gtk/animate.h"
 #else
-    #include "wxWidgets3/include/wx/generic/animate.h"
+    #include "wx/generic/animate.h"
 #endif
 
 #endif // wxUSE_ANIMATIONCTRL

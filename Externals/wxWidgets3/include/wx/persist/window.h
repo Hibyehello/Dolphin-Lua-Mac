@@ -10,9 +10,9 @@
 #ifndef _WX_PERSIST_WINDOW_H_
 #define _WX_PERSIST_WINDOW_H_
 
-#include "wxWidgets3/include/wx/persist.h"
+#include "wx/persist.h"
 
-#include "wxWidgets3/include/wx/window.h"
+#include "wx/window.h"
 
 // ----------------------------------------------------------------------------
 // wxPersistentWindow: base class for persistent windows, uses the window name

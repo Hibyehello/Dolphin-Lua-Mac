@@ -9,12 +9,12 @@
 #ifndef _WX_DATAVIEWCTRL_COCOOA_H_
 #define _WX_DATAVIEWCTRL_COCOOA_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #import <Cocoa/Cocoa.h>
 
-#include "wxWidgets3/include/wx/osx/core/dataview.h"
-#include "wxWidgets3/include/wx/osx/private.h"
+#include "wx/osx/core/dataview.h"
+#include "wx/osx/private.h"
 
 // Forward declaration
 class wxCocoaDataViewControl;

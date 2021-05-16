@@ -11,7 +11,7 @@
 #ifndef _WX_IMAGLIST_H_
 #define _WX_IMAGLIST_H_
 
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/bitmap.h"
 
 // Eventually we'll make this a reference-counted wxGDIObject. For
 // now, the app must take care of ownership issues. That is, the

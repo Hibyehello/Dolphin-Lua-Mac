@@ -14,7 +14,7 @@
 
 #if wxUSE_SOUND
 
-#include "wxWidgets3/include/wx/object.h"
+#include "wx/object.h"
 
 class WXDLLIMPEXP_FWD_ADV wxSoundTimer;
 

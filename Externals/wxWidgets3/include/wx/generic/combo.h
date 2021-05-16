@@ -30,7 +30,7 @@
 
 #endif
 
-#include "wxWidgets3/include/wx/dcbuffer.h"
+#include "wx/dcbuffer.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxComboBoxNameStr[];
 

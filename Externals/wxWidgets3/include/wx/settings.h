@@ -11,8 +11,8 @@
 #ifndef _WX_SETTINGS_H_BASE_
 #define _WX_SETTINGS_H_BASE_
 
-#include "wxWidgets3/include/wx/colour.h"
-#include "wxWidgets3/include/wx/font.h"
+#include "wx/colour.h"
+#include "wx/font.h"
 
 class WXDLLIMPEXP_FWD_CORE wxWindow;
 

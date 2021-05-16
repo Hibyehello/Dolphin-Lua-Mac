@@ -11,8 +11,8 @@
 #ifndef _WX_LOG_H_
 #define _WX_LOG_H_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/cpp.h"
+#include "wx/defs.h"
+#include "wx/cpp.h"
 
 // ----------------------------------------------------------------------------
 // types
@@ -40,8 +40,8 @@ typedef unsigned long wxLogLevel;
 // headers
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/strvararg.h"
+#include "wx/string.h"
+#include "wx/strvararg.h"
 
 // ----------------------------------------------------------------------------
 // forward declarations
@@ -55,15 +55,15 @@ class WXDLLIMPEXP_FWD_BASE wxObject;
 
 #if wxUSE_LOG
 
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/arrstr.h"
 
 #include <time.h>   // for time_t
 
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/hashmap.h"
+#include "wx/dynarray.h"
+#include "wx/hashmap.h"
 
 #if wxUSE_THREADS
-    #include "wxWidgets3/include/wx/thread.h"
+    #include "wx/thread.h"
 #endif // wxUSE_THREADS
 
 // wxUSE_LOG_DEBUG enables the debug log messages
@@ -130,7 +130,7 @@ enum wxLogLevelValues
     #define wxTRACE_OleCalls wxT("ole")  // OLE interface calls
 #endif
 
-#include "wxWidgets3/include/wx/iosfwrap.h"
+#include "wx/iosfwrap.h"
 
 // ----------------------------------------------------------------------------
 // information about a log record, i.e. unit of log output
@@ -860,7 +860,7 @@ private:
 
 #if wxUSE_GUI
     // include GUI log targets:
-    #include "wxWidgets3/include/wx/generic/logg.h"
+    #include "wx/generic/logg.h"
 #endif // wxUSE_GUI
 
 // ----------------------------------------------------------------------------

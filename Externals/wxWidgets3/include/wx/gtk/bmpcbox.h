@@ -11,7 +11,7 @@
 #define _WX_GTK_BMPCBOX_H_
 
 
-#include "wxWidgets3/include/wx/combobox.h"
+#include "wx/combobox.h"
 
 // ----------------------------------------------------------------------------
 // wxBitmapComboBox: a wxComboBox that allows images to be shown

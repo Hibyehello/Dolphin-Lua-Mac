@@ -15,8 +15,8 @@
 //     it becomes just a trivial wrapper around the old wxDisplayXXX() functions
 
 #if wxUSE_DISPLAY
-    #include "wxWidgets3/include/wx/dynarray.h"
-    #include "wxWidgets3/include/wx/vidmode.h"
+    #include "wx/dynarray.h"
+    #include "wx/vidmode.h"
 
     WX_DECLARE_EXPORTED_OBJARRAY(wxVideoMode, wxArrayVideoModes);
 

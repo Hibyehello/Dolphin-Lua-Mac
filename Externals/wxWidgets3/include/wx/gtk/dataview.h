@@ -9,7 +9,7 @@
 #ifndef _WX_GTKDATAVIEWCTRL_H_
 #define _WX_GTKDATAVIEWCTRL_H_
 
-#include "wxWidgets3/include/wx/list.h"
+#include "wx/list.h"
 
 class WXDLLIMPEXP_FWD_ADV wxDataViewCtrlInternal;
 

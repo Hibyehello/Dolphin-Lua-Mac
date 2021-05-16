@@ -11,9 +11,9 @@
 #ifndef _WX_BRUSH_H_
 #define _WX_BRUSH_H_
 
-#include "wxWidgets3/include/wx/gdicmn.h"
-#include "wxWidgets3/include/wx/gdiobj.h"
-#include "wxWidgets3/include/wx/bitmap.h"
+#include "wx/gdicmn.h"
+#include "wx/gdiobj.h"
+#include "wx/bitmap.h"
 
 class WXDLLIMPEXP_FWD_CORE wxBrush;
 

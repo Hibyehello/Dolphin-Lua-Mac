@@ -11,7 +11,7 @@
 #ifndef _WX_DIALOG_H_
 #define _WX_DIALOG_H_
 
-#include "wxWidgets3/include/wx/panel.h"
+#include "wx/panel.h"
 
 class WXDLLIMPEXP_FWD_CORE wxMacToolTip ;
 class WXDLLIMPEXP_FWD_CORE wxModalEventLoop ;

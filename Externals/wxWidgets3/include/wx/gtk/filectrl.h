@@ -12,8 +12,8 @@
 #ifndef _WX_GTK_FILECTRL_H_
 #define _WX_GTK_FILECTRL_H_
 
-#include "wxWidgets3/include/wx/control.h"
-#include "wxWidgets3/include/wx/filectrl.h"
+#include "wx/control.h"
+#include "wx/filectrl.h"
 
 extern WXDLLIMPEXP_DATA_CORE(const char) wxFileSelectorDefaultWildcardStr[];
 

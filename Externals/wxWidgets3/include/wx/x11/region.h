@@ -11,7 +11,7 @@
 #ifndef _WX_REGION_H_
 #define _WX_REGION_H_
 
-#include "wxWidgets3/include/wx/list.h"
+#include "wx/list.h"
 
 // ----------------------------------------------------------------------------
 // wxRegion

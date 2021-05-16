@@ -16,14 +16,14 @@
 // headers and such
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_MIMETYPE
 
 // the things we really need
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/arrstr.h"
+#include "wx/string.h"
+#include "wx/dynarray.h"
+#include "wx/arrstr.h"
 
 #include <stdarg.h>
 

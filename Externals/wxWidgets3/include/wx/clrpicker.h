@@ -11,12 +11,12 @@
 #ifndef _WX_CLRPICKER_H_BASE_
 #define _WX_CLRPICKER_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 
 #if wxUSE_COLOURPICKERCTRL
 
-#include "wxWidgets3/include/wx/pickerbase.h"
+#include "wx/pickerbase.h"
 
 
 class WXDLLIMPEXP_FWD_CORE wxColourPickerEvent;
@@ -78,12 +78,12 @@ protected:
 //       define instead of a typedef)
 // since GTK > 2.4, there is GtkColorButton
 #if defined(__WXGTK20__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/gtk/clrpicker.h"
+    #include "wx/gtk/clrpicker.h"
     #define wxColourPickerWidget      wxColourButton
 #elif defined(__WXQT__) && !defined(__WXUNIVERSAL__)
-    #include "wxWidgets3/include/wx/qt/clrpicker.h"
+    #include "wx/qt/clrpicker.h"
 #else
-    #include "wxWidgets3/include/wx/generic/clrpickerg.h"
+    #include "wx/generic/clrpickerg.h"
     #define wxColourPickerWidget      wxGenericColourButton
 #endif
 

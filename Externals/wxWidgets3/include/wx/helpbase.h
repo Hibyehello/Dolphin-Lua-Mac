@@ -11,14 +11,14 @@
 #ifndef _WX_HELPBASEH__
 #define _WX_HELPBASEH__
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_HELP
 
-#include "wxWidgets3/include/wx/object.h"
-#include "wxWidgets3/include/wx/string.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
-#include "wxWidgets3/include/wx/frame.h"
+#include "wx/object.h"
+#include "wx/string.h"
+#include "wx/gdicmn.h"
+#include "wx/frame.h"
 
 // Flags for SetViewer
 #define wxHELP_NETSCAPE     1

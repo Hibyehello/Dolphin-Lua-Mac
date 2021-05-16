@@ -11,14 +11,14 @@
 #ifndef _WX_WEBVIEW_FS_HANDLER_H_
 #define _WX_WEBVIEW_FS_HANDLER_H_
 
-#include "wxWidgets3/include/wx/setup.h"
+#include "wx/setup.h"
 
 #if wxUSE_WEBVIEW
 
 class wxFSFile;
 class wxFileSystem;
 
-#include "wxWidgets3/include/wx/webview.h"
+#include "wx/webview.h"
 
 //Loads from uris such as scheme:example.html
 

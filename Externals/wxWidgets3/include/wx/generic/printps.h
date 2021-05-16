@@ -12,7 +12,7 @@
 #ifndef __PRINTPSH__
 #define __PRINTPSH__
 
-#include "wxWidgets3/include/wx/prntbase.h"
+#include "wx/prntbase.h"
 
 #if wxUSE_PRINTING_ARCHITECTURE && wxUSE_POSTSCRIPT
 

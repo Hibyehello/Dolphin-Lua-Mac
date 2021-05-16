@@ -46,7 +46,7 @@
 // Include all needed cppunit headers.
 //
 
-#include "wxWidgets3/include/wx/beforestd.h"
+#include "wx/beforestd.h"
 #ifdef __VISUALC__
     #pragma warning(push)
 
@@ -68,9 +68,9 @@
 #ifdef __VISUALC__
     #pragma warning(pop)
 #endif
-#include "wxWidgets3/include/wx/afterstd.h"
+#include "wx/afterstd.h"
 
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/string.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -220,7 +220,7 @@ WX_CPPUNIT_ALLOW_EQUALS_TO_INT(unsigned wxLongLong_t)
 // we need it to output the test failures involving wxString
 #if !wxUSE_STD_IOSTREAM
 
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/string.h"
 
 #include <iostream>
 

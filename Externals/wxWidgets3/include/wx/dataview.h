@@ -11,22 +11,22 @@
 #ifndef _WX_DATAVIEW_H_BASE_
 #define _WX_DATAVIEW_H_BASE_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_DATAVIEWCTRL
 
-#include "wxWidgets3/include/wx/textctrl.h"
-#include "wxWidgets3/include/wx/headercol.h"
-#include "wxWidgets3/include/wx/variant.h"
-#include "wxWidgets3/include/wx/dnd.h"             // For wxDragResult declaration only.
-#include "wxWidgets3/include/wx/dynarray.h"
-#include "wxWidgets3/include/wx/icon.h"
-#include "wxWidgets3/include/wx/itemid.h"
-#include "wxWidgets3/include/wx/weakref.h"
-#include "wxWidgets3/include/wx/vector.h"
-#include "wxWidgets3/include/wx/dataobj.h"
-#include "wxWidgets3/include/wx/withimages.h"
-#include "wxWidgets3/include/wx/systhemectrl.h"
+#include "wx/textctrl.h"
+#include "wx/headercol.h"
+#include "wx/variant.h"
+#include "wx/dnd.h"             // For wxDragResult declaration only.
+#include "wx/dynarray.h"
+#include "wx/icon.h"
+#include "wx/itemid.h"
+#include "wx/weakref.h"
+#include "wx/vector.h"
+#include "wx/dataobj.h"
+#include "wx/withimages.h"
+#include "wx/systhemectrl.h"
 
 class WXDLLIMPEXP_FWD_CORE wxImageList;
 
@@ -439,7 +439,7 @@ private:
 // wxDataViewRenderer and related classes
 // ----------------------------------------------------------------------------
 
-#include "wxWidgets3/include/wx/dvrenderers.h"
+#include "wx/dvrenderers.h"
 
 // ---------------------------------------------------------
 // wxDataViewColumnBase
@@ -944,13 +944,13 @@ typedef void (wxEvtHandler::*wxDataViewEventFunction)(wxDataViewEvent&);
 #define EVT_DATAVIEW_COLUMN_HEADER_RIGHT_CLICKED(id, fn) EVT_DATAVIEW_COLUMN_HEADER_RIGHT_CLICK(id, fn)
 
 #ifdef wxHAS_GENERIC_DATAVIEWCTRL
-    #include "wxWidgets3/include/wx/generic/dataview.h"
+    #include "wx/generic/dataview.h"
 #elif defined(__WXGTK20__)
-    #include "wxWidgets3/include/wx/gtk/dataview.h"
+    #include "wx/gtk/dataview.h"
 #elif defined(__WXMAC__)
-    #include "wxWidgets3/include/wx/osx/dataview.h"
+    #include "wx/osx/dataview.h"
 #elif defined(__WXQT__)
-    #include "wxWidgets3/include/wx/qt/dataview.h"
+    #include "wx/qt/dataview.h"
 #else
     #error "unknown native wxDataViewCtrl implementation"
 #endif

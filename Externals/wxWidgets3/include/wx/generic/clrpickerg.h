@@ -11,9 +11,9 @@
 #ifndef _WX_CLRPICKER_H_
 #define _WX_CLRPICKER_H_
 
-#include "wxWidgets3/include/wx/button.h"
-#include "wxWidgets3/include/wx/bmpbuttn.h"
-#include "wxWidgets3/include/wx/colourdata.h"
+#include "wx/button.h"
+#include "wx/bmpbuttn.h"
+#include "wx/colourdata.h"
 
 //-----------------------------------------------------------------------------
 // wxGenericColourButton: a button which brings up a wxColourDialog

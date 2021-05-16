@@ -13,7 +13,7 @@
 
 #if wxUSE_GRAPHICS_CONTEXT
 
-#include "wxWidgets3/include/wx/graphics.h"
+#include "wx/graphics.h"
 
 class WXDLLIMPEXP_CORE wxGraphicsObjectRefData : public wxObjectRefData
 {

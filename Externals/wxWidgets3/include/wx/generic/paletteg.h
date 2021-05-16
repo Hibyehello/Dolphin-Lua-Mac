@@ -11,10 +11,10 @@
 #ifndef __WX_PALETTEG_H__
 #define __WX_PALETTEG_H__
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/object.h"
-#include "wxWidgets3/include/wx/gdiobj.h"
-#include "wxWidgets3/include/wx/gdicmn.h"
+#include "wx/defs.h"
+#include "wx/object.h"
+#include "wx/gdiobj.h"
+#include "wx/gdicmn.h"
 
 //-----------------------------------------------------------------------------
 // classes

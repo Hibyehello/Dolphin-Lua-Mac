@@ -9,7 +9,7 @@
 #ifndef _WX_GTKDCCLIENT_H_
 #define _WX_GTKDCCLIENT_H_
 
-#include "wxWidgets3/include/wx/gtk/dc.h"
+#include "wx/gtk/dc.h"
 
 //-----------------------------------------------------------------------------
 // wxWindowDCImpl

@@ -11,11 +11,11 @@
 #ifndef _WX_VALNUM_H_
 #define _WX_VALNUM_H_
 
-#include "wxWidgets3/include/wx/defs.h"
+#include "wx/defs.h"
 
 #if wxUSE_VALIDATORS
 
-#include "wxWidgets3/include/wx/validate.h"
+#include "wx/validate.h"
 
 #include <limits>
 

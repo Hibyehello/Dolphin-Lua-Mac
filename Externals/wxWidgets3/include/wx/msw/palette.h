@@ -11,7 +11,7 @@
 #ifndef _WX_PALETTE_H_
 #define _WX_PALETTE_H_
 
-#include "wxWidgets3/include/wx/gdiobj.h"
+#include "wx/gdiobj.h"
 
 class WXDLLIMPEXP_CORE wxPalette : public wxPaletteBase
 {

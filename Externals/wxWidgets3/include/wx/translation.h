@@ -12,16 +12,16 @@
 #ifndef _WX_TRANSLATION_H_
 #define _WX_TRANSLATION_H_
 
-#include "wxWidgets3/include/wx/defs.h"
-#include "wxWidgets3/include/wx/string.h"
+#include "wx/defs.h"
+#include "wx/string.h"
 
 #if wxUSE_INTL
 
-#include "wxWidgets3/include/wx/buffer.h"
-#include "wxWidgets3/include/wx/language.h"
-#include "wxWidgets3/include/wx/hashmap.h"
-#include "wxWidgets3/include/wx/strconv.h"
-#include "wxWidgets3/include/wx/scopedptr.h"
+#include "wx/buffer.h"
+#include "wx/language.h"
+#include "wx/hashmap.h"
+#include "wx/strconv.h"
+#include "wx/scopedptr.h"
 
 // ============================================================================
 // global decls
