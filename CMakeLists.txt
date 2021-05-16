@@ -769,10 +769,12 @@ add_subdirectory(Source)
 #
 
 # ADDED
-install(DIRECTORY Data/Sys/InfoDisplay/ DESTINATION ${datafir}/sys/InfoDisplay PATTERN)
+install(DIRECTORY Data/Sys/InfoDisplay/ DESTINATION ${datadir}/sys/InfoDisplay PATTERN)
+install (DIRECTORY Data/Sys/Scripts DESTINATION ${datadir}/sys/Scripts PATTERN)
 
 if(NOT CMAKE_SYSTEM_NAME MATCHES "Darwin|Windows")
   install(DIRECTORY Data/Sys/ DESTINATION ${datadir}/sys PATTERN)
+
 endif()
 if(NOT CMAKE_SYSTEM_NAME MATCHES "Linux|FreeBSD|OpenBSD|Darwin")
   install(FILES Data/license.txt DESTINATION ${datadir})
