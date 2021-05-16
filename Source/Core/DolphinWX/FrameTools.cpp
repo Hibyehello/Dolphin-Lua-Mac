@@ -454,14 +454,14 @@ void CFrame::OnShowInputDisplay(wxCommandEvent& WXUNUSED(event))
 
 void CFrame::OnShowRAMDisplay(wxCommandEvent& WXUNUSED(event))
 {
-	SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;
-	SConfig::GetInstance().SaveSettings();
+  SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;
+  SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
-  	SConfig::GetInstance().SaveSettings();
+  SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
+  SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnFrameStep(wxCommandEvent& event)
