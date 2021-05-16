@@ -419,49 +419,49 @@ void CFrame::OnTAStudio(wxCommandEvent& event) // TAStudio - Added by THC98
 
 void CFrame::OnTogglePauseMovie(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_PauseMovie = !SConfig::GetInstance().m_PauseMovie;
-  	SConfig::GetInstance().SaveSettings();
+  		SConfig::GetInstance().m_PauseMovie = !SConfig::GetInstance().m_PauseMovie;
+  		SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnToggleDumpFrames(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_DumpFrames = !SConfig::GetInstance().m_DumpFrames;
-  	SConfig::GetInstance().SaveSettings();
+  		SConfig::GetInstance().m_DumpFrames = !SConfig::GetInstance().m_DumpFrames;
+  		SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnToggleDumpAudio(wxCommandEvent& WXUNUSED(event))
 {
-  SConfig::GetInstance().m_DumpAudio = !SConfig::GetInstance().m_DumpAudio;
+  		SConfig::GetInstance().m_DumpAudio = !SConfig::GetInstance().m_DumpAudio;
 }
 
 void CFrame::OnShowLag(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_ShowLag = !SConfig::GetInstance().m_ShowLag;
-  	SConfig::GetInstance().SaveSettings();
+  		SConfig::GetInstance().m_ShowLag = !SConfig::GetInstance().m_ShowLag;
+  		SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowFrameCount(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_ShowFrameCount = !SConfig::GetInstance().m_ShowFrameCount;
-  	SConfig::GetInstance().SaveSettings();
+  		SConfig::GetInstance().m_ShowFrameCount = !SConfig::GetInstance().m_ShowFrameCount;
+  		SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowInputDisplay(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_ShowInputDisplay = !SConfig::GetInstance().m_ShowInputDisplay;
-  	SConfig::GetInstance().SaveSettings();
+  		SConfig::GetInstance().m_ShowInputDisplay = !SConfig::GetInstance().m_ShowInputDisplay;
+  		SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowRAMDisplay(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;
-  	SConfig::GetInstance().SaveSettings();
+  		SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;
+  		SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnShowRTCDisplay(wxCommandEvent& WXUNUSED(event))
 {
-  	SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
-  	SConfig::GetInstance().SaveSettings();
+  		SConfig::GetInstance().m_ShowRTC = !SConfig::GetInstance().m_ShowRTC;
+  		SConfig::GetInstance().SaveSettings();
 }
 
 void CFrame::OnFrameStep(wxCommandEvent& event)
