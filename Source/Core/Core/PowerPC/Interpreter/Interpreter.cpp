@@ -5,9 +5,10 @@
 #include "Core/PowerPC/Interpreter/Interpreter.h"
 
 #include <array>
-#include <cassert>
 #include <cinttypes>
 #include <string>
+
+#include <fmt/format.h>
 
 #include "Common/Assert.h"
 #include "Common/CommonTypes.h"
@@ -20,6 +21,8 @@
 #include "Core/HLE/HLE.h"
 #include "Core/HW/CPU.h"
 #include "Core/Host.h"
+#include "Core/PowerPC/Interpreter/ExceptionUtils.h"
+#include "Core/PowerPC/MMU.h"
 #include "Core/PowerPC/PPCTables.h"
 #include "Core/PowerPC/PowerPC.h"
 
@@ -41,6 +44,42 @@ std::array<Interpreter::Instruction, 1024> Interpreter::m_op_table19;
 std::array<Interpreter::Instruction, 1024> Interpreter::m_op_table31;
 std::array<Interpreter::Instruction, 32> Interpreter::m_op_table59;
 std::array<Interpreter::Instruction, 1024> Interpreter::m_op_table63;
+
+namespace
+{
+// Determines whether or not the given instruction is one where its execution
+// validity is determined by whether or not HID2's LSQE bit is set.
+// In other words, if the instruction is psq_l, psq_lu, psq_st, or psq_stu
+bool IsPairedSingleQuantizedNonIndexedInstruction(UGeckoInstruction inst)
+{
+  const u32 opcode = inst.OPCD;
+  return opcode == 0x38 || opcode == 0x39 || opcode == 0x3C || opcode == 0x3D;
+}
+
+bool IsPairedSingleInstruction(UGeckoInstruction inst)
+{
+  return inst.OPCD == 4 || IsPairedSingleQuantizedNonIndexedInstruction(inst);
+}
+
+// Checks if a given instruction would be illegal to execute if it's a paired single instruction.
+//
+// Paired single instructions are illegal to execute if HID2.PSE is not set.
+// It's also illegal to execute psq_l, psq_lu, psq_st, and psq_stu if HID2.PSE is enabled,
+// but HID2.LSQE is not set.
+bool IsInvalidPairedSingleExecution(UGeckoInstruction inst)
+{
+  if (!HID2.PSE && IsPairedSingleInstruction(inst))
+    return true;
+
+  return HID2.PSE && !HID2.LSQE && IsPairedSingleQuantizedNonIndexedInstruction(inst);
+}
+
+void UpdatePC()
+{
+  last_pc = PC;
+  PC = NPC;
+}
+}  // Anonymous namespace
 
 void Interpreter::RunTable4(UGeckoInstruction inst)
 {
@@ -78,122 +117,111 @@ static int startTrace = 0;
 
 static void Trace(UGeckoInstruction& inst)
 {
-  std::string regs = "";
-  for (int i = 0; i < 32; i++)
+  std::string regs;
+  for (size_t i = 0; i < std::size(PowerPC::ppcState.gpr); i++)
   {
-    regs += StringFromFormat("r%02d: %08x ", i, PowerPC::ppcState.gpr[i]);
+    regs += fmt::format("r{:02d}: {:08x} ", i, PowerPC::ppcState.gpr[i]);
   }
 
-  std::string fregs = "";
-  for (int i = 0; i < 32; i++)
+  std::string fregs;
+  for (size_t i = 0; i < std::size(PowerPC::ppcState.ps); i++)
   {
-    fregs += StringFromFormat("f%02d: %08" PRIx64 " %08" PRIx64 " ", i, PowerPC::ppcState.ps[i][0],
-                              PowerPC::ppcState.ps[i][1]);
+    const auto& ps = PowerPC::ppcState.ps[i];
+    fregs += fmt::format("f{:02d}: {:08x} {:08x} ", i, ps.PS0AsU64(), ps.PS1AsU64());
   }
 
-  std::string ppc_inst = GekkoDisassembler::Disassemble(inst.hex, PC);
-  DEBUG_LOG(POWERPC,
-            "INTER PC: %08x SRR0: %08x SRR1: %08x CRval: %016lx FPSCR: %08x MSR: %08x LR: "
-            "%08x %s %08x %s",
-            PC, SRR0, SRR1, (unsigned long)PowerPC::ppcState.cr_val[0], PowerPC::ppcState.fpscr,
-            PowerPC::ppcState.msr, PowerPC::ppcState.spr[8], regs.c_str(), inst.hex,
-            ppc_inst.c_str());
+  const std::string ppc_inst = Common::GekkoDisassembler::Disassemble(inst.hex, PC);
+  DEBUG_LOG_FMT(POWERPC,
+                "INTER PC: {:08x} SRR0: {:08x} SRR1: {:08x} CRval: {:016x} "
+                "FPSCR: {:08x} MSR: {:08x} LR: {:08x} {} {:08x} {}",
+                PC, SRR0, SRR1, PowerPC::ppcState.cr.fields[0], FPSCR.Hex, MSR.Hex,
+                PowerPC::ppcState.spr[8], regs, inst.hex, ppc_inst);
+}
+
+bool Interpreter::HandleFunctionHooking(u32 address)
+{
+  return HLE::ReplaceFunctionIfPossible(address, [](u32 hook_index, HLE::HookType type) {
+    HLEFunction(hook_index);
+    return type != HLE::HookType::Start;
+  });
 }
 
 int Interpreter::SingleStepInner()
 {
-  u32 function = HLE::GetFirstFunctionIndex(PC);
-  if (function != 0)
+  if (HandleFunctionHooking(PC))
   {
-    HLE::HookType type = HLE::GetFunctionTypeByIndex(function);
-    if (type == HLE::HookType::Start || type == HLE::HookType::Replace)
-    {
-      HLE::HookFlag flags = HLE::GetFunctionFlagsByIndex(function);
-      if (HLE::IsEnabled(flags))
-      {
-        HLEFunction(function);
-        if (type == HLE::HookType::Start)
-        {
-          // Run the original.
-          function = 0;
-        }
-      }
-      else
-      {
-        function = 0;
-      }
-    }
+    UpdatePC();
+    return PPCTables::GetOpInfo(m_prev_inst)->numCycles;
   }
 
-  if (function == 0)
-  {
 #ifdef USE_GDBSTUB
-    if (gdb_active() && gdb_bp_x(PC))
-    {
-      Host_UpdateDisasmDialog();
+  if (gdb_active() && gdb_bp_x(PC))
+  {
+    Host_UpdateDisasmDialog();
 
-      gdb_signal(SIGTRAP);
-      gdb_handle_exception();
-    }
+    gdb_signal(GDB_SIGTRAP);
+    gdb_handle_exception();
+  }
 #endif
 
-    NPC = PC + sizeof(UGeckoInstruction);
-    m_prev_inst.hex = PowerPC::Read_Opcode(PC);
+  NPC = PC + sizeof(UGeckoInstruction);
+  m_prev_inst.hex = PowerPC::Read_Opcode(PC);
 
-    // Uncomment to trace the interpreter
-    // if ((PC & 0xffffff)>=0x0ab54c && (PC & 0xffffff)<=0x0ab624)
-    //	startTrace = 1;
-    // else
-    //	startTrace = 0;
+  // Uncomment to trace the interpreter
+  // if ((PC & 0xffffff)>=0x0ab54c && (PC & 0xffffff)<=0x0ab624)
+  //	startTrace = 1;
+  // else
+  //	startTrace = 0;
 
-    if (startTrace)
+  if (startTrace)
+  {
+    Trace(m_prev_inst);
+  }
+
+  if (m_prev_inst.hex != 0)
+  {
+    if (IsInvalidPairedSingleExecution(m_prev_inst))
     {
-      Trace(m_prev_inst);
+      GenerateProgramException();
+      CheckExceptions();
     }
-
-    if (m_prev_inst.hex != 0)
+    else if (MSR.FP)
     {
-      const UReg_MSR msr{MSR};
-      if (msr.FP)  // If FPU is enabled, just execute
+      m_op_table[m_prev_inst.OPCD](m_prev_inst);
+      if (PowerPC::ppcState.Exceptions & EXCEPTION_DSI)
       {
-        m_op_table[m_prev_inst.OPCD](m_prev_inst);
-        if (PowerPC::ppcState.Exceptions & EXCEPTION_DSI)
-        {
-          PowerPC::CheckExceptions();
-          m_end_block = true;
-        }
-      }
-      else
-      {
-        // check if we have to generate a FPU unavailable exception
-        if (!PPCTables::UsesFPU(m_prev_inst))
-        {
-          m_op_table[m_prev_inst.OPCD](m_prev_inst);
-          if (PowerPC::ppcState.Exceptions & EXCEPTION_DSI)
-          {
-            PowerPC::CheckExceptions();
-            m_end_block = true;
-          }
-        }
-        else
-        {
-          PowerPC::ppcState.Exceptions |= EXCEPTION_FPU_UNAVAILABLE;
-          PowerPC::CheckExceptions();
-          m_end_block = true;
-        }
+        CheckExceptions();
       }
     }
     else
     {
-      // Memory exception on instruction fetch
-      PowerPC::CheckExceptions();
-      m_end_block = true;
+      // check if we have to generate a FPU unavailable exception or a program exception.
+      if (PPCTables::UsesFPU(m_prev_inst))
+      {
+        PowerPC::ppcState.Exceptions |= EXCEPTION_FPU_UNAVAILABLE;
+        CheckExceptions();
+      }
+      else
+      {
+        m_op_table[m_prev_inst.OPCD](m_prev_inst);
+        if (PowerPC::ppcState.Exceptions & EXCEPTION_DSI)
+        {
+          CheckExceptions();
+        }
+      }
     }
   }
-  last_pc = PC;
-  PC = NPC;
+  else
+  {
+    // Memory exception on instruction fetch
+    CheckExceptions();
+  }
+
+  UpdatePC();
 
   const GekkoOPInfo* opinfo = PPCTables::GetOpInfo(m_prev_inst);
+  PowerPC::UpdatePerformanceMonitor(opinfo->numCycles, (opinfo->flags & FL_LOADSTORE) != 0,
+                                    (opinfo->flags & FL_USE_FPU) != 0);
   return opinfo->numCycles;
 }
 
@@ -260,25 +288,25 @@ void Interpreter::Run()
           if (PowerPC::breakpoints.IsAddressBreakPoint(PC))
           {
 #ifdef SHOW_HISTORY
-            NOTICE_LOG(POWERPC, "----------------------------");
-            NOTICE_LOG(POWERPC, "Blocks:");
-            for (int j = 0; j < PCBlockVec.size(); j++)
-              NOTICE_LOG(POWERPC, "PC: 0x%08x", PCBlockVec.at(j));
-            NOTICE_LOG(POWERPC, "----------------------------");
-            NOTICE_LOG(POWERPC, "Steps:");
-            for (int j = 0; j < PCVec.size(); j++)
+            NOTICE_LOG_FMT(POWERPC, "----------------------------");
+            NOTICE_LOG_FMT(POWERPC, "Blocks:");
+            for (const int entry : PCBlockVec)
+              NOTICE_LOG_FMT(POWERPC, "PC: {:#010x}", entry);
+            NOTICE_LOG_FMT(POWERPC, "----------------------------");
+            NOTICE_LOG_FMT(POWERPC, "Steps:");
+            for (size_t j = 0; j < PCVec.size(); j++)
             {
               // Write space
               if (j > 0)
               {
-                if (PCVec.at(j) != PCVec.at(j - 1) + 4)
-                  NOTICE_LOG(POWERPC, "");
+                if (PCVec[j] != PCVec[(j - 1) + 4]
+                  NOTICE_LOG_FMT(POWERPC, "");
               }
 
-              NOTICE_LOG(POWERPC, "PC: 0x%08x", PCVec.at(j));
+              NOTICE_LOG_FMT(POWERPC, "PC: {:#010x}", PCVec[j]);
             }
 #endif
-            INFO_LOG(POWERPC, "Hit Breakpoint - %08x", PC);
+            INFO_LOG_FMT(POWERPC, "Hit Breakpoint - {:08x}", PC);
             CPU::Break();
             if (PowerPC::breakpoints.IsTempBreakPoint(PC))
               PowerPC::breakpoints.Remove(PC);
@@ -311,15 +339,19 @@ void Interpreter::Run()
 
 void Interpreter::unknown_instruction(UGeckoInstruction inst)
 {
-  std::string disasm = GekkoDisassembler::Disassemble(PowerPC::HostRead_U32(last_pc), last_pc);
-  NOTICE_LOG(POWERPC, "Last PC = %08x : %s", last_pc, disasm.c_str());
+  const u32 opcode = PowerPC::HostRead_U32(last_pc);
+  const std::string disasm = Common::GekkoDisassembler::Disassemble(opcode, last_pc);
+  NOTICE_LOG_FMT(POWERPC, "Last PC = {:08x} : {}", last_pc, disasm);
   Dolphin_Debugger::PrintCallstack();
-  NOTICE_LOG(POWERPC,
-             "\nIntCPU: Unknown instruction %08x at PC = %08x  last_PC = %08x  LR = %08x\n",
-             inst.hex, PC, last_pc, LR);
+  NOTICE_LOG_FMT(
+      POWERPC,
+      "\nIntCPU: Unknown instruction {:08x} at PC = {:08x}  last_PC = {:08x}  LR = {:08x}\n",
+      inst.hex, PC, last_pc, LR);
   for (int i = 0; i < 32; i += 4)
-    NOTICE_LOG(POWERPC, "r%d: 0x%08x r%d: 0x%08x r%d:0x%08x r%d: 0x%08x", i, rGPR[i], i + 1,
-               rGPR[i + 1], i + 2, rGPR[i + 2], i + 3, rGPR[i + 3]);
+  {
+    NOTICE_LOG_FMT(POWERPC, "r{}: {:#010x} r{}: {:#010x} r{}: {:#010x} r{}: {:#010x}", i, rGPR[i],
+                   i + 1, rGPR[i + 1], i + 2, rGPR[i + 2], i + 3, rGPR[i + 3]);
+  }
   ASSERT_MSG(POWERPC, 0,
              "\nIntCPU: Unknown instruction %08x at PC = %08x  last_PC = %08x  LR = %08x\n",
              inst.hex, PC, last_pc, LR);
@@ -328,6 +360,12 @@ void Interpreter::unknown_instruction(UGeckoInstruction inst)
 void Interpreter::ClearCache()
 {
   // Do nothing.
+}
+
+void Interpreter::CheckExceptions()
+{
+  PowerPC::CheckExceptions();
+  m_end_block = true;
 }
 
 const char* Interpreter::GetName() const

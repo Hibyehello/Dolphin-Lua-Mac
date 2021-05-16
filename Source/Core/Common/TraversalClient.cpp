@@ -4,26 +4,16 @@
 
 #include <cstddef>
 #include <cstring>
-#include <random>
 #include <string>
 
 #include "Common/CommonTypes.h"
 #include "Common/Logging/Log.h"
 #include "Common/MsgHandler.h"
-
-static void GetRandomishBytes(u8* buf, size_t size)
-{
-  // We don't need high quality random numbers (which might not be available),
-  // just non-repeating numbers!
-  static std::mt19937 prng(enet_time_get());
-  static std::uniform_int_distribution<unsigned int> u8_distribution(0, 255);
-  for (size_t i = 0; i < size; i++)
-    buf[i] = u8_distribution(prng);
-}
+#include "Common/Random.h"
+#include "Core/NetPlayProto.h"
 
 TraversalClient::TraversalClient(ENetHost* netHost, const std::string& server, const u16 port)
-    : m_NetHost(netHost), m_Client(nullptr), m_ConnectRequestId(0), m_PendingConnect(false),
-      m_Server(server), m_port(port), m_PingTime(0)
+    : m_NetHost(netHost), m_Server(server), m_port(port)
 {
   netHost->intercept = TraversalClient::InterceptCallback;
 
@@ -32,8 +22,21 @@ TraversalClient::TraversalClient(ENetHost* netHost, const std::string& server, c
   ReconnectToServer();
 }
 
-TraversalClient::~TraversalClient()
+TraversalClient::~TraversalClient() = default;
+
+TraversalHostId TraversalClient::GetHostID() const
 {
+  return m_HostId;
+}
+
+TraversalClient::State TraversalClient::GetState() const
+{
+  return m_State;
+}
+
+TraversalClient::FailureReason TraversalClient::GetFailureReason() const
+{
+  return m_FailureReason;
 }
 
 void TraversalClient::ReconnectToServer()
@@ -45,41 +48,41 @@ void TraversalClient::ReconnectToServer()
   }
   m_ServerAddress.port = m_port;
 
-  m_State = Connecting;
+  m_State = State::Connecting;
 
   TraversalPacket hello = {};
-  hello.type = TraversalPacketHelloFromClient;
+  hello.type = TraversalPacketType::HelloFromClient;
   hello.helloFromClient.protoVersion = TraversalProtoVersion;
   SendTraversalPacket(hello);
   if (m_Client)
     m_Client->OnTraversalStateChanged();
 }
 
-static ENetAddress MakeENetAddress(TraversalInetAddress* address)
+static ENetAddress MakeENetAddress(const TraversalInetAddress& address)
 {
-  ENetAddress eaddr;
-  if (address->isIPV6)
+  ENetAddress eaddr{};
+  if (address.isIPV6)
   {
     eaddr.port = 0;  // no support yet :(
   }
   else
   {
-    eaddr.host = address->address[0];
-    eaddr.port = ntohs(address->port);
+    eaddr.host = address.address[0];
+    eaddr.port = ntohs(address.port);
   }
   return eaddr;
 }
 
-void TraversalClient::ConnectToClient(const std::string& host)
+void TraversalClient::ConnectToClient(std::string_view host)
 {
   if (host.size() > sizeof(TraversalHostId))
   {
-    PanicAlert("host too long");
+    PanicAlertFmt("Host too long");
     return;
   }
   TraversalPacket packet = {};
-  packet.type = TraversalPacketConnectPlease;
-  memcpy(packet.connectPlease.hostId.data(), host.c_str(), host.size());
+  packet.type = TraversalPacketType::ConnectPlease;
+  memcpy(packet.connectPlease.hostId.data(), host.data(), host.size());
   m_ConnectRequestId = SendTraversalPacket(packet);
   m_PendingConnect = true;
 }
@@ -90,7 +93,7 @@ bool TraversalClient::TestPacket(u8* data, size_t size, ENetAddress* from)
   {
     if (size < sizeof(TraversalPacket))
     {
-      ERROR_LOG(NETPLAY, "Received too-short traversal packet.");
+      ERROR_LOG_FMT(NETPLAY, "Received too-short traversal packet.");
     }
     else
     {
@@ -126,7 +129,7 @@ void TraversalClient::HandleServerPacket(TraversalPacket* packet)
   u8 ok = 1;
   switch (packet->type)
   {
-  case TraversalPacketAck:
+  case TraversalPacketType::Ack:
     if (!packet->ack.ok)
     {
       OnFailure(FailureReason::ServerForgotAboutUs);
@@ -141,8 +144,8 @@ void TraversalClient::HandleServerPacket(TraversalPacket* packet)
       }
     }
     break;
-  case TraversalPacketHelloFromServer:
-    if (m_State != Connecting)
+  case TraversalPacketType::HelloFromServer:
+    if (!IsConnecting())
       break;
     if (!packet->helloFromServer.ok)
     {
@@ -150,14 +153,14 @@ void TraversalClient::HandleServerPacket(TraversalPacket* packet)
       break;
     }
     m_HostId = packet->helloFromServer.yourHostId;
-    m_State = Connected;
+    m_State = State::Connected;
     if (m_Client)
       m_Client->OnTraversalStateChanged();
     break;
-  case TraversalPacketPleaseSendPacket:
+  case TraversalPacketType::PleaseSendPacket:
   {
     // security is overrated.
-    ENetAddress addr = MakeENetAddress(&packet->pleaseSendPacket.address);
+    ENetAddress addr = MakeENetAddress(packet->pleaseSendPacket.address);
     if (addr.port != 0)
     {
       char message[] = "Hello from Dolphin Netplay...";
@@ -173,8 +176,8 @@ void TraversalClient::HandleServerPacket(TraversalPacket* packet)
     }
     break;
   }
-  case TraversalPacketConnectReady:
-  case TraversalPacketConnectFailed:
+  case TraversalPacketType::ConnectReady:
+  case TraversalPacketType::ConnectFailed:
   {
     if (!m_PendingConnect || packet->connectReady.requestId != m_ConnectRequestId)
       break;
@@ -184,20 +187,20 @@ void TraversalClient::HandleServerPacket(TraversalPacket* packet)
     if (!m_Client)
       break;
 
-    if (packet->type == TraversalPacketConnectReady)
-      m_Client->OnConnectReady(MakeENetAddress(&packet->connectReady.address));
+    if (packet->type == TraversalPacketType::ConnectReady)
+      m_Client->OnConnectReady(MakeENetAddress(packet->connectReady.address));
     else
       m_Client->OnConnectFailed(packet->connectFailed.reason);
     break;
   }
   default:
-    WARN_LOG(NETPLAY, "Received unknown packet with type %d", packet->type);
+    WARN_LOG_FMT(NETPLAY, "Received unknown packet with type {}", packet->type);
     break;
   }
-  if (packet->type != TraversalPacketAck)
+  if (packet->type != TraversalPacketType::Ack)
   {
     TraversalPacket ack = {};
-    ack.type = TraversalPacketAck;
+    ack.type = TraversalPacketType::Ack;
     ack.requestId = packet->requestId;
     ack.ack.ok = ok;
 
@@ -211,7 +214,7 @@ void TraversalClient::HandleServerPacket(TraversalPacket* packet)
 
 void TraversalClient::OnFailure(FailureReason reason)
 {
-  m_State = Failure;
+  m_State = State::Failure;
   m_FailureReason = reason;
 
   if (m_Client)
@@ -231,7 +234,7 @@ void TraversalClient::ResendPacket(OutgoingTraversalPacketInfo* info)
 
 void TraversalClient::HandleResends()
 {
-  enet_uint32 now = enet_time_get();
+  const u32 now = enet_time_get();
   for (auto& tpi : m_OutgoingTraversalPackets)
   {
     if (now - tpi.sendTime >= (u32)(300 * tpi.tries))
@@ -253,11 +256,11 @@ void TraversalClient::HandleResends()
 
 void TraversalClient::HandlePing()
 {
-  enet_uint32 now = enet_time_get();
-  if (m_State == Connected && now - m_PingTime >= 500)
+  const u32 now = enet_time_get();
+  if (IsConnected() && now - m_PingTime >= 500)
   {
     TraversalPacket ping = {};
-    ping.type = TraversalPacketPing;
+    ping.type = TraversalPacketType::Ping;
     ping.ping.hostId = m_HostId;
     SendTraversalPacket(ping);
     m_PingTime = now;
@@ -268,7 +271,7 @@ TraversalRequestId TraversalClient::SendTraversalPacket(const TraversalPacket& p
 {
   OutgoingTraversalPacketInfo info;
   info.packet = packet;
-  GetRandomishBytes((u8*)&info.packet.requestId, sizeof(info.packet.requestId));
+  info.packet.requestId = Common::Random::GenerateValue<TraversalRequestId>();
   info.tries = 0;
   m_OutgoingTraversalPackets.push_back(info);
   ResendPacket(&m_OutgoingTraversalPackets.back());
@@ -314,11 +317,11 @@ bool EnsureTraversalClient(const std::string& server, u16 server_port, u16 liste
     g_OldListenPort = listen_port;
 
     ENetAddress addr = {ENET_HOST_ANY, listen_port};
-    ENetHost* host = enet_host_create(&addr,  // address
-                                      50,     // peerCount
-                                      1,      // channelLimit
-                                      0,      // incomingBandwidth
-                                      0);     // outgoingBandwidth
+    ENetHost* host = enet_host_create(&addr,                   // address
+                                      50,                      // peerCount
+                                      NetPlay::CHANNEL_COUNT,  // channelLimit
+                                      0,                       // incomingBandwidth
+                                      0);                      // outgoingBandwidth
     if (!host)
     {
       g_MainNetHost.reset();

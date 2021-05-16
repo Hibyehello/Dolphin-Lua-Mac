@@ -10,16 +10,19 @@
 #include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "Common/CommonTypes.h"
 
+namespace Common
+{
 struct SCall
 {
-  SCall(u32 a, u32 b) : function(a), callAddress(b) {}
+  SCall(u32 a, u32 b) : function(a), call_address(b) {}
   u32 function;
-  u32 callAddress;
+  u32 call_address;
 };
 
 struct Symbol
@@ -40,7 +43,7 @@ struct Symbol
   u32 address = 0;
   u32 flags = 0;
   u32 size = 0;
-  int numCalls = 0;
+  int num_calls = 0;
   Type type = Type::Function;
   int index = 0;  // only used for coloring the disasm view
   bool analyzed = false;
@@ -59,28 +62,30 @@ enum
 class SymbolDB
 {
 public:
-  typedef std::map<u32, Symbol> XFuncMap;
-  typedef std::map<u32, std::set<Symbol*>> XFuncPtrMap;
+  using XFuncMap = std::map<u32, Symbol>;
+  using XFuncPtrMap = std::map<u32, std::set<Symbol*>>;
 
-protected:
-  XFuncMap functions;
-  XFuncPtrMap checksumToFunction;
+  SymbolDB();
+  virtual ~SymbolDB();
 
-public:
-  SymbolDB() {}
-  virtual ~SymbolDB() {}
   virtual Symbol* GetSymbolFromAddr(u32 addr) { return nullptr; }
-  virtual Symbol* AddFunction(u32 startAddr) { return nullptr; }
+  virtual Symbol* AddFunction(u32 start_addr) { return nullptr; }
   void AddCompleteSymbol(const Symbol& symbol);
 
-  Symbol* GetSymbolFromName(const std::string& name);
-  std::vector<Symbol*> GetSymbolsFromName(const std::string& name);
+  Symbol* GetSymbolFromName(std::string_view name);
+  std::vector<Symbol*> GetSymbolsFromName(std::string_view name);
   Symbol* GetSymbolFromHash(u32 hash);
   std::vector<Symbol*> GetSymbolsFromHash(u32 hash);
 
-  const XFuncMap& Symbols() const { return functions; }
-  XFuncMap& AccessSymbols() { return functions; }
+  const XFuncMap& Symbols() const { return m_functions; }
+  XFuncMap& AccessSymbols() { return m_functions; }
+  bool IsEmpty() const;
   void Clear(const char* prefix = "");
   void List();
   void Index();
+
+protected:
+  XFuncMap m_functions;
+  XFuncPtrMap m_checksum_to_function;
 };
+}  // namespace Common

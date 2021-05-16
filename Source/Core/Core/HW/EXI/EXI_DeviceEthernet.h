@@ -12,6 +12,8 @@
 #include <Windows.h>
 #endif
 
+#include <SFML/Network.hpp>
+
 #include "Common/Flag.h"
 #include "Core/HW/EXI/EXI_Device.h"
 
@@ -196,10 +198,19 @@ enum RecvStatus
 
 #define BBA_RECV_SIZE 0x800
 
+enum class BBADeviceType
+{
+  TAP,
+  XLINK,
+#if defined(__APPLE__)
+  TAPSERVER,
+#endif
+};
+
 class CEXIETHERNET : public IEXIDevice
 {
 public:
-  CEXIETHERNET();
+  explicit CEXIETHERNET(BBADeviceType type);
   virtual ~CEXIETHERNET();
   void SetCS(int cs) override;
   bool IsPresent() const override;
@@ -210,7 +221,7 @@ public:
   void DMARead(u32 addr, u32 size) override;
   void DoState(PointerWrap& p) override;
 
-  // private:
+private:
   struct
   {
     enum
@@ -227,7 +238,7 @@ public:
 
     u16 address;
     bool valid;
-  } transfer;
+  } transfer = {};
 
   enum
   {
@@ -251,28 +262,14 @@ public:
       TRANSFER = 0x80
     };
 
-    u8 revision_id;
-    u8 interrupt_mask;
-    u8 interrupt;
-    u16 device_id;
-    u8 acstart;
-    u32 hash_challenge;
-    u32 hash_response;
-    u8 hash_status;
-
-    EXIStatus()
-    {
-      device_id = 0xd107;
-      revision_id = 0;  // 0xf0;
-      acstart = 0x4e;
-
-      interrupt_mask = 0;
-      interrupt = 0;
-      hash_challenge = 0;
-      hash_response = 0;
-      hash_status = 0;
-    }
-
+    u8 revision_id = 0;  // 0xf0
+    u8 interrupt_mask = 0;
+    u8 interrupt = 0;
+    u16 device_id = 0xD107;
+    u8 acstart = 0x4E;
+    u32 hash_challenge = 0;
+    u32 hash_response = 0;
+    u8 hash_status = 0;
   } exi_status;
 
   struct Descriptor
@@ -311,33 +308,115 @@ public:
   std::unique_ptr<u8[]> mBbaMem;
   std::unique_ptr<u8[]> tx_fifo;
 
-  // TAP interface
-  bool Activate();
-  void Deactivate();
-  bool IsActivated();
-  bool SendFrame(const u8* frame, u32 size);
-  bool RecvInit();
-  void RecvStart();
-  void RecvStop();
+  class NetworkInterface
+  {
+  protected:
+    CEXIETHERNET* m_eth_ref = nullptr;
+    explicit NetworkInterface(CEXIETHERNET* eth_ref) : m_eth_ref{eth_ref} {}
 
-  std::unique_ptr<u8[]> mRecvBuffer;
-  u32 mRecvBufferLength;
+  public:
+    virtual bool Activate() { return false; }
+    virtual void Deactivate() {}
+    virtual bool IsActivated() { return false; }
+    virtual bool SendFrame(const u8* frame, u32 size) { return false; }
+    virtual bool RecvInit() { return false; }
+    virtual void RecvStart() {}
+    virtual void RecvStop() {}
 
-#if defined(_WIN32)
-  HANDLE mHAdapter;
-  OVERLAPPED mReadOverlapped;
-  OVERLAPPED mWriteOverlapped;
-  std::vector<u8> mWriteBuffer;
-  bool mWritePending;
-#elif defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__)
-  int fd;
-#endif
+    virtual ~NetworkInterface() = default;
+  };
 
+  class TAPNetworkInterface : public NetworkInterface
+  {
+  public:
+    explicit TAPNetworkInterface(CEXIETHERNET* eth_ref) : NetworkInterface(eth_ref) {}
+
+  public:
+    bool Activate() override;
+    void Deactivate() override;
+    bool IsActivated() override;
+    bool SendFrame(const u8* frame, u32 size) override;
+    bool RecvInit() override;
+    void RecvStart() override;
+    void RecvStop() override;
+
+  protected:
 #if defined(WIN32) || defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) ||          \
     defined(__OpenBSD__)
-  std::thread readThread;
-  Common::Flag readEnabled;
-  Common::Flag readThreadShutdown;
+    std::thread readThread;
+    Common::Flag readEnabled;
+    Common::Flag readThreadShutdown;
+    static void ReadThreadHandler(TAPNetworkInterface* self);
 #endif
+#if defined(_WIN32)
+    HANDLE mHAdapter = INVALID_HANDLE_VALUE;
+    OVERLAPPED mReadOverlapped = {};
+    OVERLAPPED mWriteOverlapped = {};
+    std::vector<u8> mWriteBuffer;
+    bool mWritePending = false;
+#elif defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__)
+    int fd = -1;
+#endif
+  };
+
+#if defined(__APPLE__)
+  class TAPServerNetworkInterface : public TAPNetworkInterface
+  {
+  public:
+    explicit TAPServerNetworkInterface(CEXIETHERNET* eth_ref) : TAPNetworkInterface(eth_ref) {}
+
+  public:
+    bool Activate() override;
+    bool SendFrame(const u8* frame, u32 size) override;
+    bool RecvInit() override;
+
+  private:
+    void ReadThreadHandler();
+  };
+#endif
+
+  class XLinkNetworkInterface : public NetworkInterface
+  {
+  public:
+    XLinkNetworkInterface(CEXIETHERNET* eth_ref, std::string dest_ip, int dest_port,
+                          std::string identifier, bool chat_osd_enabled)
+        : NetworkInterface(eth_ref), m_dest_ip(std::move(dest_ip)), m_dest_port(dest_port),
+          m_client_identifier(identifier), m_chat_osd_enabled(chat_osd_enabled)
+    {
+    }
+
+  public:
+    bool Activate() override;
+    void Deactivate() override;
+    bool IsActivated() override;
+    bool SendFrame(const u8* frame, u32 size) override;
+    bool RecvInit() override;
+    void RecvStart() override;
+    void RecvStop() override;
+
+  private:
+    std::string m_dest_ip;
+    int m_dest_port;
+    std::string m_client_identifier;
+    bool m_chat_osd_enabled;
+    bool m_bba_link_up = false;
+    bool m_bba_failure_notified = false;
+#if defined(WIN32) || defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) ||          \
+    defined(__OpenBSD__) || defined(__NetBSD__) || defined(__HAIKU__)
+    sf::UdpSocket m_sf_socket;
+    sf::IpAddress m_sf_recipient_ip;
+    char m_in_frame[9004];
+    char m_out_frame[9004];
+    std::thread m_read_thread;
+    Common::Flag m_read_enabled;
+    Common::Flag m_read_thread_shutdown;
+    static void ReadThreadHandler(XLinkNetworkInterface* self);
+#endif
+  };
+
+  std::unique_ptr<NetworkInterface> m_network_interface;
+
+  std::unique_ptr<u8[]> mRecvBuffer;
+  u32 mRecvBufferLength = 0;
 };
 }  // namespace ExpansionInterface

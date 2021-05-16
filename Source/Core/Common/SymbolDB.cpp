@@ -11,6 +11,8 @@
 #include "Common/Logging/Log.h"
 #include "Common/SymbolDB.h"
 
+namespace Common
+{
 static std::string GetStrippedFunctionName(const std::string& symbol_name)
 {
   std::string name = symbol_name.substr(0, symbol_name.find('('));
@@ -20,6 +22,10 @@ static std::string GetStrippedFunctionName(const std::string& symbol_name)
   return name;
 }
 
+SymbolDB::SymbolDB() = default;
+
+SymbolDB::~SymbolDB() = default;
+
 void Symbol::Rename(const std::string& symbol_name)
 {
   this->name = symbol_name;
@@ -28,33 +34,38 @@ void Symbol::Rename(const std::string& symbol_name)
 
 void SymbolDB::List()
 {
-  for (const auto& func : functions)
+  for (const auto& func : m_functions)
   {
-    DEBUG_LOG(OSHLE, "%s @ %08x: %i bytes (hash %08x) : %i calls", func.second.name.c_str(),
-              func.second.address, func.second.size, func.second.hash, func.second.numCalls);
+    DEBUG_LOG_FMT(OSHLE, "{} @ {:08x}: {} bytes (hash {:08x}) : {} calls", func.second.name,
+                  func.second.address, func.second.size, func.second.hash, func.second.num_calls);
   }
-  INFO_LOG(OSHLE, "%zu functions known in this program above.", functions.size());
+  INFO_LOG_FMT(OSHLE, "{} functions known in this program above.", m_functions.size());
+}
+
+bool SymbolDB::IsEmpty() const
+{
+  return m_functions.empty();
 }
 
 void SymbolDB::Clear(const char* prefix)
 {
   // TODO: honor prefix
-  functions.clear();
-  checksumToFunction.clear();
+  m_functions.clear();
+  m_checksum_to_function.clear();
 }
 
 void SymbolDB::Index()
 {
   int i = 0;
-  for (auto& func : functions)
+  for (auto& func : m_functions)
   {
     func.second.index = i++;
   }
 }
 
-Symbol* SymbolDB::GetSymbolFromName(const std::string& name)
+Symbol* SymbolDB::GetSymbolFromName(std::string_view name)
 {
-  for (auto& func : functions)
+  for (auto& func : m_functions)
   {
     if (func.second.function_name == name)
       return &func.second;
@@ -63,11 +74,11 @@ Symbol* SymbolDB::GetSymbolFromName(const std::string& name)
   return nullptr;
 }
 
-std::vector<Symbol*> SymbolDB::GetSymbolsFromName(const std::string& name)
+std::vector<Symbol*> SymbolDB::GetSymbolsFromName(std::string_view name)
 {
   std::vector<Symbol*> symbols;
 
-  for (auto& func : functions)
+  for (auto& func : m_functions)
   {
     if (func.second.function_name == name)
       symbols.push_back(&func.second);
@@ -78,18 +89,18 @@ std::vector<Symbol*> SymbolDB::GetSymbolsFromName(const std::string& name)
 
 Symbol* SymbolDB::GetSymbolFromHash(u32 hash)
 {
-  XFuncPtrMap::iterator iter = checksumToFunction.find(hash);
-  if (iter != checksumToFunction.end())
-    return *iter->second.begin();
-  else
+  auto iter = m_checksum_to_function.find(hash);
+  if (iter == m_checksum_to_function.end())
     return nullptr;
+
+  return *iter->second.begin();
 }
 
 std::vector<Symbol*> SymbolDB::GetSymbolsFromHash(u32 hash)
 {
-  const auto iter = checksumToFunction.find(hash);
+  const auto iter = m_checksum_to_function.find(hash);
 
-  if (iter == checksumToFunction.cend())
+  if (iter == m_checksum_to_function.cend())
     return {};
 
   return {iter->second.cbegin(), iter->second.cend()};
@@ -97,5 +108,6 @@ std::vector<Symbol*> SymbolDB::GetSymbolsFromHash(u32 hash)
 
 void SymbolDB::AddCompleteSymbol(const Symbol& symbol)
 {
-  functions.emplace(symbol.address, symbol);
+  m_functions.emplace(symbol.address, symbol);
 }
+}  // namespace Common

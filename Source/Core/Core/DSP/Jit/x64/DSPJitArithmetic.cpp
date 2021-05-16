@@ -7,7 +7,6 @@
 #include "Common/CommonTypes.h"
 
 #include "Core/DSP/DSPCore.h"
-#include "Core/DSP/DSPMemoryMap.h"
 #include "Core/DSP/Jit/x64/DSPEmitter.h"
 
 using namespace Gen;
@@ -23,7 +22,7 @@ void DSPEmitter::clr(const UDSPInstruction opc)
 {
   u8 reg = (opc >> 11) & 0x1;
   //	dsp_set_long_acc(reg, 0);
-  MOV(64, R(RAX), Imm64(0));
+  XOR(32, R(EAX), R(EAX));
   set_long_acc(reg);
   //	Update_SR_Register64(0);
   if (FlagsNeeded())
@@ -65,9 +64,9 @@ void DSPEmitter::andcf(const UDSPInstruction opc)
 {
   if (FlagsNeeded())
   {
-    u8 reg = (opc >> 8) & 0x1;
+    const u8 reg = (opc >> 8) & 0x1;
     //		u16 imm = dsp_fetch_code();
-    u16 imm = dsp_imem_read(m_compile_pc + 1);
+    const u16 imm = m_dsp_core.DSPState().ReadIMEM(m_compile_pc + 1);
     //		u16 val = dsp_get_acc_m(reg);
     get_acc_m(reg);
     //		Update_SR_LZ(((val & imm) == imm) ? true : false);
@@ -100,9 +99,9 @@ void DSPEmitter::andf(const UDSPInstruction opc)
 {
   if (FlagsNeeded())
   {
-    u8 reg = (opc >> 8) & 0x1;
+    const u8 reg = (opc >> 8) & 0x1;
     //		u16 imm = dsp_fetch_code();
-    u16 imm = dsp_imem_read(m_compile_pc + 1);
+    const u16 imm = m_dsp_core.DSPState().ReadIMEM(m_compile_pc + 1);
     //		u16 val = dsp_get_acc_m(reg);
     get_acc_m(reg);
     //		Update_SR_LZ(((val & imm) == 0) ? true : false);
@@ -226,14 +225,14 @@ void DSPEmitter::cmpi(const UDSPInstruction opc)
 {
   if (FlagsNeeded())
   {
-    u8 reg = (opc >> 8) & 0x1;
-    X64Reg tmp1 = m_gpr.GetFreeXReg();
+    const u8 reg = (opc >> 8) & 0x1;
+    const X64Reg tmp1 = m_gpr.GetFreeXReg();
     //		s64 val = dsp_get_long_acc(reg);
     get_long_acc(reg, tmp1);
     MOV(64, R(RAX), R(tmp1));
     //		s64 imm = (s64)(s16)dsp_fetch_code() << 16; // Immediate is considered to be at M level in
     // the 40-bit accumulator.
-    u16 imm = dsp_imem_read(m_compile_pc + 1);
+    const u16 imm = m_dsp_core.DSPState().ReadIMEM(m_compile_pc + 1);
     MOV(64, R(RDX), Imm64((s64)(s16)imm << 16));
     //		s64 res = dsp_convert_long_acc(val - imm);
     SUB(64, R(RAX), R(RDX));
@@ -431,7 +430,7 @@ void DSPEmitter::notc(const UDSPInstruction opc)
   u8 dreg = (opc >> 8) & 0x1;
   //	u16 accm = g_dsp.r.acm[dreg] ^ 0xffff;
   get_acc_m(dreg, RAX);
-  XOR(16, R(RAX), Imm16(0xffff));
+  NOT(16, R(AX));
   //	g_dsp.r.acm[dreg] = accm;
   set_acc_m(dreg);
   //	Update_SR_Register16((s16)accm, false, false, isOverS32(dsp_get_long_acc(dreg)));
@@ -451,9 +450,9 @@ void DSPEmitter::notc(const UDSPInstruction opc)
 // flags out: --xx xx00
 void DSPEmitter::xori(const UDSPInstruction opc)
 {
-  u8 reg = (opc >> 8) & 0x1;
+  const u8 reg = (opc >> 8) & 0x1;
   //	u16 imm = dsp_fetch_code();
-  u16 imm = dsp_imem_read(m_compile_pc + 1);
+  const u16 imm = m_dsp_core.DSPState().ReadIMEM(m_compile_pc + 1);
   //	g_dsp.r.acm[reg] ^= imm;
   get_acc_m(reg, RAX);
   XOR(16, R(RAX), Imm16(imm));
@@ -474,9 +473,9 @@ void DSPEmitter::xori(const UDSPInstruction opc)
 // flags out: --xx xx00
 void DSPEmitter::andi(const UDSPInstruction opc)
 {
-  u8 reg = (opc >> 8) & 0x1;
+  const u8 reg = (opc >> 8) & 0x1;
   //	u16 imm = dsp_fetch_code();
-  u16 imm = dsp_imem_read(m_compile_pc + 1);
+  const u16 imm = m_dsp_core.DSPState().ReadIMEM(m_compile_pc + 1);
   //	g_dsp.r.acm[reg] &= imm;
   get_acc_m(reg, RAX);
   AND(16, R(RAX), Imm16(imm));
@@ -497,9 +496,9 @@ void DSPEmitter::andi(const UDSPInstruction opc)
 // flags out: --xx xx00
 void DSPEmitter::ori(const UDSPInstruction opc)
 {
-  u8 reg = (opc >> 8) & 0x1;
+  const u8 reg = (opc >> 8) & 0x1;
   //	u16 imm = dsp_fetch_code();
-  u16 imm = dsp_imem_read(m_compile_pc + 1);
+  const u16 imm = m_dsp_core.DSPState().ReadIMEM(m_compile_pc + 1);
   //	g_dsp.r.acm[reg] |= imm;
   get_acc_m(reg, RAX);
   OR(16, R(RAX), Imm16(imm));
@@ -699,11 +698,9 @@ void DSPEmitter::addi(const UDSPInstruction opc)
   get_long_acc(areg, tmp1);
   MOV(64, R(RAX), R(tmp1));
   //	s64 imm = (s16)dsp_fetch_code();
-  s16 imm = dsp_imem_read(m_compile_pc + 1);
+  const s16 imm = m_dsp_core.DSPState().ReadIMEM(m_compile_pc + 1);
   // imm <<= 16;
-  MOV(16, R(RDX), Imm16(imm));
-  MOVSX(64, 16, RDX, R(RDX));
-  SHL(64, R(RDX), Imm8(16));
+  MOV(64, R(RDX), Imm32(imm << 16));
   //	s64 res = acc + imm;
   ADD(64, R(RAX), R(RDX));
   //	dsp_set_long_acc(areg, res);
@@ -737,9 +734,8 @@ void DSPEmitter::addis(const UDSPInstruction opc)
   MOV(64, R(RAX), R(tmp1));
   //	s64 imm = (s8)(u8)opc;
   //	imm <<= 16;
-  MOV(8, R(RDX), Imm8((u8)opc));
-  MOVSX(64, 8, RDX, R(RDX));
-  SHL(64, R(RDX), Imm8(16));
+  s32 imm = static_cast<u8>(opc) << 24 >> 8;
+  MOV(64, R(RDX), Imm32(imm));
   //	s64 res = acc + imm;
   ADD(64, R(RAX), R(RDX));
   //	dsp_set_long_acc(dreg, res);
@@ -770,9 +766,8 @@ void DSPEmitter::incm(const UDSPInstruction opc)
   X64Reg tmp1 = m_gpr.GetFreeXReg();
   //	s64 acc = dsp_get_long_acc(dreg);
   get_long_acc(dreg, tmp1);
-  MOV(64, R(RAX), R(tmp1));
   //	s64 res = acc + sub;
-  ADD(64, R(RAX), Imm32((u32)subtract));
+  LEA(64, RAX, MDisp(tmp1, subtract));
   //	dsp_set_long_acc(dreg, res);
   //	res = dsp_get_long_acc(dreg);
   //	Update_SR_Register64(res, isCarry(acc, res), isOverflow(acc, subtract, res));
@@ -801,9 +796,8 @@ void DSPEmitter::inc(const UDSPInstruction opc)
   X64Reg tmp1 = m_gpr.GetFreeXReg();
   //	s64 acc = dsp_get_long_acc(dreg);
   get_long_acc(dreg, tmp1);
-  MOV(64, R(RAX), R(tmp1));
   //	s64 res = acc + 1;
-  ADD(64, R(RAX), Imm8(1));
+  LEA(64, RAX, MDisp(tmp1, 1));
   //	dsp_set_long_acc(dreg, res);
   //	res = dsp_get_long_acc(dreg);
   //	Update_SR_Register64(res, isCarry(acc, res), isOverflow(acc, 1, res));
@@ -973,9 +967,8 @@ void DSPEmitter::decm(const UDSPInstruction opc)
   X64Reg tmp1 = m_gpr.GetFreeXReg();
   //	s64 acc = dsp_get_long_acc(dreg);
   get_long_acc(dreg, tmp1);
-  MOV(64, R(RAX), R(tmp1));
   //	s64 res = acc - sub;
-  SUB(64, R(RAX), Imm32((u32)subtract));
+  LEA(64, RAX, MDisp(tmp1, -subtract));
   //	dsp_set_long_acc(dreg, res);
   //	res = dsp_get_long_acc(dreg);
   //	Update_SR_Register64(res, isCarry2(acc, res), isOverflow(acc, -subtract, res));
@@ -1004,9 +997,8 @@ void DSPEmitter::dec(const UDSPInstruction opc)
   X64Reg tmp1 = m_gpr.GetFreeXReg();
   //	s64 acc = dsp_get_long_acc(dreg);
   get_long_acc(dreg, tmp1);
-  MOV(64, R(RAX), R(tmp1));
   //	s64 res = acc - 1;
-  SUB(64, R(RAX), Imm32(1));
+  LEA(64, RAX, MDisp(tmp1, -1));
   //	dsp_set_long_acc(dreg, res);
   //	res = dsp_get_long_acc(dreg);
   //	Update_SR_Register64(res, isCarry2(acc, res), isOverflow(acc, -1, res));
@@ -1175,7 +1167,7 @@ void DSPEmitter::lsr16(const UDSPInstruction opc)
   // causes
   //	acc >>= 16;
   SHR(64, R(RAX), Imm8(16));
-  AND(64, R(RAX), Imm32(0xffffff));
+  AND(32, R(EAX), Imm32(0xffffff));
   //	dsp_set_long_acc(areg, (s64)acc);
   set_long_acc(areg);
   //	Update_SR_Register64(dsp_get_long_acc(areg));

@@ -7,9 +7,7 @@
 #include "Common/CommonTypes.h"
 #include "Core/HW/DSPHLE/UCodes/AX.h"
 
-namespace DSP
-{
-namespace HLE
+namespace DSP::HLE
 {
 struct AXPBWii;
 class DSPHLE;
@@ -18,7 +16,7 @@ class AXWiiUCode : public AXUCode
 {
 public:
   AXWiiUCode(DSPHLE* dsphle, u32 crc);
-  virtual ~AXWiiUCode();
+  ~AXWiiUCode() override;
 
   void DoState(PointerWrap& p) override;
 
@@ -115,5 +113,4 @@ private:
     CMD_END_OLD = 0x0F
   };
 };
-}  // namespace HLE
-}  // namespace DSP
+}  // namespace DSP::HLE

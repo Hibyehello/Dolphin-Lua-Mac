@@ -18,27 +18,39 @@
 // ----------
 #pragma once
 
+#include <rangeset/rangesizeset.h>
+
 #include "Common/CommonTypes.h"
 #include "Common/x64ABI.h"
 #include "Common/x64Emitter.h"
-#include "Core/PowerPC/Jit64/FPURegCache.h"
-#include "Core/PowerPC/Jit64/GPRRegCache.h"
 #include "Core/PowerPC/Jit64/JitAsm.h"
-#include "Core/PowerPC/Jit64/JitRegCache.h"
-#include "Core/PowerPC/Jit64Common/Jit64Base.h"
+#include "Core/PowerPC/Jit64/RegCache/FPURegCache.h"
+#include "Core/PowerPC/Jit64/RegCache/GPRRegCache.h"
+#include "Core/PowerPC/Jit64/RegCache/JitRegCache.h"
+#include "Core/PowerPC/Jit64Common/BlockCache.h"
+#include "Core/PowerPC/Jit64Common/Jit64AsmCommon.h"
+#include "Core/PowerPC/Jit64Common/TrampolineCache.h"
+#include "Core/PowerPC/JitCommon/JitBase.h"
 #include "Core/PowerPC/JitCommon/JitCache.h"
-#include "Core/PowerPC/PPCAnalyst.h"
 
-class Jit64 : public Jitx86Base
+namespace PPCAnalyst
+{
+struct CodeBlock;
+struct CodeOp;
+}  // namespace PPCAnalyst
+
+class Jit64 : public JitBase, public QuantizedMemoryRoutines
 {
 public:
-  Jit64() : code_buffer(32000) {}
-  ~Jit64() {}
+  Jit64();
+  ~Jit64() override;
+
   void Init() override;
   void Shutdown() override;
 
   bool HandleFault(uintptr_t access_address, SContext* ctx) override;
   bool HandleStackFault() override;
+  bool BackPatch(u32 emAddress, SContext* ctx);
 
   void EnableOptimization();
   void EnableBlockLink();
@@ -46,7 +58,12 @@ public:
   // Jit!
 
   void Jit(u32 em_address) override;
-  const u8* DoJit(u32 em_address, PPCAnalyst::CodeBuffer* code_buf, JitBlock* b, u32 nextPC);
+  void Jit(u32 em_address, bool clear_cache_and_retry_on_failure);
+  bool DoJit(u32 em_address, JitBlock* b, u32 nextPC);
+
+  // Finds a free memory region and sets the near and far code emitters to point at that region.
+  // Returns false if no free memory region can be found for either of the two.
+  bool SetEmitterStateToFreeCodeRegion();
 
   BitSet32 CallerSavedRegistersInUse() const;
   BitSet8 ComputeStaticGQRs(const PPCAnalyst::CodeBlock&) const;
@@ -74,19 +91,20 @@ public:
   void WriteExceptionExit();
   void WriteExternalExceptionExit();
   void WriteRfiExitDestInRSCRATCH();
+  void WriteIdleExit(u32 destination);
   bool Cleanup();
 
   void GenerateConstantOverflow(bool overflow);
   void GenerateConstantOverflow(s64 val);
-  void GenerateOverflow();
+  void GenerateOverflow(Gen::CCFlags cond = Gen::CCFlags::CC_NO);
   void FinalizeCarryOverflow(bool oe, bool inv = false);
   void FinalizeCarry(Gen::CCFlags cond);
   void FinalizeCarry(bool ca);
-  void ComputeRC(const Gen::OpArg& arg, bool needs_test = true, bool needs_sext = true);
+  void ComputeRC(preg_t preg, bool needs_test = true, bool needs_sext = true);
 
-  // Use to extract bytes from a register using the regcache. offset is in bytes.
-  Gen::OpArg ExtractFromReg(int reg, int offset);
   void AndWithMask(Gen::X64Reg reg, u32 mask);
+  void RotateLeft(int bits, Gen::X64Reg regOp, const Gen::OpArg& arg, u8 rotate);
+
   bool CheckMergedBranch(u32 crf) const;
   void DoMergedBranch();
   void DoMergedBranchCondition();
@@ -113,10 +131,6 @@ public:
   void regimmop(int d, int a, bool binary, u32 value, Operation doop,
                 void (Gen::XEmitter::*op)(int, const Gen::OpArg&, const Gen::OpArg&),
                 bool Rc = false, bool carry = false);
-  Gen::X64Reg fp_tri_op(int d, int a, int b, bool reversible, bool single,
-                        void (Gen::XEmitter::*avxOp)(Gen::X64Reg, Gen::X64Reg, const Gen::OpArg&),
-                        void (Gen::XEmitter::*sseOp)(Gen::X64Reg, const Gen::OpArg&), bool packed,
-                        bool preserve_inputs, bool roundRHS = false);
   void FloatCompare(UGeckoInstruction inst, bool upper = false);
   void UpdateMXCSR();
 
@@ -124,13 +138,13 @@ public:
   using Instruction = void (Jit64::*)(UGeckoInstruction instCode);
   void FallBackToInterpreter(UGeckoInstruction _inst);
   void DoNothing(UGeckoInstruction _inst);
-  void HLEFunction(UGeckoInstruction _inst);
+  void HLEFunction(u32 hook_index);
 
-  void DynaRunTable4(UGeckoInstruction _inst);
-  void DynaRunTable19(UGeckoInstruction _inst);
-  void DynaRunTable31(UGeckoInstruction _inst);
-  void DynaRunTable59(UGeckoInstruction _inst);
-  void DynaRunTable63(UGeckoInstruction _inst);
+  void DynaRunTable4(UGeckoInstruction inst);
+  void DynaRunTable19(UGeckoInstruction inst);
+  void DynaRunTable31(UGeckoInstruction inst);
+  void DynaRunTable59(UGeckoInstruction inst);
+  void DynaRunTable63(UGeckoInstruction inst);
 
   void addx(UGeckoInstruction inst);
   void arithcx(UGeckoInstruction inst);
@@ -231,21 +245,30 @@ public:
   void eieio(UGeckoInstruction inst);
 
 private:
-  static void InitializeInstructionTables();
   void CompileInstruction(PPCAnalyst::CodeOp& op);
+
+  bool HandleFunctionHooking(u32 address);
 
   void AllocStack();
   void FreeStack();
 
+  void ResetFreeMemoryRanges();
+
+  JitBlockCache blocks{*this};
+  TrampolineCache trampolines{*this};
+
   GPRRegCache gpr{*this};
   FPURegCache fpr{*this};
 
-  // The default code buffer. We keep it around to not have to alloc/dealloc a
-  // large chunk of memory for each recompiled block.
-  PPCAnalyst::CodeBuffer code_buffer;
   Jit64AsmRoutineManager asm_routines{*this};
 
   bool m_enable_blr_optimization;
   bool m_cleanup_after_stackfault;
   u8* m_stack;
+
+  HyoutaUtilities::RangeSizeSet<u8*> m_free_ranges_near;
+  HyoutaUtilities::RangeSizeSet<u8*> m_free_ranges_far;
 };
+
+void LogGeneratedX86(size_t size, const PPCAnalyst::CodeBuffer& code_buffer, const u8* normalEntry,
+                     const JitBlock* b);

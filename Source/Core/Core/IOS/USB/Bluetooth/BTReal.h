@@ -11,7 +11,6 @@
 #include <memory>
 #include <mutex>
 #include <string>
-#include <thread>
 
 #include "Common/CommonTypes.h"
 #include "Common/Flag.h"
@@ -20,16 +19,14 @@
 #include "Core/IOS/USB/Bluetooth/BTBase.h"
 #include "Core/IOS/USB/Bluetooth/hci.h"
 #include "Core/IOS/USB/USBV0.h"
+#include "Core/LibusbUtils.h"
 
 class PointerWrap;
-struct libusb_context;
 struct libusb_device;
 struct libusb_device_handle;
 struct libusb_transfer;
 
-namespace IOS
-{
-namespace HLE
+namespace IOS::HLE
 {
 enum class SyncButtonState
 {
@@ -43,17 +40,15 @@ enum class SyncButtonState
 
 using linkkey_t = std::array<u8, 16>;
 
-namespace Device
-{
-class BluetoothReal final : public BluetoothBase
+class BluetoothRealDevice final : public BluetoothBaseDevice
 {
 public:
-  BluetoothReal(Kernel& ios, const std::string& device_name);
-  ~BluetoothReal() override;
+  BluetoothRealDevice(Kernel& ios, const std::string& device_name);
+  ~BluetoothRealDevice() override;
 
-  IPCCommandResult Open(const OpenRequest& request) override;
-  IPCCommandResult Close(u32 fd) override;
-  IPCCommandResult IOCtlV(const IOCtlVRequest& request) override;
+  std::optional<IPCReply> Open(const OpenRequest& request) override;
+  std::optional<IPCReply> Close(u32 fd) override;
+  std::optional<IPCReply> IOCtlV(const IOCtlVRequest& request) override;
 
   void DoState(PointerWrap& p) override;
   void UpdateSyncButtonState(bool is_held) override;
@@ -74,12 +69,11 @@ private:
   std::atomic<SyncButtonState> m_sync_button_state{SyncButtonState::Unpressed};
   Common::Timer m_sync_button_held_timer;
 
+  std::string m_last_open_error;
+
+  LibusbUtils::Context m_context;
   libusb_device* m_device = nullptr;
   libusb_device_handle* m_handle = nullptr;
-  libusb_context* m_libusb_context = nullptr;
-
-  Common::Flag m_thread_running;
-  std::thread m_thread;
 
   std::mutex m_transfers_mutex;
   struct PendingTransfer
@@ -124,25 +118,14 @@ private:
   void SaveLinkKeys();
 
   bool OpenDevice(libusb_device* device);
-  void StartTransferThread();
-  void StopTransferThread();
-  void TransferThread();
 };
-}  // namespace Device
-}  // namespace HLE
-}  // namespace IOS
+}  // namespace IOS::HLE
 
 #else
 #include "Core/IOS/USB/Bluetooth/BTStub.h"
 
-namespace IOS
+namespace IOS::HLE
 {
-namespace HLE
-{
-namespace Device
-{
-using BluetoothReal = BluetoothStub;
-}  // namespace Device
-}  // namespace HLE
-}  // namespace IOS
+using BluetoothRealDevice = BluetoothStubDevice;
+}  // namespace IOS::HLE
 #endif

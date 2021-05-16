@@ -10,12 +10,12 @@
 #include <array>
 #include <cstddef>
 #include <map>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
 
 #include "Common/CommonTypes.h"
-#include "Common/NandPaths.h"
 #include "Core/IOS/Device.h"
 #include "Core/IOS/IOSC.h"
 #include "DiscIO/Enums.h"
@@ -24,6 +24,11 @@ class PointerWrap;
 
 namespace IOS
 {
+namespace HLE::FS
+{
+class FileSystem;
+}
+
 namespace ES
 {
 enum class TitleType : u32
@@ -146,16 +151,19 @@ struct Ticket
 static_assert(sizeof(Ticket) == 0x2A4, "Ticket has the wrong size");
 #pragma pack(pop)
 
+constexpr u32 MAX_TMD_SIZE = 0x49e4;
+
 class SignedBlobReader
 {
 public:
   SignedBlobReader() = default;
-  explicit SignedBlobReader(const std::vector<u8>& bytes);
-  explicit SignedBlobReader(std::vector<u8>&& bytes);
+  explicit SignedBlobReader(std::vector<u8> bytes);
 
   const std::vector<u8>& GetBytes() const;
-  void SetBytes(const std::vector<u8>& bytes);
-  void SetBytes(std::vector<u8>&& bytes);
+  void SetBytes(std::vector<u8> bytes);
+
+  /// Get the SHA1 hash for this signed blob (starting at the issuer).
+  std::array<u8, 20> GetSha1() const;
 
   // Only checks whether the signature data could be parsed. The signature is not verified.
   bool IsSignatureValid() const;
@@ -179,8 +187,7 @@ class TMDReader final : public SignedBlobReader
 {
 public:
   TMDReader() = default;
-  explicit TMDReader(const std::vector<u8>& bytes);
-  explicit TMDReader(std::vector<u8>&& bytes);
+  explicit TMDReader(std::vector<u8> bytes);
 
   bool IsValid() const;
 
@@ -193,14 +200,18 @@ public:
   u32 GetTitleFlags() const;
   u16 GetTitleVersion() const;
   u16 GetGroupId() const;
-
-  // Provides a best guess for the region. Might be inaccurate or Region::Unknown.
   DiscIO::Region GetRegion() const;
 
   // Constructs a 6-character game ID in the format typically used by Dolphin.
   // If the 6-character game ID would contain unprintable characters,
-  // the title ID converted to hexadecimal is returned instead.
+  // the title ID converted to 16 hexadecimal digits is returned instead.
   std::string GetGameID() const;
+
+  // Constructs a 4-character game ID in the format typically used by GameTDB.
+  // If the 4-character game ID would contain unprintable characters,
+  // the title ID converted to 16 hexadecimal digits is returned instead
+  // (a format which GameTDB does not actually use).
+  std::string GetGameTDBID() const;
 
   u16 GetNumContents() const;
   bool GetContent(u16 index, Content* content) const;
@@ -212,8 +223,7 @@ class TicketReader final : public SignedBlobReader
 {
 public:
   TicketReader() = default;
-  explicit TicketReader(const std::vector<u8>& bytes);
-  explicit TicketReader(std::vector<u8>&& bytes);
+  explicit TicketReader(std::vector<u8> bytes);
 
   bool IsValid() const;
 
@@ -228,11 +238,15 @@ public:
 
   u32 GetDeviceId() const;
   u64 GetTitleId() const;
+  u8 GetCommonKeyIndex() const;
   // Get the decrypted title key.
   std::array<u8, 16> GetTitleKey(const HLE::IOSC& iosc) const;
   // Same as the above version, but guesses the console type depending on the issuer
   // and constructs a temporary IOSC instance.
   std::array<u8, 16> GetTitleKey() const;
+
+  // Infers the console type (retail or devkit) based on the certificate issuer.
+  HLE::IOSC::ConsoleType GetConsoleType() const;
 
   // Deletes a ticket with the given ticket ID from the internal buffer.
   void DeleteTicket(u64 ticket_id);
@@ -241,15 +255,14 @@ public:
   // and has a title key that must be decrypted first.
   HLE::ReturnCode Unpersonalise(HLE::IOSC& iosc);
 
-  // Reset the common key field back to 0 if it's an incorrect value.
   // Intended for use before importing fakesigned tickets, which tend to have a high bogus index.
-  void FixCommonKeyIndex();
+  void OverwriteCommonKeyIndex(u8 index);
 };
 
 class SharedContentMap final
 {
 public:
-  explicit SharedContentMap(Common::FromWhichRoot root);
+  explicit SharedContentMap(std::shared_ptr<HLE::FSDevice> fs);
   ~SharedContentMap();
 
   std::optional<std::string> GetFilenameFromSHA1(const std::array<u8, 20>& sha1) const;
@@ -257,28 +270,35 @@ public:
   bool DeleteSharedContent(const std::array<u8, 20>& sha1);
   std::vector<std::array<u8, 20>> GetHashes() const;
 
+  u64 GetTicks() const { return m_ticks; }
+
 private:
   bool WriteEntries() const;
 
   struct Entry;
-  Common::FromWhichRoot m_root;
   u32 m_last_id = 0;
-  std::string m_file_path;
   std::vector<Entry> m_entries;
+  std::shared_ptr<HLE::FSDevice> m_fs_device;
+  std::shared_ptr<HLE::FS::FileSystem> m_fs;
+  u64 m_ticks = 0;
 };
 
 class UIDSys final
 {
 public:
-  explicit UIDSys(Common::FromWhichRoot root);
+  explicit UIDSys(std::shared_ptr<HLE::FSDevice> fs);
 
   u32 GetUIDFromTitle(u64 title_id) const;
   u32 GetOrInsertUIDForTitle(u64 title_id);
   u32 GetNextUID() const;
 
+  u64 GetTicks() const { return m_ticks; }
+
 private:
-  std::string m_file_path;
+  std::shared_ptr<HLE::FSDevice> m_fs_device;
+  std::shared_ptr<HLE::FS::FileSystem> m_fs;
   std::map<u32, u64> m_entries;
+  u64 m_ticks = 0;
 };
 
 class CertReader final : public SignedBlobReader

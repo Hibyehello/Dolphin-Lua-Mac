@@ -19,14 +19,14 @@ void JitArm64::sc(UGeckoInstruction inst)
   INSTRUCTION_START
   JITDISABLE(bJITBranchOff);
 
-  gpr.Flush(FlushMode::FLUSH_ALL);
-  fpr.Flush(FlushMode::FLUSH_ALL);
+  gpr.Flush(FlushMode::All);
+  fpr.Flush(FlushMode::All);
 
   ARM64Reg WA = gpr.GetReg();
 
-  LDR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(Exceptions));
+  LDR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF(Exceptions));
   ORR(WA, WA, 31, 0);  // Same as WA | EXCEPTION_SYSCALL
-  STR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(Exceptions));
+  STR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF(Exceptions));
 
   gpr.Unlock(WA);
 
@@ -38,8 +38,8 @@ void JitArm64::rfi(UGeckoInstruction inst)
   INSTRUCTION_START
   JITDISABLE(bJITBranchOff);
 
-  gpr.Flush(FlushMode::FLUSH_ALL);
-  fpr.Flush(FlushMode::FLUSH_ALL);
+  gpr.Flush(FlushMode::All);
+  fpr.Flush(FlushMode::All);
 
   // See Interpreter rfi for details
   const u32 mask = 0x87C0FFFF;
@@ -53,18 +53,18 @@ void JitArm64::rfi(UGeckoInstruction inst)
   ARM64Reg WB = gpr.GetReg();
   ARM64Reg WC = gpr.GetReg();
 
-  LDR(INDEX_UNSIGNED, WC, PPC_REG, PPCSTATE_OFF(msr));
+  LDR(IndexType::Unsigned, WC, PPC_REG, PPCSTATE_OFF(msr));
 
   ANDI2R(WC, WC, (~mask) & clearMSR13, WA);  // rD = Masked MSR
 
-  LDR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_SRR1]));  // rB contains SRR1 here
+  LDR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_SRR1));  // rB contains SRR1 here
 
   ANDI2R(WA, WA, mask & clearMSR13, WB);  // rB contains masked SRR1 here
   ORR(WA, WA, WC);                        // rB = Masked MSR OR masked SRR1
 
-  STR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(msr));  // STR rB in to rA
+  STR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF(msr));  // STR rB in to rA
 
-  LDR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_SRR0]));
+  LDR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_SRR0));
   gpr.Unlock(WB, WC);
 
   WriteExceptionExit(WA);
@@ -76,17 +76,11 @@ void JitArm64::bx(UGeckoInstruction inst)
   INSTRUCTION_START
   JITDISABLE(bJITBranchOff);
 
-  u32 destination;
-  if (inst.AA)
-    destination = SignExt26(inst.LI << 2);
-  else
-    destination = js.compilerPC + SignExt26(inst.LI << 2);
-
   if (inst.LK)
   {
     ARM64Reg WA = gpr.GetReg();
     MOVI2R(WA, js.compilerPC + 4);
-    STR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_LR]));
+    STR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_LR));
     gpr.Unlock(WA);
   }
 
@@ -102,10 +96,10 @@ void JitArm64::bx(UGeckoInstruction inst)
     return;
   }
 
-  gpr.Flush(FlushMode::FLUSH_ALL);
-  fpr.Flush(FlushMode::FLUSH_ALL);
+  gpr.Flush(FlushMode::All);
+  fpr.Flush(FlushMode::All);
 
-  if (destination == js.compilerPC)
+  if (js.op->branchIsIdleLoop)
   {
     // make idle loops go faster
     ARM64Reg WA = gpr.GetReg();
@@ -115,11 +109,11 @@ void JitArm64::bx(UGeckoInstruction inst)
     BLR(XA);
     gpr.Unlock(WA);
 
-    WriteExceptionExit(js.compilerPC);
+    WriteExceptionExit(js.op->branchTo);
     return;
   }
 
-  WriteExit(destination, inst.LK, js.compilerPC + 4);
+  WriteExit(js.op->branchTo, inst.LK, js.compilerPC + 4);
 }
 
 void JitArm64::bcx(UGeckoInstruction inst)
@@ -131,9 +125,9 @@ void JitArm64::bcx(UGeckoInstruction inst)
   FixupBranch pCTRDontBranch;
   if ((inst.BO & BO_DONT_DECREMENT_FLAG) == 0)  // Decrement and test CTR
   {
-    LDR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_CTR]));
+    LDR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_CTR));
     SUBS(WA, WA, 1);
-    STR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_CTR]));
+    STR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_CTR));
 
     if (inst.BO & BO_BRANCH_IF_CTR_0)
       pCTRDontBranch = B(CC_NEQ);
@@ -149,27 +143,36 @@ void JitArm64::bcx(UGeckoInstruction inst)
         JumpIfCRFieldBit(inst.BI >> 2, 3 - (inst.BI & 3), !(inst.BO_2 & BO_BRANCH_IF_TRUE));
   }
 
-  FixupBranch far = B();
+  FixupBranch far_addr = B();
   SwitchToFarCode();
-  SetJumpTarget(far);
+  SetJumpTarget(far_addr);
 
   if (inst.LK)
   {
     MOVI2R(WA, js.compilerPC + 4);
-    STR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_LR]));
+    STR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_LR));
   }
   gpr.Unlock(WA);
 
-  u32 destination;
-  if (inst.AA)
-    destination = SignExt16(inst.BD << 2);
+  gpr.Flush(FlushMode::MaintainState);
+  fpr.Flush(FlushMode::MaintainState);
+
+  if (js.op->branchIsIdleLoop)
+  {
+    // make idle loops go faster
+    ARM64Reg WA2 = gpr.GetReg();
+    ARM64Reg XA2 = EncodeRegTo64(WA2);
+
+    MOVP2R(XA2, &CoreTiming::Idle);
+    BLR(XA2);
+    gpr.Unlock(WA2);
+
+    WriteExceptionExit(js.op->branchTo);
+  }
   else
-    destination = js.compilerPC + SignExt16(inst.BD << 2);
-
-  gpr.Flush(FlushMode::FLUSH_MAINTAIN_STATE);
-  fpr.Flush(FlushMode::FLUSH_MAINTAIN_STATE);
-
-  WriteExit(destination, inst.LK, js.compilerPC + 4);
+  {
+    WriteExit(js.op->branchTo, inst.LK, js.compilerPC + 4);
+  }
 
   SwitchToNearCode();
 
@@ -180,8 +183,8 @@ void JitArm64::bcx(UGeckoInstruction inst)
 
   if (!analyzer.HasOption(PPCAnalyst::PPCAnalyzer::OPTION_CONDITIONAL_CONTINUE))
   {
-    gpr.Flush(FlushMode::FLUSH_ALL);
-    fpr.Flush(FlushMode::FLUSH_ALL);
+    gpr.Flush(FlushMode::All);
+    fpr.Flush(FlushMode::All);
     WriteExit(js.compilerPC + 4);
   }
 }
@@ -203,20 +206,20 @@ void JitArm64::bcctrx(UGeckoInstruction inst)
   // BO_2 == 1z1zz -> b always
 
   // NPC = CTR & 0xfffffffc;
-  gpr.Flush(FlushMode::FLUSH_ALL);
-  fpr.Flush(FlushMode::FLUSH_ALL);
+  gpr.Flush(FlushMode::All);
+  fpr.Flush(FlushMode::All);
 
   if (inst.LK_3)
   {
     ARM64Reg WB = gpr.GetReg();
     MOVI2R(WB, js.compilerPC + 4);
-    STR(INDEX_UNSIGNED, WB, PPC_REG, PPCSTATE_OFF(spr[SPR_LR]));
+    STR(IndexType::Unsigned, WB, PPC_REG, PPCSTATE_OFF_SPR(SPR_LR));
     gpr.Unlock(WB);
   }
 
   ARM64Reg WA = gpr.GetReg();
 
-  LDR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_CTR]));
+  LDR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_CTR));
   AND(WA, WA, 30, 29);  // Wipe the bottom 2 bits.
 
   WriteExit(WA, inst.LK_3, js.compilerPC + 4);
@@ -233,14 +236,14 @@ void JitArm64::bclrx(UGeckoInstruction inst)
       (inst.BO & BO_DONT_DECREMENT_FLAG) == 0 || (inst.BO & BO_DONT_CHECK_CONDITION) == 0;
 
   ARM64Reg WA = gpr.GetReg();
-  ARM64Reg WB = inst.LK ? gpr.GetReg() : INVALID_REG;
+  ARM64Reg WB = inst.LK ? gpr.GetReg() : ARM64Reg::INVALID_REG;
 
   FixupBranch pCTRDontBranch;
   if ((inst.BO & BO_DONT_DECREMENT_FLAG) == 0)  // Decrement and test CTR
   {
-    LDR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_CTR]));
+    LDR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_CTR));
     SUBS(WA, WA, 1);
-    STR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_CTR]));
+    STR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_CTR));
 
     if (inst.BO & BO_BRANCH_IF_CTR_0)
       pCTRDontBranch = B(CC_NEQ);
@@ -257,25 +260,38 @@ void JitArm64::bclrx(UGeckoInstruction inst)
 
   if (conditional)
   {
-    FixupBranch far = B();
+    FixupBranch far_addr = B();
     SwitchToFarCode();
-    SetJumpTarget(far);
+    SetJumpTarget(far_addr);
   }
 
-  LDR(INDEX_UNSIGNED, WA, PPC_REG, PPCSTATE_OFF(spr[SPR_LR]));
+  LDR(IndexType::Unsigned, WA, PPC_REG, PPCSTATE_OFF_SPR(SPR_LR));
   AND(WA, WA, 30, 29);  // Wipe the bottom 2 bits.
 
   if (inst.LK)
   {
     MOVI2R(WB, js.compilerPC + 4);
-    STR(INDEX_UNSIGNED, WB, PPC_REG, PPCSTATE_OFF(spr[SPR_LR]));
+    STR(IndexType::Unsigned, WB, PPC_REG, PPCSTATE_OFF_SPR(SPR_LR));
     gpr.Unlock(WB);
   }
 
-  gpr.Flush(conditional ? FlushMode::FLUSH_MAINTAIN_STATE : FlushMode::FLUSH_ALL);
-  fpr.Flush(conditional ? FlushMode::FLUSH_MAINTAIN_STATE : FlushMode::FLUSH_ALL);
+  gpr.Flush(conditional ? FlushMode::MaintainState : FlushMode::All);
+  fpr.Flush(conditional ? FlushMode::MaintainState : FlushMode::All);
 
-  WriteBLRExit(WA);
+  if (js.op->branchIsIdleLoop)
+  {
+    // make idle loops go faster
+    ARM64Reg XA = EncodeRegTo64(WA);
+
+    MOVP2R(XA, &CoreTiming::Idle);
+    BLR(XA);
+
+    WriteExceptionExit(js.op->branchTo);
+  }
+  else
+  {
+    WriteBLRExit(WA);
+  }
 
   gpr.Unlock(WA);
 
@@ -289,8 +305,8 @@ void JitArm64::bclrx(UGeckoInstruction inst)
 
   if (!analyzer.HasOption(PPCAnalyst::PPCAnalyzer::OPTION_CONDITIONAL_CONTINUE))
   {
-    gpr.Flush(FlushMode::FLUSH_ALL);
-    fpr.Flush(FlushMode::FLUSH_ALL);
+    gpr.Flush(FlushMode::All);
+    fpr.Flush(FlushMode::All);
     WriteExit(js.compilerPC + 4);
   }
 }

@@ -11,7 +11,7 @@
 #include "Core/HLE/HLE.h"
 #include "Core/HW/CPU.h"
 #include "Core/PowerPC/Gekko.h"
-#include "Core/PowerPC/Jit64Common/Jit64Base.h"
+#include "Core/PowerPC/Jit64Common/Jit64Constants.h"
 #include "Core/PowerPC/PPCAnalyst.h"
 #include "Core/PowerPC/PowerPC.h"
 
@@ -48,9 +48,7 @@ struct CachedInterpreter::Instruction
   Type type = Type::Abort;
 };
 
-CachedInterpreter::CachedInterpreter() : code_buffer(32000)
-{
-}
+CachedInterpreter::CachedInterpreter() = default;
 
 CachedInterpreter::~CachedInterpreter() = default;
 
@@ -73,9 +71,9 @@ void CachedInterpreter::Shutdown()
   m_block_cache.Shutdown();
 }
 
-const u8* CachedInterpreter::GetCodePtr() const
+u8* CachedInterpreter::GetCodePtr()
 {
-  return reinterpret_cast<const u8*>(m_code.data() + m_code.size());
+  return reinterpret_cast<u8*>(m_code.data() + m_code.size());
 }
 
 void CachedInterpreter::ExecuteOneBlock()
@@ -103,7 +101,7 @@ void CachedInterpreter::ExecuteOneBlock()
       break;
 
     default:
-      ERROR_LOG(POWERPC, "Unknown CachedInterpreter Instruction: %d", code->type);
+      ERROR_LOG_FMT(POWERPC, "Unknown CachedInterpreter Instruction: {}", code->type);
       break;
     }
   }
@@ -111,6 +109,7 @@ void CachedInterpreter::ExecuteOneBlock()
 
 void CachedInterpreter::Run()
 {
+  const CPU::State* state_ptr = CPU::GetStatePtr();
   while (CPU::GetState() == CPU::State::Running)
   {
     // Start new timing slice
@@ -120,7 +119,7 @@ void CachedInterpreter::Run()
     do
     {
       ExecuteOneBlock();
-    } while (PowerPC::ppcState.downcount > 0);
+    } while (PowerPC::ppcState.downcount > 0 && *state_ptr == CPU::State::Running);
   }
 }
 
@@ -135,6 +134,17 @@ static void EndBlock(UGeckoInstruction data)
 {
   PC = NPC;
   PowerPC::ppcState.downcount -= data.hex;
+  PowerPC::UpdatePerformanceMonitor(data.hex, 0, 0);
+}
+
+static void UpdateNumLoadStoreInstructions(UGeckoInstruction data)
+{
+  PowerPC::UpdatePerformanceMonitor(0, data.hex, 0);
+}
+
+static void UpdateNumFloatingPointInstructions(UGeckoInstruction data)
+{
+  PowerPC::UpdatePerformanceMonitor(0, 0, data.hex);
 }
 
 static void WritePC(UGeckoInstruction data)
@@ -150,8 +160,7 @@ static void WriteBrokenBlockNPC(UGeckoInstruction data)
 
 static bool CheckFPU(u32 data)
 {
-  UReg_MSR msr{MSR};
-  if (!msr.FP)
+  if (!MSR.FP)
   {
     PowerPC::ppcState.Exceptions |= EXCEPTION_FPU_UNAVAILABLE;
     PowerPC::CheckExceptions();
@@ -172,6 +181,41 @@ static bool CheckDSI(u32 data)
   return false;
 }
 
+static bool CheckBreakpoint(u32 data)
+{
+  PowerPC::CheckBreakPoints();
+  if (CPU::GetState() != CPU::State::Running)
+  {
+    PowerPC::ppcState.downcount -= data;
+    return true;
+  }
+  return false;
+}
+
+static bool CheckIdle(u32 idle_pc)
+{
+  if (PowerPC::ppcState.npc == idle_pc)
+  {
+    CoreTiming::Idle();
+  }
+  return false;
+}
+
+bool CachedInterpreter::HandleFunctionHooking(u32 address)
+{
+  return HLE::ReplaceFunctionIfPossible(address, [&](u32 hook_index, HLE::HookType type) {
+    m_code.emplace_back(WritePC, address);
+    m_code.emplace_back(Interpreter::HLEFunction, hook_index);
+
+    if (type != HLE::HookType::Replace)
+      return false;
+
+    m_code.emplace_back(EndBlock, js.downcountAmount);
+    m_code.emplace_back();
+    return true;
+  });
+}
+
 void CachedInterpreter::Jit(u32 address)
 {
   if (m_code.size() >= CODE_SIZE / sizeof(Instruction) - 0x1000 ||
@@ -180,14 +224,14 @@ void CachedInterpreter::Jit(u32 address)
     ClearCache();
   }
 
-  u32 nextPC = analyzer.Analyze(PC, &code_block, &code_buffer, code_buffer.GetSize());
+  const u32 nextPC = analyzer.Analyze(PC, &code_block, &m_code_buffer, m_code_buffer.size());
   if (code_block.m_memory_exception)
   {
     // Address of instruction could not be translated
     NPC = nextPC;
     PowerPC::ppcState.Exceptions |= EXCEPTION_ISI;
     PowerPC::CheckExceptions();
-    WARN_LOG(POWERPC, "ISI exception at 0x%08x", nextPC);
+    WARN_LOG_FMT(POWERPC, "ISI exception at {:#010x}", nextPC);
     return;
   }
 
@@ -197,64 +241,69 @@ void CachedInterpreter::Jit(u32 address)
   js.firstFPInstructionFound = false;
   js.fifoBytesSinceCheck = 0;
   js.downcountAmount = 0;
+  js.numLoadStoreInst = 0;
+  js.numFloatingPointInst = 0;
   js.curBlock = b;
-
-  PPCAnalyst::CodeOp* ops = code_buffer.codebuffer;
 
   b->checkedEntry = GetCodePtr();
   b->normalEntry = GetCodePtr();
 
   for (u32 i = 0; i < code_block.m_num_instructions; i++)
   {
-    js.downcountAmount += ops[i].opinfo->numCycles;
+    PPCAnalyst::CodeOp& op = m_code_buffer[i];
 
-    u32 function = HLE::GetFirstFunctionIndex(ops[i].address);
-    if (function != 0)
+    js.downcountAmount += op.opinfo->numCycles;
+    if (op.opinfo->flags & FL_LOADSTORE)
+      ++js.numLoadStoreInst;
+    if (op.opinfo->flags & FL_USE_FPU)
+      ++js.numFloatingPointInst;
+
+    if (HandleFunctionHooking(op.address))
+      break;
+
+    if (!op.skip)
     {
-      HLE::HookType type = HLE::GetFunctionTypeByIndex(function);
-      if (type == HLE::HookType::Start || type == HLE::HookType::Replace)
+      const bool breakpoint = SConfig::GetInstance().bEnableDebugging &&
+                              PowerPC::breakpoints.IsAddressBreakPoint(op.address);
+      const bool check_fpu = (op.opinfo->flags & FL_USE_FPU) && !js.firstFPInstructionFound;
+      const bool endblock = (op.opinfo->flags & FL_ENDBLOCK) != 0;
+      const bool memcheck = (op.opinfo->flags & FL_LOADSTORE) && jo.memcheck;
+      const bool idle_loop = op.branchIsIdleLoop;
+
+      if (breakpoint)
       {
-        HLE::HookFlag flags = HLE::GetFunctionFlagsByIndex(function);
-        if (HLE::IsEnabled(flags))
-        {
-          m_code.emplace_back(WritePC, ops[i].address);
-          m_code.emplace_back(Interpreter::HLEFunction, function);
-          if (type == HLE::HookType::Replace)
-          {
-            m_code.emplace_back(EndBlock, js.downcountAmount);
-            m_code.emplace_back();
-            break;
-          }
-        }
+        m_code.emplace_back(WritePC, op.address);
+        m_code.emplace_back(CheckBreakpoint, js.downcountAmount);
       }
-    }
-
-    if (!ops[i].skip)
-    {
-      bool check_fpu = (ops[i].opinfo->flags & FL_USE_FPU) && !js.firstFPInstructionFound;
-      bool endblock = (ops[i].opinfo->flags & FL_ENDBLOCK) != 0;
-      bool memcheck = (ops[i].opinfo->flags & FL_LOADSTORE) && jo.memcheck;
 
       if (check_fpu)
       {
-        m_code.emplace_back(WritePC, ops[i].address);
+        m_code.emplace_back(WritePC, op.address);
         m_code.emplace_back(CheckFPU, js.downcountAmount);
         js.firstFPInstructionFound = true;
       }
 
       if (endblock || memcheck)
-        m_code.emplace_back(WritePC, ops[i].address);
-      m_code.emplace_back(PPCTables::GetInterpreterOp(ops[i].inst), ops[i].inst);
+        m_code.emplace_back(WritePC, op.address);
+      m_code.emplace_back(PPCTables::GetInterpreterOp(op.inst), op.inst);
       if (memcheck)
         m_code.emplace_back(CheckDSI, js.downcountAmount);
+      if (idle_loop)
+        m_code.emplace_back(CheckIdle, js.blockStart);
       if (endblock)
+      {
         m_code.emplace_back(EndBlock, js.downcountAmount);
+        m_code.emplace_back(UpdateNumLoadStoreInstructions, js.numLoadStoreInst);
+        m_code.emplace_back(UpdateNumFloatingPointInstructions, js.numFloatingPointInst);
+      }
     }
   }
   if (code_block.m_broken)
   {
     m_code.emplace_back(WriteBrokenBlockNPC, nextPC);
     m_code.emplace_back(EndBlock, js.downcountAmount);
+    m_code.emplace_back(UpdateNumLoadStoreInstructions, js.numLoadStoreInst);
+    m_code.emplace_back(UpdateNumFloatingPointInstructions, js.numFloatingPointInst);
   }
   m_code.emplace_back();
 

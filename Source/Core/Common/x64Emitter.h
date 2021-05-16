@@ -313,28 +313,39 @@ inline u32 PtrOffset(const void* ptr, const void* base = nullptr)
   return (u32)distance;
 }
 
-// usage: int a[]; ARRAY_OFFSET(a,10)
-#define ARRAY_OFFSET(array, index) ((u32)((u64) & (array)[index] - (u64) & (array)[0]))
-// usage: struct {int e;} s; STRUCT_OFFSET(s,e)
-#define STRUCT_OFFSET(str, elem) ((u32)((u64) & (str).elem - (u64) & (str)))
-
 struct FixupBranch
 {
+  enum class Type
+  {
+    Branch8Bit,
+    Branch32Bit
+  };
+
   u8* ptr;
-  int type;  // 0 = 8bit 1 = 32bit
+  Type type;
 };
 
 class XEmitter
 {
   friend struct OpArg;  // for Write8 etc
 private:
+  // Pointer to memory where code will be emitted to.
   u8* code = nullptr;
+
+  // Pointer past the end of the memory region we're allowed to emit to.
+  // Writes that would reach this memory are refused and will set the m_write_failed flag instead.
+  u8* m_code_end = nullptr;
+
   bool flags_locked = false;
+
+  // Set to true when a write request happens that would write past m_code_end.
+  // Must be cleared with SetCodePtr() afterwards.
+  bool m_write_failed = false;
 
   void CheckFlags();
 
   void Rex(int w, int r, int x, int b);
-  void WriteModRM(int mod, int rm, int reg);
+  void WriteModRM(int mod, int reg, int rm);
   void WriteSIB(int scale, int index, int base);
   void WriteSimple1Byte(int bits, u8 byte, X64Reg reg);
   void WriteSimple2Byte(int bits, u8 byte1, u8 byte2, X64Reg reg);
@@ -377,9 +388,9 @@ protected:
 
 public:
   XEmitter() = default;
-  explicit XEmitter(u8* code_ptr) : code{code_ptr} {}
+  explicit XEmitter(u8* code_ptr, u8* code_end) : code(code_ptr), m_code_end(code_end) {}
   virtual ~XEmitter() = default;
-  void SetCodePtr(u8* ptr);
+  void SetCodePtr(u8* ptr, u8* end, bool write_failed = false);
   void ReserveCodeSpace(int bytes);
   u8* AlignCodeTo(size_t alignment);
   u8* AlignCode4();
@@ -387,9 +398,16 @@ public:
   u8* AlignCodePage();
   const u8* GetCodePtr() const;
   u8* GetWritableCodePtr();
+  const u8* GetCodeEnd() const;
+  u8* GetWritableCodeEnd();
 
   void LockFlags() { flags_locked = true; }
   void UnlockFlags() { flags_locked = false; }
+
+  // Should be checked after a block of code has been generated to see if the code has been
+  // successfully written to memory. Do not call the generated code when this returns true!
+  bool HasWriteFailed() const { return m_write_failed; }
+
   // Looking for one of these? It's BANNED!! Some instructions are slow on modern CPU
   // INC, DEC, LOOP, LOOPNE, LOOPE, ENTER, LEAVE, XCHG, XLAT, REP MOVSB/MOVSD, REP SCASD + other
   // string instr.,
@@ -839,6 +857,14 @@ public:
   void BLENDPD(X64Reg dest, const OpArg& arg, u8 blend);
 
   // AVX
+  void VADDSS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
+  void VSUBSS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
+  void VMULSS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
+  void VDIVSS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
+  void VADDPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
+  void VSUBPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
+  void VMULPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
+  void VDIVPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VADDSD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VSUBSD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VMULSD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
@@ -849,10 +875,14 @@ public:
   void VDIVPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VSQRTSD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VCMPPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg, u8 compare);
+  void VSHUFPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg, u8 shuffle);
   void VSHUFPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg, u8 shuffle);
+  void VUNPCKLPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VUNPCKLPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VUNPCKHPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VBLENDVPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg, X64Reg mask);
+  void VBLENDPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg, u8 blend);
+  void VBLENDPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg, u8 blend);
 
   void VANDPS(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
   void VANDPD(X64Reg regOp1, X64Reg regOp2, const OpArg& arg);
@@ -1067,6 +1097,13 @@ public:
   }
 
   template <typename FunctionPointer>
+  void ABI_CallFunctionP(FunctionPointer func, const void* param1)
+  {
+    MOV(64, R(ABI_PARAM1), Imm64(reinterpret_cast<u64>(param1)));
+    ABI_CallFunction(func);
+  }
+
+  template <typename FunctionPointer>
   void ABI_CallFunctionPC(FunctionPointer func, const void* param1, u32 param2)
   {
     MOV(64, R(ABI_PARAM1), Imm64(reinterpret_cast<u64>(param1)));
@@ -1092,11 +1129,29 @@ public:
     ABI_CallFunction(func);
   }
 
+  // Pass a pointer and register as a parameter.
+  template <typename FunctionPointer>
+  void ABI_CallFunctionPR(FunctionPointer func, const void* ptr, X64Reg reg1)
+  {
+    MOV(64, R(ABI_PARAM2), R(reg1));
+    MOV(64, R(ABI_PARAM1), Imm64(reinterpret_cast<u64>(ptr)));
+    ABI_CallFunction(func);
+  }
+
   // Pass two registers as parameters.
   template <typename FunctionPointer>
   void ABI_CallFunctionRR(FunctionPointer func, X64Reg reg1, X64Reg reg2)
   {
     MOVTwo(64, ABI_PARAM1, reg1, 0, ABI_PARAM2, reg2);
+    ABI_CallFunction(func);
+  }
+
+  // Pass a pointer and two registers as parameters.
+  template <typename FunctionPointer>
+  void ABI_CallFunctionPRR(FunctionPointer func, const void* ptr, X64Reg reg1, X64Reg reg2)
+  {
+    MOVTwo(64, ABI_PARAM2, reg1, 0, ABI_PARAM3, reg2);
+    MOV(64, R(ABI_PARAM1), Imm64(reinterpret_cast<u64>(ptr)));
     ABI_CallFunction(func);
   }
 
@@ -1147,7 +1202,7 @@ public:
   }
 };  // class XEmitter
 
-class X64CodeBlock : public CodeBlock<XEmitter>
+class X64CodeBlock : public Common::CodeBlock<XEmitter>
 {
 private:
   void PoisonMemory() override
@@ -1157,4 +1212,4 @@ private:
   }
 };
 
-}  // namespace
+}  // namespace Gen

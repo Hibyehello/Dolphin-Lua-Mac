@@ -8,13 +8,16 @@
 
 namespace Null
 {
-class VideoBackend : public VideoBackendBase
+class VideoBackend final : public VideoBackendBase
 {
-  bool Initialize(void* window_handle) override;
+public:
+  bool Initialize(const WindowSystemInfo& wsi) override;
   void Shutdown() override;
 
-  std::string GetName() const override { return "Null"; }
-  std::string GetDisplayName() const override { return "Null"; }
+  std::string GetName() const override { return NAME; }
+  std::string GetDisplayName() const override;
   void InitBackendInfo() override;
+
+  static constexpr const char* NAME = "Null";
 };
-}
+}  // namespace Null

@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <fstream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include <sys/stat.h>
@@ -15,6 +16,11 @@
 
 #ifdef _WIN32
 #include "Common/StringUtil.h"
+#endif
+
+#ifdef ANDROID
+#include "Common/StringUtil.h"
+#include "jni/AndroidCommon/AndroidCommon.h"
 #endif
 
 // User directory indices for GetUserPath
@@ -29,6 +35,8 @@ enum
                           // settings (per game)
   D_MAPS_IDX,
   D_CACHE_IDX,
+  D_COVERCACHE_IDX,
+  D_REDUMPCACHE_IDX,
   D_SHADERCACHE_IDX,
   D_SHADERS_IDX,
   D_STATESAVES_IDX,
@@ -36,6 +44,7 @@ enum
   D_HIRESTEXTURES_IDX,
   D_DUMP_IDX,
   D_DUMPFRAMES_IDX,
+  D_DUMPOBJECTS_IDX,
   D_DUMPAUDIO_IDX,
   D_DUMPTEXTURES_IDX,
   D_DUMPDSP_IDX,
@@ -44,10 +53,13 @@ enum
   D_LOGS_IDX,
   D_MAILLOGS_IDX,
   D_THEMES_IDX,
+  D_STYLES_IDX,
   D_PIPES_IDX,
   D_MEMORYWATCHER_IDX,
   D_WFSROOT_IDX,
   D_BACKUP_IDX,
+  D_RESOURCEPACK_IDX,
+  D_DYNAMICINPUT_IDX,
   F_DOLPHINCONFIG_IDX,
   F_GCPADCONFIG_IDX,
   F_WIIPADCONFIG_IDX,
@@ -55,15 +67,17 @@ enum
   F_GFXCONFIG_IDX,
   F_DEBUGGERCONFIG_IDX,
   F_LOGGERCONFIG_IDX,
-  F_UICONFIG_IDX,
   F_MAINLOG_IDX,
-  F_RAMDUMP_IDX,
+  F_MEM1DUMP_IDX,
+  F_MEM2DUMP_IDX,
   F_ARAMDUMP_IDX,
   F_FAKEVMEMDUMP_IDX,
   F_GCSRAM_IDX,
   F_MEMORYWATCHERLOCATIONS_IDX,
   F_MEMORYWATCHERSOCKET_IDX,
   F_WIISDCARD_IDX,
+  F_DUALSHOCKUDPCLIENTCONFIG_IDX,
+  F_FREELOOKCONFIG_IDX,
   NUM_PATH_INDICES
 };
 
@@ -100,6 +114,10 @@ public:
   u64 GetSize() const;
 
 private:
+#ifdef ANDROID
+  void AndroidContentInit(const std::string& path);
+#endif
+
   struct stat m_stat;
   bool m_exists;
 };
@@ -128,12 +146,20 @@ bool CreateDir(const std::string& filename);
 // Creates the full path of fullPath returns true on success
 bool CreateFullPath(const std::string& fullPath);
 
+enum class IfAbsentBehavior
+{
+  ConsoleWarning,
+  NoConsoleWarning
+};
+
 // Deletes a given filename, return true on success
 // Doesn't supports deleting a directory
-bool Delete(const std::string& filename);
+bool Delete(const std::string& filename,
+            IfAbsentBehavior behavior = IfAbsentBehavior::ConsoleWarning);
 
 // Deletes a directory filename, returns true on success
-bool DeleteDir(const std::string& filename);
+bool DeleteDir(const std::string& filename,
+               IfAbsentBehavior behavior = IfAbsentBehavior::ConsoleWarning);
 
 // renames file srcFilename to destFilename, returns true on success
 bool Rename(const std::string& srcFilename, const std::string& destFilename);
@@ -167,7 +193,7 @@ bool SetCurrentDir(const std::string& directory);
 std::string CreateTempDir();
 
 // Get a filename that can hopefully be atomically renamed to the given path.
-std::string GetTempFilenameForAtomicWrite(const std::string& path);
+std::string GetTempFilenameForAtomicWrite(std::string path);
 
 // Gets a set user directory path
 // Don't call prior to setting the base user directory
@@ -194,18 +220,24 @@ std::string GetBundleDirectory();
 std::string GetExePath();
 std::string GetExeDirectory();
 
-bool WriteStringToFile(const std::string& str, const std::string& filename);
+bool WriteStringToFile(const std::string& filename, std::string_view str);
 bool ReadFileToString(const std::string& filename, std::string& str);
 
-// To deal with Windows being dumb at unicode:
+// To deal with Windows not fully supporting UTF-8 and Android not fully supporting paths.
 template <typename T>
 void OpenFStream(T& fstream, const std::string& filename, std::ios_base::openmode openmode)
 {
 #ifdef _WIN32
   fstream.open(UTF8ToTStr(filename).c_str(), openmode);
 #else
-  fstream.open(filename.c_str(), openmode);
+#ifdef ANDROID
+  // Unfortunately it seems like the non-standard __open is the only way to use a file descriptor
+  if (IsPathAndroidContent(filename))
+    fstream.__open(OpenAndroidContent(filename, OpenModeToAndroid(openmode)), openmode);
+  else
+#endif
+    fstream.open(filename.c_str(), openmode);
 #endif
 }
 
-}  // namespace
+}  // namespace File

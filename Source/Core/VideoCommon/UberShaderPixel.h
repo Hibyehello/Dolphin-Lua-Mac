@@ -5,7 +5,10 @@
 #pragma once
 
 #include <functional>
-#include "VideoCommon/PixelShaderGen.h"
+#include "Common/CommonTypes.h"
+#include "VideoCommon/ShaderGenCommon.h"
+
+enum class APIType;
 
 namespace UberShader
 {
@@ -21,7 +24,7 @@ struct pixel_ubershader_uid_data
 };
 #pragma pack()
 
-typedef ShaderUid<pixel_ubershader_uid_data> PixelShaderUid;
+using PixelShaderUid = ShaderUid<pixel_ubershader_uid_data>;
 
 PixelShaderUid GetPixelShaderUid();
 
@@ -29,5 +32,6 @@ ShaderCode GenPixelShader(APIType ApiType, const ShaderHostConfig& host_config,
                           const pixel_ubershader_uid_data* uid_data);
 
 void EnumeratePixelShaderUids(const std::function<void(const PixelShaderUid&)>& callback);
-void ClearUnusedPixelShaderUidBits(APIType ApiType, PixelShaderUid* uid);
-}
+void ClearUnusedPixelShaderUidBits(APIType ApiType, const ShaderHostConfig& host_config,
+                                   PixelShaderUid* uid);
+}  // namespace UberShader

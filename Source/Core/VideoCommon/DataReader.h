@@ -6,8 +6,8 @@
 
 #include <cstring>
 
-#include "Common/Common.h"
 #include "Common/CommonTypes.h"
+#include "Common/Inline.h"
 #include "Common/Swap.h"
 
 class DataReader
@@ -25,19 +25,19 @@ public:
 
   size_t size() const { return end - buffer; }
   template <typename T, bool swapped = true>
-  __forceinline T Peek(int offset = 0) const
+  DOLPHIN_FORCE_INLINE T Peek(int offset = 0) const
   {
     T data;
     std::memcpy(&data, &buffer[offset], sizeof(T));
 
-    if (swapped)
+    if constexpr (swapped)
       data = Common::FromBigEndian(data);
 
     return data;
   }
 
   template <typename T, bool swapped = true>
-  __forceinline T Read()
+  DOLPHIN_FORCE_INLINE T Read()
   {
     const T result = Peek<T, swapped>();
     buffer += sizeof(T);
@@ -45,9 +45,9 @@ public:
   }
 
   template <typename T, bool swapped = false>
-  __forceinline void Write(T data)
+  DOLPHIN_FORCE_INLINE void Write(T data)
   {
-    if (swapped)
+    if constexpr (swapped)
       data = Common::FromBigEndian(data);
 
     std::memcpy(buffer, &data, sizeof(T));

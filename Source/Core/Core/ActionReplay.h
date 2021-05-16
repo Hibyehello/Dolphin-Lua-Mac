@@ -28,13 +28,17 @@ struct ARCode
 {
   std::string name;
   std::vector<AREntry> ops;
-  bool active;
-  bool user_defined;
+  bool enabled = false;
+  bool default_enabled = false;
+  bool user_defined = false;
 };
 
 void RunAllActive();
 
 void ApplyCodes(const std::vector<ARCode>& codes);
+void SetSyncedCodesAsActive();
+void UpdateSyncedCodes(const std::vector<ARCode>& codes);
+std::vector<ARCode> ApplyAndReturnCodes(const std::vector<ARCode>& codes);
 void AddCode(ARCode new_code);
 void LoadAndApplyCodes(const IniFile& global_ini, const IniFile& local_ini);
 
@@ -45,4 +49,4 @@ void EnableSelfLogging(bool enable);
 std::vector<std::string> GetSelfLog();
 void ClearSelfLog();
 bool IsSelfLogging();
-}  // namespace
+}  // namespace ActionReplay

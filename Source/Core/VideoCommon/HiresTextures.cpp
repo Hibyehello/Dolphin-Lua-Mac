@@ -4,24 +4,25 @@
 
 #include "VideoCommon/HiresTextures.h"
 
-#include <SOIL/SOIL.h>
 #include <algorithm>
-#include <cinttypes>
-#include <cstring>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 #include <xxhash.h>
 
-#include "Common/File.h"
+#include <fmt/format.h>
+
+#include "Common/CommonPaths.h"
 #include "Common/FileSearch.h"
 #include "Common/FileUtil.h"
 #include "Common/Flag.h"
-#include "Common/Hash.h"
+#include "Common/IOFile.h"
+#include "Common/Image.h"
 #include "Common/Logging/Log.h"
 #include "Common/MemoryUtil.h"
 #include "Common/StringUtil.h"
@@ -39,35 +40,23 @@ struct DiskTexture
   bool has_arbitrary_mipmaps;
 };
 
+constexpr std::string_view s_format_prefix{"tex1_"};
+
 static std::unordered_map<std::string, DiskTexture> s_textureMap;
 static std::unordered_map<std::string, std::shared_ptr<HiresTexture>> s_textureCache;
 static std::mutex s_textureCacheMutex;
-static std::mutex s_textureCacheAquireMutex;  // for high priority access
 static Common::Flag s_textureCacheAbortLoading;
 
 static std::thread s_prefetcher;
 
-static const std::string s_format_prefix = "tex1_";
-
-HiresTexture::Level::Level() : data(nullptr, SOIL_free_image_data)
-{
-}
-
 void HiresTexture::Init()
 {
-  Update();
+  // Note: Update is not called here so that we handle dynamic textures on startup more gracefully
 }
 
 void HiresTexture::Shutdown()
 {
-  if (s_prefetcher.joinable())
-  {
-    s_textureCacheAbortLoading.Set();
-    s_prefetcher.join();
-  }
-
-  s_textureMap.clear();
-  s_textureCache.clear();
+  Clear();
 }
 
 void HiresTexture::Update()
@@ -80,8 +69,7 @@ void HiresTexture::Update()
 
   if (!g_ActiveConfig.bHiresTextures)
   {
-    s_textureMap.clear();
-    s_textureCache.clear();
+    Clear();
     return;
   }
 
@@ -91,29 +79,41 @@ void HiresTexture::Update()
   }
 
   const std::string& game_id = SConfig::GetInstance().GetGameID();
-  const std::string texture_directory = GetTextureDirectory(game_id);
-  std::vector<std::string> extensions{
-      ".png", ".bmp", ".tga", ".dds",
-      ".jpg"  // Why not? Could be useful for large photo-like textures
-  };
+  const std::set<std::string> texture_directories =
+      GetTextureDirectoriesWithGameId(File::GetUserPath(D_HIRESTEXTURES_IDX), game_id);
+  const std::vector<std::string> extensions{".png", ".dds"};
 
-  const std::vector<std::string> texture_paths =
-      Common::DoFileSearch({texture_directory}, extensions, /*recursive*/ true);
-
-  const std::string code = game_id + "_";
-
-  for (auto& path : texture_paths)
+  for (const auto& texture_directory : texture_directories)
   {
-    std::string filename;
-    SplitPath(path, nullptr, &filename, nullptr);
+    const auto texture_paths =
+        Common::DoFileSearch({texture_directory}, extensions, /*recursive*/ true);
 
-    if (filename.substr(0, s_format_prefix.length()) == s_format_prefix)
+    bool failed_insert = false;
+    for (auto& path : texture_paths)
     {
-      const size_t arb_index = filename.rfind("_arb");
-      const bool has_arbitrary_mipmaps = arb_index != std::string::npos;
-      if (has_arbitrary_mipmaps)
-        filename.erase(arb_index, 4);
-      s_textureMap[filename] = {path, has_arbitrary_mipmaps};
+      std::string filename;
+      SplitPath(path, nullptr, &filename, nullptr);
+
+      if (filename.substr(0, s_format_prefix.length()) == s_format_prefix)
+      {
+        const size_t arb_index = filename.rfind("_arb");
+        const bool has_arbitrary_mipmaps = arb_index != std::string::npos;
+        if (has_arbitrary_mipmaps)
+          filename.erase(arb_index, 4);
+
+        const auto [it, inserted] =
+            s_textureMap.try_emplace(filename, DiskTexture{path, has_arbitrary_mipmaps});
+        if (!inserted)
+        {
+          failed_insert = true;
+        }
+      }
+    }
+
+    if (failed_insert)
+    {
+      ERROR_LOG_FMT(VIDEO, "One or more textures at path '{}' were already inserted",
+                    texture_directory);
     }
   }
 
@@ -138,42 +138,45 @@ void HiresTexture::Update()
   }
 }
 
+void HiresTexture::Clear()
+{
+  if (s_prefetcher.joinable())
+  {
+    s_textureCacheAbortLoading.Set();
+    s_prefetcher.join();
+  }
+  s_textureMap.clear();
+  s_textureCache.clear();
+}
+
 void HiresTexture::Prefetch()
 {
   Common::SetCurrentThreadName("Prefetcher");
 
   size_t size_sum = 0;
-  size_t sys_mem = Common::MemPhysical();
-  size_t recommended_min_mem = 2 * size_t(1024 * 1024 * 1024);
+  const size_t sys_mem = Common::MemPhysical();
+  const size_t recommended_min_mem = 2 * size_t(1024 * 1024 * 1024);
   // keep 2GB memory for system stability if system RAM is 4GB+ - use half of memory in other cases
-  size_t max_mem =
+  const size_t max_mem =
       (sys_mem / 2 < recommended_min_mem) ? (sys_mem / 2) : (sys_mem - recommended_min_mem);
-  u32 starttime = Common::Timer::GetTimeMs();
+
+  const u32 start_time = Common::Timer::GetTimeMs();
   for (const auto& entry : s_textureMap)
   {
     const std::string& base_filename = entry.first;
 
     if (base_filename.find("_mip") == std::string::npos)
     {
-      {
-        // try to get this mutex first, so the video thread is allow to get the real mutex faster
-        std::unique_lock<std::mutex> lk(s_textureCacheAquireMutex);
-      }
       std::unique_lock<std::mutex> lk(s_textureCacheMutex);
 
       auto iter = s_textureCache.find(base_filename);
       if (iter == s_textureCache.end())
       {
-        // unlock while loading a texture. This may result in a race condition where we'll load a
-        // texture twice,
-        // but it reduces the stuttering a lot. Notice: The loading library _must_ be thread safe
-        // now.
-        // But bad luck, SOIL isn't, so TODO: remove SOIL usage here and use libpng directly
-        // Also TODO: remove s_textureCacheAquireMutex afterwards. It won't be needed as the main
-        // mutex will be locked rarely
-        // lk.unlock();
+        // unlock while loading a texture. This may result in a race condition where
+        // we'll load a texture twice, but it reduces the stuttering a lot.
+        lk.unlock();
         std::unique_ptr<HiresTexture> texture = Load(base_filename, 0, 0);
-        // lk.lock();
+        lk.lock();
         if (texture)
         {
           std::shared_ptr<HiresTexture> ptr(std::move(texture));
@@ -183,9 +186,7 @@ void HiresTexture::Prefetch()
       if (iter != s_textureCache.end())
       {
         for (const Level& l : iter->second->m_levels)
-        {
-          size_sum += l.data_size;
-        }
+          size_sum += l.data.size();
       }
     }
 
@@ -199,16 +200,17 @@ void HiresTexture::Prefetch()
       Config::SetCurrent(Config::GFX_HIRES_TEXTURES, false);
 
       OSD::AddMessage(
-          StringFromFormat(
-              "Custom Textures prefetching after %.1f MB aborted, not enough RAM available",
+          fmt::format(
+              "Custom Textures prefetching after {:.1f} MB aborted, not enough RAM available",
               size_sum / (1024.0 * 1024.0)),
           10000);
       return;
     }
   }
-  u32 stoptime = Common::Timer::GetTimeMs();
-  OSD::AddMessage(StringFromFormat("Custom Textures loaded, %.1f MB in %.1f s",
-                                   size_sum / (1024.0 * 1024.0), (stoptime - starttime) / 1000.0),
+
+  const u32 stop_time = Common::Timer::GetTimeMs();
+  OSD::AddMessage(fmt::format("Custom Textures loaded, {:.1f} MB in {:.1f}s",
+                              size_sum / (1024.0 * 1024.0), (stop_time - start_time) / 1000.0),
                   10000);
 }
 
@@ -263,22 +265,26 @@ std::string HiresTexture::GenBaseName(const u8* texture, size_t texture_size, co
     tlut += 2 * min;
   }
 
-  u64 tex_hash = XXH64(texture, texture_size, 0);
-  u64 tlut_hash = tlut_size ? XXH64(tlut, tlut_size, 0) : 0;
+  const u64 tex_hash = XXH64(texture, texture_size, 0);
+  const u64 tlut_hash = tlut_size ? XXH64(tlut, tlut_size, 0) : 0;
 
-  std::string basename = s_format_prefix + StringFromFormat("%dx%d%s_%016" PRIx64, width, height,
-                                                            has_mipmaps ? "_m" : "", tex_hash);
-  std::string tlutname = tlut_size ? StringFromFormat("_%016" PRIx64, tlut_hash) : "";
-  std::string formatname = StringFromFormat("_%d", static_cast<int>(format));
-  std::string fullname = basename + tlutname + formatname;
+  const std::string base_name = fmt::format("{}{}x{}{}_{:016x}", s_format_prefix, width, height,
+                                            has_mipmaps ? "_m" : "", tex_hash);
+  const std::string tlut_name = tlut_size ? fmt::format("_{:016x}", tlut_hash) : "";
+  const std::string format_name = fmt::format("_{}", static_cast<int>(format));
+  const std::string full_name = base_name + tlut_name + format_name;
 
   // try to match a wildcard template
-  if (!dump && s_textureMap.find(basename + "_*" + formatname) != s_textureMap.end())
-    return basename + "_*" + formatname;
+  if (!dump)
+  {
+    const std::string texture_name = fmt::format("{}_${}", base_name, format_name);
+    if (s_textureMap.find(texture_name) != s_textureMap.end())
+      return texture_name;
+  }
 
   // else generate the complete texture
-  if (dump || s_textureMap.find(fullname) != s_textureMap.end())
-    return fullname;
+  if (dump || s_textureMap.find(full_name) != s_textureMap.end())
+    return full_name;
 
   return "";
 }
@@ -306,7 +312,6 @@ std::shared_ptr<HiresTexture> HiresTexture::Search(const u8* texture, size_t tex
   std::string base_filename =
       GenBaseName(texture, texture_size, tlut, tlut_size, width, height, format, has_mipmaps);
 
-  std::lock_guard<std::mutex> lk2(s_textureCacheAquireMutex);
   std::lock_guard<std::mutex> lk(s_textureCacheMutex);
 
   auto iter = s_textureCache.find(base_filename);
@@ -346,7 +351,7 @@ std::unique_ptr<HiresTexture> HiresTexture::Load(const std::string& base_filenam
   {
     std::string filename = base_filename;
     if (mip_level != 0)
-      filename += StringFromFormat("_mip%u", mip_level);
+      filename += fmt::format("_mip{}", mip_level);
 
     filename_iter = s_textureMap.find(filename);
     if (filename_iter == s_textureMap.end())
@@ -355,15 +360,16 @@ std::unique_ptr<HiresTexture> HiresTexture::Load(const std::string& base_filenam
     // Try loading DDS textures first, that way we maintain compression of DXT formats.
     // TODO: Reduce the number of open() calls here. We could use one fd.
     Level level;
-    if (!LoadDDSTexture(level, filename_iter->second.path))
+    if (!LoadDDSTexture(level, filename_iter->second.path, mip_level))
     {
       File::IOFile file;
       file.Open(filename_iter->second.path, "rb");
       std::vector<u8> buffer(file.GetSize());
       file.ReadBytes(buffer.data(), file.GetSize());
+
       if (!LoadTexture(level, buffer))
       {
-        ERROR_LOG(VIDEO, "Custom texture %s failed to load", filename.c_str());
+        ERROR_LOG_FMT(VIDEO, "Custom texture {} failed to load", filename);
         break;
       }
     }
@@ -379,19 +385,19 @@ std::unique_ptr<HiresTexture> HiresTexture::Load(const std::string& base_filenam
   const Level& first_mip = ret->m_levels[0];
   if (first_mip.width * height != first_mip.height * width)
   {
-    ERROR_LOG(VIDEO,
-              "Invalid custom texture size %ux%u for texture %s. The aspect differs "
-              "from the native size %ux%u.",
-              first_mip.width, first_mip.height, first_mip_file.path.c_str(), width, height);
+    ERROR_LOG_FMT(VIDEO,
+                  "Invalid custom texture size {}x{} for texture {}. The aspect differs "
+                  "from the native size {}x{}.",
+                  first_mip.width, first_mip.height, first_mip_file.path, width, height);
   }
 
   // Same deal if the custom texture isn't a multiple of the native size.
   if (width != 0 && height != 0 && (first_mip.width % width || first_mip.height % height))
   {
-    ERROR_LOG(VIDEO,
-              "Invalid custom texture size %ux%u for texture %s. Please use an integer "
-              "upscaling factor based on the native size %ux%u.",
-              first_mip.width, first_mip.height, first_mip_file.path.c_str(), width, height);
+    ERROR_LOG_FMT(VIDEO,
+                  "Invalid custom texture size {}x{} for texture {}. Please use an integer "
+                  "upscaling factor based on the native size {}x{}.",
+                  first_mip.width, first_mip.height, first_mip_file.path, width, height);
   }
 
   // Verify that each mip level is the correct size (divide by 2 each time).
@@ -408,16 +414,16 @@ std::unique_ptr<HiresTexture> HiresTexture::Load(const std::string& base_filenam
       if (current_mip_width == level.width && current_mip_height == level.height)
         continue;
 
-      ERROR_LOG(VIDEO,
-                "Invalid custom texture size %dx%d for texture %s. Mipmap level %u must be %dx%d.",
-                level.width, level.height, first_mip_file.path.c_str(), mip_level,
-                current_mip_width, current_mip_height);
+      ERROR_LOG_FMT(
+          VIDEO, "Invalid custom texture size {}x{} for texture {}. Mipmap level {} must be {}x{}.",
+          level.width, level.height, first_mip_file.path, mip_level, current_mip_width,
+          current_mip_height);
     }
     else
     {
       // It is invalid to have more than a single 1x1 mipmap.
-      ERROR_LOG(VIDEO, "Custom texture %s has too many 1x1 mipmaps. Skipping extra levels.",
-                first_mip_file.path.c_str());
+      ERROR_LOG_FMT(VIDEO, "Custom texture {} has too many 1x1 mipmaps. Skipping extra levels.",
+                    first_mip_file.path);
     }
 
     // Drop this mip level and any others after it.
@@ -429,8 +435,8 @@ std::unique_ptr<HiresTexture> HiresTexture::Load(const std::string& base_filenam
   if (std::any_of(ret->m_levels.begin(), ret->m_levels.end(),
                   [&ret](const Level& l) { return l.format != ret->m_levels[0].format; }))
   {
-    ERROR_LOG(VIDEO, "Custom texture %s has inconsistent formats across mip levels.",
-              first_mip_file.path.c_str());
+    ERROR_LOG_FMT(VIDEO, "Custom texture {} has inconsistent formats across mip levels.",
+                  first_mip_file.path);
 
     return nullptr;
   }
@@ -440,34 +446,62 @@ std::unique_ptr<HiresTexture> HiresTexture::Load(const std::string& base_filenam
 
 bool HiresTexture::LoadTexture(Level& level, const std::vector<u8>& buffer)
 {
-  int channels;
-  int width;
-  int height;
-
-  u8* data = SOIL_load_image_from_memory(buffer.data(), static_cast<int>(buffer.size()), &width,
-                                         &height, &channels, SOIL_LOAD_RGBA);
-  if (!data)
+  if (!Common::LoadPNG(buffer, &level.data, &level.width, &level.height))
     return false;
 
-  // Images loaded by SOIL are converted to RGBA.
-  level.width = static_cast<u32>(width);
-  level.height = static_cast<u32>(height);
+  if (level.data.empty())
+    return false;
+
+  // Loaded PNG images are converted to RGBA.
   level.format = AbstractTextureFormat::RGBA8;
-  level.data = ImageDataPointer(data, SOIL_free_image_data);
   level.row_length = level.width;
-  level.data_size = static_cast<size_t>(level.row_length) * 4 * level.height;
   return true;
 }
 
-std::string HiresTexture::GetTextureDirectory(const std::string& game_id)
+std::set<std::string> GetTextureDirectoriesWithGameId(const std::string& root_directory,
+                                                      const std::string& game_id)
 {
-  const std::string texture_directory = File::GetUserPath(D_HIRESTEXTURES_IDX) + game_id;
+  std::set<std::string> result;
+  const std::string texture_directory = root_directory + game_id;
 
-  // If there's no directory with the region-specific ID, look for a 3-character region-free one
-  if (!File::Exists(texture_directory))
-    return File::GetUserPath(D_HIRESTEXTURES_IDX) + game_id.substr(0, 3);
+  if (File::Exists(texture_directory))
+  {
+    result.insert(texture_directory);
+  }
+  else
+  {
+    // If there's no directory with the region-specific ID, look for a 3-character region-free one
+    const std::string region_free_directory = root_directory + game_id.substr(0, 3);
 
-  return texture_directory;
+    if (File::Exists(region_free_directory))
+    {
+      result.insert(region_free_directory);
+    }
+  }
+
+  const auto match_gameid = [game_id](const std::string& filename) {
+    std::string basename;
+    SplitPath(filename, nullptr, &basename, nullptr);
+    return basename == game_id || basename == game_id.substr(0, 3);
+  };
+
+  // Look for any other directories that might be specific to the given gameid
+  const auto files = Common::DoFileSearch({root_directory}, {".txt"}, true);
+  for (const auto& file : files)
+  {
+    if (match_gameid(file))
+    {
+      // The following code is used to calculate the top directory
+      // of a found gameid.txt file
+      // ex:  <root directory>/My folder/gameids/<gameid>.txt
+      // would insert "<root directory>/My folder"
+      const auto directory_path = file.substr(root_directory.size());
+      const std::size_t first_path_separator_position = directory_path.find_first_of(DIR_SEP_CHR);
+      result.insert(root_directory + directory_path.substr(0, first_path_separator_position));
+    }
+  }
+
+  return result;
 }
 
 HiresTexture::~HiresTexture()

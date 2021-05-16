@@ -6,10 +6,13 @@
 #include <cmath>
 #include <cstring>
 
+#ifdef CHECK
+#include "Common/Assert.h"
+#endif
+
 #include "Common/CPUDetect.h"
 #include "Common/CommonTypes.h"
 #include "Common/Intrinsics.h"
-#include "Common/MathUtil.h"
 #include "Common/MsgHandler.h"
 #include "Common/Swap.h"
 
@@ -1363,8 +1366,8 @@ static void TexDecoder_DecodeImpl_CMPR(u32* dst, const u8* src, int width, int h
         dst32[(width * 0) + 6] = colors1[(dxt1sel >> ((0 * 8) + 2)) & 3];
         dst32[(width * 0) + 7] = colors1[(dxt1sel >> ((0 * 8) + 0)) & 3];
 #ifdef CHECK
-        assert(memcmp(&(tmp0[0]), &dst32[(width * 0)], 16) == 0);
-        assert(memcmp(&(tmp1[0]), &dst32[(width * 0) + 4], 16) == 0);
+        ASSERT(memcmp(&(tmp0[0]), &dst32[(width * 0)], 16) == 0);
+        ASSERT(memcmp(&(tmp1[0]), &dst32[(width * 0) + 4], 16) == 0);
 #endif
         // Row 1:
         dst32[(width * 1) + 0] = colors0[(dxt0sel >> ((1 * 8) + 6)) & 3];
@@ -1376,8 +1379,8 @@ static void TexDecoder_DecodeImpl_CMPR(u32* dst, const u8* src, int width, int h
         dst32[(width * 1) + 6] = colors1[(dxt1sel >> ((1 * 8) + 2)) & 3];
         dst32[(width * 1) + 7] = colors1[(dxt1sel >> ((1 * 8) + 0)) & 3];
 #ifdef CHECK
-        assert(memcmp(&(tmp0[1]), &dst32[(width * 1)], 16) == 0);
-        assert(memcmp(&(tmp1[1]), &dst32[(width * 1) + 4], 16) == 0);
+        ASSERT(memcmp(&(tmp0[1]), &dst32[(width * 1)], 16) == 0);
+        ASSERT(memcmp(&(tmp1[1]), &dst32[(width * 1) + 4], 16) == 0);
 #endif
         // Row 2:
         dst32[(width * 2) + 0] = colors0[(dxt0sel >> ((2 * 8) + 6)) & 3];
@@ -1389,8 +1392,8 @@ static void TexDecoder_DecodeImpl_CMPR(u32* dst, const u8* src, int width, int h
         dst32[(width * 2) + 6] = colors1[(dxt1sel >> ((2 * 8) + 2)) & 3];
         dst32[(width * 2) + 7] = colors1[(dxt1sel >> ((2 * 8) + 0)) & 3];
 #ifdef CHECK
-        assert(memcmp(&(tmp0[2]), &dst32[(width * 2)], 16) == 0);
-        assert(memcmp(&(tmp1[2]), &dst32[(width * 2) + 4], 16) == 0);
+        ASSERT(memcmp(&(tmp0[2]), &dst32[(width * 2)], 16) == 0);
+        ASSERT(memcmp(&(tmp1[2]), &dst32[(width * 2) + 4], 16) == 0);
 #endif
         // Row 3:
         dst32[(width * 3) + 0] = colors0[(dxt0sel >> ((3 * 8) + 6)) & 3];
@@ -1402,8 +1405,8 @@ static void TexDecoder_DecodeImpl_CMPR(u32* dst, const u8* src, int width, int h
         dst32[(width * 3) + 6] = colors1[(dxt1sel >> ((3 * 8) + 2)) & 3];
         dst32[(width * 3) + 7] = colors1[(dxt1sel >> ((3 * 8) + 0)) & 3];
 #ifdef CHECK
-        assert(memcmp(&(tmp0[3]), &dst32[(width * 3)], 16) == 0);
-        assert(memcmp(&(tmp1[3]), &dst32[(width * 3) + 4], 16) == 0);
+        ASSERT(memcmp(&(tmp0[3]), &dst32[(width * 3)], 16) == 0);
+        ASSERT(memcmp(&(tmp1[3]), &dst32[(width * 3) + 4], 16) == 0);
 #endif
       }
     }
@@ -1488,41 +1491,12 @@ void _TexDecoder_DecodeImpl(u32* dst, const u8* src, int width, int height, Text
     break;
 
   case TextureFormat::XFB:
-  {
-    for (int y = 0; y < height; y += 1)
-    {
-      for (int x = 0; x < width; x += 2)
-      {
-        size_t offset = static_cast<size_t>((y * width + x) * 2);
-
-        // We do this one color sample (aka 2 RGB pixles) at a time
-        int Y1 = int(src[offset]) - 16;
-        int U = int(src[offset + 1]) - 128;
-        int Y2 = int(src[offset + 2]) - 16;
-        int V = int(src[offset + 3]) - 128;
-
-        // We do the inverse BT.601 conversion for YCbCr to RGB
-        // http://www.equasys.de/colorconversion.html#YCbCr-RGBColorFormatConversion
-        u8 R1 = static_cast<u8>(MathUtil::Clamp(int(1.164f * Y1 + 1.596f * V), 0, 255));
-        u8 G1 =
-            static_cast<u8>(MathUtil::Clamp(int(1.164f * Y1 - 0.392f * U - 0.813f * V), 0, 255));
-        u8 B1 = static_cast<u8>(MathUtil::Clamp(int(1.164f * Y1 + 2.017f * U), 0, 255));
-
-        u8 R2 = static_cast<u8>(MathUtil::Clamp(int(1.164f * Y2 + 1.596f * V), 0, 255));
-        u8 G2 =
-            static_cast<u8>(MathUtil::Clamp(int(1.164f * Y2 - 0.392f * U - 0.813f * V), 0, 255));
-        u8 B2 = static_cast<u8>(MathUtil::Clamp(int(1.164f * Y2 + 2.017f * U), 0, 255));
-
-        dst[y * width + x] = 0xff000000 | B1 << 16 | G1 << 8 | R1;
-        dst[y * width + x + 1] = 0xff000000 | B2 << 16 | G2 << 8 | R2;
-      }
-    }
-  }
-  break;
+    TexDecoder_DecodeXFB(reinterpret_cast<u8*>(dst), src, width, height, width * 2);
+    break;
 
   default:
-    PanicAlert("Invalid Texture Format (0x%X)! (_TexDecoder_DecodeImpl)",
-               static_cast<int>(texformat));
+    PanicAlertFmt("Invalid Texture Format ({:#X})! (_TexDecoder_DecodeImpl)",
+                  static_cast<int>(texformat));
     break;
   }
 }

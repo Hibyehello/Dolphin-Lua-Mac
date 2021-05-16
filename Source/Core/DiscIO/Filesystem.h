@@ -8,6 +8,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "Common/CommonTypes.h"
@@ -86,11 +87,15 @@ public:
   // The size of a file.
   // Not guaranteed to return a meaningful value for directories.
   virtual u32 GetSize() const = 0;
+  // For a file, returns its size. For a directory, returns the total size of its contents.
+  u64 GetTotalSize() const;
+  virtual bool IsRoot() const = 0;
   virtual bool IsDirectory() const = 0;
   // The number of files and directories in a directory, including those in subdirectories.
   // Not guaranteed to return a meaningful value for files.
   virtual u32 GetTotalChildren() const = 0;
   virtual std::string GetName() const = 0;
+  virtual bool NameCaseInsensitiveEquals(std::string_view other) const = 0;
   // GetPath will find the parents of the current object and call GetName on them,
   // so it's slower than other functions. If you're traversing through folders
   // to get a file and its path, building the path while traversing is faster.
@@ -115,7 +120,7 @@ public:
   // are only valid for as long as the file system object is valid.
   virtual const FileInfo& GetRoot() const = 0;
   // Returns nullptr if not found
-  virtual std::unique_ptr<FileInfo> FindFileInfo(const std::string& path) const = 0;
+  virtual std::unique_ptr<FileInfo> FindFileInfo(std::string_view path) const = 0;
   // Returns nullptr if not found
   virtual std::unique_ptr<FileInfo> FindFileInfo(u64 disc_offset) const = 0;
 };
@@ -124,4 +129,4 @@ public:
 // because it will check IsValid for you, will automatically pick the right type of filesystem,
 // and will cache the filesystem in case it's needed again later.
 
-}  // namespace
+}  // namespace DiscIO

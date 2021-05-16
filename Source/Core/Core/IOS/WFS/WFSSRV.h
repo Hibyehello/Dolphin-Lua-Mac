@@ -8,14 +8,12 @@
 #include <vector>
 
 #include "Common/CommonTypes.h"
-#include "Common/File.h"
+#include "Common/IOFile.h"
 #include "Core/IOS/Device.h"
 #include "Core/IOS/IOS.h"
 #include "DiscIO/Volume.h"
 
-namespace IOS
-{
-namespace HLE
+namespace IOS::HLE
 {
 namespace WFS
 {
@@ -31,16 +29,15 @@ enum
   WFS_FILE_IS_OPENED = -10032,  // Cannot perform operation on an opened file.
 };
 
-namespace Device
-{
-class WFSSRV : public Device
+class WFSSRVDevice : public Device
 {
 public:
-  WFSSRV(Kernel& ios, const std::string& device_name);
+  WFSSRVDevice(Kernel& ios, const std::string& device_name);
 
-  IPCCommandResult IOCtl(const IOCtlRequest& request) override;
+  std::optional<IPCReply> IOCtl(const IOCtlRequest& request) override;
 
   s32 Rename(std::string source, std::string dest) const;
+  void SetHomeDir(const std::string& home_dir);
 
 private:
   // WFS device name, e.g. msc01/msc02.
@@ -106,6 +103,4 @@ private:
   // shutdown time.
   std::vector<u32> m_hanging;
 };
-}  // namespace Device
-}  // namespace HLE
-}  // namespace IOS
+}  // namespace IOS::HLE

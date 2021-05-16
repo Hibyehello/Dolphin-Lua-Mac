@@ -6,21 +6,22 @@
 // do nothing except return default values when required.
 
 #include <string>
+#include <vector>
 
 #include "Core/Host.h"
 
+std::vector<std::string> Host_GetPreferredLocales()
+{
+  return {};
+}
 void Host_NotifyMapLoaded()
 {
 }
 void Host_RefreshDSPDebuggerWindow()
 {
 }
-void Host_Message(int)
+void Host_Message(HostMessageID)
 {
-}
-void* Host_GetRenderHandle()
-{
-  return nullptr;
 }
 void Host_UpdateTitle(const std::string&)
 {
@@ -34,13 +35,6 @@ void Host_UpdateMainFrame()
 void Host_RequestRenderWindowSize(int, int)
 {
 }
-void Host_SetStartupDebuggingParameters()
-{
-}
-bool Host_UINeedsControllerState()
-{
-  return false;
-}
 bool Host_RendererHasFocus()
 {
   return false;
@@ -49,12 +43,13 @@ bool Host_RendererIsFullscreen()
 {
   return false;
 }
-void Host_ShowVideoConfig(void*, const std::string&)
-{
-}
 void Host_YieldToUI()
 {
 }
-void Host_UpdateProgressDialog(const char* caption, int position, int total)
+void Host_TitleChanged()
 {
+}
+bool Host_UIBlocksControllerState()
+{
+  return false;
 }

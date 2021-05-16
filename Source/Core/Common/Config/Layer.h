@@ -8,6 +8,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "Common/Config/ConfigInfo.h"
@@ -18,15 +19,7 @@ namespace Config
 {
 namespace detail
 {
-std::string ValueToString(u16 value);
-std::string ValueToString(u32 value);
-std::string ValueToString(float value);
-std::string ValueToString(double value);
-std::string ValueToString(int value);
-std::string ValueToString(bool value);
-std::string ValueToString(const std::string& value);
-
-template <typename T>
+template <typename T, std::enable_if_t<!std::is_enum<T>::value>* = nullptr>
 std::optional<T> TryParse(const std::string& str_value)
 {
   T value;
@@ -35,18 +28,27 @@ std::optional<T> TryParse(const std::string& str_value)
   return value;
 }
 
+template <typename T, std::enable_if_t<std::is_enum<T>::value>* = nullptr>
+std::optional<T> TryParse(const std::string& str_value)
+{
+  const auto result = TryParse<std::underlying_type_t<T>>(str_value);
+  if (result)
+    return static_cast<T>(*result);
+  return {};
+}
+
 template <>
 inline std::optional<std::string> TryParse(const std::string& str_value)
 {
   return str_value;
 }
-}
+}  // namespace detail
 
 template <typename T>
-struct ConfigInfo;
+class Info;
 
 class Layer;
-using LayerMap = std::map<ConfigLocation, std::optional<std::string>>;
+using LayerMap = std::map<Location, std::optional<std::string>>;
 
 class ConfigLayerLoader
 {
@@ -96,41 +98,48 @@ public:
   virtual ~Layer();
 
   // Convenience functions
-  bool Exists(const ConfigLocation& location) const;
-  bool DeleteKey(const ConfigLocation& location);
+  bool Exists(const Location& location) const;
+  bool DeleteKey(const Location& location);
   void DeleteAllKeys();
 
   template <typename T>
-  T Get(const ConfigInfo<T>& config_info)
+  T Get(const Info<T>& config_info) const
   {
-    return Get<T>(config_info.location).value_or(config_info.default_value);
+    return Get<T>(config_info.GetLocation()).value_or(config_info.GetDefaultValue());
   }
 
   template <typename T>
-  std::optional<T> Get(const ConfigLocation& location)
+  std::optional<T> Get(const Location& location) const
   {
-    const std::optional<std::string>& str_value = m_map[location];
-    if (!str_value)
+    const auto iter = m_map.find(location);
+    if (iter == m_map.end() || !iter->second.has_value())
       return std::nullopt;
-    return detail::TryParse<T>(*str_value);
+    return detail::TryParse<T>(*iter->second);
   }
 
   template <typename T>
-  void Set(const ConfigInfo<T>& config_info, const T& value)
+  bool Set(const Info<T>& config_info, const std::common_type_t<T>& value)
   {
-    Set<T>(config_info.location, value);
+    return Set(config_info.GetLocation(), value);
   }
 
   template <typename T>
-  void Set(const ConfigLocation& location, const T& value)
+  bool Set(const Location& location, const T& value)
   {
-    const std::string new_value = detail::ValueToString(value);
-    std::optional<std::string>& current_value = m_map[location];
-    if (current_value == new_value)
-      return;
+    return Set(location, ValueToString(value));
+  }
+
+  bool Set(const Location& location, std::string new_value)
+  {
+    const auto iter = m_map.find(location);
+    if (iter != m_map.end() && iter->second == new_value)
+      return false;
     m_is_dirty = true;
-    current_value = new_value;
+    m_map.insert_or_assign(location, std::move(new_value));
+    return true;
   }
+
+  void MarkAsDirty() { m_is_dirty = true; }
 
   Section GetSection(System system, const std::string& section);
   ConstSection GetSection(System system, const std::string& section) const;
@@ -148,4 +157,4 @@ protected:
   const LayerType m_layer;
   std::unique_ptr<ConfigLayerLoader> m_loader;
 };
-}
+}  // namespace Config

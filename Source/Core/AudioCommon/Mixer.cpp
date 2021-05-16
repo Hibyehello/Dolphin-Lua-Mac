@@ -3,23 +3,40 @@
 // Refer to the license.txt file included.
 
 #include "AudioCommon/Mixer.h"
+#include "AudioCommon/Enums.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 
-#include "AudioCommon/DPL2Decoder.h"
 #include "Common/ChunkFile.h"
 #include "Common/CommonTypes.h"
 #include "Common/Logging/Log.h"
-#include "Common/MathUtil.h"
 #include "Common/Swap.h"
+#include "Core/Config/MainSettings.h"
 #include "Core/ConfigManager.h"
 
-Mixer::Mixer(unsigned int BackendSampleRate)
-    : m_sampleRate(BackendSampleRate), m_stretcher(BackendSampleRate)
+static u32 DPL2QualityToFrameBlockSize(AudioCommon::DPL2Quality quality)
 {
-  INFO_LOG(AUDIO_INTERFACE, "Mixer is initialized");
-  DPL2Reset();
+  switch (quality)
+  {
+  case AudioCommon::DPL2Quality::Lowest:
+    return 512;
+  case AudioCommon::DPL2Quality::Low:
+    return 1024;
+  case AudioCommon::DPL2Quality::Highest:
+    return 4096;
+  default:
+    return 2048;
+  }
+}
+
+Mixer::Mixer(unsigned int BackendSampleRate)
+    : m_sampleRate(BackendSampleRate), m_stretcher(BackendSampleRate),
+      m_surround_decoder(BackendSampleRate,
+                         DPL2QualityToFrameBlockSize(Config::Get(Config::MAIN_DPL2_QUALITY)))
+{
+  INFO_LOG_FMT(AUDIO_INTERFACE, "Mixer is initialized");
 }
 
 Mixer::~Mixer()
@@ -87,14 +104,14 @@ unsigned int Mixer::MixerFifo::Mix(short* samples, unsigned int numSamples,
     int sampleL = ((l1 << 16) + (l2 - l1) * (u16)m_frac) >> 16;
     sampleL = (sampleL * lvolume) >> 8;
     sampleL += samples[currentSample + 1];
-    samples[currentSample + 1] = MathUtil::Clamp(sampleL, -32767, 32767);
+    samples[currentSample + 1] = std::clamp(sampleL, -32767, 32767);
 
     s16 r1 = Common::swap16(m_buffer[(indexR + 1) & INDEX_MASK]);   // current
     s16 r2 = Common::swap16(m_buffer[(indexR2 + 1) & INDEX_MASK]);  // next
     int sampleR = ((r1 << 16) + (r2 - r1) * (u16)m_frac) >> 16;
     sampleR = (sampleR * rvolume) >> 8;
     sampleR += samples[currentSample];
-    samples[currentSample] = MathUtil::Clamp(sampleR, -32767, 32767);
+    samples[currentSample] = std::clamp(sampleR, -32767, 32767);
 
     m_frac += ratio;
     indexR += 2 * (u16)(m_frac >> 16);
@@ -112,8 +129,8 @@ unsigned int Mixer::MixerFifo::Mix(short* samples, unsigned int numSamples,
   s[1] = (s[1] * lvolume) >> 8;
   for (; currentSample < numSamples * 2; currentSample += 2)
   {
-    int sampleR = MathUtil::Clamp(s[0] + samples[currentSample + 0], -32767, 32767);
-    int sampleL = MathUtil::Clamp(s[1] + samples[currentSample + 1], -32767, 32767);
+    int sampleR = std::clamp(s[0] + samples[currentSample + 0], -32767, 32767);
+    int sampleL = std::clamp(s[1] + samples[currentSample + 1], -32767, 32767);
 
     samples[currentSample + 0] = sampleR;
     samples[currentSample + 1] = sampleL;
@@ -167,20 +184,23 @@ unsigned int Mixer::MixSurround(float* samples, unsigned int num_samples)
   if (!num_samples)
     return 0;
 
-  memset(samples, 0, num_samples * 6 * sizeof(float));
+  memset(samples, 0, num_samples * SURROUND_CHANNELS * sizeof(float));
 
-  // Mix() may also use m_scratch_buffer internally, but is safe because it alternates reads and
-  // writes.
-  unsigned int available_samples = Mix(m_scratch_buffer.data(), num_samples);
-  for (size_t i = 0; i < static_cast<size_t>(available_samples) * 2; ++i)
+  size_t needed_frames = m_surround_decoder.QueryFramesNeededForSurroundOutput(num_samples);
+
+  // Mix() may also use m_scratch_buffer internally, but is safe because it alternates reads
+  // and writes.
+  size_t available_frames = Mix(m_scratch_buffer.data(), static_cast<u32>(needed_frames));
+  if (available_frames != needed_frames)
   {
-    m_float_conversion_buffer[i] =
-        m_scratch_buffer[i] / static_cast<float>(std::numeric_limits<short>::max());
+    ERROR_LOG_FMT(AUDIO, "Error decoding surround frames.");
+    return 0;
   }
 
-  DPL2Decode(m_float_conversion_buffer.data(), available_samples, samples);
+  m_surround_decoder.PutFrames(m_scratch_buffer.data(), needed_frames);
+  m_surround_decoder.ReceiveFrames(samples, num_samples);
 
-  return available_samples;
+  return num_samples;
 }
 
 void Mixer::MixerFifo::PushSamples(const short* samples, unsigned int num_samples)
@@ -276,17 +296,17 @@ void Mixer::StartLogDTKAudio(const std::string& filename)
     {
       m_log_dtk_audio = true;
       m_wave_writer_dtk.SetSkipSilence(false);
-      NOTICE_LOG(AUDIO, "Starting DTK Audio logging");
+      NOTICE_LOG_FMT(AUDIO, "Starting DTK Audio logging");
     }
     else
     {
       m_wave_writer_dtk.Stop();
-      NOTICE_LOG(AUDIO, "Unable to start DTK Audio logging");
+      NOTICE_LOG_FMT(AUDIO, "Unable to start DTK Audio logging");
     }
   }
   else
   {
-    WARN_LOG(AUDIO, "DTK Audio logging has already been started");
+    WARN_LOG_FMT(AUDIO, "DTK Audio logging has already been started");
   }
 }
 
@@ -296,11 +316,11 @@ void Mixer::StopLogDTKAudio()
   {
     m_log_dtk_audio = false;
     m_wave_writer_dtk.Stop();
-    NOTICE_LOG(AUDIO, "Stopping DTK Audio logging");
+    NOTICE_LOG_FMT(AUDIO, "Stopping DTK Audio logging");
   }
   else
   {
-    WARN_LOG(AUDIO, "DTK Audio logging has already been stopped");
+    WARN_LOG_FMT(AUDIO, "DTK Audio logging has already been stopped");
   }
 }
 
@@ -313,17 +333,17 @@ void Mixer::StartLogDSPAudio(const std::string& filename)
     {
       m_log_dsp_audio = true;
       m_wave_writer_dsp.SetSkipSilence(false);
-      NOTICE_LOG(AUDIO, "Starting DSP Audio logging");
+      NOTICE_LOG_FMT(AUDIO, "Starting DSP Audio logging");
     }
     else
     {
       m_wave_writer_dsp.Stop();
-      NOTICE_LOG(AUDIO, "Unable to start DSP Audio logging");
+      NOTICE_LOG_FMT(AUDIO, "Unable to start DSP Audio logging");
     }
   }
   else
   {
-    WARN_LOG(AUDIO, "DSP Audio logging has already been started");
+    WARN_LOG_FMT(AUDIO, "DSP Audio logging has already been started");
   }
 }
 
@@ -333,11 +353,11 @@ void Mixer::StopLogDSPAudio()
   {
     m_log_dsp_audio = false;
     m_wave_writer_dsp.Stop();
-    NOTICE_LOG(AUDIO, "Stopping DSP Audio logging");
+    NOTICE_LOG_FMT(AUDIO, "Stopping DSP Audio logging");
   }
   else
   {
-    WARN_LOG(AUDIO, "DSP Audio logging has already been stopped");
+    WARN_LOG_FMT(AUDIO, "DSP Audio logging has already been stopped");
   }
 }
 

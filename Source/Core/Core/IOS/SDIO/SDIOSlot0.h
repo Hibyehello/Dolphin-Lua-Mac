@@ -10,30 +10,26 @@
 #include <string>
 
 #include "Common/CommonTypes.h"
-#include "Common/File.h"
+#include "Common/IOFile.h"
 #include "Core/IOS/Device.h"
 #include "Core/IOS/IOS.h"
 
 class PointerWrap;
 
-namespace IOS
-{
-namespace HLE
-{
-namespace Device
+namespace IOS::HLE
 {
 // The front SD slot
-class SDIOSlot0 : public Device
+class SDIOSlot0Device : public Device
 {
 public:
-  SDIOSlot0(Kernel& ios, const std::string& device_name);
+  SDIOSlot0Device(Kernel& ios, const std::string& device_name);
 
   void DoState(PointerWrap& p) override;
 
-  IPCCommandResult Open(const OpenRequest& request) override;
-  IPCCommandResult Close(u32 fd) override;
-  IPCCommandResult IOCtl(const IOCtlRequest& request) override;
-  IPCCommandResult IOCtlV(const IOCtlVRequest& request) override;
+  std::optional<IPCReply> Open(const OpenRequest& request) override;
+  std::optional<IPCReply> Close(u32 fd) override;
+  std::optional<IPCReply> IOCtl(const IOCtlRequest& request) override;
+  std::optional<IPCReply> IOCtlV(const IOCtlVRequest& request) override;
 
   void EventNotify();
 
@@ -129,20 +125,19 @@ private:
     Request request;
   };
 
-  IPCCommandResult WriteHCRegister(const IOCtlRequest& request);
-  IPCCommandResult ReadHCRegister(const IOCtlRequest& request);
-  IPCCommandResult ResetCard(const IOCtlRequest& request);
-  IPCCommandResult SetClk(const IOCtlRequest& request);
-  IPCCommandResult SendCommand(const IOCtlRequest& request);
-  IPCCommandResult GetStatus(const IOCtlRequest& request);
-  IPCCommandResult GetOCRegister(const IOCtlRequest& request);
+  IPCReply WriteHCRegister(const IOCtlRequest& request);
+  IPCReply ReadHCRegister(const IOCtlRequest& request);
+  IPCReply ResetCard(const IOCtlRequest& request);
+  IPCReply SetClk(const IOCtlRequest& request);
+  std::optional<IPCReply> SendCommand(const IOCtlRequest& request);
+  IPCReply GetStatus(const IOCtlRequest& request);
+  IPCReply GetOCRegister(const IOCtlRequest& request);
 
-  IPCCommandResult SendCommand(const IOCtlVRequest& request);
+  IPCReply SendCommand(const IOCtlVRequest& request);
 
-  s32 ExecuteCommand(const Request& request, u32 BufferIn, u32 BufferInSize, u32 BufferIn2,
-                     u32 BufferInSize2, u32 _BufferOut, u32 BufferOutSize);
+  s32 ExecuteCommand(const Request& request, u32 buffer_in, u32 buffer_in_size, u32 rw_buffer,
+                     u32 rw_buffer_size, u32 buffer_out, u32 buffer_out_size);
   void OpenInternal();
-  void InitStatus();
 
   u32 GetOCRegister() const;
 
@@ -169,6 +164,4 @@ private:
 
   File::IOFile m_card;
 };
-}  // namespace Device
-}  // namespace HLE
-}  // namespace IOS
+}  // namespace IOS::HLE

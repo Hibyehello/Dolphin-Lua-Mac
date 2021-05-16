@@ -8,14 +8,14 @@
 
 #include <string>
 #include "Common/CommonTypes.h"
-#include "DolphinWX/Main.h"
+//#include "DolphinWX/Main.h"
 
 #include <lua.hpp>
 #include <lua.h>
 #include <luaconf.h>
 
 
-typedef signed char                 BOOL;
+typedef int                 BOOL;
 int ReadValue8(lua_State *L);
 int ReadValue16(lua_State *L);
 int ReadValue32(lua_State *L);
@@ -71,7 +71,7 @@ namespace Lua
 	extern bool lua_isStateSaved;
 	extern bool lua_isStateLoaded;
 	extern StateEvent m_stateData;
-
+	
 	void Init();
 	void Shutdown();
 	void LoadScript(std::string fileName);

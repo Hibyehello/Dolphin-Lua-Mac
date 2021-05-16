@@ -9,6 +9,9 @@
 #include "VideoCommon/ShaderGenCommon.h"
 
 enum class APIType;
+enum class TexInputForm : u32;
+enum class TexGenType : u32;
+enum class SourceRow : u32;
 
 // TODO should be reordered
 enum : int
@@ -47,9 +50,9 @@ struct vertex_shader_uid_data
 
   struct
   {
-    u32 inputform : 2;
-    u32 texgentype : 3;
-    u32 sourcerow : 5;
+    TexInputForm inputform : 2;
+    TexGenType texgentype : 3;
+    SourceRow sourcerow : 5;
     u32 embosssourceshift : 3;
     u32 embosslightshift : 3;
   } texMtxInfo[8];
@@ -65,7 +68,7 @@ struct vertex_shader_uid_data
 };
 #pragma pack()
 
-typedef ShaderUid<vertex_shader_uid_data> VertexShaderUid;
+using VertexShaderUid = ShaderUid<vertex_shader_uid_data>;
 
 VertexShaderUid GetVertexShaderUid();
 ShaderCode GenerateVertexShaderCode(APIType api_type, const ShaderHostConfig& host_config,

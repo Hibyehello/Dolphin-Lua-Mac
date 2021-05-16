@@ -4,16 +4,18 @@
 
 #include "Core/HW/EXI/EXI_DeviceGecko.h"
 
+#include <array>
 #include <memory>
 #include <mutex>
 #include <queue>
 #include <thread>
 #include <vector>
 
+#include <fmt/format.h>
+
 #include "Common/ChunkFile.h"
 #include "Common/CommonTypes.h"
 #include "Common/Logging/Log.h"
-#include "Common/StringUtil.h"
 #include "Common/Thread.h"
 #include "Core/Core.h"
 
@@ -65,7 +67,7 @@ void GeckoSockServer::GeckoConnectionWaiter()
   if (!server_running.IsSet())
     return;
 
-  Core::DisplayMessage(StringFromFormat("USBGecko: Listening on TCP port %u", server_port), 5000);
+  Core::DisplayMessage(fmt::format("USBGecko: Listening on TCP port {}", server_port), 5000);
 
   server.setBlocking(false);
 
@@ -74,7 +76,7 @@ void GeckoSockServer::GeckoConnectionWaiter()
   {
     if (server.accept(*new_client) == sf::Socket::Done)
     {
-      std::lock_guard<std::mutex> lk(connection_lock);
+      std::lock_guard lk(connection_lock);
       waiting_socks.push(std::move(new_client));
 
       new_client = std::make_unique<sf::TcpSocket>();
@@ -88,7 +90,7 @@ bool GeckoSockServer::GetAvailableSock()
 {
   bool sock_filled = false;
 
-  std::lock_guard<std::mutex> lk(connection_lock);
+  std::lock_guard lk(connection_lock);
 
   if (!waiting_socks.empty())
   {
@@ -123,20 +125,20 @@ void GeckoSockServer::ClientThread()
     bool did_nothing = true;
 
     {
-      std::lock_guard<std::mutex> lk(transfer_lock);
+      std::lock_guard lk(transfer_lock);
 
       // what's an ideal buffer size?
-      char data[128];
+      std::array<char, 128> buffer;
       std::size_t got = 0;
 
-      if (client->receive(&data[0], ArraySize(data), got) == sf::Socket::Disconnected)
+      if (client->receive(buffer.data(), buffer.size(), got) == sf::Socket::Disconnected)
         client_running.Clear();
 
       if (got != 0)
       {
         did_nothing = false;
 
-        recv_fifo.insert(recv_fifo.end(), &data[0], &data[got]);
+        recv_fifo.insert(recv_fifo.end(), buffer.data(), &buffer[got]);
       }
 
       if (!send_fifo.empty())
@@ -184,7 +186,7 @@ void CEXIGecko::ImmReadWrite(u32& _uData, u32 _uSize)
   // |= 0x08000000 if successful
   case CMD_RECV:
   {
-    std::lock_guard<std::mutex> lk(transfer_lock);
+    std::lock_guard lk(transfer_lock);
     if (!recv_fifo.empty())
     {
       _uData = 0x08000000 | (recv_fifo.front() << 16);
@@ -197,7 +199,7 @@ void CEXIGecko::ImmReadWrite(u32& _uData, u32 _uSize)
   // |= 0x04000000 if successful
   case CMD_SEND:
   {
-    std::lock_guard<std::mutex> lk(transfer_lock);
+    std::lock_guard lk(transfer_lock);
     send_fifo.push_back(_uData >> 20);
     _uData = 0x04000000;
     break;
@@ -213,13 +215,13 @@ void CEXIGecko::ImmReadWrite(u32& _uData, u32 _uSize)
   // |= 0x04000000 if data in recv FIFO
   case CMD_CHK_RX:
   {
-    std::lock_guard<std::mutex> lk(transfer_lock);
+    std::lock_guard lk(transfer_lock);
     _uData = recv_fifo.empty() ? 0 : 0x04000000;
     break;
   }
 
   default:
-    ERROR_LOG(EXPANSIONINTERFACE, "Unknown USBGecko command %x", _uData);
+    ERROR_LOG_FMT(EXPANSIONINTERFACE, "Unknown USBGecko command {:x}", _uData);
     break;
   }
 }

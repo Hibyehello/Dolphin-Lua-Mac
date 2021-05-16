@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Common/CommonTypes.h"
-#include "InputCommon/ControllerInterface/Device.h"
+#include "InputCommon/ControllerInterface/CoreDevice.h"
 
 class InputConfig;
 enum class PadGroup;
@@ -31,4 +31,4 @@ void Rumble(int pad_num, ControlState strength);
 void ResetRumble(int pad_num);
 
 bool GetMicButton(int pad_num);
-}
+}  // namespace Pad

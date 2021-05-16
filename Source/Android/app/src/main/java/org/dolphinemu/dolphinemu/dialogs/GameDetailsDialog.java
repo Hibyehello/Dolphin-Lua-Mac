@@ -1,96 +1,120 @@
 package org.dolphinemu.dolphinemu.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
+import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
-import org.dolphinemu.dolphinemu.activities.EmulationActivity;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import org.dolphinemu.dolphinemu.model.GameFile;
+import org.dolphinemu.dolphinemu.services.GameFileCacheService;
+import org.dolphinemu.dolphinemu.utils.PicassoUtils;
 
 public final class GameDetailsDialog extends DialogFragment
 {
-	private static final String ARG_GAME_TITLE = "game_title";
-	private static final String ARG_GAME_DESCRIPTION = "game_description";
-	private static final String ARG_GAME_COUNTRY = "game_country";
-	private static final String ARG_GAME_DATE = "game_date";
-	private static final String ARG_GAME_PATH = "game_path";
-	private static final String ARG_GAME_SCREENSHOT_PATH = "game_screenshot_path";
+  private static final String ARG_GAME_PATH = "game_path";
 
-	// TODO Add all of this to the Loader in GameActivity.java
-	public static GameDetailsDialog newInstance(String title, String description, int country, String company, String path, String screenshotPath)
-	{
-		GameDetailsDialog fragment = new GameDetailsDialog();
+  public static GameDetailsDialog newInstance(String gamePath)
+  {
+    GameDetailsDialog fragment = new GameDetailsDialog();
 
-		Bundle arguments = new Bundle();
-		arguments.putString(ARG_GAME_TITLE, title);
-		arguments.putString(ARG_GAME_DESCRIPTION, description);
-		arguments.putInt(ARG_GAME_COUNTRY, country);
-		arguments.putString(ARG_GAME_DATE, company);
-		arguments.putString(ARG_GAME_PATH, path);
-		arguments.putString(ARG_GAME_SCREENSHOT_PATH, screenshotPath);
-		fragment.setArguments(arguments);
+    Bundle arguments = new Bundle();
+    arguments.putString(ARG_GAME_PATH, gamePath);
+    fragment.setArguments(arguments);
 
-		return fragment;
-	}
+    return fragment;
+  }
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState)
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		ViewGroup contents = (ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.dialog_game_details, null);
+  @Override
+  public Dialog onCreateDialog(Bundle savedInstanceState)
+  {
+    GameFile gameFile = GameFileCacheService.addOrGet(getArguments().getString(ARG_GAME_PATH));
 
-		final ImageView imageGameScreen = (ImageView) contents.findViewById(R.id.image_game_screen);
-		CircleImageView circleBanner = (CircleImageView) contents.findViewById(R.id.circle_banner);
+    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),
+            R.style.DolphinDialogBase);
+    ViewGroup contents = (ViewGroup) getActivity().getLayoutInflater()
+            .inflate(R.layout.dialog_game_details, null);
 
-		TextView textTitle = (TextView) contents.findViewById(R.id.text_game_title);
-		TextView textDescription = (TextView) contents.findViewById(R.id.text_company);
+    ImageView banner = contents.findViewById(R.id.banner);
 
-		TextView textCountry = (TextView) contents.findViewById(R.id.text_country);
-		TextView textDate = (TextView) contents.findViewById(R.id.text_date);
+    TextView textTitle = contents.findViewById(R.id.text_game_title);
+    TextView textDescription = contents.findViewById(R.id.text_description);
 
-		FloatingActionButton buttonLaunch = (FloatingActionButton) contents.findViewById(R.id.button_launch);
+    TextView textCountry = contents.findViewById(R.id.text_country);
+    TextView textCompany = contents.findViewById(R.id.text_company);
+    TextView textGameId = contents.findViewById(R.id.text_game_id);
+    TextView textRevision = contents.findViewById(R.id.text_revision);
 
-		int countryIndex = getArguments().getInt(ARG_GAME_COUNTRY);
-		String country = getResources().getStringArray(R.array.countryNames)[countryIndex];
+    TextView textFileFormat = contents.findViewById(R.id.text_file_format);
+    TextView textCompression = contents.findViewById(R.id.text_compression);
+    TextView textBlockSize = contents.findViewById(R.id.text_block_size);
 
-		textTitle.setText(getArguments().getString(ARG_GAME_TITLE));
-		textDescription.setText(getArguments().getString(ARG_GAME_DESCRIPTION));
-		textCountry.setText(country);
-		textDate.setText(getArguments().getString(ARG_GAME_DATE));
+    TextView labelFileFormat = contents.findViewById(R.id.label_file_format);
+    TextView labelCompression = contents.findViewById(R.id.label_compression);
+    TextView labelBlockSize = contents.findViewById(R.id.label_block_size);
 
-		buttonLaunch.setOnClickListener(view ->
-		{
-			// Start the emulation activity and send the path of the clicked ROM to it.
-			EmulationActivity.launch(getActivity(),
-					getArguments().getString(ARG_GAME_PATH),
-					getArguments().getString(ARG_GAME_TITLE),
-					getArguments().getString(ARG_GAME_SCREENSHOT_PATH),
-					-1,
-					imageGameScreen);
-		});
+    String country = getResources().getStringArray(R.array.countryNames)[gameFile.getCountry()];
+    String description = gameFile.getDescription();
+    String fileSize = NativeLibrary.FormatSize(gameFile.getFileSize(), 2);
 
-		// Fill in the view contents.
-		Picasso.with(imageGameScreen.getContext())
-				.load(getArguments().getString(ARG_GAME_SCREENSHOT_PATH))
-				.fit()
-				.centerCrop()
-				.noFade()
-				.noPlaceholder()
-				.into(imageGameScreen);
+    textTitle.setText(gameFile.getTitle());
+    textDescription.setText(gameFile.getDescription());
+    if (description.isEmpty())
+    {
+      textDescription.setVisibility(View.GONE);
+    }
 
-		circleBanner.setImageResource(R.drawable.no_banner);
+    textCountry.setText(country);
+    textCompany.setText(gameFile.getCompany());
+    textGameId.setText(gameFile.getGameId());
+    textRevision.setText(String.valueOf(gameFile.getRevision()));
 
-		builder.setView(contents);
-		return builder.create();
-	}
+    if (!gameFile.shouldShowFileFormatDetails())
+    {
+      labelFileFormat.setText(R.string.game_details_file_size);
+      textFileFormat.setText(fileSize);
+
+      labelCompression.setVisibility(View.GONE);
+      textCompression.setVisibility(View.GONE);
+      labelBlockSize.setVisibility(View.GONE);
+      textBlockSize.setVisibility(View.GONE);
+    }
+    else
+    {
+      long blockSize = gameFile.getBlockSize();
+      String compression = gameFile.getCompressionMethod();
+
+      textFileFormat.setText(String.format("%1$s (%2$s)", gameFile.getFileFormatName(), fileSize));
+
+      if (compression.isEmpty())
+      {
+        textCompression.setText(R.string.game_details_no_compression);
+      }
+      else
+      {
+        textCompression.setText(gameFile.getCompressionMethod());
+      }
+
+      if (blockSize > 0)
+      {
+        textBlockSize.setText(NativeLibrary.FormatSize(blockSize, 0));
+      }
+      else
+      {
+        labelBlockSize.setVisibility(View.GONE);
+        textBlockSize.setVisibility(View.GONE);
+      }
+    }
+
+    PicassoUtils.loadGameBanner(banner, gameFile);
+
+    builder.setView(contents);
+    return builder.create();
+  }
 }

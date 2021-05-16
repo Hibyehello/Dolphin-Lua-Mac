@@ -11,9 +11,7 @@
 #include "Core/CommonTitles.h"
 #include "Core/IOS/ES/Formats.h"
 
-namespace IOS
-{
-namespace HLE
+namespace IOS::HLE
 {
 constexpr u32 MEM1_SIZE = 0x01800000;
 constexpr u32 MEM1_END = 0x81800000;
@@ -270,7 +268,7 @@ constexpr std::array<MemoryValues, 41> ios_memory_values = {
          RAM_VENDOR, 0x93600000, 0x93620000,       0,
      },
      {
-         59,         0x3b1c21,   0x101811,         MEM1_SIZE,
+         59,         0x3b2421,   0x101811,         MEM1_SIZE,
          MEM1_SIZE,  MEM1_END,   MEM1_ARENA_BEGIN, MEM1_ARENA_END,
          MEM2_SIZE,  MEM2_SIZE,  0x93600000,       MEM2_ARENA_BEGIN,
          0x935E0000, 0x935E0000, 0x93600000,       HOLLYWOOD_REVISION,
@@ -390,12 +388,10 @@ bool IsEmulated(u32 major_version)
 
 bool IsEmulated(u64 title_id)
 {
-  const bool ios =
-      IsTitleType(title_id, IOS::ES::TitleType::System) && title_id != Titles::SYSTEM_MENU;
+  const bool ios = IsTitleType(title_id, ES::TitleType::System) && title_id != Titles::SYSTEM_MENU;
   if (!ios)
     return true;
   const u32 version = static_cast<u32>(title_id);
   return IsEmulated(version);
 }
-}
-}
+}  // namespace IOS::HLE

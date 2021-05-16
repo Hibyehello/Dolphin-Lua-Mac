@@ -6,30 +6,24 @@
 
 #include "Common/Logging/Log.h"
 
-namespace IOS
+namespace IOS::HLE
 {
-namespace HLE
+std::optional<IPCReply> DeviceStub::Open(const OpenRequest& request)
 {
-namespace Device
-{
-IPCCommandResult Stub::Open(const OpenRequest& request)
-{
-  WARN_LOG(IOS, "%s faking Open()", m_name.c_str());
+  WARN_LOG_FMT(IOS, "{} faking Open()", m_name);
   m_is_active = true;
-  return GetDefaultReply(IPC_SUCCESS);
+  return IPCReply(IPC_SUCCESS);
 }
 
-IPCCommandResult Stub::IOCtl(const IOCtlRequest& request)
+std::optional<IPCReply> DeviceStub::IOCtl(const IOCtlRequest& request)
 {
-  WARN_LOG(IOS, "%s faking IOCtl()", m_name.c_str());
-  return GetDefaultReply(IPC_SUCCESS);
+  WARN_LOG_FMT(IOS, "{} faking IOCtl()", m_name);
+  return IPCReply(IPC_SUCCESS);
 }
 
-IPCCommandResult Stub::IOCtlV(const IOCtlVRequest& request)
+std::optional<IPCReply> DeviceStub::IOCtlV(const IOCtlVRequest& request)
 {
-  WARN_LOG(IOS, "%s faking IOCtlV()", m_name.c_str());
-  return GetDefaultReply(IPC_SUCCESS);
+  WARN_LOG_FMT(IOS, "{} faking IOCtlV()", m_name);
+  return IPCReply(IPC_SUCCESS);
 }
-}  // namespace Device
-}  // namespace HLE
-}  // namespace IOS
+}  // namespace IOS::HLE

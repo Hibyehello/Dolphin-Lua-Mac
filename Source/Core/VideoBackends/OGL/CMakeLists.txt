@@ -1,21 +1,28 @@
 add_library(videoogl
-  BoundingBox.cpp
-  FramebufferManager.cpp
-  main.cpp
-  NativeVertexFormat.cpp
+  GPUTimer.h
+  OGLBoundingBox.cpp
+  OGLBoundingBox.h
+  OGLMain.cpp
+  OGLNativeVertexFormat.cpp
+  OGLPerfQuery.cpp
+  OGLPerfQuery.h
   OGLPipeline.cpp
+  OGLPipeline.h
+  OGLRender.cpp
+  OGLRender.h
   OGLShader.cpp
+  OGLShader.h
+  OGLStreamBuffer.cpp
+  OGLStreamBuffer.h
   OGLTexture.cpp
-  PerfQuery.cpp
-  PostProcessing.cpp
+  OGLTexture.h
+  OGLVertexManager.cpp
+  OGLVertexManager.h
   ProgramShaderCache.cpp
-  RasterFont.cpp
-  Render.cpp
+  ProgramShaderCache.h
   SamplerCache.cpp
-  StreamBuffer.cpp
-  TextureCache.cpp
-  TextureConverter.cpp
-  VertexManager.cpp
+  SamplerCache.h
+  VideoBackend.h
 )
 
 target_link_libraries(videoogl
@@ -24,6 +31,5 @@ PUBLIC
   videocommon
 
 PRIVATE
-  SOIL
   ${X11_LIBRARIES}
 )

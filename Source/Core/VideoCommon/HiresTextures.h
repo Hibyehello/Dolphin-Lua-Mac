@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -13,13 +14,15 @@
 
 enum class TextureFormat;
 
+std::set<std::string> GetTextureDirectoriesWithGameId(const std::string& root_directory,
+                                                      const std::string& game_id);
+
 class HiresTexture
 {
 public:
-  using ImageDataPointer = std::unique_ptr<u8, void (*)(unsigned char*)>;
-
   static void Init();
   static void Update();
+  static void Clear();
   static void Shutdown();
 
   static std::shared_ptr<HiresTexture> Search(const u8* texture, size_t texture_size,
@@ -39,14 +42,11 @@ public:
 
   struct Level
   {
-    Level();
-
-    ImageDataPointer data;
+    std::vector<u8> data;
     AbstractTextureFormat format = AbstractTextureFormat::RGBA8;
     u32 width = 0;
     u32 height = 0;
     u32 row_length = 0;
-    size_t data_size = 0;
   };
   std::vector<Level> m_levels;
 
@@ -54,11 +54,9 @@ private:
   static std::unique_ptr<HiresTexture> Load(const std::string& base_filename, u32 width,
                                             u32 height);
   static bool LoadDDSTexture(HiresTexture* tex, const std::string& filename);
-  static bool LoadDDSTexture(Level& level, const std::string& filename);
+  static bool LoadDDSTexture(Level& level, const std::string& filename, u32 mip_level);
   static bool LoadTexture(Level& level, const std::vector<u8>& buffer);
   static void Prefetch();
-
-  static std::string GetTextureDirectory(const std::string& game_id);
 
   HiresTexture() {}
   bool m_has_arbitrary_mipmaps;

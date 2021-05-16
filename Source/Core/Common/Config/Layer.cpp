@@ -11,44 +11,6 @@
 
 namespace Config
 {
-namespace detail
-{
-std::string ValueToString(u16 value)
-{
-  return StringFromFormat("0x%04x", value);
-}
-
-std::string ValueToString(u32 value)
-{
-  return StringFromFormat("0x%08x", value);
-}
-
-std::string ValueToString(float value)
-{
-  return StringFromFormat("%#.9g", value);
-}
-
-std::string ValueToString(double value)
-{
-  return StringFromFormat("%#.17g", value);
-}
-
-std::string ValueToString(int value)
-{
-  return std::to_string(value);
-}
-
-std::string ValueToString(bool value)
-{
-  return StringFromBool(value);
-}
-
-std::string ValueToString(const std::string& value)
-{
-  return value;
-}
-}
-
 ConfigLayerLoader::ConfigLayerLoader(LayerType layer) : m_layer(layer)
 {
 }
@@ -75,17 +37,23 @@ Layer::~Layer()
   Save();
 }
 
-bool Layer::Exists(const ConfigLocation& location) const
+bool Layer::Exists(const Location& location) const
 {
   const auto iter = m_map.find(location);
   return iter != m_map.end() && iter->second.has_value();
 }
 
-bool Layer::DeleteKey(const ConfigLocation& location)
+bool Layer::DeleteKey(const Location& location)
 {
   m_is_dirty = true;
-  bool had_value = m_map[location].has_value();
-  m_map[location].reset();
+  bool had_value = false;
+  const auto iter = m_map.find(location);
+  if (iter != m_map.end() && iter->second.has_value())
+  {
+    iter->second.reset();
+    had_value = true;
+  }
+
   return had_value;
 }
 
@@ -100,14 +68,14 @@ void Layer::DeleteAllKeys()
 
 Section Layer::GetSection(System system, const std::string& section)
 {
-  return Section{m_map.lower_bound(ConfigLocation{system, section, ""}),
-                 m_map.lower_bound(ConfigLocation{system, section + '\001', ""})};
+  return Section{m_map.lower_bound(Location{system, section, ""}),
+                 m_map.lower_bound(Location{system, section + '\001', ""})};
 }
 
 ConstSection Layer::GetSection(System system, const std::string& section) const
 {
-  return ConstSection{m_map.lower_bound(ConfigLocation{system, section, ""}),
-                      m_map.lower_bound(ConfigLocation{system, section + '\001', ""})};
+  return ConstSection{m_map.lower_bound(Location{system, section, ""}),
+                      m_map.lower_bound(Location{system, section + '\001', ""})};
 }
 
 void Layer::Load()
@@ -115,7 +83,6 @@ void Layer::Load()
   if (m_loader)
     m_loader->Load(this);
   m_is_dirty = false;
-  InvokeConfigChangedCallbacks();
 }
 
 void Layer::Save()
@@ -125,7 +92,6 @@ void Layer::Save()
 
   m_loader->Save(this);
   m_is_dirty = false;
-  InvokeConfigChangedCallbacks();
 }
 
 LayerType Layer::GetLayer() const
@@ -137,4 +103,4 @@ const LayerMap& Layer::GetLayerMap() const
 {
   return m_map;
 }
-}
+}  // namespace Config

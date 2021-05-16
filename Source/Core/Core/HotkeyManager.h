@@ -15,7 +15,7 @@ namespace ControllerEmu
 {
 class ControllerEmu;
 class Buttons;
-}
+}  // namespace ControllerEmu
 
 enum Hotkey
 {
@@ -29,6 +29,8 @@ enum Hotkey
   HK_FULLSCREEN,
   HK_SCREENSHOT,
   HK_EXIT,
+  HK_ACTIVATE_CHAT,
+  HK_REQUEST_GOLF_CONTROL,
 
   HK_VOLUME_DOWN,
   HK_VOLUME_UP,
@@ -66,9 +68,29 @@ enum Hotkey
   HK_WIIMOTE3_CONNECT,
   HK_WIIMOTE4_CONNECT,
   HK_BALANCEBOARD_CONNECT,
+  HK_TOGGLE_SD_CARD,
+  HK_TOGGLE_USB_KEYBOARD,
+
+  HK_NEXT_WIIMOTE_PROFILE_1,
+  HK_PREV_WIIMOTE_PROFILE_1,
+  HK_NEXT_GAME_WIIMOTE_PROFILE_1,
+  HK_PREV_GAME_WIIMOTE_PROFILE_1,
+  HK_NEXT_WIIMOTE_PROFILE_2,
+  HK_PREV_WIIMOTE_PROFILE_2,
+  HK_NEXT_GAME_WIIMOTE_PROFILE_2,
+  HK_PREV_GAME_WIIMOTE_PROFILE_2,
+  HK_NEXT_WIIMOTE_PROFILE_3,
+  HK_PREV_WIIMOTE_PROFILE_3,
+  HK_NEXT_GAME_WIIMOTE_PROFILE_3,
+  HK_PREV_GAME_WIIMOTE_PROFILE_3,
+  HK_NEXT_WIIMOTE_PROFILE_4,
+  HK_PREV_WIIMOTE_PROFILE_4,
+  HK_NEXT_GAME_WIIMOTE_PROFILE_4,
+  HK_PREV_GAME_WIIMOTE_PROFILE_4,
 
   HK_TOGGLE_CROP,
   HK_TOGGLE_AR,
+  HK_TOGGLE_SKIP_EFB_ACCESS,
   HK_TOGGLE_EFBCOPIES,
   HK_TOGGLE_XFBCOPIES,
   HK_TOGGLE_IMMEDIATE_XFB,
@@ -79,21 +101,11 @@ enum Hotkey
   HK_INCREASE_IR,
   HK_DECREASE_IR,
 
-  HK_FREELOOK_DECREASE_SPEED,
-  HK_FREELOOK_INCREASE_SPEED,
-  HK_FREELOOK_RESET_SPEED,
-  HK_FREELOOK_UP,
-  HK_FREELOOK_DOWN,
-  HK_FREELOOK_LEFT,
-  HK_FREELOOK_RIGHT,
-  HK_FREELOOK_ZOOM_IN,
-  HK_FREELOOK_ZOOM_OUT,
-  HK_FREELOOK_RESET,
+  HK_FREELOOK_TOGGLE,
 
   HK_TOGGLE_STEREO_SBS,
   HK_TOGGLE_STEREO_TAB,
   HK_TOGGLE_STEREO_ANAGLYPH,
-  HK_TOGGLE_STEREO_3DVISION,
 
   HK_DECREASE_DEPTH,
   HK_INCREASE_DEPTH,
@@ -166,6 +178,10 @@ enum HotkeyGroup : int
   HKGP_PC,
   HKGP_BREAKPOINT,
   HKGP_WII,
+  HKGP_CONTROLLER_PROFILE_1,
+  HKGP_CONTROLLER_PROFILE_2,
+  HKGP_CONTROLLER_PROFILE_3,
+  HKGP_CONTROLLER_PROFILE_4,
   HKGP_GRAPHICS_TOGGLES,
   HKGP_IR,
   HKGP_FREELOOK,
@@ -180,16 +196,9 @@ enum HotkeyGroup : int
   NUM_HOTKEY_GROUPS,
 };
 
-struct HotkeyGroupInfo
-{
-  std::string name;
-  Hotkey first;
-  Hotkey last;
-};
-
 struct HotkeyStatus
 {
-  u32 button[NUM_HOTKEY_GROUPS];
+  std::array<u32, NUM_HOTKEY_GROUPS> button;
   s8 err;
 };
 
@@ -207,7 +216,7 @@ public:
   void LoadDefaults(const ControllerInterface& ciface) override;
 
 private:
-  ControllerEmu::Buttons* m_keys[NUM_HOTKEY_GROUPS];
+  std::array<ControllerEmu::Buttons*, NUM_HOTKEY_GROUPS> m_keys;
   std::array<ControllerEmu::ControlGroup*, NUM_HOTKEY_GROUPS> m_hotkey_groups;
 };
 
@@ -223,4 +232,4 @@ void GetStatus();
 bool IsEnabled();
 void Enable(bool enable_toggle);
 bool IsPressed(int Id, bool held);
-}
+}  // namespace HotkeyManagerEmu

@@ -40,14 +40,14 @@ static void state_callback(cubeb_stream* stream, void* user_data, cubeb_state st
 {
 }
 
-static long data_callback(cubeb_stream* stream, void* user_data, const void* inputbuffer,
-                          void* /*outputbuffer*/, long nframes)
+long CEXIMic::DataCallback(cubeb_stream* stream, void* user_data, const void* input_buffer,
+                           void* /*output_buffer*/, long nframes)
 {
   CEXIMic* mic = static_cast<CEXIMic*>(user_data);
 
-  std::lock_guard<std::mutex> lk(mic->ring_lock);
+  std::lock_guard lk(mic->ring_lock);
 
-  const s16* buff_in = static_cast<const s16*>(inputbuffer);
+  const s16* buff_in = static_cast<const s16*>(input_buffer);
   for (long i = 0; i < nframes; i++)
   {
     mic->stream_buffer[mic->stream_wpos] = buff_in[i];
@@ -82,25 +82,25 @@ void CEXIMic::StreamStart()
   u32 minimum_latency;
   if (cubeb_get_min_latency(m_cubeb_ctx.get(), &params, &minimum_latency) != CUBEB_OK)
   {
-    WARN_LOG(EXPANSIONINTERFACE, "Error getting minimum latency");
+    WARN_LOG_FMT(EXPANSIONINTERFACE, "Error getting minimum latency");
   }
 
   if (cubeb_stream_init(m_cubeb_ctx.get(), &m_cubeb_stream, "Dolphin Emulated GameCube Microphone",
                         nullptr, &params, nullptr, nullptr,
-                        std::max<u32>(buff_size_samples, minimum_latency), data_callback,
+                        std::max<u32>(buff_size_samples, minimum_latency), DataCallback,
                         state_callback, this) != CUBEB_OK)
   {
-    ERROR_LOG(EXPANSIONINTERFACE, "Error initializing cubeb stream");
+    ERROR_LOG_FMT(EXPANSIONINTERFACE, "Error initializing cubeb stream");
     return;
   }
 
   if (cubeb_stream_start(m_cubeb_stream) != CUBEB_OK)
   {
-    ERROR_LOG(EXPANSIONINTERFACE, "Error starting cubeb stream");
+    ERROR_LOG_FMT(EXPANSIONINTERFACE, "Error starting cubeb stream");
     return;
   }
 
-  INFO_LOG(EXPANSIONINTERFACE, "started cubeb stream");
+  INFO_LOG_FMT(EXPANSIONINTERFACE, "started cubeb stream");
 }
 
 void CEXIMic::StreamStop()
@@ -108,7 +108,7 @@ void CEXIMic::StreamStop()
   if (m_cubeb_stream)
   {
     if (cubeb_stream_stop(m_cubeb_stream) != CUBEB_OK)
-      ERROR_LOG(EXPANSIONINTERFACE, "Error stopping cubeb stream");
+      ERROR_LOG_FMT(EXPANSIONINTERFACE, "Error stopping cubeb stream");
     cubeb_stream_destroy(m_cubeb_stream);
     m_cubeb_stream = nullptr;
   }
@@ -121,7 +121,7 @@ void CEXIMic::StreamStop()
 
 void CEXIMic::StreamReadOne()
 {
-  std::lock_guard<std::mutex> lk(ring_lock);
+  std::lock_guard lk(ring_lock);
 
   if (samples_avail >= buff_size_samples)
   {
@@ -266,7 +266,7 @@ void CEXIMic::TransferByte(u8& byte)
   break;
 
   default:
-    ERROR_LOG(EXPANSIONINTERFACE, "EXI MIC: unknown command byte %02x", command);
+    ERROR_LOG_FMT(EXPANSIONINTERFACE, "EXI MIC: unknown command byte {:02x}", command);
     break;
   }
 

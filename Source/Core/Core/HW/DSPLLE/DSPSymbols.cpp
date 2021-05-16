@@ -4,28 +4,22 @@
 
 #include "Core/HW/DSPLLE/DSPSymbols.h"
 
-#include <cctype>
-#include <list>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "Common/CommonTypes.h"
-#include "Common/File.h"
-#include "Common/StringUtil.h"
+#include "Common/Logging/Log.h"
 
 #include "Core/DSP/DSPCore.h"
 #include "Core/DSP/DSPDisassembler.h"
 
-namespace DSP
-{
-namespace Symbols
+namespace DSP::Symbols
 {
 DSPSymbolDB g_dsp_symbol_db;
 
 static std::map<u16, int> addr_to_line;
 static std::map<int, u16> line_to_addr;
-static std::map<int, const char*> line_to_symbol;
 static std::vector<std::string> lines;
 static int line_counter = 0;
 
@@ -49,7 +43,7 @@ int Line2Addr(int line)  // -1 for not found
 
 const char* GetLineText(int line)
 {
-  if (line > 0 && line < (int)lines.size())
+  if (line >= 0 && line < (int)lines.size())
   {
     return lines[line].c_str();
   }
@@ -59,26 +53,23 @@ const char* GetLineText(int line)
   }
 }
 
-Symbol* DSPSymbolDB::GetSymbolFromAddr(u32 addr)
+Common::Symbol* DSPSymbolDB::GetSymbolFromAddr(u32 addr)
 {
-  XFuncMap::iterator it = functions.find(addr);
+  auto it = m_functions.find(addr);
 
-  if (it != functions.end())
-  {
+  if (it != m_functions.end())
     return &it->second;
-  }
-  else
+
+  for (auto& func : m_functions)
   {
-    for (auto& func : functions)
-    {
-      if (addr >= func.second.address && addr < func.second.address + func.second.size)
-        return &func.second;
-    }
+    if (addr >= func.second.address && addr < func.second.address + func.second.size)
+      return &func.second;
   }
+
   return nullptr;
 }
 
-void AutoDisassembly(u16 start_addr, u16 end_addr)
+void AutoDisassembly(const SDSP& dsp, u16 start_addr, u16 end_addr)
 {
   AssemblerSettings settings;
   settings.show_pc = true;
@@ -86,7 +77,7 @@ void AutoDisassembly(u16 start_addr, u16 end_addr)
   DSPDisassembler disasm(settings);
 
   u16 addr = start_addr;
-  const u16* ptr = (start_addr >> 15) ? g_dsp.irom : g_dsp.iram;
+  const u16* ptr = (start_addr >> 15) != 0 ? dsp.irom : dsp.iram;
   while (addr < end_addr)
   {
     line_to_addr[line_counter] = addr;
@@ -95,11 +86,10 @@ void AutoDisassembly(u16 start_addr, u16 end_addr)
     std::string buf;
     if (!disasm.DisassembleOpcode(ptr, &addr, buf))
     {
-      ERROR_LOG(DSPLLE, "disasm failed at %04x", addr);
+      ERROR_LOG_FMT(DSPLLE, "disasm failed at {:04x}", addr);
       break;
     }
 
-    // NOTICE_LOG(DSPLLE, "Added %04x %i %s", addr, line_counter, buf.c_str());
     lines.push_back(buf);
     line_counter++;
   }
@@ -112,6 +102,4 @@ void Clear()
   lines.clear();
   line_counter = 0;
 }
-
-}  // namespace Symbols
-}  // namespace DSP
+}  // namespace DSP::Symbols

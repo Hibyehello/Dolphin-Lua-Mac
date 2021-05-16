@@ -16,15 +16,18 @@
 #include "Common/PerformanceCounter.h"
 #endif
 
+#include <fmt/format.h>
+
 #include "Common/ChunkFile.h"
 #include "Common/CommonTypes.h"
-#include "Common/File.h"
+#include "Common/IOFile.h"
 #include "Common/MsgHandler.h"
 
 #include "Core/Core.h"
 #include "Core/PowerPC/CPUCoreBase.h"
 #include "Core/PowerPC/CachedInterpreter/CachedInterpreter.h"
 #include "Core/PowerPC/JitCommon/JitBase.h"
+#include "Core/PowerPC/MMU.h"
 #include "Core/PowerPC/PPCSymbolDB.h"
 #include "Core/PowerPC/PowerPC.h"
 #include "Core/PowerPC/Profiler.h"
@@ -39,31 +42,38 @@
 
 namespace JitInterface
 {
+static JitBase* g_jit = nullptr;
+void SetJit(JitBase* jit)
+{
+  g_jit = jit;
+}
 void DoState(PointerWrap& p)
 {
   if (g_jit && p.GetMode() == PointerWrap::MODE_READ)
     g_jit->ClearCache();
 }
-CPUCoreBase* InitJitCore(int core)
+CPUCoreBase* InitJitCore(PowerPC::CPUCore core)
 {
   switch (core)
   {
 #if _M_X86
-  case PowerPC::CORE_JIT64:
+  case PowerPC::CPUCore::JIT64:
     g_jit = new Jit64();
     break;
 #endif
 #if _M_ARM_64
-  case PowerPC::CORE_JITARM64:
+  case PowerPC::CPUCore::JITARM64:
     g_jit = new JitArm64();
     break;
 #endif
-  case PowerPC::CORE_CACHEDINTERPRETER:
+  case PowerPC::CPUCore::CachedInterpreter:
     g_jit = new CachedInterpreter();
     break;
 
   default:
-    PanicAlert("Unrecognizable cpu_core: %d", core);
+    PanicAlertFmtT("The selected CPU emulation core ({0}) is not available. "
+                   "Please select a different CPU emulation core in the settings.",
+                   core);
     g_jit = nullptr;
     return nullptr;
   }
@@ -76,6 +86,14 @@ CPUCoreBase* GetCore()
   return g_jit;
 }
 
+void SetProfilingState(ProfilingState state)
+{
+  if (!g_jit)
+    return;
+
+  g_jit->jo.profile_blocks = state == ProfilingState::Enabled;
+}
+
 void WriteProfileResults(const std::string& filename)
 {
   Profiler::ProfileStats prof_stats;
@@ -84,20 +102,22 @@ void WriteProfileResults(const std::string& filename)
   File::IOFile f(filename, "w");
   if (!f)
   {
-    PanicAlert("Failed to open %s", filename.c_str());
+    PanicAlertFmt("Failed to open {}", filename);
     return;
   }
-  fprintf(f.GetHandle(), "origAddr\tblkName\trunCount\tcost\ttimeCost\tpercent\ttimePercent\tOvAlli"
-                         "nBlkTime(ms)\tblkCodeSize\n");
+  f.WriteString("origAddr\tblkName\trunCount\tcost\ttimeCost\tpercent\ttimePercent\tOvAllinBlkTime("
+                "ms)\tblkCodeSize\n");
   for (auto& stat : prof_stats.block_stats)
   {
     std::string name = g_symbolDB.GetDescription(stat.addr);
     double percent = 100.0 * (double)stat.cost / (double)prof_stats.cost_sum;
     double timePercent = 100.0 * (double)stat.tick_counter / (double)prof_stats.timecost_sum;
-    fprintf(f.GetHandle(),
-            "%08x\t%s\t%" PRIu64 "\t%" PRIu64 "\t%" PRIu64 "\t%.2f\t%.2f\t%.2f\t%i\n", stat.addr,
-            name.c_str(), stat.run_count, stat.cost, stat.tick_counter, percent, timePercent,
-            (double)stat.tick_counter * 1000.0 / (double)prof_stats.countsPerSec, stat.block_size);
+    f.WriteString(fmt::format("{0:08x}\t{1}\t{2}\t{3}\t{4}\t{5:.2f}\t{6:.2f}\t{7:.2f}\t{8}\n",
+                              stat.addr, name, stat.run_count, stat.cost, stat.tick_counter,
+                              percent, timePercent,
+                              static_cast<double>(stat.tick_counter) * 1000.0 /
+                                  static_cast<double>(prof_stats.countsPerSec),
+                              stat.block_size));
   }
 }
 
@@ -111,26 +131,22 @@ void GetProfileResults(Profiler::ProfileStats* prof_stats)
   prof_stats->timecost_sum = 0;
   prof_stats->block_stats.clear();
 
-  Core::State old_state = Core::GetState();
-  if (old_state == Core::State::Running)
-    Core::SetState(Core::State::Paused);
+  Core::RunAsCPUThread([&prof_stats] {
+    QueryPerformanceFrequency((LARGE_INTEGER*)&prof_stats->countsPerSec);
+    g_jit->GetBlockCache()->RunOnBlocks([&prof_stats](const JitBlock& block) {
+      const auto& data = block.profile_data;
+      u64 cost = data.downcountCounter;
+      u64 timecost = data.ticCounter;
+      // Todo: tweak.
+      if (data.runCount >= 1)
+        prof_stats->block_stats.emplace_back(block.effectiveAddress, cost, timecost, data.runCount,
+                                             block.codeSize);
+      prof_stats->cost_sum += cost;
+      prof_stats->timecost_sum += timecost;
+    });
 
-  QueryPerformanceFrequency((LARGE_INTEGER*)&prof_stats->countsPerSec);
-  g_jit->GetBlockCache()->RunOnBlocks([&prof_stats](const JitBlock& block) {
-    const auto& data = block.profile_data;
-    u64 cost = data.downcountCounter;
-    u64 timecost = data.ticCounter;
-    // Todo: tweak.
-    if (data.runCount >= 1)
-      prof_stats->block_stats.emplace_back(block.effectiveAddress, cost, timecost, data.runCount,
-                                           block.codeSize);
-    prof_stats->cost_sum += cost;
-    prof_stats->timecost_sum += timecost;
+    sort(prof_stats->block_stats.begin(), prof_stats->block_stats.end());
   });
-
-  sort(prof_stats->block_stats.begin(), prof_stats->block_stats.end());
-  if (old_state == Core::State::Running)
-    Core::SetState(Core::State::Running);
 }
 
 int GetHostCode(u32* address, const u8** code, u32* code_size)
@@ -141,12 +157,12 @@ int GetHostCode(u32* address, const u8** code, u32* code_size)
     return 1;
   }
 
-  JitBlock* block = g_jit->GetBlockCache()->GetBlockFromStartAddress(*address, MSR);
+  JitBlock* block = g_jit->GetBlockCache()->GetBlockFromStartAddress(*address, MSR.Hex);
   if (!block)
   {
     for (int i = 0; i < 500; i++)
     {
-      block = g_jit->GetBlockCache()->GetBlockFromStartAddress(*address - 4 * i, MSR);
+      block = g_jit->GetBlockCache()->GetBlockFromStartAddress(*address - 4 * i, MSR.Hex);
       if (block)
         break;
     }
@@ -200,10 +216,6 @@ void ClearCache()
 }
 void ClearSafe()
 {
-  // This clear is "safe" in the sense that it's okay to run from
-  // inside a JIT'ed block: it clears the instruction cache, but not
-  // the JIT'ed code.
-  // TODO: There's probably a better way to handle this situation.
   if (g_jit)
     g_jit->GetBlockCache()->Clear();
 }
@@ -260,4 +272,4 @@ void Shutdown()
     g_jit = nullptr;
   }
 }
-}
+}  // namespace JitInterface

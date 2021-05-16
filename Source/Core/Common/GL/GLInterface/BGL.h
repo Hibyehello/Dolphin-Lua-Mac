@@ -4,24 +4,33 @@
 
 #pragma once
 
-#include "Common/GL/GLInterfaceBase.h"
+#include "Common/GL/GLContext.h"
 
 class BWindow;
 class BGLView;
 
-class cInterfaceBGL final : public cInterfaceBase
+class GLContextBGL final : public GLContext
 {
 public:
-  void Swap() override;
-  void* GetFuncAddress(const std::string& name) override;
-  bool Create(void* window_handle, bool stereo, bool core) override;
+  ~GLContextBGL() override;
+
+  bool IsHeadless() const override;
+
   bool MakeCurrent() override;
   bool ClearCurrent() override;
-  void Shutdown() override;
+
   void Update() override;
-  void SwapInterval(int interval) override;
+
+  void Swap() override;
+
+  void* GetFuncAddress(const std::string& name) override;
+
+protected:
+  bool Initialize(const WindowSystemInfo& wsi, bool stereo, bool core) override;
 
 private:
+  static BGLView* s_current;
+
   BWindow* m_window;
   BGLView* m_gl;
 };

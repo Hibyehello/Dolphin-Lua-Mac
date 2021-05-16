@@ -7,11 +7,14 @@
 #include <string>
 #include "VideoCommon/VideoBackendBase.h"
 
+class GLContext;
+
 namespace OGL
 {
 class VideoBackend : public VideoBackendBase
 {
-  bool Initialize(void*) override;
+public:
+  bool Initialize(const WindowSystemInfo& wsi) override;
   void Shutdown() override;
 
   std::string GetName() const override;
@@ -19,8 +22,10 @@ class VideoBackend : public VideoBackendBase
 
   void InitBackendInfo() override;
 
+  static constexpr const char* NAME = "OGL";
+
 private:
-  bool InitializeGLExtensions();
+  bool InitializeGLExtensions(GLContext* context);
   bool FillBackendInfo();
 };
-}
+}  // namespace OGL

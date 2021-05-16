@@ -15,9 +15,7 @@
 #include "Core/IOS/ES/Formats.h"
 #include "Core/IOS/IOS.h"
 
-namespace IOS
-{
-namespace HLE
+namespace IOS::HLE
 {
 class ARCUnpacker
 {
@@ -34,20 +32,19 @@ private:
   std::vector<u8> m_whole_file;
 };
 
-namespace Device
-{
-class WFSI : public Device
+class WFSIDevice : public Device
 {
 public:
-  WFSI(Kernel& ios, const std::string& device_name);
+  WFSIDevice(Kernel& ios, const std::string& device_name);
 
-  IPCCommandResult IOCtl(const IOCtlRequest& request) override;
+  std::optional<IPCReply> IOCtl(const IOCtlRequest& request) override;
 
 private:
   u32 GetTmd(u16 group_id, u32 title_id, u64 subtitle_id, u32 address, u32* size) const;
 
   void SetCurrentTitleIdAndGroupId(u64 tid, u16 gid);
   void SetImportTitleIdAndGroupId(u64 tid, u16 gid);
+  void FinalizePatchInstall();
 
   s32 CancelTitleImport(bool continue_install);
   s32 CancelPatchImport(bool continue_install);
@@ -58,7 +55,7 @@ private:
   u8 m_aes_key[0x10] = {};
   u8 m_aes_iv[0x10] = {};
 
-  IOS::ES::TMDReader m_tmd;
+  ES::TMDReader m_tmd;
   std::string m_base_extract_path;
 
   u64 m_current_title_id;
@@ -97,6 +94,7 @@ private:
     IOCTL_WFSI_FINALIZE_TITLE_INSTALL = 0x06,
 
     IOCTL_WFSI_DELETE_TITLE = 0x17,
+    IOCTL_WFSI_CHANGE_TITLE = 0x18,
 
     IOCTL_WFSI_GET_VERSION = 0x1b,
 
@@ -125,6 +123,4 @@ private:
     IOCTL_WFSI_CHECK_HAS_SPACE = 0x95,
   };
 };
-}  // namespace Device
-}  // namespace HLE
-}  // namespace IOS
+}  // namespace IOS::HLE

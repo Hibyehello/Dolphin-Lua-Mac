@@ -2,7 +2,10 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
+#include "VideoCommon/VertexLoaderManager.h"
+
 #include <algorithm>
+#include <iterator>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -11,17 +14,21 @@
 #include <vector>
 
 #include "Common/Assert.h"
-#include "Common/CommonFuncs.h"
 #include "Common/CommonTypes.h"
+#include "Common/Logging/Log.h"
+
+#include "Core/DolphinAnalytics.h"
 #include "Core/HW/Memmap.h"
 
 #include "VideoCommon/BPMemory.h"
+#include "VideoCommon/CPMemory.h"
+#include "VideoCommon/CommandProcessor.h"
 #include "VideoCommon/DataReader.h"
 #include "VideoCommon/IndexGenerator.h"
 #include "VideoCommon/NativeVertexFormat.h"
+#include "VideoCommon/RenderBase.h"
 #include "VideoCommon/Statistics.h"
 #include "VideoCommon/VertexLoaderBase.h"
-#include "VideoCommon/VertexLoaderManager.h"
 #include "VideoCommon/VertexManagerBase.h"
 #include "VideoCommon/VertexShaderManager.h"
 
@@ -42,7 +49,7 @@ static std::mutex s_vertex_loader_map_lock;
 static VertexLoaderMap s_vertex_loader_map;
 // TODO - change into array of pointers. Keep a map of all seen so far.
 
-u8* cached_arraybases[12];
+u8* cached_arraybases[NUM_VERTEX_COMPONENT_ARRAYS];
 
 void Init()
 {
@@ -51,7 +58,7 @@ void Init()
     map_entry = nullptr;
   for (auto& map_entry : g_preprocess_cp_state.vertex_loaders)
     map_entry = nullptr;
-  SETSTAT(stats.numVertexLoaders, 0);
+  SETSTAT(g_stats.num_vertex_loaders, 0);
 }
 
 void Clear()
@@ -72,11 +79,26 @@ void UpdateVertexArrayPointers()
   // But the vertex arrays with invalid addresses aren't actually enabled.
   // Note: Only array bases 0 through 11 are used by the Vertex loaders.
   //       12 through 15 are used for loading data into xfmem.
-  for (int i = 0; i < 12; i++)
+  // We also only update the array base if the vertex description states we are going to use it.
+  if (IsIndexed(g_main_cp_state.vtx_desc.low.Position))
+    cached_arraybases[ARRAY_POSITION] =
+        Memory::GetPointer(g_main_cp_state.array_bases[ARRAY_POSITION]);
+
+  if (IsIndexed(g_main_cp_state.vtx_desc.low.Normal))
+    cached_arraybases[ARRAY_NORMAL] = Memory::GetPointer(g_main_cp_state.array_bases[ARRAY_NORMAL]);
+
+  for (size_t i = 0; i < g_main_cp_state.vtx_desc.low.Color.Size(); i++)
   {
-    // Only update the array base if the vertex description states we are going to use it.
-    if (g_main_cp_state.vtx_desc.GetVertexArrayStatus(i) & MASK_INDEXED)
-      cached_arraybases[i] = Memory::GetPointer(g_main_cp_state.array_bases[i]);
+    if (IsIndexed(g_main_cp_state.vtx_desc.low.Color[i]))
+      cached_arraybases[ARRAY_COLOR0 + i] =
+          Memory::GetPointer(g_main_cp_state.array_bases[ARRAY_COLOR0 + i]);
+  }
+
+  for (size_t i = 0; i < g_main_cp_state.vtx_desc.high.TexCoord.Size(); i++)
+  {
+    if (IsIndexed(g_main_cp_state.vtx_desc.high.TexCoord[i]))
+      cached_arraybases[ARRAY_TEXCOORD0 + i] =
+          Memory::GetPointer(g_main_cp_state.array_bases[ARRAY_TEXCOORD0 + i]);
   }
 
   g_main_cp_state.bases_dirty = false;
@@ -90,7 +112,7 @@ struct entry
   u64 num_verts;
   bool operator<(const entry& other) const { return num_verts > other.num_verts; }
 };
-}
+}  // namespace
 
 std::string VertexLoadersToString()
 {
@@ -131,7 +153,7 @@ NativeVertexFormat* GetOrCreateMatchingFormat(const PortableVertexDeclaration& d
   auto iter = s_native_vertex_map.find(decl);
   if (iter == s_native_vertex_map.end())
   {
-    std::unique_ptr<NativeVertexFormat> fmt = g_vertex_manager->CreateNativeVertexFormat(decl);
+    std::unique_ptr<NativeVertexFormat> fmt = g_renderer->CreateNativeVertexFormat(decl);
     auto ipair = s_native_vertex_map.emplace(decl, std::move(fmt));
     iter = ipair.first;
   }
@@ -166,21 +188,21 @@ NativeVertexFormat* GetUberVertexFormat(const PortableVertexDeclaration& decl)
     CopyAttribute(new_decl.position, decl.position);
   else
     MakeDummyAttribute(new_decl.position, VAR_FLOAT, 1, false);
-  for (size_t i = 0; i < ArraySize(new_decl.normals); i++)
+  for (size_t i = 0; i < std::size(new_decl.normals); i++)
   {
     if (decl.normals[i].enable)
       CopyAttribute(new_decl.normals[i], decl.normals[i]);
     else
       MakeDummyAttribute(new_decl.normals[i], VAR_FLOAT, 1, false);
   }
-  for (size_t i = 0; i < ArraySize(new_decl.colors); i++)
+  for (size_t i = 0; i < std::size(new_decl.colors); i++)
   {
     if (decl.colors[i].enable)
       CopyAttribute(new_decl.colors[i], decl.colors[i]);
     else
       MakeDummyAttribute(new_decl.colors[i], VAR_UNSIGNED_BYTE, 4, false);
   }
-  for (size_t i = 0; i < ArraySize(new_decl.texcoords); i++)
+  for (size_t i = 0; i < std::size(new_decl.texcoords); i++)
   {
     if (decl.texcoords[i].enable)
       CopyAttribute(new_decl.texcoords[i], decl.texcoords[i]);
@@ -220,7 +242,7 @@ static VertexLoaderBase* RefreshLoader(int vtx_attr_group, bool preprocess = fal
       s_vertex_loader_map[uid] =
           VertexLoaderBase::CreateVertexLoader(state->vtx_desc, state->vtx_attr[vtx_attr_group]);
       loader = s_vertex_loader_map[uid].get();
-      INCSTAT(stats.numVertexLoaders);
+      INCSTAT(g_stats.num_vertex_loaders);
     }
     if (check_for_native_format)
     {
@@ -228,9 +250,7 @@ static VertexLoaderBase* RefreshLoader(int vtx_attr_group, bool preprocess = fal
       const PortableVertexDeclaration& format = loader->m_native_vtx_decl;
       std::unique_ptr<NativeVertexFormat>& native = s_native_vertex_map[format];
       if (!native)
-      {
-        native = g_vertex_manager->CreateNativeVertexFormat(format);
-      }
+        native = g_renderer->CreateNativeVertexFormat(format);
       loader->m_native_vertex_format = native.get();
     }
     state->vertex_loaders[vtx_attr_group] = loader;
@@ -275,19 +295,18 @@ int RunVertices(int vtx_attr_group, int primitive, int count, DataReader src, bo
   // if cull mode is CULL_ALL, tell VertexManager to skip triangles and quads.
   // They still need to go through vertex loading, because we need to calculate a zfreeze refrence
   // slope.
-  bool cullall = (bpmem.genMode.cullmode == GenMode::CULL_ALL && primitive < 5);
+  bool cullall = (bpmem.genMode.cullmode == CullMode::All && primitive < 5);
 
   DataReader dst = g_vertex_manager->PrepareForAdditionalData(
       primitive, count, loader->m_native_vtx_decl.stride, cullall);
 
   count = loader->RunVertices(src, dst, count);
 
-  IndexGenerator::AddIndices(primitive, count);
-
+  g_vertex_manager->AddIndices(primitive, count);
   g_vertex_manager->FlushData(count, loader->m_native_vtx_decl.stride);
 
-  ADDSTAT(stats.thisFrame.numPrims, count);
-  INCSTAT(stats.thisFrame.numPrimitiveJoins);
+  ADDSTAT(g_stats.this_frame.num_prims, count);
+  INCSTAT(g_stats.this_frame.num_primitive_joins);
   return size;
 }
 
@@ -296,85 +315,148 @@ NativeVertexFormat* GetCurrentVertexFormat()
   return s_current_vtx_fmt;
 }
 
-}  // namespace
+}  // namespace VertexLoaderManager
 
 void LoadCPReg(u32 sub_cmd, u32 value, bool is_preprocess)
 {
   bool update_global_state = !is_preprocess;
   CPState* state = is_preprocess ? &g_preprocess_cp_state : &g_main_cp_state;
-  switch (sub_cmd & 0xF0)
+  switch (sub_cmd & CP_COMMAND_MASK)
   {
-  case 0x30:
+  case UNKNOWN_00:
+  case UNKNOWN_10:
+  case UNKNOWN_20:
+    if (!(sub_cmd == UNKNOWN_20 && value == 0))
+    {
+      // All titles using libogc or the official SDK issue 0x20 with value=0 on startup
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_CP_PERF_COMMAND);
+      DEBUG_LOG_FMT(VIDEO, "Unknown CP command possibly relating to perf queries used: {:02x}",
+                    sub_cmd);
+    }
+    break;
+
+  case MATINDEX_A:
+    if (sub_cmd != MATINDEX_A)
+    {
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_MAYBE_INVALID_CP_COMMAND);
+      WARN_LOG_FMT(VIDEO,
+                   "CP MATINDEX_A: an exact value of {:02x} was expected "
+                   "but instead a value of {:02x} was seen",
+                   MATINDEX_A, sub_cmd);
+    }
+
     if (update_global_state)
       VertexShaderManager::SetTexMatrixChangedA(value);
     break;
 
-  case 0x40:
+  case MATINDEX_B:
+    if (sub_cmd != MATINDEX_B)
+    {
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_MAYBE_INVALID_CP_COMMAND);
+      WARN_LOG_FMT(VIDEO,
+                   "CP MATINDEX_B: an exact value of {:02x} was expected "
+                   "but instead a value of {:02x} was seen",
+                   MATINDEX_B, sub_cmd);
+    }
+
     if (update_global_state)
       VertexShaderManager::SetTexMatrixChangedB(value);
     break;
 
-  case 0x50:
-    state->vtx_desc.Hex &= ~0x1FFFF;  // keep the Upper bits
-    state->vtx_desc.Hex |= value;
-    state->attr_dirty = BitSet32::AllTrue(8);
+  case VCD_LO:
+    if (sub_cmd != VCD_LO)  // Stricter than YAGCD
+    {
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_MAYBE_INVALID_CP_COMMAND);
+      WARN_LOG_FMT(VIDEO,
+                   "CP VCD_LO: an exact value of {:02x} was expected "
+                   "but instead a value of {:02x} was seen",
+                   VCD_LO, sub_cmd);
+    }
+
+    state->vtx_desc.low.Hex = value;
+    state->attr_dirty = BitSet32::AllTrue(CP_NUM_VAT_REG);
     state->bases_dirty = true;
     break;
 
-  case 0x60:
-    state->vtx_desc.Hex &= 0x1FFFF;  // keep the lower 17Bits
-    state->vtx_desc.Hex |= (u64)value << 17;
-    state->attr_dirty = BitSet32::AllTrue(8);
+  case VCD_HI:
+    if (sub_cmd != VCD_HI)  // Stricter than YAGCD
+    {
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_MAYBE_INVALID_CP_COMMAND);
+      WARN_LOG_FMT(VIDEO,
+                   "CP VCD_HI: an exact value of {:02x} was expected "
+                   "but instead a value of {:02x} was seen",
+                   VCD_HI, sub_cmd);
+    }
+
+    state->vtx_desc.high.Hex = value;
+    state->attr_dirty = BitSet32::AllTrue(CP_NUM_VAT_REG);
     state->bases_dirty = true;
     break;
 
-  case 0x70:
-    ASSERT((sub_cmd & 0x0F) < 8);
-    state->vtx_attr[sub_cmd & 7].g0.Hex = value;
-    state->attr_dirty[sub_cmd & 7] = true;
+  case CP_VAT_REG_A:
+    if ((sub_cmd - CP_VAT_REG_A) >= CP_NUM_VAT_REG)
+    {
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_MAYBE_INVALID_CP_COMMAND);
+      WARN_LOG_FMT(VIDEO, "CP_VAT_REG_A: Invalid VAT {}", sub_cmd - CP_VAT_REG_A);
+    }
+    state->vtx_attr[sub_cmd & CP_VAT_MASK].g0.Hex = value;
+    state->attr_dirty[sub_cmd & CP_VAT_MASK] = true;
     break;
 
-  case 0x80:
-    ASSERT((sub_cmd & 0x0F) < 8);
-    state->vtx_attr[sub_cmd & 7].g1.Hex = value;
-    state->attr_dirty[sub_cmd & 7] = true;
+  case CP_VAT_REG_B:
+    if ((sub_cmd - CP_VAT_REG_B) >= CP_NUM_VAT_REG)
+    {
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_MAYBE_INVALID_CP_COMMAND);
+      WARN_LOG_FMT(VIDEO, "CP_VAT_REG_B: Invalid VAT {}", sub_cmd - CP_VAT_REG_B);
+    }
+    state->vtx_attr[sub_cmd & CP_VAT_MASK].g1.Hex = value;
+    state->attr_dirty[sub_cmd & CP_VAT_MASK] = true;
     break;
 
-  case 0x90:
-    ASSERT((sub_cmd & 0x0F) < 8);
-    state->vtx_attr[sub_cmd & 7].g2.Hex = value;
-    state->attr_dirty[sub_cmd & 7] = true;
+  case CP_VAT_REG_C:
+    if ((sub_cmd - CP_VAT_REG_C) >= CP_NUM_VAT_REG)
+    {
+      DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_MAYBE_INVALID_CP_COMMAND);
+      WARN_LOG_FMT(VIDEO, "CP_VAT_REG_C: Invalid VAT {}", sub_cmd - CP_VAT_REG_C);
+    }
+    state->vtx_attr[sub_cmd & CP_VAT_MASK].g2.Hex = value;
+    state->attr_dirty[sub_cmd & CP_VAT_MASK] = true;
     break;
 
   // Pointers to vertex arrays in GC RAM
-  case 0xA0:
-    state->array_bases[sub_cmd & 0xF] = value;
+  case ARRAY_BASE:
+    state->array_bases[sub_cmd & CP_ARRAY_MASK] =
+        value & CommandProcessor::GetPhysicalAddressMask();
     state->bases_dirty = true;
     break;
 
-  case 0xB0:
-    state->array_strides[sub_cmd & 0xF] = value & 0xFF;
+  case ARRAY_STRIDE:
+    state->array_strides[sub_cmd & CP_ARRAY_MASK] = value & 0xFF;
     break;
+
+  default:
+    DolphinAnalytics::Instance().ReportGameQuirk(GameQuirk::USES_UNKNOWN_CP_COMMAND);
+    WARN_LOG_FMT(VIDEO, "Unknown CP register {:02x} set to {:08x}", sub_cmd, value);
   }
 }
 
 void FillCPMemoryArray(u32* memory)
 {
-  memory[0x30] = g_main_cp_state.matrix_index_a.Hex;
-  memory[0x40] = g_main_cp_state.matrix_index_b.Hex;
-  memory[0x50] = (u32)g_main_cp_state.vtx_desc.Hex;
-  memory[0x60] = (u32)(g_main_cp_state.vtx_desc.Hex >> 17);
+  memory[MATINDEX_A] = g_main_cp_state.matrix_index_a.Hex;
+  memory[MATINDEX_B] = g_main_cp_state.matrix_index_b.Hex;
+  memory[VCD_LO] = g_main_cp_state.vtx_desc.low.Hex;
+  memory[VCD_HI] = g_main_cp_state.vtx_desc.high.Hex;
 
-  for (int i = 0; i < 8; ++i)
+  for (int i = 0; i < CP_NUM_VAT_REG; ++i)
   {
-    memory[0x70 + i] = g_main_cp_state.vtx_attr[i].g0.Hex;
-    memory[0x80 + i] = g_main_cp_state.vtx_attr[i].g1.Hex;
-    memory[0x90 + i] = g_main_cp_state.vtx_attr[i].g2.Hex;
+    memory[CP_VAT_REG_A + i] = g_main_cp_state.vtx_attr[i].g0.Hex;
+    memory[CP_VAT_REG_B + i] = g_main_cp_state.vtx_attr[i].g1.Hex;
+    memory[CP_VAT_REG_C + i] = g_main_cp_state.vtx_attr[i].g2.Hex;
   }
 
-  for (int i = 0; i < 16; ++i)
+  for (int i = 0; i < CP_NUM_ARRAYS; ++i)
   {
-    memory[0xA0 + i] = g_main_cp_state.array_bases[i];
-    memory[0xB0 + i] = g_main_cp_state.array_strides[i];
+    memory[ARRAY_BASE + i] = g_main_cp_state.array_bases[i];
+    memory[ARRAY_STRIDE + i] = g_main_cp_state.array_strides[i];
   }
 }

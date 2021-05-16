@@ -10,13 +10,18 @@
 
 #include "Common/CommonTypes.h"
 
+namespace Common
+{
 class DebugInterface;
+}
 
 struct TBreakPoint
 {
   u32 address = 0;
   bool is_enabled = false;
   bool is_temporary = false;
+  bool log_on_hit = false;
+  bool break_on_hit = false;
 };
 
 struct TMemCheck
@@ -24,6 +29,7 @@ struct TMemCheck
   u32 start_address = 0;
   u32 end_address = 0;
 
+  bool is_enabled = true;
   bool is_ranged = false;
 
   bool is_break_on_read = false;
@@ -35,14 +41,8 @@ struct TMemCheck
   u32 num_hits = 0;
 
   // returns whether to break
-  bool Action(DebugInterface* dbg_interface, u32 value, u32 addr, bool write, size_t size, u32 pc);
-};
-
-struct TWatch
-{
-  std::string name;
-  u32 address = 0;
-  bool is_enabled = false;
+  bool Action(Common::DebugInterface* dbg_interface, u32 value, u32 addr, bool write, size_t size,
+              u32 pc);
 };
 
 // Code breakpoints.
@@ -58,11 +58,18 @@ public:
 
   // is address breakpoint
   bool IsAddressBreakPoint(u32 address) const;
+  bool IsBreakPointEnable(u32 adresss) const;
   bool IsTempBreakPoint(u32 address) const;
+  bool IsBreakPointBreakOnHit(u32 address) const;
+  bool IsBreakPointLogOnHit(u32 address) const;
 
   // Add BreakPoint
+  void Add(u32 address, bool temp, bool break_on_hit, bool log_on_hit);
   void Add(u32 address, bool temp = false);
   void Add(const TBreakPoint& bp);
+
+  // Modify Breakpoint
+  bool ToggleBreakPoint(u32 address);
 
   // Remove Breakpoint
   void Remove(u32 address);
@@ -86,41 +93,16 @@ public:
 
   void Add(const TMemCheck& memory_check);
 
+  bool ToggleBreakPoint(u32 address);
+
   // memory breakpoint
   TMemCheck* GetMemCheck(u32 address, size_t size = 1);
-  bool OverlapsMemcheck(u32 address, u32 length);
+  bool OverlapsMemcheck(u32 address, u32 length) const;
   void Remove(u32 address);
 
-  void Clear() { m_mem_checks.clear(); }
+  void Clear();
   bool HasAny() const { return !m_mem_checks.empty(); }
 
 private:
   TMemChecks m_mem_checks;
-};
-
-class Watches
-{
-public:
-  using TWatches = std::vector<TWatch>;
-  using TWatchesStr = std::vector<std::string>;
-
-  const TWatches& GetWatches() const { return m_watches; }
-  TWatchesStr GetStrings() const;
-  void AddFromStrings(const TWatchesStr& watch_strings);
-
-  bool IsAddressWatch(u32 address) const;
-
-  // Add watch
-  void Add(u32 address);
-  void Add(const TWatch& watch);
-
-  void Update(int count, u32 address);
-  void UpdateName(int count, const std::string name);
-
-  // Remove watch
-  void Remove(u32 address);
-  void Clear();
-
-private:
-  TWatches m_watches;
 };

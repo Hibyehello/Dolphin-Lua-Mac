@@ -7,9 +7,7 @@
 #include "Common/CommonTypes.h"
 #include "Core/HW/DSPHLE/UCodes/UCodes.h"
 
-namespace DSP
-{
-namespace HLE
+namespace DSP::HLE
 {
 class DSPHLE;
 
@@ -17,12 +15,11 @@ class INITUCode : public UCodeInterface
 {
 public:
   INITUCode(DSPHLE* dsphle, u32 crc);
-  virtual ~INITUCode();
+  ~INITUCode() override;
 
   void Initialize() override;
   void HandleMail(u32 mail) override;
   void Update() override;
   void Init();
 };
-}  // namespace HLE
-}  // namespace DSP
+}  // namespace DSP::HLE

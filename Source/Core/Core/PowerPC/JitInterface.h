@@ -11,6 +11,12 @@
 
 class CPUCoreBase;
 class PointerWrap;
+class JitBase;
+
+namespace PowerPC
+{
+enum class CPUCore;
+}
 
 namespace Profiler
 {
@@ -28,10 +34,17 @@ enum class ExceptionType
 
 void DoState(PointerWrap& p);
 
-CPUCoreBase* InitJitCore(int core);
+CPUCoreBase* InitJitCore(PowerPC::CPUCore core);
 CPUCoreBase* GetCore();
 
 // Debugging
+enum class ProfilingState
+{
+  Enabled,
+  Disabled
+};
+
+void SetProfilingState(ProfilingState state);
 void WriteProfileResults(const std::string& filename);
 void GetProfileResults(Profiler::ProfileStats* prof_stats);
 int GetHostCode(u32* address, const u8** code, u32* code_size);
@@ -43,6 +56,9 @@ bool HandleStackFault();
 // Clearing CodeCache
 void ClearCache();
 
+// This clear is "safe" in the sense that it's okay to run from
+// inside a JIT'ed block: it clears the instruction cache, but not
+// the JIT'ed code.
 void ClearSafe();
 
 // If "forced" is true, a recompile is being requested on code that hasn't been modified.
@@ -50,5 +66,8 @@ void InvalidateICache(u32 address, u32 size, bool forced);
 
 void CompileExceptionCheck(ExceptionType type);
 
+/// used for the page fault unit test, don't use outside of tests!
+void SetJit(JitBase* jit);
+
 void Shutdown();
-}
+}  // namespace JitInterface

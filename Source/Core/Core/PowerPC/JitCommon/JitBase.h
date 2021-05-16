@@ -4,13 +4,11 @@
 
 #pragma once
 
-//#define JIT_LOG_X86     // Enables logging of the generated x86 code
-//#define JIT_LOG_GPR     // Enables logging of the PPC general purpose regs
-//#define JIT_LOG_FPR     // Enables logging of the PPC floating point regs
-
+#include <cstddef>
 #include <map>
 #include <unordered_set>
 
+#include "Common/BitSet.h"
 #include "Common/CommonTypes.h"
 #include "Common/x64Emitter.h"
 #include "Core/ConfigManager.h"
@@ -19,6 +17,10 @@
 #include "Core/PowerPC/JitCommon/JitAsmCommon.h"
 #include "Core/PowerPC/JitCommon/JitCache.h"
 #include "Core/PowerPC/PPCAnalyst.h"
+
+//#define JIT_LOG_GENERATED_CODE  // Enables logging of generated code
+//#define JIT_LOG_GPR             // Enables logging of the PPC general purpose regs
+//#define JIT_LOG_FPR             // Enables logging of the PPC floating point regs
 
 // Use these to control the instruction selection
 // #define INSTRUCTION_START FallBackToInterpreter(inst); return;
@@ -38,20 +40,31 @@
 #define JITDISABLE(setting)                                                                        \
   FALLBACK_IF(SConfig::GetInstance().bJITOff || SConfig::GetInstance().setting)
 
-class JitBase;
-
-extern JitBase* g_jit;
-
 class JitBase : public CPUCoreBase
 {
 protected:
+  enum class CarryFlag
+  {
+    InPPCState,
+    InHostCarry,
+#ifdef _M_X86_64
+    InHostCarryInverted,
+#endif
+#ifdef _M_ARM_64
+    ConstantTrue,
+    ConstantFalse,
+#endif
+  };
+
   struct JitOptions
   {
     bool enableBlocklink;
     bool optimizeGatherPipe;
     bool accurateSinglePrecision;
     bool fastmem;
+    bool fastmem_arena;
     bool memcheck;
+    bool profile_blocks;
   };
   struct JitState
   {
@@ -68,19 +81,13 @@ protected:
     // so just fixup that branch instead of testing for a DSI again.
     bool fixupExceptionHandler;
     Gen::FixupBranch exceptionHandler;
-    // If these are set, we've stored the old value of a register which will be loaded in
-    // revertLoad,
-    // which lets us revert it on the exception path.
-    int revertGprLoad;
-    int revertFprLoad;
 
     bool assumeNoPairedQuantize;
     std::map<u8, u32> constantGqr;
     bool firstFPInstructionFound;
     bool isLastInstruction;
     int skipInstructions;
-    bool carryFlagSet;
-    bool carryFlagInverted;
+    CarryFlag carryFlag;
 
     bool generatingTrampoline = false;
     u8* trampolineExceptionHandler;
@@ -92,7 +99,7 @@ protected:
     PPCAnalyst::BlockRegStats gpa;
     PPCAnalyst::BlockRegStats fpa;
     PPCAnalyst::CodeOp* op;
-    u8* rewriteStart;
+    BitSet32 fpr_is_store_safe;
 
     JitBlock* curBlock;
 
@@ -102,6 +109,7 @@ protected:
   };
 
   PPCAnalyst::CodeBlock code_block;
+  PPCAnalyst::CodeBuffer m_code_buffer;
   PPCAnalyst::PPCAnalyzer analyzer;
 
   bool CanMergeNextInstructions(int count) const;
@@ -109,10 +117,6 @@ protected:
   void UpdateMemoryOptions();
 
 public:
-  // This should probably be removed from public:
-  JitOptions jo{};
-  JitState js{};
-
   JitBase();
   ~JitBase() override;
 
@@ -125,9 +129,12 @@ public:
 
   virtual bool HandleFault(uintptr_t access_address, SContext* ctx) = 0;
   virtual bool HandleStackFault() { return false; }
+
+  static constexpr std::size_t code_buffer_size = 32000;
+
+  // This should probably be removed from public:
+  JitOptions jo{};
+  JitState js{};
 };
 
 void JitTrampoline(JitBase& jit, u32 em_address);
-
-// Merged routines that should be moved somewhere better
-u32 Helper_Mask(u8 mb, u8 me);

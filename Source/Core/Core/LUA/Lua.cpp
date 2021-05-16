@@ -2,10 +2,14 @@
 // Licensed under GPLv2
 // Refer to the license.txt file included.
 
+// Contributions by luckytyphlosion are
+// licensed under GPLv2+
+
 #include <mbedtls/md5.h>
 #include <lua.hpp>
 #include <lua.h>
 #include <luaconf.h>
+#include <string>
 
 #include "Common/ChunkFile.h"
 #include "Common/CommonPaths.h"
@@ -24,22 +28,26 @@
 #include "Core/NetPlayProto.h"
 #include "Core/State.h"
 #include "Core/DSP/DSPCore.h"
-#include "Core/HW/Memmap.h" // ADDED by ThatsSlick
+#include "Common/FileUtil.cpp"
 #include "Core/HW/DVD/DVDInterface.h"
 #include "Core/HW/EXI/EXI_Device.h"
 #include "Core/HW/ProcessorInterface.h"
 #include "Core/HW/SI/SI.h"
 #include "Core/HW/Wiimote.h"
 #include "Core/HW/WiimoteEmu/WiimoteEmu.h"
-//#include "Core/HW/WiimoteEmu/WiimoteHid.h"
-#include "Core/HW/WiimoteEmu/Attachment/Classic.h"
-#include "Core/HW/WiimoteEmu/Attachment/Nunchuk.h"
-#include "Core/IOS/USB/Bluetooth/BTEmu.h"
+#include "Core/HW/WiimoteCommon/WiimoteHid.h"
+#include "Core/HW/WiimoteEmu/Extension/Classic.h"
+#include "Core/HW/WiimoteEmu/Extension/Nunchuk.h"
+//#include "Core/HW/WII_IPC_HLE_Device_usb.h" //need find the version from latest dev
 #include "Core/PowerPC/PowerPC.h"
 #include "InputCommon/GCPadStatus.h"
 #include "VideoCommon/Statistics.h"
 #include "VideoCommon/VideoConfig.h"
 #include "Core/Host.h"
+#include "Core/PowerPC/MMU.h"
+
+//#include "DolphinWX/Main.h"
+//#include "DolphinWX/Frame.h"
 
 //Lua Functions (C)
 int ReadValue8(lua_State* L)
@@ -56,7 +64,7 @@ int ReadValue8(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = Memory::Read_U8(address);
+		result = PowerPC::Read_U8(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;                   // number of return values
@@ -65,7 +73,7 @@ int ReadValue8(lua_State* L)
 	
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result =Memory::Read_U8(Lua::ExecuteMultilevelLoop(L));
+		result =PowerPC::Read_U8(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushinteger(L, result);
@@ -85,7 +93,7 @@ int ReadValue16(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = Memory::Read_U16(address);
+		result = PowerPC::Read_U16(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;
@@ -93,7 +101,7 @@ int ReadValue16(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = Memory::Read_U16(Lua::ExecuteMultilevelLoop(L));
+		result = PowerPC::Read_U16(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushinteger(L, result);
@@ -113,7 +121,7 @@ int ReadValue32(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = Memory::Read_U32(address);
+		result = PowerPC::Read_U32(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;
@@ -121,8 +129,8 @@ int ReadValue32(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = Memory::Read_U32(Lua::ExecuteMultilevelLoop(L));
-		// result = Memory::Read_U8(LastOffset);
+		result = PowerPC::Read_U32(Lua::ExecuteMultilevelLoop(L));
+		// result = PowerPC::Read_U8(LastOffset);
 	}
 
 	lua_pushinteger(L, result); // return value
@@ -142,7 +150,7 @@ int ReadValueFloat(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = Memory::Read_F32(address);
+		result = PowerPC::Read_F32(address);
 
 		lua_pushnumber(L, result); // return value
 		return 1;
@@ -150,7 +158,7 @@ int ReadValueFloat(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = Memory::Read_F32(Lua::ExecuteMultilevelLoop(L));
+		result = PowerPC::Read_F32(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushnumber(L, result); // return value
@@ -187,7 +195,7 @@ int WriteValue8(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u8 value = lua_tointeger(L, 2);
 
-	Memory::Write_U8(value, address);
+	PowerPC::Write_U8(value, address);
 
 	return 0; // number of return values
 }
@@ -205,7 +213,7 @@ int WriteValue16(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u16 value = lua_tointeger(L, 2);
 
-	Memory::Write_U16(value, address);
+	PowerPC::Write_U16(value, address);
 
 	return 0; // number of return values
 }
@@ -223,7 +231,7 @@ int WriteValue32(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u32 value = lua_tointeger(L, 2);
 
-	Memory::Write_U32(value, address);
+	PowerPC::Write_U32(value, address);
 
 	return 0; // number of return values
 }
@@ -241,7 +249,7 @@ int WriteValueFloat(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	double value = lua_tonumber(L, 2);
 
-	Memory::Write_U32((float)value, address);
+	PowerPC::HostWrite_F32((float)value, address);
 
 	return 0; // number of return values
 }
@@ -298,9 +306,8 @@ int GetGameID(lua_State* L)
 
 int GetScriptsDir(lua_State* L)
 {
-    std::string dir = File::GetUserPath(D_USER_IDX) + "/Scripts/";
-    lua_pushstring(L, (dir.c_str()));
-    return 1;
+	lua_pushstring(L, (SYSDATA_DIR "/Scripts/"));
+	return 1;
 }
 
 int PressButton(lua_State* L)
@@ -468,7 +475,7 @@ int GetFrameCount(lua_State* L)
 {
 	int argc = lua_gettop(L);
 
-	lua_pushinteger(L, Movie::s_currentFrame); // return value
+	lua_pushinteger(L, Movie::GetCurrentFrame()); // return value
 	return 1; // number of return values
 }
 
@@ -476,7 +483,7 @@ int GetInputFrameCount(lua_State* L)
 {
 	int argc = lua_gettop(L);
 
-	lua_pushinteger(L, Movie::s_currentInputCount + 1); // return value
+	lua_pushinteger(L, Movie::GetCurrentInputCount() + 1); // return value
 	return 1; // number of return values
 }
 
@@ -511,6 +518,20 @@ int SetInfoDisplay(lua_State* L)
 	int argc = lua_gettop(L);	
 	SConfig::GetInstance().m_ShowRAMDisplay = !SConfig::GetInstance().m_ShowRAMDisplay;	
 	SConfig::GetInstance().SaveSettings();
+	return 0;
+}
+
+int SetFrameAndAudioDump(lua_State* L)
+{
+	int argc = lua_gettop(L);
+
+	bool enableDump = (lua_toboolean(L, 1) != 0);
+	SConfig::GetInstance().m_DumpFrames = enableDump;
+	SConfig::GetInstance().m_DumpAudio = enableDump;
+	//main_frame->GetMenuBar()->FindItem(IDM_TOGGLE_DUMP_FRAMES)->Check(enableDump);
+	//main_frame->GetMenuBar()->FindItem(IDM_TOGGLE_DUMP_AUDIO)->Check(enableDump);    
+	SConfig::GetInstance().SaveSettings();
+
 	return 0;
 }
 
@@ -552,7 +573,7 @@ void HandleLuaErrors(lua_State* L, int status)
 	{
 		std::string message = StringFromFormat("Lua Error: %s", lua_tostring(L, -1));
 
-		PanicAlertT(message.c_str());
+		PanicAlertT("%s", message.c_str());
 
 		lua_pop(L, 1); // remove error message
 	}
@@ -694,8 +715,7 @@ namespace Lua
 
 	u32 readPointer(u32 startAddress, u32 offset)
 	{
-	    u32 pointer = Memory::Read_U32(startAddress) + offset;
-
+	    u32 pointer = PowerPC::Read_U32(startAddress) + offset;
 	    // check if pointer is not in the mem1 or mem2
 	    if (Lua::IsInMEMArea(pointer))
 	    {
@@ -869,7 +889,10 @@ namespace Lua
 		
 		lua_register(luaState, "SetScreenText", SetScreenText);
 		lua_register(luaState, "PauseEmulation", PauseEmulation);
-	    lua_register(luaState, "SetInfoDisplay", SetInfoDisplay);
+		lua_register(luaState, "SetInfoDisplay", SetInfoDisplay);
+
+		// added by luckytyphlosion
+		lua_register(luaState, "SetFrameAndAudioDump", SetFrameAndAudioDump);
 	}
 
 	void Init()
@@ -878,14 +901,15 @@ namespace Lua
 		memset(&PadLocal, 0, sizeof(PadLocal));
 
 		//Auto launch Scripts that start with _
-	  std::vector<std::string> rFilenames = Common::DoFileSearch({File::GetUserPath(D_USER_IDX) +  "/Scripts"}, {".lua"});
+
+
+	    std::vector<std::string> rFilenames = Common::DoFileSearch({".lua"}, {SYSDATA_DIR "/Scripts"});
 
 		if (rFilenames.size() > 0)
 		{
 			for (u32 i = 0; i < rFilenames.size(); i++)
 			{
 				std::string FileName;
-
 				SplitPath(rFilenames[i], nullptr, &FileName, nullptr);
 
 				if (!FileName.substr(0, 1).compare("_"))
@@ -998,7 +1022,7 @@ namespace Lua
 				//Unique to normal Scripts
 				lua_register(it->luaState, "CancelScript", CancelScript);
 
-				std::string file = File::GetUserPath(D_USER_IDX) +  "/Scripts/" + it->fileName;
+				std::string file = SYSDATA_DIR "/Scripts/" + it->fileName;
 
 				status = luaL_dofile(it->luaState, file.c_str());
 

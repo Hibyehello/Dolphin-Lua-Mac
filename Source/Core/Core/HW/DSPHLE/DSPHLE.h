@@ -13,9 +13,7 @@
 
 class PointerWrap;
 
-namespace DSP
-{
-namespace HLE
+namespace DSP::HLE
 {
 class UCodeInterface;
 
@@ -27,7 +25,7 @@ public:
 
   bool Initialize(bool wii, bool dsp_thread) override;
   void Shutdown() override;
-  bool IsLLE() override { return false; }
+  bool IsLLE() const override { return false; }
   void DoState(PointerWrap& p) override;
   void PauseAndLock(bool do_lock, bool unpause_on_unlock = true) override;
 
@@ -73,5 +71,4 @@ private:
   bool m_halt;
   bool m_assert_interrupt;
 };
-}  // namespace HLE
-}  // namespace DSP
+}  // namespace DSP::HLE

@@ -11,7 +11,8 @@
 #include "Common/JitRegister.h"
 #include "Common/MsgHandler.h"
 #include "Common/x64Emitter.h"
-#include "Core/PowerPC/Jit64Common/Jit64Base.h"
+#include "Core/PowerPC/Jit64/Jit.h"
+#include "Core/PowerPC/Jit64Common/Jit64Constants.h"
 #include "Core/PowerPC/Jit64Common/Jit64PowerPCState.h"
 #include "Core/PowerPC/Jit64Common/TrampolineInfo.h"
 #include "Core/PowerPC/PowerPC.h"
@@ -40,7 +41,7 @@ const u8* TrampolineCache::GenerateTrampoline(const TrampolineInfo& info)
 const u8* TrampolineCache::GenerateReadTrampoline(const TrampolineInfo& info)
 {
   if (GetSpaceLeft() < 1024)
-    PanicAlert("Trampoline cache full");
+    PanicAlertFmt("Trampoline cache full");
 
   const u8* trampoline = GetCodePtr();
 
@@ -56,7 +57,7 @@ const u8* TrampolineCache::GenerateReadTrampoline(const TrampolineInfo& info)
 const u8* TrampolineCache::GenerateWriteTrampoline(const TrampolineInfo& info)
 {
   if (GetSpaceLeft() < 1024)
-    PanicAlert("Trampoline cache full");
+    PanicAlertFmt("Trampoline cache full");
 
   const u8* trampoline = GetCodePtr();
 

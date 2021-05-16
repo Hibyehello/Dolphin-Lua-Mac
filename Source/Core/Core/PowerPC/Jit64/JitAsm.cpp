@@ -4,6 +4,8 @@
 
 #include "Core/PowerPC/Jit64/JitAsm.h"
 
+#include <climits>
+
 #include "Common/CommonTypes.h"
 #include "Common/JitRegister.h"
 #include "Common/x64ABI.h"
@@ -18,7 +20,7 @@
 
 using namespace Gen;
 
-Jit64AsmRoutineManager::Jit64AsmRoutineManager(JitBase& jit) : m_jit{jit}
+Jit64AsmRoutineManager::Jit64AsmRoutineManager(Jit64& jit) : CommonAsmRoutines(jit), m_jit{jit}
 {
 }
 
@@ -36,7 +38,7 @@ void Jit64AsmRoutineManager::Init(u8* stack_top)
 
 void Jit64AsmRoutineManager::Generate()
 {
-  enterCode = AlignCode16();
+  enter_code = AlignCode16();
   // We need to own the beginning of RSP, so we do an extra stack adjustment
   // for the shadow region before calls in this function.  This call will
   // waste a bit of space for a second shadow, but whatever.
@@ -66,7 +68,7 @@ void Jit64AsmRoutineManager::Generate()
   ABI_PopRegistersAndAdjustStack({}, 0);
   FixupBranch skipToRealDispatch =
       J(SConfig::GetInstance().bEnableDebugging);  // skip the sync and compare first time
-  dispatcherMispredictedBLR = GetCodePtr();
+  dispatcher_mispredicted_blr = GetCodePtr();
   AND(32, PPCSTATE(pc), Imm32(0xFFFFFFFC));
 
 #if 0  // debug mispredicts
@@ -103,7 +105,7 @@ void Jit64AsmRoutineManager::Generate()
 
   SetJumpTarget(skipToRealDispatch);
 
-  dispatcherNoCheck = GetCodePtr();
+  dispatcher_no_check = GetCodePtr();
 
   // The following is a translation of JitBaseBlockCache::Dispatch into assembly.
   const bool assembly_dispatcher = true;
@@ -112,6 +114,8 @@ void Jit64AsmRoutineManager::Generate()
     // Fast block number lookup.
     // ((PC >> 2) & mask) * sizeof(JitBlock*) = (PC & (mask << 2)) * 2
     MOV(32, R(RSCRATCH), PPCSTATE(pc));
+    // Keep a copy for later.
+    MOV(32, R(RSCRATCH_EXTRA), R(RSCRATCH));
     u64 icache = reinterpret_cast<u64>(m_jit.GetBlockCache()->GetFastBlockMap());
     AND(32, R(RSCRATCH), Imm32(JitBaseBlockCache::FAST_BLOCK_MAP_MASK << 2));
     if (icache <= INT_MAX)
@@ -132,9 +136,10 @@ void Jit64AsmRoutineManager::Generate()
     MOV(32, R(RSCRATCH2), PPCSTATE(msr));
     AND(32, R(RSCRATCH2), Imm32(JitBaseBlockCache::JIT_CACHE_MSR_MASK));
     SHL(64, R(RSCRATCH2), Imm8(32));
-    MOV(32, R(RSCRATCH_EXTRA), PPCSTATE(pc));
+    // RSCRATCH_EXTRA still has the PC.
     OR(64, R(RSCRATCH2), R(RSCRATCH_EXTRA));
-    CMP(64, R(RSCRATCH2), MDisp(RSCRATCH, static_cast<s32>(offsetof(JitBlock, effectiveAddress))));
+    CMP(64, R(RSCRATCH2),
+        MDisp(RSCRATCH, static_cast<s32>(offsetof(JitBlockData, effectiveAddress))));
     FixupBranch state_mismatch = J_CC(CC_NE);
 
     // Success; branch to the block we found.
@@ -142,10 +147,10 @@ void Jit64AsmRoutineManager::Generate()
     TEST(32, PPCSTATE(msr), Imm32(1 << (31 - 27)));
     FixupBranch physmem = J_CC(CC_Z);
     MOV(64, R(RMEM), ImmPtr(Memory::logical_base));
-    JMPptr(MDisp(RSCRATCH, static_cast<s32>(offsetof(JitBlock, normalEntry))));
+    JMPptr(MDisp(RSCRATCH, static_cast<s32>(offsetof(JitBlockData, normalEntry))));
     SetJumpTarget(physmem);
     MOV(64, R(RMEM), ImmPtr(Memory::physical_base));
-    JMPptr(MDisp(RSCRATCH, static_cast<s32>(offsetof(JitBlock, normalEntry))));
+    JMPptr(MDisp(RSCRATCH, static_cast<s32>(offsetof(JitBlockData, normalEntry))));
 
     SetJumpTarget(not_found);
     SetJumpTarget(state_mismatch);
@@ -185,10 +190,10 @@ void Jit64AsmRoutineManager::Generate()
   ABI_CallFunction(JitTrampoline);
   ABI_PopRegistersAndAdjustStack({}, 0);
 
-  JMP(dispatcherNoCheck, true);
+  JMP(dispatcher_no_check, true);
 
   SetJumpTarget(bail);
-  doTiming = GetCodePtr();
+  do_timing = GetCodePtr();
 
   // make sure npc contains the next pc (needed for exception checking in CoreTiming::Advance)
   MOV(32, R(RSCRATCH), PPCSTATE(pc));
@@ -213,7 +218,7 @@ void Jit64AsmRoutineManager::Generate()
   ABI_PopRegistersAndAdjustStack(ABI_ALL_CALLEE_SAVED, 8, 16);
   RET();
 
-  JitRegister::Register(enterCode, GetCodePtr(), "JIT_Loop");
+  JitRegister::Register(enter_code, GetCodePtr(), "JIT_Loop");
 
   GenerateCommon();
 }
@@ -234,6 +239,8 @@ void Jit64AsmRoutineManager::GenerateCommon()
   GenFres();
   mfcr = AlignCode4();
   GenMfcr();
+  cdts = AlignCode4();
+  GenConvertDoubleToSingle();
 
   GenQuantizedLoads();
   GenQuantizedSingleLoads();

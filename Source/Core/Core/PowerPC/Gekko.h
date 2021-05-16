@@ -294,6 +294,23 @@ union UGeckoInstruction
   };
 };
 
+// Used in implementations of rlwimi, rlwinm, and rlwnm
+inline u32 MakeRotationMask(u32 mb, u32 me)
+{
+  // first make 001111111111111 part
+  const u32 begin = 0xFFFFFFFF >> mb;
+  // then make 000000000001111 part, which is used to flip the bits of the first one
+  const u32 end = 0x7FFFFFFF >> me;
+  // do the bitflip
+  const u32 mask = begin ^ end;
+
+  // and invert if backwards
+  if (me < mb)
+    return ~mask;
+
+  return mask;
+}
+
 //
 // --- Gekko Special Registers ---
 //
@@ -322,7 +339,7 @@ union UGQR
   u32 Hex = 0;
 
   UGQR() = default;
-  UGQR(u32 hex_) : Hex{hex_} {}
+  explicit UGQR(u32 hex_) : Hex{hex_} {}
 };
 
 #define XER_CA_SHIFT 29
@@ -346,7 +363,7 @@ union UReg_XER
   u32 Hex = 0;
 
   UReg_XER() = default;
-  UReg_XER(u32 hex_) : Hex{hex_} {}
+  explicit UReg_XER(u32 hex_) : Hex{hex_} {}
 };
 
 // Machine State Register
@@ -378,7 +395,7 @@ union UReg_MSR
   u32 Hex = 0;
 
   UReg_MSR() = default;
-  UReg_MSR(u32 hex_) : Hex{hex_} {}
+  explicit UReg_MSR(u32 hex_) : Hex{hex_} {}
 };
 
 #define FPRF_SHIFT 12
@@ -474,8 +491,43 @@ union UReg_FPSCR
   };
   u32 Hex = 0;
 
+  // The FPSCR's 20th bit (11th from a little endian perspective)
+  // is defined as reserved and set to zero. Attempts to modify it
+  // are ignored by hardware, so we do the same.
+  static constexpr u32 mask = 0xFFFFF7FF;
+
   UReg_FPSCR() = default;
-  UReg_FPSCR(u32 hex_) : Hex{hex_} {}
+  explicit UReg_FPSCR(u32 hex_) : Hex{hex_ & mask} {}
+
+  UReg_FPSCR& operator=(u32 value)
+  {
+    Hex = value & mask;
+    return *this;
+  }
+
+  UReg_FPSCR& operator|=(u32 value)
+  {
+    Hex |= value & mask;
+    return *this;
+  }
+
+  UReg_FPSCR& operator&=(u32 value)
+  {
+    Hex &= value;
+    return *this;
+  }
+
+  UReg_FPSCR& operator^=(u32 value)
+  {
+    Hex ^= value & mask;
+    return *this;
+  }
+
+  void ClearFIFR()
+  {
+    FI = 0;
+    FR = 0;
+  }
 };
 
 // Hardware Implementation-Dependent Register 0
@@ -540,7 +592,7 @@ union UReg_HID2
   u32 Hex = 0;
 
   UReg_HID2() = default;
-  UReg_HID2(u32 hex_) : Hex{hex_} {}
+  explicit UReg_HID2(u32 hex_) : Hex{hex_} {}
 };
 
 // Hardware Implementation-Dependent Register 4
@@ -563,7 +615,7 @@ union UReg_HID4
   u32 Hex = 0;
 
   UReg_HID4() = default;
-  UReg_HID4(u32 hex_) : Hex{hex_} {}
+  explicit UReg_HID4(u32 hex_) : Hex{hex_} {}
 };
 
 // SPR1 - Page Table format
@@ -626,7 +678,7 @@ union UReg_WPAR
   u32 Hex = 0;
 
   UReg_WPAR() = default;
-  UReg_WPAR(u32 hex_) : Hex{hex_} {}
+  explicit UReg_WPAR(u32 hex_) : Hex{hex_} {}
 };
 
 // Direct Memory Access Upper register
@@ -640,7 +692,7 @@ union UReg_DMAU
   u32 Hex = 0;
 
   UReg_DMAU() = default;
-  UReg_DMAU(u32 hex_) : Hex{hex_} {}
+  explicit UReg_DMAU(u32 hex_) : Hex{hex_} {}
 };
 
 // Direct Memory Access Lower (DMAL) register
@@ -657,7 +709,7 @@ union UReg_DMAL
   u32 Hex = 0;
 
   UReg_DMAL() = default;
-  UReg_DMAL(u32 hex_) : Hex{hex_} {}
+  explicit UReg_DMAL(u32 hex_) : Hex{hex_} {}
 };
 
 union UReg_BAT_Up
@@ -673,7 +725,7 @@ union UReg_BAT_Up
   u32 Hex = 0;
 
   UReg_BAT_Up() = default;
-  UReg_BAT_Up(u32 hex_) : Hex{hex_} {}
+  explicit UReg_BAT_Up(u32 hex_) : Hex{hex_} {}
 };
 
 union UReg_BAT_Lo
@@ -689,7 +741,39 @@ union UReg_BAT_Lo
   u32 Hex = 0;
 
   UReg_BAT_Lo() = default;
-  UReg_BAT_Lo(u32 hex_) : Hex{hex_} {}
+  explicit UReg_BAT_Lo(u32 hex_) : Hex{hex_} {}
+};
+
+union UReg_THRM12
+{
+  struct
+  {
+    u32 V : 1;    // Valid
+    u32 TIE : 1;  // Thermal Interrupt Enable
+    u32 TID : 1;  // Thermal Interrupt Direction
+    u32 : 20;
+    u32 THRESHOLD : 7;  // Temperature Threshold, 0-127°C
+    u32 TIV : 1;        // Thermal Interrupt Valid
+    u32 TIN : 1;        // Thermal Interrupt
+  };
+  u32 Hex = 0;
+
+  UReg_THRM12() = default;
+  explicit UReg_THRM12(u32 hex_) : Hex{hex_} {}
+};
+
+union UReg_THRM3
+{
+  struct
+  {
+    u32 E : 1;      // Enable
+    u32 SITV : 13;  // Sample Interval Timer Value
+    u32 : 18;
+  };
+  u32 Hex = 0;
+
+  UReg_THRM3() = default;
+  explicit UReg_THRM3(u32 hex_) : Hex{hex_} {}
 };
 
 union UReg_PTE
@@ -802,6 +886,10 @@ enum
   SPR_MMCR1 = 956,
   SPR_PMC3 = 957,
   SPR_PMC4 = 958,
+
+  SPR_THRM1 = 1020,
+  SPR_THRM2 = 1021,
+  SPR_THRM3 = 1022,
 };
 
 // Exceptions

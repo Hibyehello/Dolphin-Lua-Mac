@@ -14,6 +14,7 @@
 #include "Common/x64Emitter.h"
 
 #include "Core/DSP/DSPCommon.h"
+#include "Core/DSP/Jit/DSPEmitterBase.h"
 #include "Core/DSP/Jit/x64/DSPJitRegCache.h"
 
 class PointerWrap;
@@ -24,32 +25,15 @@ enum class StackRegister;
 
 namespace JIT::x64
 {
-class DSPEmitter : public Gen::X64CodeBlock
+class DSPEmitter final : public JIT::DSPEmitter, public Gen::X64CodeBlock
 {
 public:
-  using DSPCompiledCode = u32 (*)();
-  using Block = const u8*;
+  explicit DSPEmitter(DSPCore& dsp);
+  ~DSPEmitter() override;
 
-  static constexpr size_t MAX_BLOCKS = 0x10000;
-
-  DSPEmitter();
-  ~DSPEmitter();
-
-  u16 RunCycles(u16 cycles);
-
-  void DoState(PointerWrap& p);
-
-  void EmitInstruction(UDSPInstruction inst);
-  void ClearIRAM();
-  void ClearIRAMandDSPJITCodespaceReset();
-
-  void CompileDispatcher();
-  Block CompileStub();
-  void Compile(u16 start_addr);
-
-  bool FlagsNeeded() const;
-
-  void FallBackToInterpreter(UDSPInstruction inst);
+  u16 RunCycles(u16 cycles) override;
+  void DoState(PointerWrap& p) override;
+  void ClearIRAM() override;
 
   // Ext commands
   void l(UDSPInstruction opc);
@@ -205,9 +189,28 @@ public:
   void madd(UDSPInstruction opc);
   void msub(UDSPInstruction opc);
 
-  std::array<std::list<u16>, MAX_BLOCKS> m_unresolved_jumps;
-
 private:
+  using DSPCompiledCode = u32 (*)();
+  using Block = const u8*;
+
+  // The emitter emits calls to this function. It's present here
+  // within the class itself to allow access to member variables.
+  static void CompileCurrent(DSPEmitter& emitter);
+
+  static u16 ReadIFXRegisterHelper(DSPEmitter& emitter, u16 address);
+  static void WriteIFXRegisterHelper(DSPEmitter& emitter, u16 address, u16 value);
+
+  void EmitInstruction(UDSPInstruction inst);
+  void ClearIRAMandDSPJITCodespaceReset();
+
+  void CompileDispatcher();
+  Block CompileStub();
+  void Compile(u16 start_addr);
+
+  bool FlagsNeeded() const;
+
+  void FallBackToInterpreter(UDSPInstruction inst);
+
   void WriteBranchExit();
   void WriteBlockLink(u16 dest);
 
@@ -283,7 +286,7 @@ private:
   Gen::OpArg M_SDSP_cr();
   Gen::OpArg M_SDSP_external_interrupt_waiting();
   Gen::OpArg M_SDSP_r_st(size_t index);
-  Gen::OpArg M_SDSP_reg_stack_ptr(size_t index);
+  Gen::OpArg M_SDSP_reg_stack_ptrs(size_t index);
 
   // Ext command helpers
   void popExtValueToReg();
@@ -296,6 +299,8 @@ private:
   void multiply_sub();
   void multiply_mulx(u8 axh0, u8 axh1);
 
+  static constexpr size_t MAX_BLOCKS = 0x10000;
+
   DSPJitRegCache m_gpr{*this};
 
   u16 m_compile_pc;
@@ -307,6 +312,8 @@ private:
   std::vector<Block> m_block_links;
   Block m_block_link_entry;
 
+  std::array<std::list<u16>, MAX_BLOCKS> m_unresolved_jumps;
+
   u16 m_cycles_left = 0;
 
   // The index of the last stored ext value (compile time).
@@ -317,6 +324,8 @@ private:
   const u8* m_enter_dispatcher;
   const u8* m_return_dispatcher;
   const u8* m_stub_entry_point;
+
+  DSPCore& m_dsp_core;
 };
 
 }  // namespace JIT::x64

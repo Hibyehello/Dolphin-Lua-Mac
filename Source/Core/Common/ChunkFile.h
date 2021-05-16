@@ -19,6 +19,7 @@
 #include <deque>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -26,29 +27,15 @@
 #include <vector>
 
 #include "Common/Assert.h"
-#include "Common/Common.h"
 #include "Common/CommonTypes.h"
-#include "Common/File.h"
-#include "Common/FileUtil.h"
 #include "Common/Flag.h"
+#include "Common/Inline.h"
 #include "Common/Logging/Log.h"
 
-// ewww
-
-#ifndef __has_feature
-#define __has_feature(x) (0)
-#endif
-
-#if (__has_feature(is_trivially_copyable) &&                                                       \
-     (defined(_LIBCPP_VERSION) || defined(__GLIBCXX__))) ||                                        \
-    (defined(__GNUC__) && __GNUC__ >= 5) || defined(_MSC_VER)
-#define IsTriviallyCopyable(T)                                                                     \
-  std::is_trivially_copyable<typename std::remove_volatile<T>::type>::value
-#elif __GNUC__
-#define IsTriviallyCopyable(T) std::has_trivial_copy_constructor<T>::value
-#else
-#error No version of is_trivially_copyable
-#endif
+// XXX: Replace this with std::is_trivially_copyable<T> once we stop using volatile
+// on things that are put in savestates, as volatile types are not trivially copyable.
+template <typename T>
+constexpr bool IsTriviallyCopyable = std::is_trivially_copyable<std::remove_volatile_t<T>>::value;
 
 // Wrapper class
 class PointerWrap
@@ -130,7 +117,7 @@ public:
   template <typename T>
   void Do(std::vector<T>& x)
   {
-    DoContainer(x);
+    DoContiguousContainer(x);
   }
 
   template <typename T>
@@ -148,7 +135,7 @@ public:
   template <typename T>
   void Do(std::basic_string<T>& x)
   {
-    DoContainer(x);
+    DoContiguousContainer(x);
   }
 
   template <typename T, typename U>
@@ -158,17 +145,53 @@ public:
     Do(x.second);
   }
 
+  template <typename T>
+  void Do(std::optional<T>& x)
+  {
+    bool present = x.has_value();
+    Do(present);
+
+    switch (mode)
+    {
+    case MODE_READ:
+      if (present)
+      {
+        x = std::make_optional<T>();
+        Do(x.value());
+      }
+      else
+      {
+        x = std::nullopt;
+      }
+      break;
+
+    case MODE_WRITE:
+    case MODE_MEASURE:
+    case MODE_VERIFY:
+      if (present)
+        Do(x.value());
+
+      break;
+    }
+  }
+
   template <typename T, std::size_t N>
   void DoArray(std::array<T, N>& x)
   {
-    DoArray(x.data(), (u32)x.size());
+    DoArray(x.data(), static_cast<u32>(x.size()));
   }
 
-  template <typename T>
+  template <typename T, typename std::enable_if_t<IsTriviallyCopyable<T>, int> = 0>
   void DoArray(T* x, u32 count)
   {
-    static_assert(IsTriviallyCopyable(T), "Only sane for trivially copyable types");
     DoVoid(x, count * sizeof(T));
+  }
+
+  template <typename T, typename std::enable_if_t<!IsTriviallyCopyable<T>, int> = 0>
+  void DoArray(T* x, u32 count)
+  {
+    for (u32 i = 0; i < count; ++i)
+      Do(x[i]);
   }
 
   template <typename T, std::size_t N>
@@ -197,7 +220,7 @@ public:
   template <typename T>
   void Do(T& x)
   {
-    static_assert(IsTriviallyCopyable(T), "Only sane for trivially copyable types");
+    static_assert(IsTriviallyCopyable<T>, "Only sane for trivially copyable types");
     // Note:
     // Usually we can just use x = **ptr, etc.  However, this doesn't work
     // for unions containing BitFields (long story, stupid language rules)
@@ -244,9 +267,10 @@ public:
 
     if (mode == PointerWrap::MODE_READ && cookie != arbitraryNumber)
     {
-      PanicAlertT("Error: After \"%s\", found %d (0x%X) instead of save marker %d (0x%X). Aborting "
-                  "savestate load...",
-                  prevName.c_str(), cookie, cookie, arbitraryNumber, arbitraryNumber);
+      PanicAlertFmtT(
+          "Error: After \"{0}\", found {1} ({2:#x}) instead of save marker {3} ({4:#x}). Aborting "
+          "savestate load...",
+          prevName, cookie, cookie, arbitraryNumber, arbitraryNumber);
       mode = PointerWrap::MODE_MEASURE;
     }
   }
@@ -264,12 +288,23 @@ public:
 
 private:
   template <typename T>
+  void DoContiguousContainer(T& container)
+  {
+    u32 size = static_cast<u32>(container.size());
+    Do(size);
+    container.resize(size);
+
+    if (size > 0)
+      DoArray(&container[0], size);
+  }
+
+  template <typename T>
   void DoContainer(T& x)
   {
     DoEachElement(x, [](PointerWrap& p, typename T::value_type& elem) { p.Do(elem); });
   }
 
-  __forceinline void DoVoid(void* data, u32 size)
+  DOLPHIN_FORCE_INLINE void DoVoid(void* data, u32 size)
   {
     switch (mode)
     {

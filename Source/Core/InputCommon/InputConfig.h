@@ -9,6 +9,9 @@
 #include <utility>
 #include <vector>
 
+#include "InputCommon/ControllerInterface/ControllerInterface.h"
+#include "InputCommon/DynamicInputTextureManager.h"
+
 namespace ControllerEmu
 {
 class EmulatedController;
@@ -38,10 +41,19 @@ public:
 
   std::string GetGUIName() const { return m_gui_name; }
   std::string GetProfileName() const { return m_profile_name; }
+  int GetControllerCount() const;
+
+  // These should be used after creating all controllers and before clearing them, respectively.
+  void RegisterHotplugCallback();
+  void UnregisterHotplugCallback();
+
+  void GenerateControllerTextures(const IniFile& file);
 
 private:
+  ControllerInterface::HotplugCallbackHandle m_hotplug_callback_handle;
   std::vector<std::unique_ptr<ControllerEmu::EmulatedController>> m_controllers;
   const std::string m_ini_name;
   const std::string m_gui_name;
   const std::string m_profile_name;
+  InputCommon::DynamicInputTextureManager m_dynamic_input_tex_config_manager;
 };

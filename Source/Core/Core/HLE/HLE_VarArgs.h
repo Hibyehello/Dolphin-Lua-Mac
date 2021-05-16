@@ -7,14 +7,12 @@
 #include "Common/Align.h"
 #include "Common/CommonTypes.h"
 
-#include "Core/HW/Memmap.h"
+#include "Core/PowerPC/MMU.h"
 #include "Core/PowerPC/PowerPC.h"
 
 #include <type_traits>
 
-namespace HLE
-{
-namespace SystemVABI
+namespace HLE::SystemVABI
 {
 // SFINAE
 template <typename T>
@@ -115,8 +113,7 @@ public:
     else
     {
       m_stack = Common::AlignUp(m_stack, 8);
-      const u64 integral = PowerPC::HostRead_U64(m_stack);
-      std::memcpy(&value, &integral, sizeof(double));
+      value = PowerPC::HostRead_F64(m_stack);
       m_stack += 8;
     }
 
@@ -173,5 +170,4 @@ private:
   double GetFPR(u32 fpr) const override;
 };
 
-}  // namespace SystemVABI
-}  // namespace HLE
+}  // namespace HLE::SystemVABI

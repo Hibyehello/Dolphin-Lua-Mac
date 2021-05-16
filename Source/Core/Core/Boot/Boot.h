@@ -13,10 +13,11 @@
 #include <vector>
 
 #include "Common/CommonTypes.h"
+#include "Core/IOS/IOSC.h"
 #include "DiscIO/Blob.h"
 #include "DiscIO/Enums.h"
-#include "DiscIO/Volume.h"
-#include "DiscIO/WiiWad.h"
+#include "DiscIO/VolumeDisc.h"
+#include "DiscIO/VolumeWad.h"
 
 namespace File
 {
@@ -25,10 +26,10 @@ class IOFile;
 
 struct RegionSetting
 {
-  const std::string area;
-  const std::string video;
-  const std::string game;
-  const std::string code;
+  std::string area;
+  std::string video;
+  std::string game;
+  std::string code;
 };
 
 class BootExecutableReader;
@@ -38,7 +39,8 @@ struct BootParameters
   struct Disc
   {
     std::string path;
-    std::unique_ptr<DiscIO::Volume> volume;
+    std::unique_ptr<DiscIO::VolumeDisc> volume;
+    std::vector<std::string> auto_disc_change_paths;
   };
 
   struct Executable
@@ -68,10 +70,12 @@ struct BootParameters
   };
 
   static std::unique_ptr<BootParameters>
-  GenerateFromFile(const std::string& boot_path,
+  GenerateFromFile(std::string boot_path, const std::optional<std::string>& savestate_path = {});
+  static std::unique_ptr<BootParameters>
+  GenerateFromFile(std::vector<std::string> paths,
                    const std::optional<std::string>& savestate_path = {});
 
-  using Parameters = std::variant<Disc, Executable, DiscIO::WiiWAD, NANDTitle, IPL, DFF>;
+  using Parameters = std::variant<Disc, Executable, DiscIO::VolumeWAD, NANDTitle, IPL, DFF>;
   BootParameters(Parameters&& parameters_, const std::optional<std::string>& savestate_path_ = {});
 
   Parameters parameters;
@@ -98,25 +102,26 @@ public:
   static bool LoadMapFromFilename();
 
 private:
-  static bool DVDRead(const DiscIO::Volume& volume, u64 dvd_offset, u32 output_address, u32 length,
-                      const DiscIO::Partition& partition);
+  static bool DVDRead(const DiscIO::VolumeDisc& disc, u64 dvd_offset, u32 output_address,
+                      u32 length, const DiscIO::Partition& partition);
+  static bool DVDReadDiscID(const DiscIO::VolumeDisc& disc, u32 output_address);
   static void RunFunction(u32 address);
 
   static void UpdateDebugger_MapLoaded();
 
-  static bool Boot_WiiWAD(const DiscIO::WiiWAD& wad);
+  static bool Boot_WiiWAD(const DiscIO::VolumeWAD& wad);
   static bool BootNANDTitle(u64 title_id);
 
   static void SetupMSR();
   static void SetupBAT(bool is_wii);
-  static bool RunApploader(bool is_wii, const DiscIO::Volume& volume);
-  static bool EmulatedBS2_GC(const DiscIO::Volume& volume);
-  static bool EmulatedBS2_Wii(const DiscIO::Volume& volume);
-  static bool EmulatedBS2(bool is_wii, const DiscIO::Volume& volume);
+  static bool RunApploader(bool is_wii, const DiscIO::VolumeDisc& volume);
+  static bool EmulatedBS2_GC(const DiscIO::VolumeDisc& volume);
+  static bool EmulatedBS2_Wii(const DiscIO::VolumeDisc& volume);
+  static bool EmulatedBS2(bool is_wii, const DiscIO::VolumeDisc& volume);
   static bool Load_BS2(const std::string& boot_rom_filename);
 
   static void SetupGCMemory();
-  static bool SetupWiiMemory();
+  static bool SetupWiiMemory(IOS::HLE::IOSC::ConsoleType console_type);
 };
 
 class BootExecutableReader
@@ -124,7 +129,7 @@ class BootExecutableReader
 public:
   explicit BootExecutableReader(const std::string& file_name);
   explicit BootExecutableReader(File::IOFile file);
-  explicit BootExecutableReader(const std::vector<u8>& buffer);
+  explicit BootExecutableReader(std::vector<u8> buffer);
   virtual ~BootExecutableReader();
 
   virtual u32 GetEntryPoint() const = 0;
@@ -151,3 +156,9 @@ struct StateFlags
 // Reads the state file from the NAND, then calls the passed update function to update the struct,
 // and finally writes the updated state file to the NAND.
 void UpdateStateFlags(std::function<void(StateFlags*)> update_function);
+
+/// Create title directories for the system menu (if needed).
+///
+/// Normally, this is automatically done by ES when the System Menu is installed,
+/// but we cannot rely on this because we don't require any system titles to be installed.
+void CreateSystemMenuTitleDirs();

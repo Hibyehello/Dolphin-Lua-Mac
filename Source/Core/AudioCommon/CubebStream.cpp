@@ -6,7 +6,6 @@
 
 #include "AudioCommon/CubebStream.h"
 #include "AudioCommon/CubebUtils.h"
-#include "AudioCommon/DPL2Decoder.h"
 #include "Common/CommonTypes.h"
 #include "Common/Logging/Log.h"
 #include "Common/Thread.h"
@@ -38,7 +37,7 @@ bool CubebStream::Init()
   if (!m_ctx)
     return false;
 
-  m_stereo = !SConfig::GetInstance().bDPL2Decoder;
+  m_stereo = !SConfig::GetInstance().ShouldUseDPL2Decoder();
 
   cubeb_stream_params params;
   params.rate = m_mixer->GetSampleRate();
@@ -57,8 +56,8 @@ bool CubebStream::Init()
 
   u32 minimum_latency = 0;
   if (cubeb_get_min_latency(m_ctx.get(), &params, &minimum_latency) != CUBEB_OK)
-    ERROR_LOG(AUDIO, "Error getting minimum latency");
-  INFO_LOG(AUDIO, "Minimum latency: %i frames", minimum_latency);
+    ERROR_LOG_FMT(AUDIO, "Error getting minimum latency");
+  INFO_LOG_FMT(AUDIO, "Minimum latency: {} frames", minimum_latency);
 
   return cubeb_stream_init(m_ctx.get(), &m_stream, "Dolphin Audio Output", nullptr, nullptr,
                            nullptr, &params, std::max(BUFFER_SAMPLES, minimum_latency),

@@ -2,11 +2,17 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
+#include "VideoCommon/BPFunctions.h"
+
+#include <algorithm>
+#include <string_view>
+
 #include "Common/CommonTypes.h"
 #include "Common/Logging/Log.h"
 
-#include "VideoCommon/BPFunctions.h"
+#include "VideoCommon/AbstractFramebuffer.h"
 #include "VideoCommon/BPMemory.h"
+#include "VideoCommon/FramebufferManager.h"
 #include "VideoCommon/RenderBase.h"
 #include "VideoCommon/RenderState.h"
 #include "VideoCommon/VertexManagerBase.h"
@@ -33,34 +39,46 @@ void SetGenerationMode()
 
 void SetScissor()
 {
-  /* NOTE: the minimum value here for the scissor rect and offset is -342.
-   * GX internally adds on an offset of 342 to both the offset and scissor
-   * coords to ensure that the register was always unsigned.
+  /* NOTE: the minimum value here for the scissor rect is -342.
+   * GX SDK functions internally add an offset of 342 to scissor coords to
+   * ensure that the register was always unsigned.
    *
    * The code that was here before tried to "undo" this offset, but
    * since we always take the difference, the +342 added to both
    * sides cancels out. */
 
-  /* The scissor offset is always even, so to save space, the scissor offset
-   * register is scaled down by 2. So, if somebody calls
-   * GX_SetScissorBoxOffset(20, 20); the registers will be set to 10, 10. */
-  const int xoff = bpmem.scissorOffset.x * 2;
-  const int yoff = bpmem.scissorOffset.y * 2;
+  /* NOTE: With a positive scissor offset, the scissor rect is shifted left and/or up;
+   * With a negative scissor offset, the scissor rect is shifted right and/or down.
+   *
+   * GX SDK functions internally add an offset of 342 to scissor offset.
+   * The scissor offset is always even, so to save space, the scissor offset register
+   * is scaled down by 2. So, if somebody calls GX_SetScissorBoxOffset(20, 20);
+   * the registers will be set to ((20 + 342) / 2 = 181, 181).
+   *
+   * The scissor offset register is 10bit signed [-512, 511].
+   * e.g. In Super Mario Galaxy 1 and 2, during the "Boss roar effect",
+   * for a scissor offset of (0, -464), the scissor offset register will be set to
+   * (171, (-464 + 342) / 2 = -61).
+   */
+  s32 xoff = bpmem.scissorOffset.x * 2;
+  s32 yoff = bpmem.scissorOffset.y * 2;
 
-  EFBRectangle native_rc(bpmem.scissorTL.x - xoff, bpmem.scissorTL.y - yoff,
-                         bpmem.scissorBR.x - xoff + 1, bpmem.scissorBR.y - yoff + 1);
+  MathUtil::Rectangle<int> native_rc(bpmem.scissorTL.x - xoff, bpmem.scissorTL.y - yoff,
+                                     bpmem.scissorBR.x - xoff + 1, bpmem.scissorBR.y - yoff + 1);
   native_rc.ClampUL(0, 0, EFB_WIDTH, EFB_HEIGHT);
 
-  TargetRectangle target_rc = g_renderer->ConvertEFBRectangle(native_rc);
-  g_renderer->SetScissorRect(target_rc);
+  auto target_rc = g_renderer->ConvertEFBRectangle(native_rc);
+  auto converted_rc =
+      g_renderer->ConvertFramebufferRectangle(target_rc, g_renderer->GetCurrentFramebuffer());
+  g_renderer->SetScissorRect(converted_rc);
 }
 
 void SetViewport()
 {
-  int scissor_x_off = bpmem.scissorOffset.x * 2;
-  int scissor_y_off = bpmem.scissorOffset.y * 2;
-  float x = g_renderer->EFBToScaledXf(xfmem.viewport.xOrig - xfmem.viewport.wd - scissor_x_off);
-  float y = g_renderer->EFBToScaledYf(xfmem.viewport.yOrig + xfmem.viewport.ht - scissor_y_off);
+  s32 xoff = bpmem.scissorOffset.x * 2;
+  s32 yoff = bpmem.scissorOffset.y * 2;
+  float x = g_renderer->EFBToScaledXf(xfmem.viewport.xOrig - xfmem.viewport.wd - xoff);
+  float y = g_renderer->EFBToScaledYf(xfmem.viewport.yOrig + xfmem.viewport.ht - yoff);
 
   float width = g_renderer->EFBToScaledXf(2.0f * xfmem.viewport.wd);
   float height = g_renderer->EFBToScaledYf(-2.0f * xfmem.viewport.ht);
@@ -86,8 +104,8 @@ void SetViewport()
   {
     // There's no way to support oversized depth ranges in this situation. Let's just clamp the
     // range to the maximum value supported by the console GPU and hope for the best.
-    min_depth = MathUtil::Clamp(min_depth, 0.0f, GX_MAX_DEPTH);
-    max_depth = MathUtil::Clamp(max_depth, 0.0f, GX_MAX_DEPTH);
+    min_depth = std::clamp(min_depth, 0.0f, GX_MAX_DEPTH);
+    max_depth = std::clamp(max_depth, 0.0f, GX_MAX_DEPTH);
   }
 
   if (g_renderer->UseVertexDepthRange())
@@ -122,6 +140,21 @@ void SetViewport()
     far_depth = 1.0f - min_depth;
   }
 
+  // Clamp to size if oversized not supported. Required for D3D.
+  if (!g_ActiveConfig.backend_info.bSupportsOversizedViewports)
+  {
+    const float max_width = static_cast<float>(g_renderer->GetCurrentFramebuffer()->GetWidth());
+    const float max_height = static_cast<float>(g_renderer->GetCurrentFramebuffer()->GetHeight());
+    x = std::clamp(x, 0.0f, max_width - 1.0f);
+    y = std::clamp(y, 0.0f, max_height - 1.0f);
+    width = std::clamp(width, 1.0f, max_width - x);
+    height = std::clamp(height, 1.0f, max_height - y);
+  }
+
+  // Lower-left flip.
+  if (g_ActiveConfig.backend_info.bUsesLowerLeftOrigin)
+    y = static_cast<float>(g_renderer->GetCurrentFramebuffer()->GetHeight()) - y - height;
+
   g_renderer->SetViewport(x, y, width, height, near_depth, far_depth);
 }
 
@@ -153,7 +186,7 @@ void SetBlendMode()
     - convert the RGBA8 color to RGBA6/RGB8/RGB565 and convert it to RGBA8 again
     - convert the Z24 depth value to Z16 and back to Z24
 */
-void ClearScreen(const EFBRectangle& rc)
+void ClearScreen(const MathUtil::Rectangle<int>& rc)
 {
   bool colorEnable = (bpmem.blendmode.colorupdate != 0);
   bool alphaEnable = (bpmem.blendmode.alphaupdate != 0);
@@ -161,8 +194,8 @@ void ClearScreen(const EFBRectangle& rc)
   auto pixel_format = bpmem.zcontrol.pixel_format;
 
   // (1): Disable unused color channels
-  if (pixel_format == PEControl::RGB8_Z24 || pixel_format == PEControl::RGB565_Z16 ||
-      pixel_format == PEControl::Z24)
+  if (pixel_format == PixelFormat::RGB8_Z24 || pixel_format == PixelFormat::RGB565_Z16 ||
+      pixel_format == PixelFormat::Z24)
   {
     alphaEnable = false;
   }
@@ -173,11 +206,11 @@ void ClearScreen(const EFBRectangle& rc)
     u32 z = bpmem.clearZValue;
 
     // (2) drop additional accuracy
-    if (pixel_format == PEControl::RGBA6_Z24)
+    if (pixel_format == PixelFormat::RGBA6_Z24)
     {
       color = RGBA8ToRGBA6ToRGBA8(color);
     }
-    else if (pixel_format == PEControl::RGB565_Z16)
+    else if (pixel_format == PixelFormat::RGB565_Z16)
     {
       color = RGBA8ToRGB565ToRGBA8(color);
       z = Z24ToZ16ToZ24(z);
@@ -188,11 +221,12 @@ void ClearScreen(const EFBRectangle& rc)
 
 void OnPixelFormatChange()
 {
-  int convtype = -1;
-
   // TODO : Check for Z compression format change
-  // When using 16bit Z, the game may enable a special compression format which we need to handle
-  // If we don't, Z values will be completely screwed up, currently only Star Wars:RS2 uses that.
+  // When using 16bit Z, the game may enable a special compression format which we might need to
+  // handle. Only a few games like RS2 and RS3 even use z compression but it looks like they
+  // always use ZFAR when using 16bit Z (on top of linear 24bit Z)
+
+  // Besides, we currently don't even emulate 16bit depth and force it to 24bit.
 
   /*
    * When changing the EFB format, the pixel data won't get converted to the new format but stays
@@ -203,60 +237,74 @@ void OnPixelFormatChange()
   if (!g_ActiveConfig.bEFBEmulateFormatChanges)
     return;
 
-  auto old_format = g_renderer->GetPrevPixelFormat();
-  auto new_format = bpmem.zcontrol.pixel_format;
+  const auto old_format = g_renderer->GetPrevPixelFormat();
+  const auto new_format = bpmem.zcontrol.pixel_format;
+  g_renderer->StorePixelFormat(new_format);
+
+  DEBUG_LOG_FMT(VIDEO, "pixelfmt: pixel={}, zc={}", new_format, bpmem.zcontrol.zformat);
 
   // no need to reinterpret pixel data in these cases
-  if (new_format == old_format || old_format == PEControl::INVALID_FMT)
-    goto skip;
+  if (new_format == old_format || old_format == PixelFormat::INVALID_FMT)
+    return;
 
   // Check for pixel format changes
   switch (old_format)
   {
-  case PEControl::RGB8_Z24:
-  case PEControl::Z24:
+  case PixelFormat::RGB8_Z24:
+  case PixelFormat::Z24:
+  {
     // Z24 and RGB8_Z24 are treated equal, so just return in this case
-    if (new_format == PEControl::RGB8_Z24 || new_format == PEControl::Z24)
-      goto skip;
+    if (new_format == PixelFormat::RGB8_Z24 || new_format == PixelFormat::Z24)
+      return;
 
-    if (new_format == PEControl::RGBA6_Z24)
-      convtype = 0;
-    else if (new_format == PEControl::RGB565_Z16)
-      convtype = 1;
-    break;
+    if (new_format == PixelFormat::RGBA6_Z24)
+    {
+      g_renderer->ReinterpretPixelData(EFBReinterpretType::RGB8ToRGBA6);
+      return;
+    }
+    else if (new_format == PixelFormat::RGB565_Z16)
+    {
+      g_renderer->ReinterpretPixelData(EFBReinterpretType::RGB8ToRGB565);
+      return;
+    }
+  }
+  break;
 
-  case PEControl::RGBA6_Z24:
-    if (new_format == PEControl::RGB8_Z24 || new_format == PEControl::Z24)
-      convtype = 2;
-    else if (new_format == PEControl::RGB565_Z16)
-      convtype = 3;
-    break;
+  case PixelFormat::RGBA6_Z24:
+  {
+    if (new_format == PixelFormat::RGB8_Z24 || new_format == PixelFormat::Z24)
+    {
+      g_renderer->ReinterpretPixelData(EFBReinterpretType::RGBA6ToRGB8);
+      return;
+    }
+    else if (new_format == PixelFormat::RGB565_Z16)
+    {
+      g_renderer->ReinterpretPixelData(EFBReinterpretType::RGBA6ToRGB565);
+      return;
+    }
+  }
+  break;
 
-  case PEControl::RGB565_Z16:
-    if (new_format == PEControl::RGB8_Z24 || new_format == PEControl::Z24)
-      convtype = 4;
-    else if (new_format == PEControl::RGBA6_Z24)
-      convtype = 5;
-    break;
+  case PixelFormat::RGB565_Z16:
+  {
+    if (new_format == PixelFormat::RGB8_Z24 || new_format == PixelFormat::Z24)
+    {
+      g_renderer->ReinterpretPixelData(EFBReinterpretType::RGB565ToRGB8);
+      return;
+    }
+    else if (new_format == PixelFormat::RGBA6_Z24)
+    {
+      g_renderer->ReinterpretPixelData(EFBReinterpretType::RGB565ToRGBA6);
+      return;
+    }
+  }
+  break;
 
   default:
     break;
   }
 
-  if (convtype == -1)
-  {
-    ERROR_LOG(VIDEO, "Unhandled EFB format change: %d to %d", static_cast<int>(old_format),
-              static_cast<int>(new_format));
-    goto skip;
-  }
-
-  g_renderer->ReinterpretPixelData(convtype);
-
-skip:
-  DEBUG_LOG(VIDEO, "pixelfmt: pixel=%d, zc=%d", static_cast<int>(new_format),
-            static_cast<int>(bpmem.zcontrol.zformat));
-
-  g_renderer->StorePixelFormat(new_format);
+  ERROR_LOG_FMT(VIDEO, "Unhandled EFB format change: {} to {}", old_format, new_format);
 }
 
 void SetInterlacingMode(const BPCmd& bp)
@@ -268,22 +316,20 @@ void SetInterlacingMode(const BPCmd& bp)
   {
     // SDK always sets bpmem.lineptwidth.lineaspect via BPMEM_LINEPTWIDTH
     // just before this cmd
-    const char* action[] = {"don't adjust", "adjust"};
-    DEBUG_LOG(VIDEO, "BPMEM_FIELDMODE texLOD:%s lineaspect:%s", action[bpmem.fieldmode.texLOD],
-              action[bpmem.lineptwidth.lineaspect]);
+    DEBUG_LOG_FMT(VIDEO, "BPMEM_FIELDMODE texLOD:{} lineaspect:{}", bpmem.fieldmode.texLOD,
+                  bpmem.lineptwidth.adjust_for_aspect_ratio);
   }
   break;
   case BPMEM_FIELDMASK:
   {
     // Determines if fields will be written to EFB (always computed)
-    const char* action[] = {"skip", "write"};
-    DEBUG_LOG(VIDEO, "BPMEM_FIELDMASK even:%s odd:%s", action[bpmem.fieldmask.even],
-              action[bpmem.fieldmask.odd]);
+    DEBUG_LOG_FMT(VIDEO, "BPMEM_FIELDMASK even:{} odd:{}", bpmem.fieldmask.even,
+                  bpmem.fieldmask.odd);
   }
   break;
   default:
-    ERROR_LOG(VIDEO, "SetInterlacingMode default");
+    ERROR_LOG_FMT(VIDEO, "SetInterlacingMode default");
     break;
   }
 }
-};
+};  // namespace BPFunctions

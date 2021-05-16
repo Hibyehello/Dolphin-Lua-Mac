@@ -6,17 +6,14 @@
 
 #include <algorithm>
 
+#include <fmt/format.h>
+
 #include "Common/Assert.h"
 #include "Common/CommonTypes.h"
-#include "Common/StringUtil.h"
 #include "Common/Swap.h"
 #include "Core/HW/Memmap.h"
 
-namespace IOS
-{
-namespace HLE
-{
-namespace USB
+namespace IOS::HLE::USB
 {
 std::unique_ptr<u8[]> TransferCommand::MakeBuffer(const size_t size) const
 {
@@ -93,8 +90,6 @@ void EndpointDescriptor::Swap()
 
 std::string Device::GetErrorName(const int error_code) const
 {
-  return StringFromFormat("unknown error %d", error_code);
+  return fmt::format("unknown error {}", error_code);
 }
-}  // namespace USB
-}  // namespace HLE
-}  // namespace IOS
+}  // namespace IOS::HLE::USB

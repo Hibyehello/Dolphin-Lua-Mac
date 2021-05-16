@@ -7,10 +7,10 @@
 #include <memory>
 #include <string>
 
-#include "Common/CommonFuncs.h"
 #include "Common/CommonTypes.h"
+#include "Common/MathUtil.h"
 #include "Common/Swap.h"
-#include "Core/PowerPC/PowerPC.h"
+#include "Core/PowerPC/MMU.h"
 
 // Global declarations
 class PointerWrap;
@@ -37,23 +37,24 @@ extern u8* m_pEXRAM;
 extern u8* m_pL1Cache;
 extern u8* m_pFakeVMEM;
 
-enum
-{
-  // RAM_SIZE is the amount allocated by the emulator, whereas REALRAM_SIZE is
-  // what will be reported in lowmem, and thus used by emulated software.
-  // Note: Writing to lowmem is done by IPL. If using retail IPL, it will
-  // always be set to 24MB.
-  REALRAM_SIZE = 0x01800000,
-  RAM_SIZE = ROUND_UP_POW2(REALRAM_SIZE),
-  RAM_MASK = RAM_SIZE - 1,
-  FAKEVMEM_SIZE = 0x02000000,
-  FAKEVMEM_MASK = FAKEVMEM_SIZE - 1,
-  L1_CACHE_SIZE = 0x00040000,
-  L1_CACHE_MASK = L1_CACHE_SIZE - 1,
-  IO_SIZE = 0x00010000,
-  EXRAM_SIZE = 0x04000000,
-  EXRAM_MASK = EXRAM_SIZE - 1,
-};
+u32 GetRamSizeReal();
+u32 GetRamSize();
+u32 GetRamMask();
+u32 GetFakeVMemSize();
+u32 GetFakeVMemMask();
+u32 GetL1CacheSize();
+u32 GetL1CacheMask();
+u32 GetIOSize();
+u32 GetExRamSizeReal();
+u32 GetExRamSize();
+u32 GetExRamMask();
+
+constexpr u32 MEM1_BASE_ADDR = 0x80000000U;
+constexpr u32 MEM2_BASE_ADDR = 0x90000000U;
+constexpr u32 MEM1_SIZE_RETAIL = 0x01800000U;
+constexpr u32 MEM1_SIZE_GDEV = 0x04000000U;
+constexpr u32 MEM2_SIZE_RETAIL = 0x04000000U;
+constexpr u32 MEM2_SIZE_NDEV = 0x08000000U;
 
 // MMIO mapping object.
 extern std::unique_ptr<MMIO::Mapping> mmio_mapping;
@@ -62,6 +63,8 @@ extern std::unique_ptr<MMIO::Mapping> mmio_mapping;
 bool IsInitialized();
 void Init();
 void Shutdown();
+bool InitFastmemArena();
+void ShutdownFastmemArena();
 void DoState(PointerWrap& p);
 
 void UpdateLogicalMemory(const PowerPC::BatTable& dbat_table);
@@ -79,8 +82,6 @@ u8 Read_U8(u32 address);
 u16 Read_U16(u32 address);
 u32 Read_U32(u32 address);
 u64 Read_U64(u32 address);
-float Read_F32(u32 address); // ADDED
-double Read_F64(u32 address); // ADDED
 void Write_U8(u8 var, u32 address);
 void Write_U16(u16 var, u32 address);
 void Write_U32(u32 var, u32 address);
@@ -112,4 +113,4 @@ void CopyToEmuSwapped(u32 address, const T* data, size_t size)
   for (size_t i = 0; i < size / sizeof(T); i++)
     dest[i] = Common::FromBigEndian(data[i]);
 }
-}
+}  // namespace Memory

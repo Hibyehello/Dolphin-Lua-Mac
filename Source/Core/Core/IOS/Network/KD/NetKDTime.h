@@ -9,19 +9,15 @@
 #include "Common/CommonTypes.h"
 #include "Core/IOS/Device.h"
 
-namespace IOS
+namespace IOS::HLE
 {
-namespace HLE
-{
-namespace Device
-{
-class NetKDTime : public Device
+class NetKDTimeDevice : public Device
 {
 public:
-  NetKDTime(Kernel& ios, const std::string& device_name);
-  ~NetKDTime() override;
+  NetKDTimeDevice(Kernel& ios, const std::string& device_name);
+  ~NetKDTimeDevice() override;
 
-  IPCCommandResult IOCtl(const IOCtlRequest& request) override;
+  std::optional<IPCReply> IOCtl(const IOCtlRequest& request) override;
 
 private:
   // TODO: depending on CEXIIPL is a hack which I don't feel like
@@ -48,6 +44,4 @@ private:
   u64 rtc = 0;
   s64 utcdiff = 0;
 };
-}  // namespace Device
-}  // namespace HLE
-}  // namespace IOS
+}  // namespace IOS::HLE

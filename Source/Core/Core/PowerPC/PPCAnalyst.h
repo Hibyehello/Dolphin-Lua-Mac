@@ -5,14 +5,20 @@
 #pragma once
 
 #include <algorithm>
+#include <cstddef>
 #include <set>
+#include <vector>
 
 #include "Common/BitSet.h"
 #include "Common/CommonTypes.h"
 #include "Core/PowerPC/PPCTables.h"
 
 class PPCSymbolDB;
+
+namespace Common
+{
 struct Symbol;
+}
 
 namespace PPCAnalyst
 {
@@ -21,13 +27,14 @@ struct CodeOp  // 16B
   UGeckoInstruction inst;
   GekkoOPInfo* opinfo;
   u32 address;
-  u32 branchTo;       // if 0, not a branch
-  int branchToIndex;  // index of target block
+  u32 branchTo;  // if UINT32_MAX, not a branch
   BitSet32 regsOut;
   BitSet32 regsIn;
   BitSet32 fregsIn;
   s8 fregOut;
   bool isBranchTarget;
+  bool branchUsesCtr;
+  bool branchIsIdleLoop;
   bool wantsCR0;
   bool wantsCR1;
   bool wantsFPRF;
@@ -38,13 +45,15 @@ struct CodeOp  // 16B
   bool outputFPRF;
   bool outputCA;
   bool canEndBlock;
+  bool canCauseException;
   bool skipLRStack;
   bool skip;  // followed BL-s for example
   // which registers are still needed after this instruction in this block
   BitSet32 fprInUse;
   BitSet32 gprInUse;
-  // just because a register is in use doesn't mean we actually need or want it in an x86 register.
-  BitSet32 gprInReg;
+  // which registers have values which are known to be unused after this instruction
+  BitSet32 gprDiscardable;
+  BitSet32 fprDiscardable;
   // we do double stores from GPRs, so we don't want to load a PowerPC floating point register into
   // an XMM only to move it again to a GPR afterwards.
   BitSet32 fprInXmm;
@@ -54,9 +63,21 @@ struct CodeOp  // 16B
   // instruction)
   BitSet32 fprIsDuplicated;
   // whether an fpr is the output of a single-precision arithmetic instruction, i.e. whether we can
-  // safely
-  // skip PPC_FP.
-  BitSet32 fprIsStoreSafe;
+  // convert between single and double formats by just using the host machine's instruction for it.
+  // (The reason why we can't always do this is because some games rely on the exact bits of
+  // denormals and SNaNs being preserved as long as no arithmetic operation is performed on them.)
+  BitSet32 fprIsStoreSafeBeforeInst;
+  BitSet32 fprIsStoreSafeAfterInst;
+
+  BitSet32 GetFregsOut() const
+  {
+    BitSet32 result;
+
+    if (fregOut >= 0)
+      result[fregOut] = true;
+
+    return result;
+  }
 };
 
 struct BlockStats
@@ -113,18 +134,7 @@ struct BlockRegStats
   }
 };
 
-class CodeBuffer
-{
-public:
-  CodeBuffer(int size);
-  ~CodeBuffer();
-
-  int GetSize() const { return size_; }
-  PPCAnalyst::CodeOp* codebuffer;
-
-private:
-  int size_;
-};
+using CodeBuffer = std::vector<CodeOp>;
 
 struct CodeBlock
 {
@@ -205,7 +215,7 @@ public:
   void SetOption(AnalystOption option) { m_options |= option; }
   void ClearOption(AnalystOption option) { m_options &= ~(option); }
   bool HasOption(AnalystOption option) const { return !!(m_options & option); }
-  u32 Analyze(u32 address, CodeBlock* block, CodeBuffer* buffer, u32 blockSize);
+  u32 Analyze(u32 address, CodeBlock* block, CodeBuffer* buffer, std::size_t block_size);
 
 private:
   enum class ReorderType
@@ -218,14 +228,14 @@ private:
   void ReorderInstructionsCore(u32 instructions, CodeOp* code, bool reverse, ReorderType type);
   void ReorderInstructions(u32 instructions, CodeOp* code);
   void SetInstructionStats(CodeBlock* block, CodeOp* code, const GekkoOPInfo* opinfo, u32 index);
+  bool IsBusyWaitLoop(CodeBlock* block, CodeOp* code, size_t instructions);
 
   // Options
   u32 m_options = 0;
 };
 
-void LogFunctionCall(u32 addr);
 void FindFunctions(u32 startAddr, u32 endAddr, PPCSymbolDB* func_db);
-bool AnalyzeFunction(u32 startAddr, Symbol& func, u32 max_size = 0);
-bool ReanalyzeFunction(u32 start_addr, Symbol& func, u32 max_size = 0);
+bool AnalyzeFunction(u32 startAddr, Common::Symbol& func, u32 max_size = 0);
+bool ReanalyzeFunction(u32 start_addr, Common::Symbol& func, u32 max_size = 0);
 
-}  // namespace
+}  // namespace PPCAnalyst

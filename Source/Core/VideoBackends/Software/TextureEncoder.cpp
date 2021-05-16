@@ -5,12 +5,14 @@
 #include "VideoBackends/Software/TextureEncoder.h"
 
 #include "Common/Align.h"
+#include "Common/Assert.h"
 #include "Common/CommonFuncs.h"
 #include "Common/CommonTypes.h"
 #include "Common/MsgHandler.h"
 #include "Common/Swap.h"
 
 #include "VideoBackends/Software/EfbInterface.h"
+#include "VideoBackends/Software/SWTexture.h"
 
 #include "VideoCommon/BPMemory.h"
 #include "VideoCommon/LookUpTables.h"
@@ -219,7 +221,7 @@ static void SetSpans(int sBlkSize, int tBlkSize, s32* tSpan, s32* sBlkSpan, s32*
 {
   // width is 1 less than the number of pixels of width
   u32 width = bpmem.copyTexSrcWH.x >> bpmem.triggerEFBCopy.half_scale;
-  u32 alignedWidth = Common::AlignUp(width, sBlkSize);
+  u32 alignedWidth = Common::AlignUp(width + 1, sBlkSize);
 
   u32 readStride = 3 << bpmem.triggerEFBCopy.half_scale;
 
@@ -502,7 +504,7 @@ static void EncodeRGBA6(u8* dst, const u8* src, EFBCopyFormat format, bool yuv)
     break;
 
   default:
-    PanicAlert("Unknown texture copy format: 0x%x\n", static_cast<int>(format));
+    PanicAlertFmt("Unknown texture copy format: {}\n", format);
     break;
   }
 }
@@ -741,7 +743,7 @@ static void EncodeRGBA6halfscale(u8* dst, const u8* src, EFBCopyFormat format, b
     break;
 
   default:
-    PanicAlert("Unknown texture copy format: 0x%x\n", static_cast<int>(format));
+    PanicAlertFmt("Unknown texture copy format: {}\n", format);
     break;
   }
 }
@@ -958,7 +960,7 @@ static void EncodeRGB8(u8* dst, const u8* src, EFBCopyFormat format, bool yuv)
     break;
 
   default:
-    PanicAlert("Unknown texture copy format: 0x%x\n", static_cast<int>(format));
+    PanicAlertFmt("Unknown texture copy format: {}\n", format);
     break;
   }
 }
@@ -1190,7 +1192,7 @@ static void EncodeRGB8halfscale(u8* dst, const u8* src, EFBCopyFormat format, bo
     break;
 
   default:
-    PanicAlert("Unknown texture copy format: 0x%x\n", static_cast<int>(format));
+    PanicAlertFmt("Unknown texture copy format: {}\n", format);
     break;
   }
 }
@@ -1298,7 +1300,7 @@ static void EncodeZ24(u8* dst, const u8* src, EFBCopyFormat format)
     break;
 
   default:
-    PanicAlert("Unknown texture copy format: 0x%x\n", static_cast<int>(format));
+    PanicAlertFmt("Unknown texture copy format: {}\n", format);
     break;
   }
 }
@@ -1412,7 +1414,7 @@ static void EncodeZ24halfscale(u8* dst, const u8* src, EFBCopyFormat format)
     break;
 
   default:
-    PanicAlert("Unknown texture copy format: 0x%x\n", static_cast<int>(format));
+    PanicAlertFmt("Unknown texture copy format: {}\n", format);
     break;
   }
 }
@@ -1420,7 +1422,7 @@ static void EncodeZ24halfscale(u8* dst, const u8* src, EFBCopyFormat format)
 namespace
 {
 void EncodeEfbCopy(u8* dst, const EFBCopyParams& params, u32 native_width, u32 bytes_per_row,
-                   u32 num_blocks_y, u32 memory_stride, const EFBRectangle& src_rect,
+                   u32 num_blocks_y, u32 memory_stride, const MathUtil::Rectangle<int>& src_rect,
                    bool scale_by_half)
 {
   const u8* src = EfbInterface::GetPixelPointer(src_rect.left, src_rect.top, params.depth);
@@ -1429,16 +1431,16 @@ void EncodeEfbCopy(u8* dst, const EFBCopyParams& params, u32 native_width, u32 b
   {
     switch (params.efb_format)
     {
-    case PEControl::RGBA6_Z24:
+    case PixelFormat::RGBA6_Z24:
       EncodeRGBA6halfscale(dst, src, params.copy_format, params.yuv);
       break;
-    case PEControl::RGB8_Z24:
+    case PixelFormat::RGB8_Z24:
       EncodeRGB8halfscale(dst, src, params.copy_format, params.yuv);
       break;
-    case PEControl::RGB565_Z16:
+    case PixelFormat::RGB565_Z16:
       EncodeRGB8halfscale(dst, src, params.copy_format, params.yuv);
       break;
-    case PEControl::Z24:
+    case PixelFormat::Z24:
       EncodeZ24halfscale(dst, src, params.copy_format);
       break;
     default:
@@ -1449,16 +1451,16 @@ void EncodeEfbCopy(u8* dst, const EFBCopyParams& params, u32 native_width, u32 b
   {
     switch (params.efb_format)
     {
-    case PEControl::RGBA6_Z24:
+    case PixelFormat::RGBA6_Z24:
       EncodeRGBA6(dst, src, params.copy_format, params.yuv);
       break;
-    case PEControl::RGB8_Z24:
+    case PixelFormat::RGB8_Z24:
       EncodeRGB8(dst, src, params.copy_format, params.yuv);
       break;
-    case PEControl::RGB565_Z16:
+    case PixelFormat::RGB565_Z16:
       EncodeRGB8(dst, src, params.copy_format, params.yuv);
       break;
-    case PEControl::Z24:
+    case PixelFormat::Z24:
       EncodeZ24(dst, src, params.copy_format);
       break;
     default:
@@ -1466,19 +1468,29 @@ void EncodeEfbCopy(u8* dst, const EFBCopyParams& params, u32 native_width, u32 b
     }
   }
 }
-}
+}  // namespace
 
-void Encode(u8* dst, const EFBCopyParams& params, u32 native_width, u32 bytes_per_row,
-            u32 num_blocks_y, u32 memory_stride, const EFBRectangle& src_rect, bool scale_by_half)
+void Encode(AbstractStagingTexture* dst, const EFBCopyParams& params, u32 native_width,
+            u32 bytes_per_row, u32 num_blocks_y, u32 memory_stride,
+            const MathUtil::Rectangle<int>& src_rect, bool scale_by_half, float y_scale,
+            float gamma)
 {
+  // HACK: Override the memory stride for this staging texture with new copy stride.
+  // This is required because the texture encoder assumes that we're writing directly to memory,
+  // and each row is tightly packed with no padding, whereas our encoding abstract texture has
+  // a width of 2560. When we copy the texture back later on, it'll use the tightly packed stride.
+  ASSERT(memory_stride <= (dst->GetConfig().width * dst->GetTexelSize()));
+  static_cast<SW::SWStagingTexture*>(dst)->SetMapStride(memory_stride);
+
   if (params.copy_format == EFBCopyFormat::XFB)
   {
-    EfbInterface::EncodeXFB(dst, native_width, src_rect, params.y_scale);
+    EfbInterface::EncodeXFB(reinterpret_cast<u8*>(dst->GetMappedPointer()), native_width, src_rect,
+                            y_scale, gamma);
   }
   else
   {
-    EncodeEfbCopy(dst, params, native_width, bytes_per_row, num_blocks_y, memory_stride, src_rect,
-                  scale_by_half);
+    EncodeEfbCopy(reinterpret_cast<u8*>(dst->GetMappedPointer()), params, native_width,
+                  bytes_per_row, num_blocks_y, memory_stride, src_rect, scale_by_half);
   }
 }
-}
+}  // namespace TextureEncoder

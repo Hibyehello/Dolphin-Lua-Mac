@@ -2,12 +2,12 @@
 // Licensed under GPLv2+
 // Refer to the license.txt file included.
 
-#include <cmath>
-#include <cstring>
+#include "VideoCommon/PixelShaderManager.h"
+
+#include <iterator>
 
 #include "Common/ChunkFile.h"
 #include "Common/CommonTypes.h"
-#include "VideoCommon/PixelShaderManager.h"
 #include "VideoCommon/RenderBase.h"
 #include "VideoCommon/VideoCommon.h"
 #include "VideoCommon/VideoConfig.h"
@@ -114,7 +114,7 @@ void PixelShaderManager::SetConstants()
       constants.fogf[3] =
           static_cast<float>(g_renderer->EFBToScaledX(static_cast<int>(2.0f * xfmem.viewport.wd)));
 
-      for (size_t i = 0, vec_index = 0; i < ArraySize(bpmem.fogRange.K); i++)
+      for (size_t i = 0, vec_index = 0; i < std::size(bpmem.fogRange.K); i++)
       {
         constexpr float scale = 4.0f;
         constants.fogrange[vec_index / 4][vec_index % 4] = bpmem.fogRange.K[i].GetValue(0) * scale;
@@ -158,9 +158,8 @@ void PixelShaderManager::SetConstants()
               bpmem.tevindref.getTexCoord(stage) | bpmem.tevindref.getTexMap(stage) << 8 | 1 << 16;
         // Note: a tevind of zero just happens to be a passthrough, so no need
         // to set an extra bit.
-        constants.pack1[i][2] =
-            bpmem.tevind[i].hex;  // TODO: This match shadergen, but videosw will
-                                  // always wrap.
+        constants.pack1[i][2] = bpmem.tevind[i].hex;  // TODO: This match shadergen, but videosw
+                                                      // will always wrap.
 
         // The ubershader uses tevind != 0 as a condition whether to calculate texcoords,
         // even when texture is disabled, instead of the stage < bpmem.genMode.numindstages.
@@ -183,7 +182,7 @@ void PixelShaderManager::SetConstants()
     // Destination alpha is only enabled if alpha writes are enabled. Force entire uniform to zero
     // when disabled.
     u32 dstalpha = bpmem.blendmode.alphaupdate && bpmem.dstalpha.enable &&
-                           bpmem.zcontrol.pixel_format == PEControl::RGBA6_Z24 ?
+                           bpmem.zcontrol.pixel_format == PixelFormat::RGBA6_Z24 ?
                        bpmem.dstalpha.hex :
                        0;
 
@@ -201,7 +200,7 @@ void PixelShaderManager::SetTevColor(int index, int component, s32 value)
   c[component] = value;
   dirty = true;
 
-  PRIM_LOG("tev color%d: %d %d %d %d", index, c[0], c[1], c[2], c[3]);
+  PRIM_LOG("tev color{}: {} {} {} {}", index, c[0], c[1], c[2], c[3]);
 }
 
 void PixelShaderManager::SetTevKonstColor(int index, int component, s32 value)
@@ -221,7 +220,7 @@ void PixelShaderManager::SetTevKonstColor(int index, int component, s32 value)
   constants.konst[index + 16 + component * 4][2] = value;
   constants.konst[index + 16 + component * 4][3] = value;
 
-  PRIM_LOG("tev konst color%d: %d %d %d %d", index, c[0], c[1], c[2], c[3]);
+  PRIM_LOG("tev konst color{}: {} {} {} {}", index, c[0], c[1], c[2], c[3]);
 }
 
 void PixelShaderManager::SetTevOrder(int index, u32 order)
@@ -271,7 +270,7 @@ void PixelShaderManager::SetAlphaTestChanged()
   // TODO: we could optimize this further and check the actual constants,
   // i.e. "a <= 0" and "a >= 255" will always pass.
   u32 alpha_test =
-      bpmem.alpha_test.TestResult() != AlphaTest::PASS ? bpmem.alpha_test.hex | 1 << 31 : 0;
+      bpmem.alpha_test.TestResult() != AlphaTestResult::Pass ? bpmem.alpha_test.hex | 1 << 31 : 0;
   if (constants.alphaTest != alpha_test)
   {
     constants.alphaTest = alpha_test;
@@ -353,7 +352,7 @@ void PixelShaderManager::SetIndMatrixChanged(int matrixidx)
   constants.indtexmtx[2 * matrixidx + 1][3] = 17 - scale;
   dirty = true;
 
-  PRIM_LOG("indmtx%d: scale=%d, mat=(%d %d %d; %d %d %d)", matrixidx, scale,
+  PRIM_LOG("indmtx{}: scale={}, mat=({} {} {}; {} {} {})", matrixidx, scale,
            bpmem.indmtx[matrixidx].col0.ma, bpmem.indmtx[matrixidx].col1.mc,
            bpmem.indmtx[matrixidx].col2.me, bpmem.indmtx[matrixidx].col0.mb,
            bpmem.indmtx[matrixidx].col1.md, bpmem.indmtx[matrixidx].col2.mf);
@@ -363,25 +362,26 @@ void PixelShaderManager::SetZTextureTypeChanged()
 {
   switch (bpmem.ztex2.type)
   {
-  case TEV_ZTEX_TYPE_U8:
+  case ZTexFormat::U8:
     constants.zbias[0][0] = 0;
     constants.zbias[0][1] = 0;
     constants.zbias[0][2] = 0;
     constants.zbias[0][3] = 1;
     break;
-  case TEV_ZTEX_TYPE_U16:
+  case ZTexFormat::U16:
     constants.zbias[0][0] = 1;
     constants.zbias[0][1] = 0;
     constants.zbias[0][2] = 0;
     constants.zbias[0][3] = 256;
     break;
-  case TEV_ZTEX_TYPE_U24:
+  case ZTexFormat::U24:
     constants.zbias[0][0] = 65536;
     constants.zbias[0][1] = 256;
     constants.zbias[0][2] = 1;
     constants.zbias[0][3] = 0;
     break;
   default:
+    PanicAlertFmt("Invalid ztex format {}", bpmem.ztex2.type);
     break;
   }
   dirty = true;
@@ -458,8 +458,9 @@ void PixelShaderManager::SetZModeControl()
 {
   u32 late_ztest = bpmem.UseLateDepthTest();
   u32 rgba6_format =
-      (bpmem.zcontrol.pixel_format == PEControl::RGBA6_Z24 && !g_ActiveConfig.bForceTrueColor) ? 1 :
-                                                                                                 0;
+      (bpmem.zcontrol.pixel_format == PixelFormat::RGBA6_Z24 && !g_ActiveConfig.bForceTrueColor) ?
+          1 :
+          0;
   u32 dither = rgba6_format && bpmem.blendmode.dither;
   if (constants.late_ztest != late_ztest || constants.rgba6_format != rgba6_format ||
       constants.dither != dither)
@@ -522,9 +523,7 @@ void PixelShaderManager::SetBlendModeChanged()
 
 void PixelShaderManager::SetBoundingBoxActive(bool active)
 {
-  const bool enable =
-      active && g_ActiveConfig.bBBoxEnable && g_ActiveConfig.BBoxUseFragmentShaderImplementation();
-
+  const bool enable = active && g_ActiveConfig.bBBoxEnable;
   if (enable == (constants.bounding_box != 0))
     return;
 

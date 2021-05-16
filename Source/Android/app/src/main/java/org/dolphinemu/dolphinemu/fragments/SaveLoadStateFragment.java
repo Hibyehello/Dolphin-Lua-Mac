@@ -1,8 +1,7 @@
 package org.dolphinemu.dolphinemu.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,91 +9,123 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 
 public final class SaveLoadStateFragment extends Fragment implements View.OnClickListener
 {
-	public enum SaveOrLoad
-	{
-		SAVE, LOAD
-	}
+  public enum SaveOrLoad
+  {
+    SAVE, LOAD
+  }
 
-	private static final String KEY_SAVEORLOAD = "saveorload";
-	private static SparseIntArray saveButtonsActionsMap = new SparseIntArray();
-	static {
-		saveButtonsActionsMap.append(R.id.loadsave_state_button_1, EmulationActivity.MENU_ACTION_SAVE_SLOT1);
-		saveButtonsActionsMap.append(R.id.loadsave_state_button_2, EmulationActivity.MENU_ACTION_SAVE_SLOT2);
-		saveButtonsActionsMap.append(R.id.loadsave_state_button_3, EmulationActivity.MENU_ACTION_SAVE_SLOT3);
-		saveButtonsActionsMap.append(R.id.loadsave_state_button_4, EmulationActivity.MENU_ACTION_SAVE_SLOT4);
-		saveButtonsActionsMap.append(R.id.loadsave_state_button_5, EmulationActivity.MENU_ACTION_SAVE_SLOT5);
-		saveButtonsActionsMap.append(R.id.loadsave_state_button_6, EmulationActivity.MENU_ACTION_SAVE_SLOT6);
-	}
-	private static SparseIntArray loadButtonsActionsMap = new SparseIntArray();
-	static {
-		loadButtonsActionsMap.append(R.id.loadsave_state_button_1, EmulationActivity.MENU_ACTION_LOAD_SLOT1);
-		loadButtonsActionsMap.append(R.id.loadsave_state_button_2, EmulationActivity.MENU_ACTION_LOAD_SLOT2);
-		loadButtonsActionsMap.append(R.id.loadsave_state_button_3, EmulationActivity.MENU_ACTION_LOAD_SLOT3);
-		loadButtonsActionsMap.append(R.id.loadsave_state_button_4, EmulationActivity.MENU_ACTION_LOAD_SLOT4);
-		loadButtonsActionsMap.append(R.id.loadsave_state_button_5, EmulationActivity.MENU_ACTION_LOAD_SLOT5);
-		loadButtonsActionsMap.append(R.id.loadsave_state_button_6, EmulationActivity.MENU_ACTION_LOAD_SLOT6);
-	}
-	private SaveOrLoad mSaveOrLoad;
+  private static final String KEY_SAVEORLOAD = "saveorload";
 
-	public static SaveLoadStateFragment newInstance(SaveOrLoad saveOrLoad)
-	{
-		SaveLoadStateFragment fragment = new SaveLoadStateFragment();
+  private static int[] saveActionsMap = new int[]{
+          EmulationActivity.MENU_ACTION_SAVE_SLOT1,
+          EmulationActivity.MENU_ACTION_SAVE_SLOT2,
+          EmulationActivity.MENU_ACTION_SAVE_SLOT3,
+          EmulationActivity.MENU_ACTION_SAVE_SLOT4,
+          EmulationActivity.MENU_ACTION_SAVE_SLOT5,
+          EmulationActivity.MENU_ACTION_SAVE_SLOT6,
+  };
 
-		Bundle arguments = new Bundle();
-		arguments.putSerializable(KEY_SAVEORLOAD, saveOrLoad);
-		fragment.setArguments(arguments);
+  private static int[] loadActionsMap = new int[]{
+          EmulationActivity.MENU_ACTION_LOAD_SLOT1,
+          EmulationActivity.MENU_ACTION_LOAD_SLOT2,
+          EmulationActivity.MENU_ACTION_LOAD_SLOT3,
+          EmulationActivity.MENU_ACTION_LOAD_SLOT4,
+          EmulationActivity.MENU_ACTION_LOAD_SLOT5,
+          EmulationActivity.MENU_ACTION_LOAD_SLOT6,
+  };
 
-		return fragment;
-	}
+  private static SparseIntArray buttonsMap = new SparseIntArray();
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
+  static
+  {
+    buttonsMap.append(R.id.loadsave_state_button_1, 0);
+    buttonsMap.append(R.id.loadsave_state_button_2, 1);
+    buttonsMap.append(R.id.loadsave_state_button_3, 2);
+    buttonsMap.append(R.id.loadsave_state_button_4, 3);
+    buttonsMap.append(R.id.loadsave_state_button_5, 4);
+    buttonsMap.append(R.id.loadsave_state_button_6, 5);
+  }
 
-		mSaveOrLoad = (SaveOrLoad) getArguments().getSerializable(KEY_SAVEORLOAD);
-	}
+  private SaveOrLoad mSaveOrLoad;
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		View rootView = inflater.inflate(R.layout.fragment_saveload_state, container, false);
+  public static SaveLoadStateFragment newInstance(SaveOrLoad saveOrLoad)
+  {
+    SaveLoadStateFragment fragment = new SaveLoadStateFragment();
 
-		GridLayout grid = (GridLayout) rootView.findViewById(R.id.grid_state_slots);
-		for (int childIndex = 0; childIndex < grid.getChildCount(); childIndex++)
-		{
-			Button button = (Button) grid.getChildAt(childIndex);
-			button.setOnClickListener(this);
-		}
+    Bundle arguments = new Bundle();
+    arguments.putSerializable(KEY_SAVEORLOAD, saveOrLoad);
+    fragment.setArguments(arguments);
 
-		// So that item clicked to start this Fragment is no longer the focused item.
-		grid.requestFocus();
+    return fragment;
+  }
 
-		return rootView;
-	}
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState)
+  {
+    super.onCreate(savedInstanceState);
 
-	@SuppressWarnings("WrongConstant")
-	@Override
-	public void onClick(View button)
-	{
-		int action = 0;
-		switch(mSaveOrLoad)
-		{
-			case SAVE:
-				action = saveButtonsActionsMap.get(button.getId(), -1);
-				break;
-			case LOAD:
-				action = loadButtonsActionsMap.get(button.getId(), -1);
-		}
-		if (action >= 0)
-		{
-			((EmulationActivity) getActivity()).handleMenuAction(action);
-		}
-	}
+    mSaveOrLoad = (SaveOrLoad) getArguments().getSerializable(KEY_SAVEORLOAD);
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+  {
+    View rootView = inflater.inflate(R.layout.fragment_saveload_state, container, false);
+
+    GridLayout grid = rootView.findViewById(R.id.grid_state_slots);
+    for (int childIndex = 0; childIndex < grid.getChildCount(); childIndex++)
+    {
+      Button button = (Button) grid.getChildAt(childIndex);
+      setButtonText(button, childIndex);
+      button.setOnClickListener(this);
+    }
+
+    // So that item clicked to start this Fragment is no longer the focused item.
+    grid.requestFocus();
+
+    return rootView;
+  }
+
+  @Override
+  public void onClick(View view)
+  {
+    int buttonIndex = buttonsMap.get(view.getId(), -1);
+
+    int action = (mSaveOrLoad == SaveOrLoad.SAVE ? saveActionsMap : loadActionsMap)[buttonIndex];
+    ((EmulationActivity) getActivity()).handleMenuAction(action);
+
+    if (mSaveOrLoad == SaveOrLoad.SAVE)
+    {
+      // Update the "last modified" time.
+      // The savestate most likely hasn't gotten saved to disk yet (it happens asynchronously),
+      // so we unfortunately can't rely on setButtonText/GetUnixTimeOfStateSlot here.
+
+      Button button = (Button) view;
+      CharSequence time = DateUtils.getRelativeTimeSpanString(0, 0, DateUtils.MINUTE_IN_MILLIS);
+      button.setText(getString(R.string.emulation_state_slot, buttonIndex + 1, time));
+    }
+  }
+
+  private void setButtonText(Button button, int index)
+  {
+    long creationTime = NativeLibrary.GetUnixTimeOfStateSlot(index);
+    if (creationTime != 0)
+    {
+      CharSequence relativeTime = DateUtils.getRelativeTimeSpanString(creationTime);
+      button.setText(getString(R.string.emulation_state_slot, index + 1, relativeTime));
+    }
+    else
+    {
+      button.setText(getString(R.string.emulation_state_slot_empty, index + 1));
+    }
+  }
 }

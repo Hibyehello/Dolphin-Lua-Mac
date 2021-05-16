@@ -5,6 +5,8 @@
 #include <cstring>
 
 #include "AudioCommon/PulseAudioStream.h"
+
+#include "Common/Assert.h"
 #include "Common/CommonTypes.h"
 #include "Common/Logging/Log.h"
 #include "Common/Thread.h"
@@ -15,16 +17,14 @@ namespace
 const size_t BUFFER_SAMPLES = 512;  // ~10 ms - needs to be at least 240 for surround
 }
 
-PulseAudio::PulseAudio() : m_thread(), m_run_thread()
-{
-}
+PulseAudio::PulseAudio() = default;
 
 bool PulseAudio::Init()
 {
-  m_stereo = !SConfig::GetInstance().bDPL2Decoder;
-  m_channels = m_stereo ? 2 : 5;  // will tell PA we use a Stereo or 5.0 channel setup
+  m_stereo = !SConfig::GetInstance().ShouldUseDPL2Decoder();
+  m_channels = m_stereo ? 2 : 6;  // will tell PA we use a Stereo or 5.0 channel setup
 
-  NOTICE_LOG(AUDIO, "PulseAudio backend using %d channels", m_channels);
+  NOTICE_LOG_FMT(AUDIO, "PulseAudio backend using {} channels", m_channels);
 
   m_run_thread.Set();
   m_thread = std::thread(&PulseAudio::SoundLoop, this);
@@ -49,7 +49,7 @@ void PulseAudio::SoundLoop()
       m_pa_error = pa_mainloop_iterate(m_pa_ml, 1, nullptr);
 
     if (m_pa_error < 0)
-      ERROR_LOG(AUDIO, "PulseAudio error: %s", pa_strerror(m_pa_error));
+      ERROR_LOG_FMT(AUDIO, "PulseAudio error: {}", pa_strerror(m_pa_error));
 
     PulseShutdown();
   }
@@ -75,7 +75,7 @@ bool PulseAudio::PulseInit()
 
   if (m_pa_connected == 2 || m_pa_error < 0)
   {
-    ERROR_LOG(AUDIO, "PulseAudio failed to initialize: %s", pa_strerror(m_pa_error));
+    ERROR_LOG_FMT(AUDIO, "PulseAudio failed to initialize: {}", pa_strerror(m_pa_error));
     return false;
   }
 
@@ -96,16 +96,17 @@ bool PulseAudio::PulseInit()
     m_bytespersample = sizeof(float);
 
     channel_map_p = &channel_map;  // explicit channel map:
-    channel_map.channels = 5;
+    channel_map.channels = 6;
     channel_map.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
     channel_map.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
     channel_map.map[2] = PA_CHANNEL_POSITION_FRONT_CENTER;
-    channel_map.map[3] = PA_CHANNEL_POSITION_REAR_LEFT;
-    channel_map.map[4] = PA_CHANNEL_POSITION_REAR_RIGHT;
+    channel_map.map[3] = PA_CHANNEL_POSITION_LFE;
+    channel_map.map[4] = PA_CHANNEL_POSITION_REAR_LEFT;
+    channel_map.map[5] = PA_CHANNEL_POSITION_REAR_RIGHT;
   }
   ss.channels = m_channels;
   ss.rate = m_mixer->GetSampleRate();
-  assert(pa_sample_spec_valid(&ss));
+  ASSERT(pa_sample_spec_valid(&ss));
   m_pa_s = pa_stream_new(m_pa_ctx, "Playback", &ss, channel_map_p);
   pa_stream_set_write_callback(m_pa_s, WriteCallback, this);
   pa_stream_set_underflow_callback(m_pa_s, UnderflowCallback, this);
@@ -124,11 +125,11 @@ bool PulseAudio::PulseInit()
   m_pa_error = pa_stream_connect_playback(m_pa_s, nullptr, &m_pa_ba, flags, nullptr, nullptr);
   if (m_pa_error < 0)
   {
-    ERROR_LOG(AUDIO, "PulseAudio failed to initialize: %s", pa_strerror(m_pa_error));
+    ERROR_LOG_FMT(AUDIO, "PulseAudio failed to initialize: {}", pa_strerror(m_pa_error));
     return false;
   }
 
-  INFO_LOG(AUDIO, "Pulse successfully initialized");
+  INFO_LOG_FMT(AUDIO, "Pulse successfully initialized");
   return true;
 }
 
@@ -162,7 +163,7 @@ void PulseAudio::UnderflowCallback(pa_stream* s)
   pa_operation* op = pa_stream_set_buffer_attr(s, &m_pa_ba, nullptr, nullptr);
   pa_operation_unref(op);
 
-  WARN_LOG(AUDIO, "pulseaudio underflow, new latency: %d bytes", m_pa_ba.tlength);
+  WARN_LOG_FMT(AUDIO, "pulseaudio underflow, new latency: {} bytes", m_pa_ba.tlength);
 }
 
 void PulseAudio::WriteCallback(pa_stream* s, size_t length)
@@ -185,26 +186,13 @@ void PulseAudio::WriteCallback(pa_stream* s, size_t length)
   }
   else
   {
-    if (m_channels == 5)  // Extract dpl2/5.0 Surround
+    if (m_channels == 6)  // Extract dpl2/5.1 Surround
     {
-      float floatbuffer_6chan[frames * 6];
-      m_mixer->MixSurround(floatbuffer_6chan, frames);
-
-      // DPL2Decode output: LEFTFRONT, RIGHTFRONT, CENTREFRONT, (sub), LEFTREAR, RIGHTREAR
-      // Discard the subwoofer channel - DPL2Decode generates a pretty
-      // good 5.0 but not a good 5.1 output.
-      const int dpl2_to_5chan[] = {0, 1, 2, 4, 5};
-      for (int i = 0; i < frames; ++i)
-      {
-        for (int j = 0; j < m_channels; ++j)
-        {
-          ((float*)buffer)[m_channels * i + j] = floatbuffer_6chan[6 * i + dpl2_to_5chan[j]];
-        }
-      }
+      m_mixer->MixSurround((float*)buffer, frames);
     }
     else
     {
-      ERROR_LOG(AUDIO, "Unsupported number of PA channels requested: %d", (int)m_channels);
+      ERROR_LOG_FMT(AUDIO, "Unsupported number of PA channels requested: {}", m_channels);
       return;
     }
   }

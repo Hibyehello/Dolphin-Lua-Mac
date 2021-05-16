@@ -10,11 +10,12 @@
 
 #include "Common/CommonPaths.h"
 #include "Common/CommonTypes.h"
-#include "Common/File.h"
 #include "Common/FileUtil.h"
+#include "Common/IOFile.h"
 #include "Common/Logging/Log.h"
 #include "Common/Swap.h"
 #include "Core/IOS/FS/FileSystem.h"
+#include "Core/IOS/Uids.h"
 
 constexpr size_t SYSCONF_SIZE = 0x4000;
 
@@ -59,7 +60,7 @@ void SysConf::Load()
                                    "/shared2/sys/SYSCONF", IOS::HLE::FS::Mode::Read);
   if (!file || file->GetStatus()->size != SYSCONF_SIZE || !LoadFromFile(*file))
   {
-    WARN_LOG(CORE, "No valid SYSCONF detected. Creating a new one.");
+    WARN_LOG_FMT(CORE, "No valid SYSCONF detected. Creating a new one.");
     InsertDefaultEntries();
   }
 }
@@ -117,8 +118,8 @@ bool SysConf::LoadFromFile(const IOS::HLE::FS::FileHandle& file)
       data.resize(GetNonArrayEntrySize(type));
       break;
     default:
-      ERROR_LOG(CORE, "Unknown entry type %d in SYSCONF for %s (offset %u)", static_cast<u8>(type),
-                name.c_str(), offset);
+      ERROR_LOG_FMT(CORE, "Unknown entry type {} in SYSCONF for {} (offset {})",
+                    static_cast<u8>(type), name, offset);
       return false;
     }
 
@@ -196,64 +197,59 @@ bool SysConf::Save() const
 
   // Write the new data.
   const std::string temp_file = "/tmp/SYSCONF";
-  constexpr u32 SYSMENU_UID = 0x1000;
-  constexpr u16 SYSMENU_GID = 1;
   constexpr auto rw_mode = IOS::HLE::FS::Mode::ReadWrite;
   {
-    m_fs->CreateFile(SYSMENU_UID, SYSMENU_GID, temp_file, 0, rw_mode, rw_mode, rw_mode);
-    auto file = m_fs->OpenFile(SYSMENU_UID, SYSMENU_GID, temp_file, IOS::HLE::FS::Mode::Write);
+    auto file = m_fs->CreateAndOpenFile(IOS::SYSMENU_UID, IOS::SYSMENU_GID, temp_file,
+                                        {rw_mode, rw_mode, rw_mode});
     if (!file || !file->Write(buffer.data(), buffer.size()))
       return false;
   }
-  m_fs->CreateDirectory(SYSMENU_UID, SYSMENU_GID, "/shared2/sys", 0, rw_mode, rw_mode, rw_mode);
-  const auto result = m_fs->Rename(SYSMENU_UID, SYSMENU_GID, temp_file, "/shared2/sys/SYSCONF");
+  m_fs->CreateDirectory(IOS::SYSMENU_UID, IOS::SYSMENU_GID, "/shared2/sys", 0,
+                        {rw_mode, rw_mode, rw_mode});
+  const auto result =
+      m_fs->Rename(IOS::SYSMENU_UID, IOS::SYSMENU_GID, temp_file, "/shared2/sys/SYSCONF");
   return result == IOS::HLE::FS::ResultCode::Success;
 }
 
-SysConf::Entry::Entry(Type type_, const std::string& name_) : type(type_), name(name_)
+SysConf::Entry::Entry(Type type_, std::string name_) : type(type_), name(std::move(name_))
 {
   if (type != Type::SmallArray && type != Type::BigArray)
     bytes.resize(GetNonArrayEntrySize(type));
 }
 
-SysConf::Entry::Entry(Type type_, const std::string& name_, const std::vector<u8>& bytes_)
-    : type(type_), name(name_), bytes(bytes_)
+SysConf::Entry::Entry(Type type_, std::string name_, std::vector<u8> bytes_)
+    : type(type_), name(std::move(name_)), bytes(std::move(bytes_))
 {
 }
 
-SysConf::Entry::Entry(Type type_, const std::string& name_, std::vector<u8>&& bytes_)
-    : type(type_), name(name_), bytes(std::move(bytes_))
+SysConf::Entry& SysConf::AddEntry(Entry&& entry)
 {
+  return m_entries.emplace_back(std::move(entry));
 }
 
-void SysConf::AddEntry(Entry&& entry)
-{
-  m_entries.emplace_back(std::move(entry));
-}
-
-SysConf::Entry* SysConf::GetEntry(const std::string& key)
+SysConf::Entry* SysConf::GetEntry(std::string_view key)
 {
   const auto iterator = std::find_if(m_entries.begin(), m_entries.end(),
                                      [&key](const auto& entry) { return entry.name == key; });
   return iterator != m_entries.end() ? &*iterator : nullptr;
 }
 
-const SysConf::Entry* SysConf::GetEntry(const std::string& key) const
+const SysConf::Entry* SysConf::GetEntry(std::string_view key) const
 {
   const auto iterator = std::find_if(m_entries.begin(), m_entries.end(),
                                      [&key](const auto& entry) { return entry.name == key; });
   return iterator != m_entries.end() ? &*iterator : nullptr;
 }
 
-SysConf::Entry* SysConf::GetOrAddEntry(const std::string& key, Entry::Type type)
+SysConf::Entry* SysConf::GetOrAddEntry(std::string_view key, Entry::Type type)
 {
   if (Entry* entry = GetEntry(key))
     return entry;
-  AddEntry({type, key});
-  return GetEntry(key);
+
+  return &AddEntry({type, std::string(key)});
 }
 
-void SysConf::RemoveEntry(const std::string& key)
+void SysConf::RemoveEntry(std::string_view key)
 {
   m_entries.erase(std::remove_if(m_entries.begin(), m_entries.end(),
                                  [&key](const auto& entry) { return entry.name == key; }),
@@ -286,7 +282,7 @@ void SysConf::InsertDefaultEntries()
   ipl_pc[2] = 0x14;
   AddEntry({Entry::Type::SmallArray, "IPL.PC", std::move(ipl_pc)});
 
-  AddEntry({Entry::Type::Long, "IPL.CB", {0x0f, 0x11, 0x14, 0xa6}});
+  AddEntry({Entry::Type::Long, "IPL.CB", {0x00, 0x00, 0x00, 0x00}});
   AddEntry({Entry::Type::Byte, "IPL.AR", {1}});
   AddEntry({Entry::Type::Byte, "IPL.SSV", {1}});
 
