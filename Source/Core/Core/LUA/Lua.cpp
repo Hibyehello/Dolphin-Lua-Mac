@@ -29,7 +29,7 @@
 #include "Core/State.h"
 #include "Core/DSP/DSPCore.h"
 #include "Common/FileUtil.cpp"
-#include "Core/HW/Memmap.cpp"
+#include "Core/HW/Memmap.h"
 #include "Core/HW/DVD/DVDInterface.h"
 #include "Core/HW/EXI/EXI_Device.h"
 #include "Core/HW/ProcessorInterface.h"
@@ -45,7 +45,7 @@
 #include "VideoCommon/Statistics.h"
 #include "VideoCommon/VideoConfig.h"
 #include "Core/Host.h"
-//#include "Core/PowerPC/MMU.h"
+#include "Core/PowerPC/MMU.h"
 
 //#include "DolphinWX/Main.h"
 //#include "DolphinWX/Frame.h"
@@ -65,7 +65,7 @@ int ReadValue8(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = PowerPC::Read_U8(address);
+		result = Memory::Read_U8(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;                   // number of return values
@@ -74,7 +74,7 @@ int ReadValue8(lua_State* L)
 	
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result =PowerPC::Read_U8(Lua::ExecuteMultilevelLoop(L));
+		result = Memory::Read_U8(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushinteger(L, result);
@@ -94,7 +94,7 @@ int ReadValue16(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = PowerPC::Read_U16(address);
+		result = Memory::Read_U16(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;
@@ -102,7 +102,7 @@ int ReadValue16(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = PowerPC::Read_U16(Lua::ExecuteMultilevelLoop(L));
+		result = Memory::Read_U16(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushinteger(L, result);
@@ -122,7 +122,7 @@ int ReadValue32(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = PowerPC::Read_U32(address);
+		result = Memory::Read_U32(address);
 
 		lua_pushinteger(L, result); // return value
 		return 1;
@@ -130,7 +130,7 @@ int ReadValue32(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = PowerPC::Read_U32(Lua::ExecuteMultilevelLoop(L));
+		result = Memory::Read_U32(Lua::ExecuteMultilevelLoop(L));
 		// result = PowerPC::Read_U8(LastOffset);
 	}
 
@@ -196,7 +196,7 @@ int WriteValue8(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u8 value = lua_tointeger(L, 2);
 
-	PowerPC::Write_U8(value, address);
+	Memory::Write_U8(value, address);
 
 	return 0; // number of return values
 }
@@ -214,7 +214,7 @@ int WriteValue16(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u16 value = lua_tointeger(L, 2);
 
-	PowerPC::Write_U16(value, address);
+	Memory::Write_U16(value, address);
 
 	return 0; // number of return values
 }
@@ -232,7 +232,7 @@ int WriteValue32(lua_State* L)
 	u32 address = lua_tointeger(L, 1);
 	u32 value = lua_tointeger(L, 2);
 
-	PowerPC::Write_U32(value, address);
+	Memory::Write_U32(value, address);
 
 	return 0; // number of return values
 }
@@ -716,7 +716,7 @@ namespace Lua
 
 	u32 readPointer(u32 startAddress, u32 offset)
 	{
-	    u32 pointer = PowerPC::Read_U32(startAddress) + offset;
+	    u32 pointer = Memory::Read_U32(startAddress) + offset;
 	    // check if pointer is not in the mem1 or mem2
 	    if (Lua::IsInMEMArea(pointer))
 	    {
