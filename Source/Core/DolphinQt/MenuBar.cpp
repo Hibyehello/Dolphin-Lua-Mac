@@ -784,6 +784,8 @@ void MenuBar::AddMovieMenu()
   auto* info_display = movie_menu->addAction(tr("Show Info Display"));
   info_display->setCheckable(true);
   info_display->setChecked(SConfig::GetInstance().m_ShowRAMDisplay);
+  connect(info_display, &QAction::toggled,
+          [](bool value) { SConfig::GetInstance().m_ShowRAMDisplay = value; });
 
   auto* system_clock = movie_menu->addAction(tr("Show System Clock"));
   system_clock->setCheckable(true);

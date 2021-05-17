@@ -82,6 +82,8 @@ u8 Read_U8(u32 address);
 u16 Read_U16(u32 address);
 u32 Read_U32(u32 address);
 u64 Read_U64(u32 address);
+float Read_F32(u32 address); // ADDED
+double Read_F64(u32 address); // ADDED
 void Write_U8(u8 var, u32 address);
 void Write_U16(u16 var, u32 address);
 void Write_U32(u32 var, u32 address);

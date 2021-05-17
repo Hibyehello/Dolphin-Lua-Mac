@@ -29,6 +29,7 @@
 #include "Core/State.h"
 #include "Core/DSP/DSPCore.h"
 #include "Common/FileUtil.cpp"
+#include "Core/HW/Memmap.cpp"
 #include "Core/HW/DVD/DVDInterface.h"
 #include "Core/HW/EXI/EXI_Device.h"
 #include "Core/HW/ProcessorInterface.h"
@@ -44,7 +45,7 @@
 #include "VideoCommon/Statistics.h"
 #include "VideoCommon/VideoConfig.h"
 #include "Core/Host.h"
-#include "Core/PowerPC/MMU.h"
+//#include "Core/PowerPC/MMU.h"
 
 //#include "DolphinWX/Main.h"
 //#include "DolphinWX/Frame.h"
@@ -150,7 +151,7 @@ int ReadValueFloat(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = PowerPC::Read_F32(address);
+		result = Memory::Read_F32(address);
 
 		lua_pushnumber(L, result); // return value
 		return 1;
@@ -158,7 +159,7 @@ int ReadValueFloat(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = PowerPC::Read_F32(Lua::ExecuteMultilevelLoop(L));
+		result = Memory::Read_F32(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushnumber(L, result); // return value
