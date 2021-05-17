@@ -3,6 +3,10 @@
 
 This project adds Lua support and TAStudio interface in the revision 5.0 of Dolphin Emulator. The Lua API is based on Dragonbane0's Zelda Edition, which can be found [here](https://github.com/dragonbane0/dolphin), and this is build is based of SwareJonge's Dolphin Lua Core, found [here](https://github.com/SwareJonge/Dolphin-Lua-Core).
 
+## Branch Layout
+
+Main Branch is for 5.0-stable, 5.0-7002 is for 5.0-7002 version of Dolphin and is not the most stable, 7002-linux is 5.0-7002 but for linux and does not build, dev-lua-core is for a recent version of dolphin specifically 5.0-14095 and builds but doesn't work.
+
 **NOTE:** To build WXmac **needs** to be installed and can be installed via Homebrew on **10.12+** with `brew install wxmac`, if you are using **Big Sur** use `brew install --build-from-source wxmac`, ***AS OF NOW BIG SUR IS WORKING***
 
 ## Lua Core
