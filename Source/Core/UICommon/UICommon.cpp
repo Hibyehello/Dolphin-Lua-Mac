@@ -48,6 +48,13 @@ void CreateDirectories()
 	// Copy initial Wii NAND data from Sys to User.
 	File::CopyDir(File::GetSysDirectory() + WII_USER_DIR,
 				  File::GetUserPath(D_WIIROOT_IDX));
+	
+	// Copy built-in scripts.
+	File::CopyDir(File::GetSysDirectory() + SCRIPTS_DIR,
+				  File::GetUserPath(D_SCRIPTS_IDX))
+	// Copy built-in infodisplay.
+	File::CopyDir(File::GetSysDirectory() + "/InfoDisplay",
+				  File::GetUserPath(D_SCRIPTS_IDX))
 
 	File::CreateFullPath(File::GetUserPath(D_USER_IDX));
 	File::CreateFullPath(File::GetUserPath(D_CACHE_IDX));
