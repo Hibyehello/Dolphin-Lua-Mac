@@ -110,9 +110,9 @@ endif()
 target_link_libraries(dolphin-emu-wx PRIVATE ${LIBS})
 
 if(USE_X11)
-  find_package(GTK2 REQUIRED)
-  target_link_libraries(dolphin-emu-wx PRIVATE ${GTK2_LIBRARIES})
-  target_include_directories(dolphin-emu-wx PRIVATE ${GTK2_INCLUDE_DIRS})
+  find_package(GTK3 REQUIRED)
+  target_link_libraries(dolphin-emu-wx PRIVATE ${GTK3_LIBRARIES})
+  target_include_directories(dolphin-emu-wx PRIVATE ${GTK3_INCLUDE_DIRS})
 endif()
 
 # Handle localization

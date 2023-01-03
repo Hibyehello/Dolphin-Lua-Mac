@@ -58,7 +58,6 @@ static void InitAVCodec()
   static bool first_run = true;
   if (first_run)
   {
-    av_register_all();
     avformat_network_init();
     first_run = false;
   }
@@ -133,7 +132,7 @@ bool AVIDump::CreateVideoFile()
 
   File::CreateFullPath(dump_path);
 
-  AVOutputFormat* output_format = av_guess_format(format.c_str(), dump_path.c_str(), nullptr);
+  const AVOutputFormat* output_format = av_guess_format(format.c_str(), dump_path.c_str(), nullptr);
   if (!output_format)
   {
     ERROR_LOG(VIDEO, "Invalid format %s", format.c_str());
@@ -222,15 +221,15 @@ bool AVIDump::CreateVideoFile()
     return false;
   }
 
-  NOTICE_LOG(VIDEO, "Opening file %s for dumping", s_format_context->filename);
-  if (avio_open(&s_format_context->pb, s_format_context->filename, AVIO_FLAG_WRITE) < 0 ||
+  NOTICE_LOG(VIDEO, "Opening file %s for dumping", s_format_context->url);
+  if (avio_open(&s_format_context->pb, s_format_context->url, AVIO_FLAG_WRITE) < 0 ||
       avformat_write_header(s_format_context, nullptr))
   {
-    ERROR_LOG(VIDEO, "Could not open %s", s_format_context->filename);
+    ERROR_LOG(VIDEO, "Could not open %s", s_format_context->url);
     return false;
   }
 
-  OSD::AddMessage(StringFromFormat("Dumping Frames to \"%s\" (%dx%d)", s_format_context->filename,
+  OSD::AddMessage(StringFromFormat("Dumping Frames to \"%s\" (%dx%d)", s_format_context->url,
                                    s_width, s_height));
 
   return true;

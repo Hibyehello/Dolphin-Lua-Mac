@@ -201,7 +201,6 @@ add_library(core
   IOS/USB/Bluetooth/WiimoteHIDAttr.cpp
   IOS/WFS/WFSSRV.cpp
   IOS/WFS/WFSI.cpp
-  LUA/Lua.cpp
   PowerPC/BreakPoints.cpp
   PowerPC/MMU.cpp
   PowerPC/PowerPC.cpp
@@ -284,6 +283,7 @@ PUBLIC
   enet
   inputcommon
   lua
+  LuaHost
   ${MBEDTLS_LIBRARIES}
   pugixml
   sfml-network

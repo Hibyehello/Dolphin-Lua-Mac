@@ -49,7 +49,7 @@
 #include "Core/HW/WiimoteEmu/WiimoteEmu.h"
 #include "Core/IOS/USB/Bluetooth/BTEmu.h"
 #include "Core/IOS/USB/Bluetooth/WiimoteDevice.h"
-#include "Core/LUA/Lua.h"
+#include "LuaHost/Lua.h"
 #include "Core/NetPlayProto.h"
 #include "Core/State.h"
 

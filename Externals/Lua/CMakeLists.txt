@@ -39,7 +39,7 @@ set(LUA_LIB_SRCS
 # Compile as c++
 set_source_files_properties(${LUA_LIB_SRCS} PROPERTIES LANGUAGE CXX )
 
-add_library (lua STATIC ${LUA_LIB_SRCS} )
+add_library(lua STATIC ${LUA_LIB_SRCS} )
 
 # But don't use c++ exceptions
 target_compile_definitions(lua PRIVATE LUA_USE_LONGJMP)
