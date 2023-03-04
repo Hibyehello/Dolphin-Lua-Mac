@@ -22,6 +22,8 @@
 #include "Common/Event.h"
 #include "Core/ConfigManager.h"
 #include "DolphinWX/Globals.h"
+#include "DolphinWX/LaunchLuaScript.h"
+#include "DolphinWX/TAStudioFrame.h"
 
 #if defined(HAVE_X11) && HAVE_X11
 #include "UICommon/X11Utils.h"
@@ -47,6 +49,11 @@ class wxAuiNotebookEvent;
 class wxListEvent;
 class wxMenuItem;
 class wxProgressDialog;
+
+namespace Lua
+{
+class LuaScriptFrame;
+}
 
 class CRenderFrame : public wxFrame
 {
@@ -93,6 +100,11 @@ public:
   // These have to be public
   CCodeWindow* m_code_window = nullptr;
   NetPlaySetupFrame* m_netplay_setup_frame = nullptr;
+  Lua::LuaScriptFrame *m_lua_script_frame = nullptr;
+
+  LuaWindow* g_ScriptLauncher; // ADDED
+
+  TAStudioFrame* g_TAStudioFrame; // TAStudio - Added by THC98
 
   void DoStop();
   void UpdateGUI();
@@ -281,6 +293,7 @@ private:
   void OnRecordExport(wxCommandEvent& event);
   void OnRecordReadOnly(wxCommandEvent& event);
   void OnTASInput(wxCommandEvent& event);
+  void OnTAStudio(wxCommandEvent& event); // TAStudio - Added by THC98
   void OnTogglePauseMovie(wxCommandEvent& event);
   void OnToggleDumpFrames(wxCommandEvent& event);
   void OnToggleDumpAudio(wxCommandEvent& event);
@@ -332,6 +345,8 @@ private:
   void OnLoadGameCubeIPLUSA(wxCommandEvent& event);
   void OnLoadGameCubeIPLEUR(wxCommandEvent& event);
 
+  void OnScriptLaunch(wxCommandEvent& event); // ADDED
+
   void OnNetPlay(wxCommandEvent& event);
 
   void OnShowCheatsWindow(wxCommandEvent& event);
@@ -365,3 +380,6 @@ private:
   // Event table
   DECLARE_EVENT_TABLE()
 };
+
+void TAStudioManip(GCPadStatus* PadStatus); // TAStudio - Added by THC98
+void TAStudioReceiver(GCPadStatus* PadStatus); // TAStudio - Added by THC98

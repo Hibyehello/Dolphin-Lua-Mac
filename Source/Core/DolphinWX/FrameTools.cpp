@@ -61,6 +61,8 @@
 #include "Core/TitleDatabase.h"
 #include "Core/WiiUtils.h"
 
+#include "LuaHost/Lua.h"
+
 #include "DiscIO/Enums.h"
 #include "DiscIO/NANDImporter.h"
 #include "DiscIO/VolumeWad.h"
@@ -79,6 +81,7 @@
 #include "DolphinWX/Globals.h"
 #include "DolphinWX/Input/HotkeyInputConfigDiag.h"
 #include "DolphinWX/Input/InputConfigDiag.h"
+#include "DolphinWX/LaunchLuaScript.h"
 #include "DolphinWX/LogWindow.h"
 #include "DolphinWX/MainMenuBar.h"
 #include "DolphinWX/MainToolBar.h"
@@ -160,6 +163,7 @@ void CFrame::BindMenuBarEvents()
   Bind(wxEVT_MENU, &CFrame::OnRecordExport, this, IDM_RECORD_EXPORT);
   Bind(wxEVT_MENU, &CFrame::OnRecordReadOnly, this, IDM_RECORD_READ_ONLY);
   Bind(wxEVT_MENU, &CFrame::OnTASInput, this, IDM_TAS_INPUT);
+  Bind(wxEVT_MENU, &CFrame::OnTAStudio, this, IDM_TASTUDIO);
   Bind(wxEVT_MENU, &CFrame::OnTogglePauseMovie, this, IDM_TOGGLE_PAUSE_MOVIE);
   Bind(wxEVT_MENU, &CFrame::OnShowLag, this, IDM_SHOW_LAG);
   Bind(wxEVT_MENU, &CFrame::OnShowFrameCount, this, IDM_SHOW_FRAME_COUNT);
@@ -178,6 +182,7 @@ void CFrame::BindMenuBarEvents()
 
   // Tools menu
   Bind(wxEVT_MENU, &CFrame::OnMemcard, this, IDM_MEMCARD);
+  Bind(wxEVT_MENU, &CFrame::OnScriptLaunch, this, IDM_SCRIPTLAUNCH); // ADDED
   Bind(wxEVT_MENU, &CFrame::OnImportSave, this, IDM_IMPORT_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnExportAllSaves, this, IDM_EXPORT_ALL_SAVE);
   Bind(wxEVT_MENU, &CFrame::OnLoadGameCubeIPLJAP, this, IDM_LOAD_GC_IPL_JAP);
@@ -406,6 +411,13 @@ void CFrame::OnTASInput(wxCommandEvent& event)
   }
 }
 
+// ======
+void CFrame::OnTAStudio(wxCommandEvent& event) // TAStudio - Added by THC98
+{
+	g_TAStudioFrame->Show();
+}
+// ======
+
 void CFrame::OnTogglePauseMovie(wxCommandEvent& WXUNUSED(event))
 {
   SConfig::GetInstance().m_PauseMovie = !SConfig::GetInstance().m_PauseMovie;
@@ -458,6 +470,8 @@ void CFrame::OnFrameStep(wxCommandEvent& event)
   bool wasPaused = Core::GetState() == Core::State::Paused;
 
   Core::DoFrameStep();
+
+  g_TAStudioFrame->UpdateGrid(); // TAStudio - Added by THC98
 
   bool isPaused = Core::GetState() == Core::State::Paused;
   if (isPaused && !wasPaused)  // don't update on unpause, otherwise the status would be wrong when
@@ -1600,6 +1614,14 @@ void CFrame::OnUndoSaveState(wxCommandEvent& WXUNUSED(event))
     State::UndoSaveState();
 }
 
+// === ADDED FUNCTION ===
+void CFrame::OnScriptLaunch(wxCommandEvent &WXUNUSED(event))
+{
+        g_ScriptLauncher->Show(true);
+        g_ScriptLauncher->Shown();
+}
+// === ===
+
 void CFrame::OnLoadState(wxCommandEvent& event)
 {
   if (Core::IsRunningAndStarted())
@@ -1788,6 +1810,29 @@ void CFrame::UpdateGUI()
     else
       m_cheats_window->Hide();
   }
+
+  // === ADDED ===
+	// Savestate functions for LUA
+	if (Lua::lua_isStateOperation && !Lua::lua_isStateDone)
+	{
+		Lua::lua_isStateDone = true;
+
+		if (Lua::m_stateData.doSave) // Save State
+		{
+			if (Lua::m_stateData.useSlot)
+				State::Save(Lua::m_stateData.slotID);
+			else
+				State::SaveAs(File::GetUserPath(D_STATESAVES_IDX) + Lua::m_stateData.fileName);
+		}
+		else // Load State
+		{
+			if (Lua::m_stateData.useSlot)
+				State::Load(Lua::m_stateData.slotID);
+			else
+				State::LoadAs(File::GetUserPath(D_STATESAVES_IDX) + Lua::m_stateData.fileName);
+		}
+	}
+  // === ===
 }
 
 void CFrame::GameListRefresh()

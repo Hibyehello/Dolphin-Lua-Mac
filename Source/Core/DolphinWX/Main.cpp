@@ -106,8 +106,10 @@ bool DolphinApp::OnInit()
   RegisterMsgAlertHandler(&wxMsgAlert);
   RegisterStringTranslator(&wxStringTranslator);
 
+#ifndef __APPLE__
 #if wxUSE_ON_FATAL_EXCEPTION
   wxHandleFatalExceptions(true);
+#endif
 #endif
 
 #ifdef _WIN32

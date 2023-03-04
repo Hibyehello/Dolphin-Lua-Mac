@@ -33,6 +33,21 @@ enum PlayMode
   MODE_PLAYING
 };
 
+enum class GCManipIndex
+{
+    TASInputGCManip,
+    LuaGCManip
+};
+
+enum class WiiManipIndex
+{
+    TASInputWiiManip,
+    LuaWiiManip
+};
+
+constexpr size_t gc_manip_index_size = 2;
+constexpr size_t wii_manip_index_size = 2;
+
 // GameCube Controller State
 #pragma pack(push, 1)
 struct ControllerState
@@ -112,6 +127,9 @@ struct DTMHeader
 };
 static_assert(sizeof(DTMHeader) == 256, "DTMHeader should be 256 bytes");
 
+extern u8* g_movInputs;		// TAStudio - Added by Malleo: g_movInputs and its
+extern u32 g_movInputsLen;	// length are now global so TAStudioFrame can read it
+
 #pragma pack(pop)
 
 void FrameUpdate();
@@ -181,9 +199,20 @@ using GCManipFunction = std::function<void(GCPadStatus*, int)>;
 using WiiManipFunction =
     std::function<void(u8*, WiimoteEmu::ReportFeatures, int, int, wiimote_key)>;
 
+typedef void(*TAStudioManip)(GCPadStatus*); // TAStudio - Added by THC98
+typedef void(*TAStudioReceiver)(GCPadStatus*); // TAStudio - Added by THC98
+void SetTAStudioManip(TAStudioManip); // TAStudio - Added by THC98
+void SetTAStudioReceiver(TAStudioReceiver); // TAStudio - Added by THC98
+
 void SetGCInputManip(GCManipFunction);
 void SetWiiInputManip(WiiManipFunction);
 void CallGCInputManip(GCPadStatus* PadStatus, int controllerID);
 void CallWiiInputManip(u8* core, WiimoteEmu::ReportFeatures rptf, int controllerID, int ext,
                        const wiimote_key key);
+
+// overloads from Lua core for TAS input - ThatsSlick
+void SetGCInputManip(GCManipFunction func, GCManipIndex manipfunctionsindex);
+void SetWiiInputManip(WiiManipFunction func, WiiManipIndex manipfunctionsindex);
+void CallTAStudioManip(GCPadStatus* PadStatus); // TAStudio - Added by THC98
+void CallTAStudioReceiver(GCPadStatus* PadStatus); // TAStudio - Added by THC98
 }

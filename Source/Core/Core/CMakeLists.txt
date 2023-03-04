@@ -282,7 +282,6 @@ PUBLIC
   discio
   enet
   inputcommon
-  lua
   LuaHost
   ${MBEDTLS_LIBRARIES}
   pugixml

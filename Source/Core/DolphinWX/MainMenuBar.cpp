@@ -149,6 +149,7 @@ wxMenu* MainMenuBar::CreateMovieMenu() const
   movie_menu->Append(IDM_RECORD_EXPORT, _("Export Recording..."));
   movie_menu->AppendCheckItem(IDM_RECORD_READ_ONLY, _("&Read-Only Mode"));
   movie_menu->Append(IDM_TAS_INPUT, _("TAS Input"));
+  movie_menu->Append(IDM_TASTUDIO, _("TAStudio")); // TAStudio - Added by THC98
   movie_menu->AppendSeparator();
   movie_menu->AppendCheckItem(IDM_TOGGLE_PAUSE_MOVIE, _("Pause at End of Movie"));
   movie_menu->Check(IDM_TOGGLE_PAUSE_MOVIE, config_instance.m_PauseMovie);
@@ -221,6 +222,7 @@ wxMenu* MainMenuBar::CreateToolsMenu() const
 
   auto* const tools_menu = new wxMenu;
   tools_menu->Append(IDM_MEMCARD, _("&Memory Card Manager (GC)"));
+  tools_menu->Append(IDM_SCRIPTLAUNCH, "Execute Script"); // ADDED
   tools_menu->Append(IDM_IMPORT_SAVE, _("Import Wii Save..."));
   tools_menu->Append(IDM_EXPORT_ALL_SAVE, _("Export All Wii Saves"));
   tools_menu->AppendSeparator();

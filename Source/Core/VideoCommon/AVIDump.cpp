@@ -132,14 +132,14 @@ bool AVIDump::CreateVideoFile()
 
   File::CreateFullPath(dump_path);
 
-  const AVOutputFormat* output_format = av_guess_format(format.c_str(), dump_path.c_str(), nullptr);
+  AVOutputFormat* output_format = av_guess_format(format.c_str(), dump_path.c_str(), nullptr);
   if (!output_format)
   {
     ERROR_LOG(VIDEO, "Invalid format %s", format.c_str());
     return false;
   }
 
-  if (avformat_alloc_output_context2(&s_format_context, output_format, nullptr, dump_path.c_str()) <
+  if (avformat_alloc_output_context2(&s_format_context, output_format, output_format->name, dump_path.c_str()) <
       0)
   {
     ERROR_LOG(VIDEO, "Could not allocate output context");

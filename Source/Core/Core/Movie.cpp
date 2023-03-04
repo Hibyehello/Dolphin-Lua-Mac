@@ -92,6 +92,10 @@ static u8 s_revision[20];
 static u32 s_DSPiromHash = 0;
 static u32 s_DSPcoefHash = 0;
 
+u8* g_movInputs = nullptr;	// TAStudio - Added by Malleo
+u32 g_movInputsLen = 0;		// TAStudio - Added by Malleo
+static u8* tmpInput = nullptr; //Readded by Hibyehello
+
 static bool s_bRecordingFromSaveState = false;
 static bool s_bPolled = false;
 
@@ -99,8 +103,12 @@ static bool s_bPolled = false;
 static std::mutex s_input_display_lock;
 static std::string s_InputDisplay[8];
 
-static GCManipFunction s_gc_manip_func;
-static WiiManipFunction s_wii_manip_func;
+static TAStudioManip tasmfunc = nullptr; // TAStudio - Added by THC98
+static TAStudioReceiver tasrfunc = nullptr; // TAStudio - Added by THC98
+
+//turned these two into arrays for compatability with Lua scripts - ThatsSlick
+static GCManipFunction s_gc_manip_func[gc_manip_index_size];
+static WiiManipFunction s_wii_manip_func[wii_manip_index_size];
 
 static std::string s_current_file_name;
 
@@ -1192,6 +1200,12 @@ void LoadInput(const std::string& movie_path)
 
   t_record.ReadArray(&tmpHeader, 1);
 
+    // TAStudio - Edited by THC98: g_movInputs have to be set regardless of ReadOnly state
+  g_movInputsLen = (u32)s_currentByte;
+  g_movInputs = new u8[g_movInputsLen];
+
+  t_record.ReadArray(g_movInputs, (size_t)g_movInputsLen);
+
   if (!IsMovieHeader(tmpHeader.filetype))
   {
     PanicAlertT("Savestate movie %s is corrupted, movie recording stopping...", movie_path.c_str());
@@ -1247,6 +1261,48 @@ void LoadInput(const std::string& movie_path)
                   "this state with read-only mode off.",
                   (u32)s_currentByte + 256, s_temp_input.size() + 256, (u32)s_currentInputCount,
                   (u32)s_totalInputCount);
+    }
+    else if (s_currentByte > 0 && s_totalFrames > 0)
+    {
+        // verify identical from movie start to the save's current frame
+        for (u32 i = 0; i < g_movInputsLen; ++i)
+        {
+            if (g_movInputs[i] != tmpInput[i])
+            {
+                // this is a "you did something wrong" alert for the user's benefit.
+                // we'll try to say what's going on in excruciating detail, otherwise the user might not believe us.
+                if (IsUsingWiimote(0))
+                {
+                    // TODO: more detail
+                    PanicAlertT("Warning: You loaded a save whose movie mismatches on byte %d (0x%X). You should load another save before continuing, or load this state with read-only mode off. Otherwise you'll probably get a desync.", i + 256, i + 256);
+                    memcpy(tmpInput, g_movInputs, s_currentByte);
+                }
+                else
+                {
+                    int frame = i / 8;
+                    ControllerState curPadState;
+                    memcpy(&curPadState, &(tmpInput[frame * 8]), 8);
+                    ControllerState movPadState;
+                    memcpy(&movPadState, &(g_movInputs[frame * 8]), 8);
+                    PanicAlertT("Warning: You loaded a save whose movie mismatches on frame %d. You should load another save before continuing, or load this state with read-only mode off. Otherwise you'll probably get a desync.\n\n"
+                            "More information: The current movie is %d frames long and the savestate's movie is %d frames long.\n\n"
+                            "On frame %d, the current movie presses:\n"
+                            "Start=%d, A=%d, B=%d, X=%d, Y=%d, Z=%d, DUp=%d, DDown=%d, DLeft=%d, DRight=%d, L=%d, R=%d, LT=%d, RT=%d, AnalogX=%d, AnalogY=%d, CX=%d, CY=%d"
+                            "\n\n"
+                            "On frame %d, the savestate's movie presses:\n"
+                            "Start=%d, A=%d, B=%d, X=%d, Y=%d, Z=%d, DUp=%d, DDown=%d, DLeft=%d, DRight=%d, L=%d, R=%d, LT=%d, RT=%d, AnalogX=%d, AnalogY=%d, CX=%d, CY=%d",
+                            (int)frame,
+                            (int)s_totalFrames, (int)tmpHeader.frameCount,
+                            (int)frame,
+                            (int)curPadState.Start, (int)curPadState.A, (int)curPadState.B, (int)curPadState.X, (int)curPadState.Y, (int)curPadState.Z, (int)curPadState.DPadUp, (int)curPadState.DPadDown, (int)curPadState.DPadLeft, (int)curPadState.DPadRight, (int)curPadState.L, (int)curPadState.R, (int)curPadState.TriggerL, (int)curPadState.TriggerR, (int)curPadState.AnalogStickX, (int)curPadState.AnalogStickY, (int)curPadState.CStickX, (int)curPadState.CStickY,
+                            (int)frame,
+                            (int)movPadState.Start, (int)movPadState.A, (int)movPadState.B, (int)movPadState.X, (int)movPadState.Y, (int)movPadState.Z, (int)movPadState.DPadUp, (int)movPadState.DPadDown, (int)movPadState.DPadLeft, (int)movPadState.DPadRight, (int)movPadState.L, (int)movPadState.R, (int)movPadState.TriggerL, (int)movPadState.TriggerR, (int)movPadState.AnalogStickX, (int)movPadState.AnalogStickY, (int)movPadState.CStickX, (int)movPadState.CStickY);
+
+                }
+                break;
+            }
+        }
+        // Set global values without getting a nullptr error due to movInput being freed
     }
     else if (s_currentByte > 0 && !s_temp_input.empty())
     {
@@ -1597,27 +1653,68 @@ void SaveRecording(const std::string& filename)
     Core::DisplayMessage(StringFromFormat("Failed to save %s", filename.c_str()), 2000);
 }
 
+void SetTAStudioManip(TAStudioManip func) // TAStudio - Added by THC98
+{
+  tasmfunc = func;
+}
+
+void SetTAStudioReceiver(TAStudioReceiver func) // TAStudio - Added by THC98
+{
+  tasrfunc = func;
+}
+
 void SetGCInputManip(GCManipFunction func)
 {
-  s_gc_manip_func = std::move(func);
+  s_gc_manip_func[static_cast<size_t>(GCManipIndex::TASInputGCManip)] = std::move(func);
 }
 void SetWiiInputManip(WiiManipFunction func)
 {
-  s_wii_manip_func = std::move(func);
+  s_wii_manip_func[static_cast<size_t>(WiiManipIndex::TASInputWiiManip)] = std::move(func);
+}
+
+// overloads of these methods for TAS Input with Lua core - ThatsSlick
+void SetGCInputManip(GCManipFunction func, GCManipIndex manipfunctionsindex)
+{
+    s_gc_manip_func[static_cast<size_t>(manipfunctionsindex)] = std::move(func);
+}
+void SetWiiInputManip(WiiManipFunction func, WiiManipIndex manipfunctionsindex)
+{
+    s_wii_manip_func[static_cast<size_t>(manipfunctionsindex)] = std::move(func);
+}
+
+void CallTAStudioManip(GCPadStatus* PadStatus) // TAStudio - Added by THC98
+{
+    if (tasmfunc)
+        (*tasmfunc)(PadStatus);
+}
+
+void CallTAStudioReceiver(GCPadStatus* PadStatus) // TAStudio - Added by THC98
+{
+    if (tasrfunc)
+        (*tasrfunc)(PadStatus);
 }
 
 // NOTE: CPU Thread
 void CallGCInputManip(GCPadStatus* PadStatus, int controllerID)
 {
-  if (s_gc_manip_func)
-    s_gc_manip_func(PadStatus, controllerID);
+  if (s_gc_manip_func[static_cast<size_t>(GCManipIndex::TASInputGCManip)])
+    s_gc_manip_func[static_cast<size_t>(GCManipIndex::TASInputGCManip)](PadStatus, controllerID);
+
+  // With this ordering, the Lua script will have priority over the TASInput window
+  if (s_gc_manip_func[static_cast<size_t>(GCManipIndex::LuaGCManip)])
+      s_gc_manip_func[static_cast<size_t>(GCManipIndex::LuaGCManip)](PadStatus, controllerID);
 }
+
 // NOTE: CPU Thread
 void CallWiiInputManip(u8* data, WiimoteEmu::ReportFeatures rptf, int controllerID, int ext,
                        const wiimote_key key)
 {
-  if (s_wii_manip_func)
-    s_wii_manip_func(data, rptf, controllerID, ext, key);
+  if (s_wii_manip_func[static_cast<size_t>(WiiManipIndex::TASInputWiiManip)])
+      s_wii_manip_func[static_cast<size_t>(WiiManipIndex::TASInputWiiManip)](data, rptf, controllerID, ext, key);
+
+  // Now the Lua one
+  if (s_wii_manip_func[static_cast<size_t>(WiiManipIndex::LuaWiiManip)])
+    s_wii_manip_func[static_cast<size_t>(WiiManipIndex::LuaWiiManip)](data, rptf, controllerID, ext, key);
 }
 
 // NOTE: GPU Thread

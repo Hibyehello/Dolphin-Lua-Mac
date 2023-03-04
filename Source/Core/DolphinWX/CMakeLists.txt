@@ -67,6 +67,7 @@ add_executable(dolphin-emu-wx
   FrameAui.cpp
   FrameTools.cpp
   GameListCtrl.cpp
+  LaunchLuaScript.cpp
   LogConfigWindow.cpp
   LogWindow.cpp
   Main.cpp
@@ -77,6 +78,7 @@ add_executable(dolphin-emu-wx
   PostProcessingConfigDiag.cpp
   SoftwareVideoConfigDialog.cpp
   TASInputDlg.cpp
+  TAStudioFrame.cpp
   UINeedsControllerState.cpp
   VideoConfigDiag.cpp
   WxEventUtils.cpp
@@ -89,6 +91,8 @@ PRIVATE
   core
   uicommon
   cpp-optparse
+  lua
+  LuaHost
   ${wxWidgets_LIBRARIES}
 )
 

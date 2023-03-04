@@ -65,6 +65,7 @@
 #include "DolphinWX/Debugger/MemoryCheckDlg.h"
 #include "DolphinWX/GameListCtrl.h"
 #include "DolphinWX/Globals.h"
+#include "DolphinWX/LaunchLuaScript.h"
 #include "DolphinWX/LogWindow.h"
 #include "DolphinWX/Main.h"
 #include "DolphinWX/TASInputDlg.h"
@@ -407,8 +408,15 @@ CFrame::CFrame(wxFrame* parent, wxWindowID id, const wxString& title, wxRect geo
   m_log_window->Hide();
   m_log_window->Disable();
 
+  g_ScriptLauncher = new LuaWindow(this); // ADDED
+
+  g_TAStudioFrame = new TAStudioFrame(this); // TAStudio - Added by THC98
+
   InitializeTASDialogs();
   InitializeCoreCallbacks();
+
+  Movie::SetTAStudioManip(TAStudioManip); // TAStudio - Added by THC98
+	Movie::SetTAStudioReceiver(TAStudioReceiver); // TAStudio - Added by THC98
 
   // Setup perspectives
   if (m_code_window)
@@ -540,6 +548,7 @@ void CFrame::InitializeCoreCallbacks()
   // only queue things to do on the proper thread
   State::SetOnAfterLoadCallback([this] {
     AddPendingEvent(wxCommandEvent{wxEVT_HOST_COMMAND, IDM_UPDATE_GUI});
+    main_frame->g_TAStudioFrame->OnLoadstateCallback(); // TAStudio - Added by Malleo
   });
 
   // Warning: this gets called from the EmuThread
@@ -547,6 +556,18 @@ void CFrame::InitializeCoreCallbacks()
     if (state == Core::State::Uninitialized)
       AddPendingEvent(wxCommandEvent{wxEVT_HOST_COMMAND, IDM_STOPPED});
   });
+}
+
+void TAStudioManip(GCPadStatus* PadStatus) // TAStudio - Added by THC98
+{
+	if (main_frame)
+		main_frame->g_TAStudioFrame->SetInput(PadStatus);
+}
+
+void TAStudioReceiver(GCPadStatus* PadStatus) // TAStudio - Added by THC98
+{
+	if (main_frame)
+		main_frame->g_TAStudioFrame->GetInput(PadStatus);
 }
 
 bool CFrame::RendererIsFullscreen()

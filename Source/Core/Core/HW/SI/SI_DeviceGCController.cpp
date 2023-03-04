@@ -19,6 +19,8 @@
 #include "Core/NetPlayProto.h"
 #include "InputCommon/GCPadStatus.h"
 
+#include "LuaHost/Lua.h"
+
 namespace SerialInterface
 {
 // --- standard GameCube controller ---
@@ -128,6 +130,9 @@ int CSIDevice_GCController::RunBuffer(u8* buffer, int length)
 void CSIDevice_GCController::HandleMoviePadStatus(GCPadStatus* pad_status)
 {
   Movie::CallGCInputManip(pad_status, m_device_number);
+  Movie::CallTAStudioManip(pad_status); // TAStudio - Added by THC98
+
+  Lua::UpdateScripts(pad_status);
 
   Movie::SetPolledDevice();
   if (NetPlay_GetInput(m_device_number, pad_status))
@@ -136,11 +141,13 @@ void CSIDevice_GCController::HandleMoviePadStatus(GCPadStatus* pad_status)
   else if (Movie::IsPlayingInput())
   {
     Movie::PlayController(pad_status, m_device_number);
+    Movie::CallTAStudioReceiver(pad_status); // TAStudio - Added by THC98
     Movie::InputUpdate();
   }
   else if (Movie::IsRecordingInput())
   {
     Movie::RecordInput(pad_status, m_device_number);
+    Movie::CallTAStudioReceiver(pad_status); // TAStudio - Added by THC98
     Movie::InputUpdate();
   }
   else
