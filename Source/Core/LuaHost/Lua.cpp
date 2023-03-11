@@ -7,7 +7,6 @@
 
 #include <mbedtls/md5.h>
 #include <lua.hpp>
-#include <lua.h>
 #include <luaconf.h>
 
 #include "Common/ChunkFile.h"

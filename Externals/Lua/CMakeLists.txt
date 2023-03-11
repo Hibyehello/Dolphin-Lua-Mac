@@ -36,10 +36,10 @@ set(LUA_LIB_SRCS
     "src/linit.c"
 )
 
-# Compile as c++
-set_source_files_properties(${LUA_LIB_SRCS} PROPERTIES LANGUAGE CXX )
+# # Compile as c++
+# set_source_files_properties(${LUA_LIB_SRCS} PROPERTIES LANGUAGE CXX )
 
-add_library(lua STATIC ${LUA_LIB_SRCS} )
+add_library (lua STATIC ${LUA_LIB_SRCS} src/lua.c src/luac.c)
 
 # But don't use c++ exceptions
 target_compile_definitions(lua PRIVATE LUA_USE_LONGJMP)
@@ -52,4 +52,3 @@ target_include_directories(lua PUBLIC "include")
 
 # position independant code so we can link this into a dll/so
 set_property(TARGET lua PROPERTY POSITION_INDEPENDENT_CODE ON)
-

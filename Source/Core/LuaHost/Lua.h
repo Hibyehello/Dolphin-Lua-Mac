@@ -11,7 +11,6 @@
 #include "DolphinWX/Main.h"
 
 #include <lua.hpp>
-#include <lua.h>
 #include <luaconf.h>
 
 typedef int                 BOOL;

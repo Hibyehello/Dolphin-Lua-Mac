@@ -389,7 +389,7 @@ void Renderer::DrawDebugText()
     final_cyan += Statistics::ToStringProj();
 
   // and then the text
-  RenderText(final_cyan, 20, 20, 0xFF00FFFF);
+  RenderText(final_cyan, 20, 20, 0xFFFF00FF);
   RenderText(final_yellow, 20, 20, 0xFFFFFF00);
 }
 

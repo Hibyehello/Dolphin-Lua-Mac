@@ -363,8 +363,8 @@ wxStaticBoxSizer* TAStudioFrame::CreateStickLayout(Stick* tempStick, const wxStr
 	temp_stick_box->Add(temp_xslider_box);
 	temp_stick_box->Add(tempStick->bitmap, 0, wxALL | wxCenter, 3);
 	temp_box->Add(temp_stick_box);
-	temp_yslider_box->Add(tempStick->y_cont.slider, 0, wxALIGN_CENTER_VERTICAL);
-	temp_yslider_box->Add(tempStick->y_cont.text, 0, wxALIGN_CENTER_VERTICAL);
+	temp_yslider_box->Add(tempStick->y_cont.slider, 0, wxALIGN_CENTER_HORIZONTAL);
+	temp_yslider_box->Add(tempStick->y_cont.text, 0, wxALIGN_CENTER_HORIZONTAL);
 	temp_box->Add(temp_yslider_box);
 	main_temp_box->Add(temp_box);
 	return main_temp_box;

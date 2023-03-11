@@ -158,6 +158,8 @@ bool DolphinApp::OnInit()
                          SConfig::GetInstance().iWidth, SConfig::GetInstance().iHeight);
   main_frame = new CFrame(nullptr, wxID_ANY, StrToWxStr(Common::scm_rev_str), window_geometry,
                           m_use_debugger, m_batch_mode, m_use_logger);
+  if(main_frame == nullptr)
+      main_frame->RendererIsFullscreen();
   SetTopWindow(main_frame);
 
   AfterInit();
