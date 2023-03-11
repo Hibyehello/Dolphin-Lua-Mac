@@ -8,6 +8,7 @@
 #include <mbedtls/md5.h>
 #include <lua.hpp>
 #include <luaconf.h>
+#include <stdio.h>
 
 #include "Common/ChunkFile.h"
 #include "Common/CommonPaths.h"
@@ -299,7 +300,7 @@ int GetGameID(lua_State* L)
 
 int GetScriptsDir(lua_State* L)
 {
-	lua_pushstring(L, (File::GetSysDirectory() + "/Scripts/").c_str());
+	lua_pushstring(L, (File::GetUserPath(D_USER_IDX) + "/Scripts/").c_str());
 	return 1;
 }
 
@@ -896,7 +897,7 @@ namespace Lua
 		//Auto launch Scripts that start with _
 
 
-	    std::vector<std::string> rFilenames = Common::DoFileSearch({".lua"}, {File::GetSysDirectory() + "/Scripts"});
+	    std::vector<std::string> rFilenames = Common::DoFileSearch({File::GetUserPath(D_USER_IDX) + "/Scripts"}, {".lua"});
 
 		if (rFilenames.size() > 0)
 		{
@@ -1015,7 +1016,7 @@ namespace Lua
 				//Unique to normal Scripts
 				lua_register(it->luaState, "CancelScript", CancelScript);
 
-				std::string file = File::GetSysDirectory() + "/Scripts/" + it->fileName;
+				std::string file = File::GetUserPath(D_USER_IDX) + "/Scripts/" + it->fileName;
 
 				status = luaL_dofile(it->luaState, file.c_str());
 

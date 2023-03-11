@@ -128,6 +128,8 @@ public:
   int GetBackbufferHeight() const { return m_backbuffer_height; }
   void SetWindowSize(int width, int height);
 
+  static void DrawLuaText(std::string text, int left, int top, u32 color);
+
   // EFB coordinate conversion functions
 
   // Use this to convert a whole native EFB rect to backbuffer coordinates

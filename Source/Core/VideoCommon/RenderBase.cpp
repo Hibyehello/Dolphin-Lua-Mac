@@ -289,6 +289,8 @@ void Renderer::DrawDebugText()
     final_yellow += "\n";
   }
 
+  final_cyan += Statistics::ToLuaString();
+
   if(SConfig::GetInstance().m_ShowRAMDisplay)
   {
     final_cyan += Movie::GetRAMDisplay();
@@ -391,6 +393,20 @@ void Renderer::DrawDebugText()
   // and then the text
   RenderText(final_cyan, 20, 20, 0xFFFF00FF);
   RenderText(final_yellow, 20, 20, 0xFFFFFF00);
+  // Dragonbane: Recording Notice
+  if (Movie::IsRecordingInput())
+  {
+      g_renderer->RenderText("RECORDING", 20, 14, 0xFFFF00FF);
+  }
+  else if (Movie::IsPlayingInput())
+  {
+      g_renderer->RenderText("PLAYBACK", 20, 14, 0xFF00FF00);
+  }
+}
+
+void Renderer::DrawLuaText(std::string text, int left, int top, u32 color)
+{
+    g_renderer->RenderText(text, left, top, color);
 }
 
 float Renderer::CalculateDrawAspectRatio() const

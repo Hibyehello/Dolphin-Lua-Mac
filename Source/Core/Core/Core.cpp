@@ -70,9 +70,12 @@
 #include "InputCommon/ControllerInterface/ControllerInterface.h"
 #include "InputCommon/GCAdapter.h"
 
+#include "LuaHost/Lua.h"
+
 #include "VideoCommon/Fifo.h"
 #include "VideoCommon/OnScreenDisplay.h"
 #include "VideoCommon/RenderBase.h"
+#include "VideoCommon/Statistics.h"
 #include "VideoCommon/VideoBackendBase.h"
 
 // Android and OSX haven't implemented the keyword yet.
@@ -277,6 +280,7 @@ void Stop()  // - Hammertime!
   // Stop the CPU
   INFO_LOG(CONSOLE, "%s", StopMessage(true, "Stop CPU").c_str());
   CPU::Stop();
+  Statistics::ClearLuaText(); // Clear Lua text so we don't have to do this manually
 
   if (_CoreParameter.bCPUThread)
   {
@@ -452,6 +456,9 @@ static void EmuThread(std::unique_ptr<BootParameters> boot)
   Movie::Init(*boot);
   Common::ScopeGuard movie_guard{Movie::Shutdown};
 
+  Lua::Init();
+  
+
   HW::Init();
   Common::ScopeGuard hw_guard{[] {
     // We must set up this flag before executing HW::Shutdown()
@@ -466,7 +473,7 @@ static void EmuThread(std::unique_ptr<BootParameters> boot)
     // The config must be restored only after the whole HW has shut down,
     // not when it is still running.
     BootManager::RestoreConfig();
-
+    Lua::Shutdown(); // Dragonbane
     PatchEngine::Shutdown();
     HLE::Clear();
   }};

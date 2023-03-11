@@ -134,8 +134,12 @@ void cInterfaceAGL::Update()
   if (!m_view)
     return;
 
-  if (UpdateCachedDimensions(m_view, &s_backbuffer_width, &s_backbuffer_height))
-    [m_context update];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (UpdateCachedDimensions(m_view, &s_backbuffer_width, &s_backbuffer_height))
+    {
+      [m_context update];
+    }
+  });
 }
 
 void cInterfaceAGL::SwapInterval(int interval)

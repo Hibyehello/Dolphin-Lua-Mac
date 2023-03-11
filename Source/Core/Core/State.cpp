@@ -35,6 +35,8 @@
 #include "Core/NetPlayClient.h"
 #include "Core/PowerPC/PowerPC.h"
 
+#include "LuaHost/Lua.h"
+
 #include "VideoCommon/AVIDump.h"
 #include "VideoCommon/OnScreenDisplay.h"
 #include "VideoCommon/VideoBackendBase.h"
@@ -381,6 +383,11 @@ static void CompressAndDumpState(CompressAndDumpState_args save_args)
 
   Core::DisplayMessage(StringFromFormat("Saved State to %s", filename.c_str()), 2000);
   Host_UpdateMainFrame();
+
+    // === EDITTED PART ===
+  if (Lua::lua_isStateOperation)
+      Lua::lua_isStateSaved = true;
+  // === ===
 }
 
 void SaveAs(const std::string& filename, bool wait)
@@ -574,6 +581,11 @@ void LoadAs(const std::string& filename)
         else if (!Movie::IsJustStartingRecordingInputFromSaveState() &&
                  !Movie::IsJustStartingPlayingInputFromSaveState())
           Movie::EndPlayInput(false);
+
+          // === EDITTED PART ===
+        if (Lua::lua_isStateOperation)
+            Lua::lua_isStateLoaded = true;
+        // === ===
       }
       else
       {

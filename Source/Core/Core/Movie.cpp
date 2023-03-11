@@ -183,7 +183,7 @@ std::string GetRAMDisplay()
 	    std::string iniContent;
 
 	    bool success =
-	        File::ReadFileToString(File::GetSysDirectory() + "/InfoDisplay/" + gameID + ".ini", iniContent);
+	        File::ReadFileToString(File::GetUserPath(D_USER_IDX) + "/InfoDisplay/" + gameID + ".ini", iniContent);
 
 	    if (success)
 	    {
