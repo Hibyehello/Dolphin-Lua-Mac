@@ -144,7 +144,7 @@ int ReadValueFloat(lua_State* L)
 	{
 		u32 address = lua_tointeger(L, 1);
 
-		result = PowerPC::Read_F32(address);
+		result = Memory::Read_F32(address);
 
 		lua_pushnumber(L, result); // return value
 		return 1;
@@ -152,7 +152,7 @@ int ReadValueFloat(lua_State* L)
 	// if more than 1 argument, read multilelve pointer
 	if (Lua::ExecuteMultilevelLoop(L) != 0)
 	{
-		result = PowerPC::Read_F32(Lua::ExecuteMultilevelLoop(L));
+		result = Memory::Read_F32(Lua::ExecuteMultilevelLoop(L));
 	}
 
 	lua_pushnumber(L, result); // return value
